@@ -5,6 +5,6 @@
   "version": "1.0",
   "action": {
     "default_popup": "menu.html",
-    "default_icon": null
+    "default_icon": "logo.png"
   }
 }
