@@ -21,23 +21,30 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
       // Get the number from the <span class="grade">
       const gradeText = span.innerText;
       const gradeNumber = gradeText.match(/\d+(\.\d+)?/);  // Match the number or decimal in the span
-      let gradeInfo = gradeNumber ? `Grade: ${gradeNumber[0]}` : 'Grade: N/A';
+      
+      let gradeInfo;
   
-      // Look for the next <span> element that contains "/ [number]"
-      const nextSpan = span.nextElementSibling;  // Get the next <span> element
+      if (gradeNumber) {
+        gradeInfo = `Grade: ${gradeNumber[0]}`;
+        
+        // Look for the next <span> element that contains "/ [number]"
+        const nextSpan = span.nextElementSibling;  // Get the next <span> element
   
-      if (nextSpan) {
-        const nextText = nextSpan.innerText.trim();  // Get the text inside the next <span>
-        const matchAfterSlash = nextText.match(/\/\s*(\d+(\.\d+)?)/);  // Match the number after the "/"
+        if (nextSpan) {
+          const nextText = nextSpan.innerText.trim();  // Get the text inside the next <span>
+          const matchAfterSlash = nextText.match(/\/\s*(\d+(\.\d+)?)/);  // Match the number after the "/"
   
-        if (matchAfterSlash) {
-          const numberAfterSlash = matchAfterSlash[1];  // Extract the number
-          gradeInfo += `, Max: ${numberAfterSlash}`;  // Append the "max" number
+          if (matchAfterSlash) {
+            const numberAfterSlash = matchAfterSlash[1];  // Extract the number
+            gradeInfo += `, Max: ${numberAfterSlash}`;  // Append the "max" number
+          } else {
+            gradeInfo += ', Max: N/A';
+          }
         } else {
           gradeInfo += ', Max: N/A';
         }
       } else {
-        gradeInfo += ', Max: N/A';
+        gradeInfo = 'Grade: N/A';  // If no grade is found, just return "Grade: N/A"
       }
   
       results.push(gradeInfo);
