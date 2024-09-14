@@ -1,23 +1,20 @@
 {
   "manifest_version": 3,
-  "name": "Canvas GPA Calculator",
-  "description": "Chrome Extension that calculates GPA on Canvas when blocked by a teacher because I couldn't find a good workaround online.",
+  "name": "Info Scraper",
   "version": "1.0",
+  "description": "A Chrome extension that scrapes numbers or text from a webpage.",
   "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Scrape Info"
+  },
   "background": {
     "service_worker": "background.js"
   },
-  "action": {
-    "default_popup": "popup.html",
-    "default_icon": "logo.png"
-  },
   "content_scripts": [
     {
-      "matches": ["https://*.instructure.com/*"],
-      "js": ["contentScript.js"]
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
     }
-  ],
-  "author" : {
-    "email" : "gavintyho@gmail.com"
-  }
+  ]
 }
