@@ -16,5 +16,8 @@
       "matches": ["https://*.instructure.com/*"],
       "js": ["contentScript.js"]
     }
-  ]
+  ],
+  "author" : {
+    "email" : "gavintyho@gmail.com"
+  }
 }
