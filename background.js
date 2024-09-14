@@ -18,7 +18,21 @@ chrome.runtime.onInstalled.addListener(() => {
   });
   
   function scrapeInfoFromPage() {
-    const numbers = document.body.innerText.match(/\d+/g);
-    return numbers ? numbers.join(', ') : 'No numbers found';
+    // Select specific headers (e.g., h1 and h2 tags)
+    const headers = document.querySelectorAll('h1, h2');  // You can add more header tags if needed
+  
+    let numbers = [];
+  
+    // Loop through the selected header elements and extract numbers
+    headers.forEach(header => {
+      const text = header.innerText;
+      const foundNumbers = text.match(/\d+/g);  // Match numbers in the text
+      if (foundNumbers) {
+        numbers = numbers.concat(foundNumbers);
+      }
+    });
+  
+    return numbers.length > 0 ? numbers.join(', ') : 'No numbers found in headers';
   }
+  
   

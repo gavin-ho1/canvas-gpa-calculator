@@ -10,10 +10,20 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     });
   });
   
-  // Function to scrape information from the page
+  // Scrape numbers only from h1 and h2 headers
   function scrapeInfoFromPage() {
-    // Example: get all numbers on the page
-    const numbers = document.body.innerText.match(/\d+/g);
-    return numbers ? numbers.join(', ') : 'No numbers found';
+    const headers = document.querySelectorAll('h1, h2');  // Target h1 and h2 headers
+  
+    let numbers = [];
+  
+    headers.forEach(header => {
+      const text = header.innerText;
+      const foundNumbers = text.match(/\d+/g);  // Find numbers in header text
+      if (foundNumbers) {
+        numbers = numbers.concat(foundNumbers);
+      }
+    });
+  
+    return numbers.length > 0 ? numbers.join(', ') : 'No numbers found in headers';
   }
   
