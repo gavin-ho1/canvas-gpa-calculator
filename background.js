@@ -19,7 +19,7 @@ chrome.runtime.onInstalled.addListener(() => {
   
   function scrapeInfoFromPage() {
     // Select specific headers (e.g., h1 and h2 tags)
-    const headers = document.querySelectorAll('span');  // You can add more header tags if needed
+    const headers = document.querySelectorAll('span.grade');  // You can add more header tags if needed
   
     let numbers = [];
   

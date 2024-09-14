@@ -10,20 +10,20 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     });
   });
   
-  // Scrape numbers only from h1 and h2 headers
+  // Scrape numbers from span elements with the class "grade"
   function scrapeInfoFromPage() {
-    const headers = document.querySelectorAll('span');  // Target h1 and h2 headers
-  
+    const gradeSpans = document.querySelectorAll('span.grade');  // Target <span class="grade">
+    
     let numbers = [];
   
-    headers.forEach(header => {
-      const text = header.innerText;
-      const foundNumbers = text.match(/\d+/g);  // Find numbers in header text
+    gradeSpans.forEach(span => {
+      const text = span.innerText;
+      const foundNumbers = text.match(/\d+/g);  // Find numbers in the text
       if (foundNumbers) {
         numbers = numbers.concat(foundNumbers);
       }
     });
   
-    return numbers.length > 0 ? numbers.join(', ') : 'No numbers found in headers';
+    return numbers.length > 0 ? numbers.join(', ') : 'No numbers found in <span class="grade">';
   }
   
