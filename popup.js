@@ -28,8 +28,8 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
       const matchAfterSlash = nextText.match(/\/\s*(\d+(\.\d+)?)/);  // Match the number after the "/"
       
       if (matchAfterSlash) {
-        const numberAfterSlash = matchAfterSlash[1];
-        gradeInfo += `, Max: ${numberAfterSlash}`;  // Append the "max" number
+        const numberAfterSlash = matchAfterSlash[2];
+        gradeInfo += ', Max: ${numberAfterSlash}';  // Append the "max" number
       } else {
         gradeInfo += ', Max: N/A';
       }
