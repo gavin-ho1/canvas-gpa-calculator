@@ -7,4 +7,8 @@ var denominator = 0
 //Need to find <span class="tooltip">
 
 const headers = document.querySelectorAll("span.screenreader-only")
+headers.forEach(header => {
+    console.log(header.textContent);
+  });
+    
 document.getElementById('result').innerText = headers
