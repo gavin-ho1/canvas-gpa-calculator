@@ -9,6 +9,6 @@ var denominator = 0
 const headers = document.querySelectorAll("span.screenreader-only")
 headers.forEach(header => {
     console.log(header.textContent);
+    document.getElementById('result').innerText = header.textContent
   });
-    
-document.getElementById('result').innerText = headers
+
