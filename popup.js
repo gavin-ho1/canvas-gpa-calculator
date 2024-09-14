@@ -13,7 +13,7 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
   // Scrape numbers from span elements with the class "grade"
   function scrapeInfoFromPage() {
     // Select all <span> elements with the class "grade"
-    const gradeSpans = document.querySelectorAll('span.grade');  // Selects all <span class="grade">
+    const gradeSpans = document.querySelectorAll('span.grade');  // Select all <span class="grade">
   
     let results = [];
   
@@ -23,13 +23,19 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
       const gradeNumber = gradeText.match(/\d+(\.\d+)?/);  // Match the number or decimal in the span
       let gradeInfo = gradeNumber ? `Grade: ${gradeNumber[0]}` : 'Grade: N/A';
   
-      // Get the value immediately after the span (sibling)
-      const nextText = span.nextSibling && span.nextSibling.textContent ? span.nextSibling.textContent.trim() : '';
-      const matchAfterSlash = nextText.match(/\/\s*(\d+(\.\d+)?)/);  // Match the number after the "/"
-      
-      if (matchAfterSlash) {
-        const numberAfterSlash = matchAfterSlash[2];
-        gradeInfo += ', Max: ${numberAfterSlash}';  // Append the "max" number
+      // Look for the next <span> element that contains "/ [number]"
+      const nextSpan = span.nextElementSibling;  // Get the next <span> element
+  
+      if (nextSpan) {
+        const nextText = nextSpan.innerText.trim();  // Get the text inside the next <span>
+        const matchAfterSlash = nextText.match(/\/\s*(\d+(\.\d+)?)/);  // Match the number after the "/"
+  
+        if (matchAfterSlash) {
+          const numberAfterSlash = matchAfterSlash[1];  // Extract the number
+          gradeInfo += `, Max: ${numberAfterSlash}`;  // Append the "max" number
+        } else {
+          gradeInfo += ', Max: N/A';
+        }
       } else {
         gradeInfo += ', Max: N/A';
       }
