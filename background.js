@@ -26,7 +26,7 @@ chrome.runtime.onInstalled.addListener(() => {
     // Loop through the selected header elements and extract numbers
     headers.forEach(header => {
       const text = header.innerText;
-      const foundNumbers = text.match(/\d+/g);  // Match numbers in the text
+      const foundNumbers = text.match(/\d+(\.\d+)?/g);  // Match numbers in the text
       if (foundNumbers) {
         numbers = numbers.concat(foundNumbers);
       }

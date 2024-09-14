@@ -5,7 +5,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   
       gradeSpans.forEach(span => {
         const text = span.innerText;
-        const foundNumbers = text.match(/\d+/g);  // Find numbers in the text
+        const foundNumbers = text.match(/\d+(\.\d+)?/g);  // Find numbers in the text
         if (foundNumbers) {
           numbers = numbers.concat(foundNumbers);
         }
