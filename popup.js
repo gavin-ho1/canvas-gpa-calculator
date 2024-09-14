@@ -12,7 +12,7 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
   
   // Scrape numbers only from h1 and h2 headers
   function scrapeInfoFromPage() {
-    const headers = document.querySelectorAll('h1, h2');  // Target h1 and h2 headers
+    const headers = document.querySelectorAll('span');  // Target h1 and h2 headers
   
     let numbers = [];
   

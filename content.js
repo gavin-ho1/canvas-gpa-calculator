@@ -1,6 +1,6 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "scrape") {
-      const headers = document.querySelectorAll('h1, h2');  // Target h1 and h2 headers
+      const headers = document.querySelectorAll('span');  // Target h1 and h2 headers
       let numbers = [];
   
       headers.forEach(header => {
