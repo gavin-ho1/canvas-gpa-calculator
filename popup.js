@@ -10,6 +10,21 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     });
   });
   
+  function getLetterGrade(percentage) {
+    if (percentage >= 93) return 'A';
+    if (percentage >= 90) return 'A-';
+    if (percentage >= 87) return 'B+';
+    if (percentage >= 83) return 'B';
+    if (percentage >= 80) return 'B-';
+    if (percentage >= 77) return 'C+';
+    if (percentage >= 73) return 'C';
+    if (percentage >= 70) return 'C-';
+    if (percentage >= 67) return 'D+';
+    if (percentage >= 63) return 'D';
+    if (percentage >= 60) return 'D-';
+    return 'F';
+}
+
   // Scrape numbers from span elements with the class "grade"
   function scrapeInfoFromPage() {
     // Select all <span> elements with the class "grade"
@@ -46,7 +61,10 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     });
 
     // Calculate the average percentage
-    const averagePercentage = count > 0 ? (totalPercentage / count).toFixed(2) : '0.00';
+    const averagePercentage = count > 0 ? (totalPercentage / count).toFixed(2) : 0.00;
 
-    return `Grade: ${averagePercentage}%`;
+    // Get the letter grade
+    const letterGrade = getLetterGrade(parseFloat(averagePercentage));
+
+    return `Average Percentage: ${averagePercentage}%, Letter Grade: ${letterGrade}`;
 }
