@@ -4,6 +4,7 @@
   "version": "1.0",
   "description": "A Chrome extension that scrapes numbers or text from a webpage.",
   "permissions": ["activeTab", "scripting"],
+  "default_icon": "logo.png",
   "action": {
     "default_popup": "popup.html",
     "default_title": "Scrape Info"
