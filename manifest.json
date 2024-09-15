@@ -8,7 +8,7 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": "logo.png",
-    "default_title": "Scrape Info"
+    "default_title": "Calculator"
   },
   "background": {
     "service_worker": "background.js"
