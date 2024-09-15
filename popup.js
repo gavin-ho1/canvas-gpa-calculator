@@ -14,7 +14,7 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
   function scrapeInfoFromPage() {
     // Select all <span> elements with the class "grade"
     const gradeSpans = document.querySelectorAll('span.grade');  // Selects all <span class="grade">
-  
+
     let results = [];
   
     gradeSpans.forEach(span => {
@@ -22,10 +22,8 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
       const gradeText = span.innerText;
       const gradeNumber = gradeText.match(/\d+(\.\d+)?/);  // Match the number or decimal in the span
       
-      let gradeInfo;
-  
       if (gradeNumber) {
-        gradeInfo = `Grade: ${gradeNumber[0]}`;
+        let gradeInfo = `Grade: ${gradeNumber[0]}`;
         
         // Look for the next <span> element that contains "/ [number]"
         const nextSpan = span.nextElementSibling;  // Get the next <span> element
@@ -39,14 +37,11 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
             gradeInfo += `, ${numberAfterSlash}`;  // Append the number after the "/"
           }
         }
-      } 
-        // else {
-    //     gradeInfo = 'Grade: N/A';  // If no grade is found, just return "Grade: N/A"
-    //   }
-  
-      results.push(gradeInfo);
+        
+        results.push(gradeInfo);  // Add the result to the array
+      }
     });
-  
+
+    // Join results with ', ' and ensure no trailing commas
     return results.length > 0 ? results.join(', ') : 'No grades found';
-  }
-  
+}
