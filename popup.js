@@ -48,5 +48,5 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     // Calculate the average percentage
     const averagePercentage = count > 0 ? (totalPercentage / count).toFixed(2) : '0.00';
 
-    return `Average Percentage: ${averagePercentage}%`;
+    return `Grade: ${averagePercentage}%`;
 }
