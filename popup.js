@@ -15,9 +15,8 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     // Select all <span> elements with the class "grade"
     const gradeSpans = document.querySelectorAll('span.grade');  // Selects all <span class="grade">
 
-    let results = [];
-    let totalGrade = 0;
-    let totalMax = 0;
+    let totalPercentage = 0;
+    let count = 0; // To count the number of grades processed
   
     gradeSpans.forEach(span => {
         // Get the number from the <span class="grade">
@@ -26,9 +25,6 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
         
         if (gradeNumber) {
             const gradeValue = parseFloat(gradeNumber[0]);  // Convert the grade to a number
-            totalGrade += gradeValue;  // Add to total grade
-            
-            let gradeInfo = `Grade: ${gradeValue}`;
             
             // Look for the next <span> element that contains "/ [number]"
             const nextSpan = span.nextElementSibling;  // Get the next <span> element
@@ -39,18 +35,18 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     
                 if (matchAfterSlash) {
                     const numberAfterSlash = parseFloat(matchAfterSlash[1]);  // Extract the number and convert to float
-                    totalMax += numberAfterSlash;  // Add to total max
-                    gradeInfo += `, ${numberAfterSlash}`;  // Append the number after the "/"
+                    
+                    // Calculate the percentage
+                    const percentage = (gradeValue / numberAfterSlash) * 100;
+                    totalPercentage += percentage;
+                    count++;  // Increment count
                 }
             }
-            
-            results.push(gradeInfo);  // Add the result to the array
         }
     });
 
-    // Generate the summary results
-    const resultText = results.length > 0 ? results.join(', ') : 'No grades found';
-    const totalsText = `Total Grades: ${totalGrade.toFixed(2)}, Total Max: ${totalMax.toFixed(2)}`;
+    // Calculate the average percentage
+    const averagePercentage = count > 0 ? (totalPercentage / count).toFixed(2) : '0.00';
 
-    return `${resultText}; ${totalsText}`;
+    return `Average Percentage: ${averagePercentage}%`;
 }
