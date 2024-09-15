@@ -67,5 +67,5 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     // Get the letter grade
     const letterGrade = getLetterGrade(parseFloat(averagePercentage));
 
-    return `Average Percentage: ${averagePercentage}%, Letter Grade: ${letterGrade}`;
+    return 'Average Percentage: ${averagePercentage}%, Letter Grade: ${letterGrade}';
 }
