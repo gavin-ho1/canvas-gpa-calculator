@@ -44,7 +44,7 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
             // Look for the next <span> element that contains "/ [number]"
             const nextSpan = span.nextElementSibling;  // Get the next <span> element
     
-            if (nextSpan) {
+            if (nextSpan && nextSpan.tagName === 'SPAN') {
                 const nextText = nextSpan.innerText.trim();  // Get the text inside the next <span>
                 const matchAfterSlash = nextText.match(/\/\s*(\d+(\.\d+)?)/);  // Match the number after the "/"
     
@@ -61,7 +61,10 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     });
 
     // Calculate the average percentage
-    const averagePercentage = count > 0 ? (totalPercentage / count).toFixed(2) : '0.00';
-    const letterGrade = count > 0 ? getLetterGrade(averagePercentage) : '0.00';
-    return `Grade: ${averagePercentage}%`;
+    const averagePercentage = count > 0 ? (totalPercentage / count).toFixed(2) : 0.00;
+
+    // Get the letter grade
+    const letterGrade = getLetterGrade(parseFloat(averagePercentage));
+
+    return `Average Percentage: ${averagePercentage}%, Letter Grade: ${letterGrade}`;
 }
