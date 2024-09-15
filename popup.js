@@ -13,7 +13,7 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
   // Scrape numbers from span elements with the class "grade"
   function scrapeInfoFromPage() {
     // Select all <span> elements with the class "grade"
-    const gradeSpans = document.querySelectorAll('span.grade');  // Select all <span class="grade">
+    const gradeSpans = document.querySelectorAll('span.grade');  // Selects all <span class="grade">
   
     let results = [];
   
@@ -36,12 +36,8 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
   
           if (matchAfterSlash) {
             const numberAfterSlash = matchAfterSlash[1];  // Extract the number
-            gradeInfo += `, Max: ${numberAfterSlash}`;  // Append the "max" number
-          } else {
-            gradeInfo += ', Max: N/A';
+            gradeInfo += `, ${numberAfterSlash}`;  // Append the number after the "/"
           }
-        } else {
-          gradeInfo += ', Max: N/A';
         }
       } else {
         gradeInfo = 'Grade: N/A';  // If no grade is found, just return "Grade: N/A"
