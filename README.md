@@ -5,5 +5,5 @@ Chrome Extension that calculates GPA on Canvas when blocked by a teacher because
 1. Download files and unzip
 2. In your browser, go to chrome://extensions/
 3. Enable dev mode, then select "Load unpacked"
-4. Select the file directory and then run in any `instructure.com` subdomain, must be the grades section of an individual course:
+4. Select the unzipped file directory and then run in any `instructure.com` subdomain, must be the grades section of an individual course:
    - For example: `https://school.instructure.com/courses/1334/grades`
