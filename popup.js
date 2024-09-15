@@ -62,6 +62,6 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
 
     // Calculate the average percentage
     const averagePercentage = count > 0 ? (totalPercentage / count).toFixed(2) : '0.00';
-
+    const letterGrade = count > 0 ? getLetterGrade(averagePercentage) : '0.00';
     return `Grade: ${averagePercentage}%`;
 }
