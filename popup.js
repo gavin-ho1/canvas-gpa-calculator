@@ -39,13 +39,14 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
             gradeInfo += `, ${numberAfterSlash}`;  // Append the number after the "/"
           }
         }
-      } else {
-        gradeInfo = 'Grade: N/A';  // If no grade is found, just return "Grade: N/A"
-      }
+      } 
+        // else {
+    //     gradeInfo = 'Grade: N/A';  // If no grade is found, just return "Grade: N/A"
+    //   }
   
       results.push(gradeInfo);
     });
   
-    return results.length > 0 ? results.join('; ') : 'No grades found';
+    return results.length > 0 ? results.join(', ') : 'No grades found';
   }
   
