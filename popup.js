@@ -52,5 +52,5 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     });
 
     // Return the total sum of grades and max values
-    return `Total Grades: ${totalGrades}, Total Max: ${totalMax}`;
+    return `Total Grades: ${totalGrades}, Total Max: ${totalMax}, Percentage: ${(totalGrades/totalMax)*100}%`;
 }
