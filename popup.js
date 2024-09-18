@@ -57,8 +57,7 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     });
 
     // Return the total sum of grades and max values
-    // return `Grade: ${((totalGrades/totalMax)*100).toFixed(2)}%`;
-    injectHtml(`Grade: ${((totalGrades/totalMax)*100).toFixed(2)}%`);
+    return `Grade: ${((totalGrades/totalMax)*100).toFixed(2)}%`;
 }
 
 
@@ -75,7 +74,7 @@ document.getElementById('injectButton').addEventListener('click', () => {
 function injectHtml(input) {
   // Find the target <aside> element with the ID "right-side-wrapper"
 const asideElement = document.getElementById('right-side-wrapper');
-
+  input = "hihi"
 if (asideElement) {
     // Create a new div element
     const newDiv = document.createElement('div');
