@@ -81,7 +81,7 @@ function injectHtml() {
       // Add some content to the new div with the custom font size
       const str = `
           <div style="font-size: 1.2em; background-color: lightblue;">
-              <p id = "output">Grade: ${grade}</p>
+              <p id = "output">Grade:</p>
           </div>
       `
       newDiv.innerHTML = str;
