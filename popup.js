@@ -74,7 +74,7 @@ document.getElementById('injectButton').addEventListener('click', () => {
 function injectHtml(input) {
   // Find the target <aside> element with the ID "right-side-wrapper"
 const asideElement = document.getElementById('right-side-wrapper');
-  input = 3;
+  input = int(scrapeInfoFromPage());
 if (asideElement) {
     // Create a new div element
     const newDiv = document.createElement('div');
