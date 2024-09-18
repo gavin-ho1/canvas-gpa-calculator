@@ -75,7 +75,7 @@ function injectHtml() {
   const newDiv = document.createElement('div');
   const temp = String(`
       <div style="font-size: 1.2em; background-color: lightblue;">
-          <p>Grade: ${((totalGrades/totalMax)*100).toFixed(2)}%.</p>
+          <p>Grade: hi.</p>
       </div>
   `);
   newDiv.innerHTML = temp;
