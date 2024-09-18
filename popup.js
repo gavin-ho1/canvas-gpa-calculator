@@ -88,6 +88,5 @@ function injectHtml() {
 
       // Insert the new div as the first child of the <aside> element
       asideElement.insertAdjacentElement('afterbegin', newDiv);
-      document.getElementById('output').innerHTML = "Grade :"+grade;
   }
 }
