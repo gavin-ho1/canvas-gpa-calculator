@@ -57,7 +57,8 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     });
 
     // Return the total sum of grades and max values
-    return `Grade: ${((totalGrades/totalMax)*100).toFixed(2)}%`;
+    // return `Grade: ${((totalGrades/totalMax)*100).toFixed(2)}%`;
+    injectHtml(`Grade: ${((totalGrades/totalMax)*100).toFixed(2)}%`);
 }
 
 
@@ -71,7 +72,7 @@ document.getElementById('injectButton').addEventListener('click', () => {
   });
 });
 
-function injectHtml() {
+function injectHtml(input) {
   // Find the target <aside> element with the ID "right-side-wrapper"
 const asideElement = document.getElementById('right-side-wrapper');
 
@@ -82,7 +83,7 @@ if (asideElement) {
     // Add some content to the new div with the custom font size
     newDiv.innerHTML = `
         <div style="font-size: 1.2em; border: 1px solid black; padding: 20px; margin: 10px;">
-            <p>Grades: </p>
+            <p>Grades: ${input}</p>
         </div>
     `;
 
