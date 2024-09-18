@@ -16,10 +16,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   });
  
 
-// Find the target element with the ID "student-grades-right-content"
-const targetElement = document.getElementById('student-grades-final');
+/// Find the target <aside> element with the ID "right-side-wrapper"
+const asideElement = document.getElementById('right-side-wrapper');
 
-if (targetElement) {
+if (asideElement) {
     // Create a new div element
     const newDiv = document.createElement('div');
 
@@ -27,10 +27,10 @@ if (targetElement) {
     newDiv.innerHTML = `
         <div style="border: 1px solid black; padding: 20px; margin: 10px; background-color: lightblue;">
             <h2>Injected HTML Content</h2>
-            <p>This div was injected inside #student-grades-final at the beginning.</p>
+            <p>This div was injected at the top of <aside id="right-side-wrapper"></p>
         </div>
     `;
 
-    // Insert the new div as the first child of #student-grades-right-content
-    targetElement.insertAdjacentElement('afterbegin', newDiv);
+    // Insert the new div as the first child of the <aside> element
+    asideElement.insertAdjacentElement('afterbegin', newDiv);
 }
