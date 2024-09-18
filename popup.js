@@ -62,7 +62,7 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
 
 
 
-document.getElementById('scrape-btn').addEventListener('click', () => {
+document.getElementById('injectButton').addEventListener('click', () => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       chrome.scripting.executeScript({
           target: { tabId: tabs[0].id },
