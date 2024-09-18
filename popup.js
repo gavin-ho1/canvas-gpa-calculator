@@ -79,11 +79,12 @@ function injectHtml() {
       const newDiv = document.createElement('div');
 
       // Add some content to the new div with the custom font size
-      newDiv.innerHTML = `
+      const str = String(`
           <div style="font-size: 1.2em; background-color: lightblue;">
-              <p>HIHIHI</p>
+              <p>Grade: ${((totalGrades/totalMax)*100).toFixed(2)}%</p>
           </div>
-      `;
+      `)
+      newDiv.innerHTML = str;
 
       // Insert the new div as the first child of the <aside> element
       asideElement.insertAdjacentElement('afterbegin', newDiv);
