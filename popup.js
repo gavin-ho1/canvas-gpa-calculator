@@ -57,19 +57,37 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     });
 
     // Return the total sum of grades and max values
-    const asideElement = document.getElementById('right-side');
-
-    if (asideElement) {
-      // Create a new div element
-      const newDiv = document.createElement('div');
-
-      // Add some content to the new div with the custom font size
-      newDiv.innerHTML = `
-          <div style="font-size: 1.2em;">
-              <p>">Grade: ${((totalGrades/totalMax)*100).toFixed(2)}%</p>
-          </div>
-      `;
     return `Grade: ${((totalGrades/totalMax)*100).toFixed(2)}%`;
+}
+
+
+
+document.getElementById('scrape-btn').addEventListener('click', () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      chrome.scripting.executeScript({
+          target: { tabId: tabs[0].id },
+          function: injectHtml
+      });
+  });
+});
+
+function injectHtml() {
+  // Find the target <aside> element with the ID "right-side-wrapper"
+const asideElement = document.getElementById('right-side');
+
+if (asideElement) {
+    // Create a new div element
+    const newDiv = document.createElement('div');
+
+    // Add some content to the new div with the custom font size
+    newDiv.innerHTML = `
+        <div style="font-size: 1.2em;">
+            <p>">Grade: ${((totalGrades/totalMax)*100).toFixed(2)}%</p>
+        </div>
+    `;
+
+    // Insert the new div as the first child of the <aside> element
+    asideElement.insertAdjacentElement('afterbegin', newDiv);
 }
 
 }
