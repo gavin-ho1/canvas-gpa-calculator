@@ -72,7 +72,7 @@ document.getElementById('injectButton').addEventListener('click', () => {
 });
 
 function injectHtml() {
-  const asideElement = document.getElementById('right-side');
+  const asideElement = document.getElementById('right-side-wrapper');
   const grade = scrapeInfoFromPage().toString();
   if (asideElement) {
       // Create a new div element
