@@ -74,6 +74,7 @@ document.getElementById('injectButton').addEventListener('click', () => {
 function injectHtml() {
   const asideElement = document.getElementById('right-side');
   const grade = scrapeInfoFromPage();
+  console.log(grade)
   if (asideElement) {
       // Create a new div element
       const newDiv = document.createElement('div');
