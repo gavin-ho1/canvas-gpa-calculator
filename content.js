@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
  
 
 // Find the target <aside> element with the ID "right-side-wrapper"
-const asideElement = document.getElementById('right-side-wrapper');
+const asideElement = document.getElementById('right-side');
 
 if (asideElement) {
     // Create a new div element
@@ -25,8 +25,7 @@ if (asideElement) {
 
     // Add some content to the new div with the custom font size
     newDiv.innerHTML = `
-        <div style="font-size: 1.2em; border: 1px solid black; padding: 20px; margin: 10px; background-color: lightblue;">
-            <h2>Injected HTML Content</h2>
+        <div style="font-size: 1.2em; background-color: lightblue;">
             <p>This div was injected at the top of <aside id="right-side-wrapper"></p>
         </div>
     `;
