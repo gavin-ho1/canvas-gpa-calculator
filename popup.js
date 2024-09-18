@@ -102,7 +102,7 @@ document.getElementById('injectButton').addEventListener('click', () => {
   });
 });
 
-// function injectHtml(input) {
+function injectHtml(input) {
   var letter;
   var num;
   // Find the target <aside> element with the ID "right-side-wrapper"
@@ -115,7 +115,7 @@ if (asideElement) {
     // Add some content to the new div with the custom font size
     newDiv.innerHTML = `
         <div style="font-size: 1.2em; border: 1px solid black; padding: 20px; margin: 10px;">
-            <p>Grades: ${num}</p>
+            <p>Grades: ${input}</p>
         </div>
     `;
 
@@ -123,4 +123,4 @@ if (asideElement) {
     asideElement.insertAdjacentElement('afterbegin', newDiv);
 }
 
-// }
+}
