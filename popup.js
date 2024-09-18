@@ -72,13 +72,20 @@ document.getElementById('injectButton').addEventListener('click', () => {
 });
 
 function injectHtml() {
-  const newDiv = document.createElement('div');
-  const temp = String(`
-      <div style="font-size: 1.2em; background-color: lightblue;">
-        <h2>Injected HTML Content</h2>
-          <p> Grade hi.</p>
-      </div>
-  `);
-  newDiv.innerHTML = temp;
-  document.body.appendChild(newDiv);
+  const asideElement = document.getElementById('right-side');
+
+if (asideElement) {
+    // Create a new div element
+    const newDiv = document.createElement('div');
+
+    // Add some content to the new div with the custom font size
+    newDiv.innerHTML = `
+        <div style="font-size: 1.2em; background-color: lightblue;">
+            <p>Grade: ${((totalGrades/totalMax)*100).toFixed(2)}%</p>
+        </div>
+    `;
+
+    // Insert the new div as the first child of the <aside> element
+    asideElement.insertAdjacentElement('afterbegin', newDiv);
+}
 }
