@@ -57,10 +57,8 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     });
 
     // Return the total sum of grades and max values
-    grade = (totalGrades/totalMax)*100;
-    return getLetterGrade(grade);
-    return `Grade: ${((totalGrades/totalMax)*100).toFixed(2)}%`;
-}
+    return ((totalGrades/totalMax)*100).toFixed(2)
+  };
 
 function getLetterGrade(percentage) {
   if (percentage >= 97) {
