@@ -72,20 +72,22 @@ document.getElementById('injectButton').addEventListener('click', () => {
 });
 
 function injectHtml() {
-  const asideElement = document.getElementById('right-side-wrapper');
-  const grade = scrapeInfoFromPage().toString();
-  if (asideElement) {
-      // Create a new div element
-      const newDiv = document.createElement('div');
+  // Find the target <aside> element with the ID "right-side-wrapper"
+const asideElement = document.getElementById('right-side-wrapper');
 
-      // Add some content to the new div with the custom font size
-      newDiv.innerHTML = `
-          <div style="font-size: 1.2em; background-color: lightblue;">
-              <p id = "output">Grade:</p>
-          </div>
-      `;
+if (asideElement) {
+    // Create a new div element
+    const newDiv = document.createElement('div');
 
-      // Insert the new div as the first child of the <aside> element
-      asideElement.insertAdjacentElement('afterbegin', newDiv);
-  }
+    // Add some content to the new div with the custom font size
+    newDiv.innerHTML = `
+        <div style="font-size: 1.2em; border: 1px solid black; padding: 20px; margin: 10px; background-color: lightblue;">
+            <p>This div was injected at the top of <aside id="right-side-wrapper"></p>
+        </div>
+    `;
+
+    // Insert the new div as the first child of the <aside> element
+    asideElement.insertAdjacentElement('afterbegin', newDiv);
+}
+
 }
