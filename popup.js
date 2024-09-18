@@ -79,11 +79,11 @@ function injectHtml() {
       const newDiv = document.createElement('div');
 
       // Add some content to the new div with the custom font size
-      const str = String(`
+      const str = `
           <div style="font-size: 1.2em; background-color: lightblue;">
               <p>${scrapeInfoFromPage()}</p>
           </div>
-      `)
+      `
       newDiv.innerHTML = str;
 
       // Insert the new div as the first child of the <aside> element
