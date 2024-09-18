@@ -57,9 +57,39 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     });
 
     // Return the total sum of grades and max values
+    return getLetterGrade(totalGrades/totalMax)*100);
     return `Grade: ${((totalGrades/totalMax)*100).toFixed(2)}%`;
 }
 
+function getLetterGrade(percentage) {
+  if (percentage >= 97) {
+      return 'A+';
+  } else if (percentage >= 93) {
+      return 'A';
+  } else if (percentage >= 90) {
+      return 'A-';
+  } else if (percentage >= 87) {
+      return 'B+';
+  } else if (percentage >= 83) {
+      return 'B';
+  } else if (percentage >= 80) {
+      return 'B-';
+  } else if (percentage >= 77) {
+      return 'C+';
+  } else if (percentage >= 73) {
+      return 'C';
+  } else if (percentage >= 70) {
+      return 'C-';
+  } else if (percentage >= 67) {
+      return 'D+';
+  } else if (percentage >= 63) {
+      return 'D';
+  } else if (percentage >= 60) {
+      return 'D-';
+  } else {
+      return 'F';
+  }
+}
 
 
 document.getElementById('injectButton').addEventListener('click', () => {
@@ -74,7 +104,7 @@ document.getElementById('injectButton').addEventListener('click', () => {
 function injectHtml(input) {
   // Find the target <aside> element with the ID "right-side-wrapper"
 const asideElement = document.getElementById('right-side-wrapper');
-  input = int(scrapeInfoFromPage());
+  input = 3;
 if (asideElement) {
     // Create a new div element
     const newDiv = document.createElement('div');
