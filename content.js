@@ -17,6 +17,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
  
 
 // Find the target element with the ID "student-grades-right-content"
+// Find the target element with the ID "student-grades-right-content"
 const targetElement = document.getElementById('student-grades-right-content');
 
 if (targetElement) {
@@ -27,10 +28,10 @@ if (targetElement) {
     newDiv.innerHTML = `
         <div style="border: 1px solid black; padding: 20px; margin: 10px; background-color: lightgreen;">
             <h2>Injected HTML Content</h2>
-            <p>This div was injected before #student-grades-right-content.</p>
+            <p>This div was injected before #student-grades-right-content, inside the same parent div.</p>
         </div>
     `;
 
-    // Insert the new div before the target element
-    targetElement.parentNode.insertBefore(newDiv, targetElement);
+    // Insert the new div right before the target element but inside the same parent container
+    targetElement.insertAdjacentElement('beforebegin', newDiv);
 }
