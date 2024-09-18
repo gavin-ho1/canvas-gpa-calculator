@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
  
 
 // Find the target element with the ID "student-grades-right-content"
-const targetElement = document.getElementById('student-grades-right-content');
+const targetElement = document.getElementById('student-grades-final');
 
 if (targetElement) {
     // Create a new div element
@@ -27,7 +27,7 @@ if (targetElement) {
     newDiv.innerHTML = `
         <div style="border: 1px solid black; padding: 20px; margin: 10px; background-color: lightgreen;">
             <h2>Injected HTML Content</h2>
-            <p>This div was injected inside #student-grades-right-content at the end.</p>
+            <p>This div was injected inside #student-grades-final at the end.</p>
         </div>
     `;
 
