@@ -59,3 +59,25 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     // Return the total sum of grades and max values
     return `Grade: ${((totalGrades/totalMax)*100).toFixed(2)}%`;
 }
+
+
+
+document.getElementById('injectButton').addEventListener('click', () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      chrome.scripting.executeScript({
+          target: { tabId: tabs[0].id },
+          function: injectHtml
+      });
+  });
+});
+
+function injectHtml() {
+  const newDiv = document.createElement('div');
+  newDiv.innerHTML = `
+      <div style="border: 1px solid black; padding: 20px; margin: 10px; background-color: lightblue;">
+          <h2>Injected HTML from Popup</h2>
+          <p>This is an example of HTML injected via a Chrome extension popup.</p>
+      </div>
+  `;
+  document.body.appendChild(newDiv);
+}
