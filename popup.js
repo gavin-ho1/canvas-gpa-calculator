@@ -73,10 +73,11 @@ document.getElementById('injectButton').addEventListener('click', () => {
 
 function injectHtml() {
   const newDiv = document.createElement('div');
-  newDiv.innerHTML = `
+  const temp = String(`
       <div style="font-size: 1.2em; background-color: lightblue;">
           <p>Grade: ${((totalGrades/totalMax)*100).toFixed(2)}%.</p>
       </div>
-  `;
+  `);
+  newDiv.innerHTML = temp;
   document.body.appendChild(newDiv);
 }
