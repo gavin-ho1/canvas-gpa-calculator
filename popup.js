@@ -57,7 +57,7 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     });
 
     // Return the total sum of grades and max values
-    return getLetterGrade(((totalGrades/totalMax)*100).toFixed(2))
+    return ((totalGrades/totalMax)*100).toFixed(2)
   };
 
 function getLetterGrade(percentage) {
@@ -90,6 +90,8 @@ function getLetterGrade(percentage) {
   }
 }
 
+const num = scrapeInfoFromPage()
+const letter = getLetterGrade(num)
 
 document.getElementById('injectButton').addEventListener('click', () => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -111,7 +113,7 @@ if (asideElement) {
     // Add some content to the new div with the custom font size
     newDiv.innerHTML = `
         <div style="font-size: 1.2em; border: 1px solid black; padding: 20px; margin: 10px;">
-            <p>Grades: ${input}</p>
+            <p>Grades: ${letter}</p>
         </div>
     `;
 
