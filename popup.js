@@ -90,9 +90,6 @@ function getLetterGrade(percentage) {
   }
 }
 
-const num = scrapeInfoFromPage()
-const letter = getLetterGrade(num)
-
 document.getElementById('injectButton').addEventListener('click', () => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       chrome.scripting.executeScript({
@@ -102,9 +99,7 @@ document.getElementById('injectButton').addEventListener('click', () => {
   });
 });
 
-function injectHtml(input) {
-  var letter;
-  var num;
+function injectHtml() {
   // Find the target <aside> element with the ID "right-side-wrapper"
 const asideElement = document.getElementById('right-side-wrapper');
   input = 3;
