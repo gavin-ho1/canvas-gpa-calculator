@@ -31,26 +31,31 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
         // Extract the number from the <span class="grade">
         const gradeNumber = gradeText.match(/\d+(\.\d+)?/);  // Match the number or decimal in the span
         
+        // Ensure a valid grade number is found
         if (gradeNumber) {
             const gradeValue = parseFloat(gradeNumber[0]);  // Convert the grade to a number
-            totalGrades += gradeValue;  // Add the grade value to the total sum
 
             // Look for the next <span> element that contains "/ [number]"
             const nextSpan = span.nextElementSibling;  // Get the next <span> element
-    
+
+            // Ensure the next element exists and is a <span>
             if (nextSpan && nextSpan.tagName === 'SPAN') {
                 const nextText = nextSpan.innerText.trim();  // Get the text inside the next <span>
                 const matchAfterSlash = nextText.match(/\/\s*(\d+(\.\d+)?)/);  // Match the number after the "/"
     
+                // Ensure a valid number after the slash is found
                 if (matchAfterSlash) {
                     const numberAfterSlash = parseFloat(matchAfterSlash[1]);  // Extract the number and convert to float
+
+                    // Now that both gradeValue and numberAfterSlash are valid, add them to the totals
+                    totalGrades += gradeValue;  // Add the grade value to the total sum
                     totalMax += numberAfterSlash;  // Add the max value to the total sum
-                    count++;  // Increment count
+                    count++;  // Increment count only when both values are valid
                 }
             }
         }
     });
 
     // Return the total sum of grades and max values
-    return `Grade: ${((totalGrades/totalMax)*100).toFixed(2)}%`;
+    return `Total Grades: ${totalGrades}, Total Max: ${totalMax}`;
 }
