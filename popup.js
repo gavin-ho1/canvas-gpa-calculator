@@ -81,7 +81,7 @@ function injectHtml() {
       // Add some content to the new div with the custom font size
       newDiv.innerHTML = `
           <div style="font-size: 1.2em; background-color: lightblue;">
-              <p>Grade: ${((totalGrades/totalMax)*100).toFixed(2)}%</p>
+              <p>HIHIHI</p>
           </div>
       `;
 
