@@ -102,7 +102,7 @@ document.getElementById('injectButton').addEventListener('click', () => {
   });
 });
 
-function injectHtml(input) {
+// function injectHtml(input) {
   var letter;
   var num;
   // Find the target <aside> element with the ID "right-side-wrapper"
@@ -123,4 +123,4 @@ if (asideElement) {
     asideElement.insertAdjacentElement('afterbegin', newDiv);
 }
 
-}
+// }
