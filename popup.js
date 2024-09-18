@@ -62,24 +62,12 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
 
 
 
-// document.getElementById('injectButton').addEventListener('click', () => {
-//   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-//       chrome.scripting.executeScript({
-//           target: { tabId: tabs[0].id },
-//           function: injectHtml
-//       });
-//   });
-// });
-
 document.getElementById('injectButton').addEventListener('click', () => {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.scripting.executeScript({
-      target: { tabId: tabs[0].id },
-      func: injectHtml
-    }, (results) => {
-      const output = document.getElementById('output');
-      output.textContent = results[0].result;
-    });
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      chrome.scripting.executeScript({
+          target: { tabId: tabs[0].id },
+          function: injectHtml
+      });
   });
 });
 
