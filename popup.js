@@ -103,6 +103,8 @@ document.getElementById('injectButton').addEventListener('click', () => {
 });
 
 function injectHtml(input) {
+  var letter;
+  var num;
   // Find the target <aside> element with the ID "right-side-wrapper"
 const asideElement = document.getElementById('right-side-wrapper');
   input = 3;
