@@ -73,8 +73,7 @@ document.getElementById('injectButton').addEventListener('click', () => {
 
 function injectHtml() {
   const asideElement = document.getElementById('right-side');
-  const grade = scrapeInfoFromPage();
-  console.log(grade)
+  const grade = scrapeInfoFromPage().toString();
   if (asideElement) {
       // Create a new div element
       const newDiv = document.createElement('div');
@@ -82,7 +81,7 @@ function injectHtml() {
       // Add some content to the new div with the custom font size
       const str = `
           <div style="font-size: 1.2em; background-color: lightblue;">
-              <p id = "output"></p>
+              <p id = "output">Grade: ${grade}</p>
           </div>
       `
       newDiv.innerHTML = str;
