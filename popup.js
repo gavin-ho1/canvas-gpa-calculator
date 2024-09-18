@@ -81,13 +81,13 @@ function injectHtml() {
       // Add some content to the new div with the custom font size
       const str = `
           <div style="font-size: 1.2em; background-color: lightblue;">
-              <p id = "output">Grade: ${grade}</p>
+              <p id = "output"></p>
           </div>
       `
       newDiv.innerHTML = str;
 
       // Insert the new div as the first child of the <aside> element
       asideElement.insertAdjacentElement('afterbegin', newDiv);
-      // document.getElementById('output').innerHTML = "Grade :"+grade;
+      document.getElementById('output').innerHTML = "Grade :"+grade;
   }
 }
