@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
  
 
 // Find the target element with the ID "student-grades-right-content"
-const targetElement = document.getElementById('student-grades-final');
+const targetElement = document.getElementById('student-grades-right-content');
 
 if (targetElement) {
     // Create a new div element
@@ -25,12 +25,12 @@ if (targetElement) {
 
     // Add some content to the new div
     newDiv.innerHTML = `
-        <div style="border: 1px solid black; padding: 20px; margin: 10px; background-color: lightgreen;">
+        <div style="border: 1px solid black; padding: 20px; margin: 10px; background-color: lightblue;">
             <h2>Injected HTML Content</h2>
-            <p>This div was injected inside #student-grades-final at the end.</p>
+            <p>This div was injected inside #student-grades-right-content at the beginning.</p>
         </div>
     `;
 
-    // Append the new div as a child at the end of #student-grades-right-content
-    targetElement.appendChild(newDiv);
+    // Insert the new div as the first child of #student-grades-right-content
+    targetElement.insertAdjacentElement('afterbegin', newDiv);
 }
