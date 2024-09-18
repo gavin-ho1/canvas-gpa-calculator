@@ -82,7 +82,7 @@ if (asideElement) {
     // Add some content to the new div with the custom font size
     newDiv.innerHTML = `
         <div style="font-size: 1.2em; border: 1px solid black; padding: 20px; margin: 10px;">
-            <p>Grades: ></p>
+            <p>Grades: ${scrapeInfoFromPage()}</p>
         </div>
     `;
 
