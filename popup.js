@@ -58,7 +58,35 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
 
     // Return the total sum of grades and max values
     const asideElement = document.getElementById('right-side-wrapper');
-  input = 3;
+  input = ((totalGrades/totalMax)*100).toFixed(2);
+  if (input >= 97) {
+    const letter = 'A+';
+} else if (percentage >= 93) {
+  const letter =  'A';
+} else if (percentage >= 90) {
+  const letter =  'A-';
+} else if (percentage >= 87) {
+  const letter =  'B+';
+} else if (percentage >= 83) {
+  const letter =  'B';
+} else if (percentage >= 80) {
+  const letter =  'B-';
+} else if (percentage >= 77) {
+  const letter =  'C+';
+} else if (percentage >= 73) {
+  const letter =  'C';
+} else if (percentage >= 70) {
+  const letter =  'C-';
+} else if (percentage >= 67) {
+  const letter =  'D+';
+} else if (percentage >= 63) {
+  const letter =  'D';
+} else if (percentage >= 60) {
+  const letter =  'D-';
+} else {
+  const letter =  'F';
+}
+
 if (asideElement) {
     // Create a new div element
     const newDiv = document.createElement('div');
@@ -66,42 +94,17 @@ if (asideElement) {
     // Add some content to the new div with the custom font size
     newDiv.innerHTML = `
         <div style="font-size: 1.2em; border: 1px solid black; padding: 20px; margin: 10px;">
-            <p>Grades: ${((totalGrades/totalMax)*100).toFixed(2)}</p>
+            <p>Grades: ${input}%, ${letter}</p>
         </div>
     `;
 
     // Insert the new div as the first child of the <aside> element
     asideElement.insertAdjacentElement('afterbegin', newDiv);
+    
     return ((totalGrades/totalMax)*100).toFixed(2)
   };
 
   function getLetterGrade(percentage) {
-    if (percentage >= 97) {
-        return 'A+';
-    } else if (percentage >= 93) {
-        return 'A';
-    } else if (percentage >= 90) {
-        return 'A-';
-    } else if (percentage >= 87) {
-        return 'B+';
-    } else if (percentage >= 83) {
-        return 'B';
-    } else if (percentage >= 80) {
-        return 'B-';
-    } else if (percentage >= 77) {
-        return 'C+';
-    } else if (percentage >= 73) {
-        return 'C';
-    } else if (percentage >= 70) {
-        return 'C-';
-    } else if (percentage >= 67) {
-        return 'D+';
-    } else if (percentage >= 63) {
-        return 'D';
-    } else if (percentage >= 60) {
-        return 'D-';
-    } else {
-        return 'F';
-    }
+    
   }
 }
