@@ -65,7 +65,7 @@ if (asideElement) {
 
     // Add some content to the new div with the custom font size
     newDiv.innerHTML = `
-        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; font-size: 1.2em; border: 1px solid black;">
+        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; font-size: 1.2em;">
             <p>Grade: ${input}%</p>
         </div>
     `;
