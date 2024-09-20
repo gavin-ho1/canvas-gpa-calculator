@@ -15,7 +15,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://*.instructure.com/*"],
+      "matches": ["http://*.instructure.com/courses/*/grades"],
       "js": ["content.js"]
     }
   ]
