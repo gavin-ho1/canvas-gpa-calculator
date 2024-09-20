@@ -57,6 +57,21 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     });
 
     // Return the total sum of grades and max values
+    const asideElement = document.getElementById('right-side-wrapper');
+  input = 3;
+if (asideElement) {
+    // Create a new div element
+    const newDiv = document.createElement('div');
+
+    // Add some content to the new div with the custom font size
+    newDiv.innerHTML = `
+        <div style="font-size: 1.2em; border: 1px solid black; padding: 20px; margin: 10px;">
+            <p>Grades: ${((totalGrades/totalMax)*100).toFixed(2)}</p>
+        </div>
+    `;
+
+    // Insert the new div as the first child of the <aside> element
+    asideElement.insertAdjacentElement('afterbegin', newDiv);
     return ((totalGrades/totalMax)*100).toFixed(2)
   };
 
@@ -101,21 +116,7 @@ document.getElementById('injectButton').addEventListener('click', () => {
 
 function injectHtml() {
   // Find the target <aside> element with the ID "right-side-wrapper"
-const asideElement = document.getElementById('right-side-wrapper');
-  input = 3;
-if (asideElement) {
-    // Create a new div element
-    const newDiv = document.createElement('div');
 
-    // Add some content to the new div with the custom font size
-    newDiv.innerHTML = `
-        <div style="font-size: 1.2em; border: 1px solid black; padding: 20px; margin: 10px;">
-            <p>Grades: ${input}</p>
-        </div>
-    `;
-
-    // Insert the new div as the first child of the <aside> element
-    asideElement.insertAdjacentElement('afterbegin', newDiv);
 }
 
 }
