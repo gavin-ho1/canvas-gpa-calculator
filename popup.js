@@ -75,48 +75,33 @@ if (asideElement) {
     return ((totalGrades/totalMax)*100).toFixed(2)
   };
 
-function getLetterGrade(percentage) {
-  if (percentage >= 97) {
-      return 'A+';
-  } else if (percentage >= 93) {
-      return 'A';
-  } else if (percentage >= 90) {
-      return 'A-';
-  } else if (percentage >= 87) {
-      return 'B+';
-  } else if (percentage >= 83) {
-      return 'B';
-  } else if (percentage >= 80) {
-      return 'B-';
-  } else if (percentage >= 77) {
-      return 'C+';
-  } else if (percentage >= 73) {
-      return 'C';
-  } else if (percentage >= 70) {
-      return 'C-';
-  } else if (percentage >= 67) {
-      return 'D+';
-  } else if (percentage >= 63) {
-      return 'D';
-  } else if (percentage >= 60) {
-      return 'D-';
-  } else {
-      return 'F';
+  function getLetterGrade(percentage) {
+    if (percentage >= 97) {
+        return 'A+';
+    } else if (percentage >= 93) {
+        return 'A';
+    } else if (percentage >= 90) {
+        return 'A-';
+    } else if (percentage >= 87) {
+        return 'B+';
+    } else if (percentage >= 83) {
+        return 'B';
+    } else if (percentage >= 80) {
+        return 'B-';
+    } else if (percentage >= 77) {
+        return 'C+';
+    } else if (percentage >= 73) {
+        return 'C';
+    } else if (percentage >= 70) {
+        return 'C-';
+    } else if (percentage >= 67) {
+        return 'D+';
+    } else if (percentage >= 63) {
+        return 'D';
+    } else if (percentage >= 60) {
+        return 'D-';
+    } else {
+        return 'F';
+    }
   }
-}
-
-document.getElementById('injectButton').addEventListener('click', () => {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      chrome.scripting.executeScript({
-          target: { tabId: tabs[0].id },
-          function: injectHtml
-      });
-  });
-});
-
-function injectHtml() {
-  // Find the target <aside> element with the ID "right-side-wrapper"
-
-}
-
 }
