@@ -11,7 +11,7 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
   });
   
   // Scrape numbers from span elements with the class "grade"
-  function scrapeInfoFromPage() {
+  window.onload = scrapeInfoFromPage(){
     // Select all <span> elements with the class "grade"
     const gradeSpans = document.querySelectorAll('span.grade');  // Selects all <span class="grade">
 
@@ -79,4 +79,4 @@ if (asideElement) {
   function getLetterGrade(percentage) {
     
   }
-}
+};
