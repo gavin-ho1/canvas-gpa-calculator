@@ -59,33 +59,34 @@ document.getElementById('scrape-btn').addEventListener('click', () => {
     // Return the total sum of grades and max values
     const asideElement = document.getElementById('right-side-wrapper');
   input = ((totalGrades/totalMax)*100).toFixed(2);
+  var letter = "A+"
   if (input >= 97) {
-    const letter = 'A+';
-} else if (percentage >= 93) {
-  const letter =  'A';
-} else if (percentage >= 90) {
-  const letter =  'A-';
-} else if (percentage >= 87) {
-  const letter =  'B+';
-} else if (percentage >= 83) {
-  const letter =  'B';
-} else if (percentage >= 80) {
-  const letter =  'B-';
-} else if (percentage >= 77) {
-  const letter =  'C+';
-} else if (percentage >= 73) {
-  const letter =  'C';
-} else if (percentage >= 70) {
-  const letter =  'C-';
-} else if (percentage >= 67) {
-  const letter =  'D+';
-} else if (percentage >= 63) {
-  const letter =  'D';
-} else if (percentage >= 60) {
-  const letter =  'D-';
-} else {
-  const letter =  'F';
-}
+      letter = 'A+';
+  } else if (percentage >= 93) {
+    letter =  'A';
+  } else if (percentage >= 90) {
+    letter =  'A-';
+  } else if (percentage >= 87) {
+    letter =  'B+';
+  } else if (percentage >= 83) {
+    letter =  'B';
+  } else if (percentage >= 80) {
+    letter =  'B-';
+  } else if (percentage >= 77) {
+    letter =  'C+';
+  } else if (percentage >= 73) {
+    letter =  'C';
+  } else if (percentage >= 70) {
+    letter =  'C-';
+  } else if (percentage >= 67) {
+    letter =  'D+';
+  } else if (percentage >= 63) {
+    letter =  'D';
+  } else if (percentage >= 60) {
+    letter =  'D-';
+  } else {
+    letter =  'F';
+  }
 
 if (asideElement) {
     // Create a new div element
