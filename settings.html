@@ -5,13 +5,14 @@
   </head>
   <body>
     <h1>Settings</h1>
-    <div>
+    <form>
         <input type = "checkbox" id = "auto-calc">
-        <label for="auto-calc">Automatically Calculated Course Grade on page load</label>
-    </div>
-    <div>
+        <label for="auto-calc">Automatically Calculated Course Grade on page load</label><br>
         <input type = "checkbox" id = "letter">
-        <label for="letter">Letter grade</label>
-    </div>
+        <label for="letter">Letter grade</label><br>
+        <label for="blacklist">Blacklist (Courses you don't want the calculator to calculate):</label><br>
+        <input type="text" id = "blacklist">
+    </form>
+    
 </body>
 </html>
