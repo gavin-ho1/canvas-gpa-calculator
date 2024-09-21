@@ -61,5 +61,5 @@ if (asideElement) {
     // Insert the new div as the first child of the <aside> element
     asideElement.insertAdjacentElement('afterbegin', newDiv);
     
-    return `${((totalGrades/totalMax)*100).toFixed(2)}%`
+    // return `${((totalGrades/totalMax)*100).toFixed(2)}%`
   }
