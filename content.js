@@ -1,4 +1,4 @@
-window.onload = function() {
+document.addEventListener('DOMContentLoaded', function() {
 
   // Scrape numbers from span elements with the class "grade"
     // Select all <span> elements with the class "grade"
@@ -64,4 +64,4 @@ if (asideElement) {
     
     return `${((totalGrades/totalMax)*100).toFixed(2)}%`
   }
-}
+});
