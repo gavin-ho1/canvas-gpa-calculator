@@ -10,7 +10,7 @@ function getCurrentTab(callback) {
 
 chrome.scripting
     .executeScript({
-      target : {tabId : getTabId(), allFrames : true},
+      target : {tabId : getCurrentTab(), allFrames : true},
       files : [ "content.js" ],
     })
     .then(() => console.log("script injected"));
