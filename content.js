@@ -3,6 +3,7 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   const output = document.getElementById("output")
   output.innerHTML = currentURL
   console.log(currentURL); // Do something with the current URL
+  chrome.runtime.sendMessage({ type: 'log', message: currentURL });
 });
   
   // Scrape numbers from span elements with the class "grade"
