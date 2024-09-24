@@ -1,3 +1,8 @@
+chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
+  const currentURL = response.url;
+  console.log(currentURL); // Do something with the current URL
+});
+  
   // Scrape numbers from span elements with the class "grade"
     // Select all <span> elements with the class "grade"
     const gradeSpans = document.querySelectorAll('span.grade');  // Selects all <span class="grade">
