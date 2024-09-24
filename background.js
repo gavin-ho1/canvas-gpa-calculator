@@ -1,9 +1,8 @@
 //Run content.js on page load
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.scripting.query({ active: true, currentWindow: true }, (tabs) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     tabURL = tabs[0].url;
     chrome.tabs.executeScript(tabs[0].id, { file: "content.js" });
-    
   });
 });
 
