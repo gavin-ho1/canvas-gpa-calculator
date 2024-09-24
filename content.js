@@ -57,7 +57,7 @@ if (asideElement) {
     // Add some content to the new div with the custom font size
     newDiv.innerHTML = `
         <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; font-size: 1.2em; border-bottom: 1px solid #C7CDD1; border-top: 1px solid #C7CDD1;">
-            <p>Grade: ${input}%</p>
+            <span class = "grade">Grade: ${input}%</span>
         </div>
     `;
     chrome.runtime.sendMessage({ type: 'getGrade', data: input }, (response) => {});
