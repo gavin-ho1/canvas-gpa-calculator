@@ -63,38 +63,13 @@ if (asideElement) {
 
     // Insert the new div as the first child of the <aside> element
     asideElement.insertAdjacentElement('afterbegin', newDiv);
-    
-    // return `${((totalGrades/totalMax)*100).toFixed(2)}%`
   }
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    const activeTab = tabs[0];
-    const activeTabUrl = activeTab.url;
-    const regex = /courses\/(\d+)/;
-    const courseID = activeTabUrl.match(regex)
-    chrome.storage.local.set({ courseID: inject });
-    newDiv.innerHTML = `
-        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; font-size: 1.2em; border-bottom: 1px solid #C7CDD1; border-top: 1px solid #C7CDD1;">
-            <p>${courseID}</p>
-        </div>
-      `;
-
-  });
-
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    if (tabs.length > 0) {
-      const activeTab = tabs[0];
-      const activeTabUrl = activeTab.url;
-      const regex = /courses\/(\d+)/;
-      const match = activeTabUrl.match(regex);
-  
-      if (match) {
-        const courseID = match[1];
-        newDiv.innerHTML = `
-        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; font-size: 1.2em; border-bottom: 1px solid #C7CDD1; border-top: 1px solid #C7CDD1;">
-            <p>${courseID}</p>
-        </div>
-      `;
-      } 
-    } 
-  });
-  
+  chrome.tabs.query({
+    active: true,
+    lastFocusedWindow: true
+}, function(tabs) {
+    // and use that tab to fill in out title and url
+    var tab = tabs[0];
+    console.log(tab.url);
+    alert(tab.url);
+});
