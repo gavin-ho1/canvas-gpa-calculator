@@ -60,13 +60,14 @@ if (asideElement) {
             <p>Grade: ${input}%</p>
         </div>
     `;
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-      if (request.type === 'grade'){
-        sendResponse({input})
-    }
-    });
 
     // Insert the new div as the first child of the <aside> element
     asideElement.insertAdjacentElement('afterbegin', newDiv);
     
   }
+
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.type === 'grade'){
+      sendResponse({input})
+  }
+  });
