@@ -68,6 +68,9 @@ if (asideElement) {
   
 
   //ID Logger attempt (WIP)
+  chrome.runtime.sendMessage({ action: "message_from_content", data: "hello" }, (response) => {
+    console.log("Response from background script:", response);
+  });
 chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
   var activeTab = tabs[0];
   var url = activeTab.url;
