@@ -33,9 +33,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (result.localDictionary) {
         localDictionary = result.localDictionary;
         console.log('Dictionary retrieved from Chrome sync storage');
-        console.log('Dictionary:', result.localDictionary);
       }
-
+      
       sendResponse({ url });
     });
   }
