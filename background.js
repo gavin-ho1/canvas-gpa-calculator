@@ -11,7 +11,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const url = tabs[0].url;
       sendResponse({ url });
-      
+
       // Create a local dictionary
       const localDictionary = {};
 
@@ -34,8 +34,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         localDictionary = result.localDictionary;
         console.log('Dictionary:', result.localDictionary);
       }
-      
-      
     });
+  }
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.type === 'myMessage') {
+      console.log('Received message:', request.data);
+      sendResponse({ message: 'Message received' });
   }
 });
