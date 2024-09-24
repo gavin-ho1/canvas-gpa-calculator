@@ -7,7 +7,7 @@ var autoGradingEnabled = true
 finalGradesDiv.forEach(div => {
   const divText = div.innerText;
   if(divText === "Calculation of totals has been disabled"){
-    div.remove()
+    div.innerText = ""
     autoGradingEnabled = false
   }
 
