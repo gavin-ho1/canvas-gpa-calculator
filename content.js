@@ -12,7 +12,7 @@ finalGradesDiv.forEach(div => {
   }
 
 } )
-if(!autoGradingEnabled){
+if(autoGradingEnabled == false){
   // Scrape numbers from span elements with the class "grade"
     // Select all <span> elements with the class "grade"
     const gradeSpans = document.querySelectorAll('span.grade');  // Selects all <span class="grade">
