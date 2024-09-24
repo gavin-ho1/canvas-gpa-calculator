@@ -10,13 +10,13 @@ chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
   var activeTab = tabs[0];
   var url = activeTab.url;
   console.log(url)
-  var regex = /\/courses\/(\d+)\//;
-    var match = regex.exec(url);
+  // var regex = /\/courses\/(\d+)\//;
+  //   var match = regex.exec(url);
 
-    if (match) {
-      var courseID = match[1];
-      console.log("Course ID:", courseID);
-    } else {
-      console.log("URL doesn't match the expected format.");
-    }
+  //   if (match) {
+  //     var courseID = match[1];
+  //     console.log("Course ID:", courseID);
+  //   } else {
+  //     console.log("URL doesn't match the expected format.");
+  //   }
 });
