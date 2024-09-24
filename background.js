@@ -28,15 +28,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       //Get grade of current page
       if (request.type === 'getGrade') {
           grade = request.data
-          chrome.storage.sync.get('localDictionary', (result) => {
-            const localDictionary = result.localDictionary || {}; // Initialize if not present
+          chrome.storage.sync.get('courseDict', (result) => {
+            const localDictionary = result.courseDict || {}; // Initialize if not present
             localDictionary[courseID] = {
               data: grade
             };
           
-            chrome.storage.sync.set({ localDictionary }, () => {
-              console.log(localDictionary);
-            });
+            chrome.storage.sync.set({ courseDict }, () => {});
           });
       }
   });
