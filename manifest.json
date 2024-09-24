@@ -6,7 +6,7 @@
   "permissions": ["activeTab", "tabs", "scripting", "declarativeContent", "storage"],
   
   "action": {
-    "default_popup": "test.html",
+    "default_popup": "menu.html",
     "default_icon": "logo.png",
     "default_title": "Calculator"
   },
