@@ -64,12 +64,8 @@ if (asideElement) {
     // Insert the new div as the first child of the <aside> element
     asideElement.insertAdjacentElement('afterbegin', newDiv);
   }
-  chrome.tabs.query({
-    active: true,
-    lastFocusedWindow: true
-}, function(tabs) {
-    // and use that tab to fill in out title and url
-    var tab = tabs[0];
-    console.log(tab.url);
-    alert(tab.url);
-});
+async function getCurrentTab() {
+  let queryOptions = { active: true, lastFocusedWindow: true };
+  let [tab] = await chrome.tabs.query(queryOptions);
+  alert(tab);
+}
