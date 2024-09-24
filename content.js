@@ -1,17 +1,20 @@
 chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   const url = response.url;
 });
-const finalGradesDiv = querySelectorAll('#student-grades-final.student_assignment final_grade');
+
 var autoGradingEnabled = true
 
-finalGradesDiv.forEach(div => {
-  const divText = div.innerText;
-  if(divText === "Calculation of totals has been disabled"){
-    div.innerText = ""
-    autoGradingEnabled = false
-  }
+const gradeDivs = document.querySelectorAll('#student-grades-final');
 
-} )
+// Loop through each of the found divs
+gradeDivs.forEach(div => {
+    // Check if the text content matches "Calculation of totals has been disabled"
+    if (div.textContent.trim() === "Calculation of totals has been disabled") {
+        div.remove()
+        autoGradingEnabled = true
+    } 
+});
+
 if(autoGradingEnabled == false){
   // Scrape numbers from span elements with the class "grade"
     // Select all <span> elements with the class "grade"
