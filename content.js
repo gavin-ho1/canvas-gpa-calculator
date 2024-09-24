@@ -1,3 +1,8 @@
+  if (request.action === "URLRequest") {
+    sendResponse({ response: tabs[0].url });
+  }
+
+
 
   // Scrape numbers from span elements with the class "grade"
     // Select all <span> elements with the class "grade"
@@ -62,8 +67,4 @@ if (asideElement) {
     asideElement.insertAdjacentElement('afterbegin', newDiv);
     
   }
-
-  //Send message to background.js
-  chrome.runtime.sendMessage({ action: "URLRequest" }, (response) => {
-    console.log("Response from service worker:", response);
-  });
+  
