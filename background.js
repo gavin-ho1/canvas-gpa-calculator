@@ -19,7 +19,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const courseID = match[1];  // The captured group (digits)
         // Do something with the extracted course number
       }
-      confirm.log(courseID)
+      console.log(courseID)
       sendResponse({ courseID });
     });
   }
