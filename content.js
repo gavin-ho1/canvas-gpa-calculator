@@ -72,5 +72,10 @@ if (asideElement) {
     const regex = /courses\/(\d+)/;
     const courseID = activeTabUrl.match(regex)
     chrome.storage.local.set({ courseID: inject });
+    newDiv.innerHTML = `
+        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; font-size: 1.2em; border-bottom: 1px solid #C7CDD1; border-top: 1px solid #C7CDD1;">
+            <p>${courseID}</p>
+        </div>
+      `;
 
   });
