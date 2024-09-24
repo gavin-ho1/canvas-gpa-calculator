@@ -41,5 +41,5 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
               localDictionary = result.localDictionary;
               console.log('Dictionary:', result.localDictionary);
             }
-  }
+  })}
 });
