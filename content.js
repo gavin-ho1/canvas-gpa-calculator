@@ -1,7 +1,7 @@
 chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   const url = response.url;
 });
-const finalGradesDiv = querySelectorAll('student-grades-final');
+const finalGradesDiv = querySelectorAll('div.student-grades-final');
 var autoGradingEnabled = true
 
 finalGradesDiv.forEach(div => {
