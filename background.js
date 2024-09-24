@@ -9,6 +9,7 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
   var activeTab = tabs[0];
   var url = activeTab.url;
+  console.log(url)
   var regex = /\/courses\/(\d+)\//;
     var match = regex.exec(url);
 
@@ -18,6 +19,4 @@ chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     } else {
       console.log("URL doesn't match the expected format.");
     }
-  
-  console.log(courseID);
 });
