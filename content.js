@@ -79,3 +79,22 @@ if (asideElement) {
       `;
 
   });
+
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    if (tabs.length > 0) {
+      const activeTab = tabs[0];
+      const activeTabUrl = activeTab.url;
+      const regex = /courses\/(\d+)/;
+      const match = activeTabUrl.match(regex);
+  
+      if (match) {
+        const courseID = match[1];
+        newDiv.innerHTML = `
+        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; font-size: 1.2em; border-bottom: 1px solid #C7CDD1; border-top: 1px solid #C7CDD1;">
+            <p>${courseID}</p>
+        </div>
+      `;
+      } 
+    } 
+  });
+  
