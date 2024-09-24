@@ -1,10 +1,3 @@
-chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
-  const url = response.url;
-
-  
-});
-  
-
 
   // Scrape numbers from span elements with the class "grade"
     // Select all <span> elements with the class "grade"
