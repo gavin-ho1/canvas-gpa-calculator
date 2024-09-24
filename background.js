@@ -8,6 +8,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 var url
 var grade
+var courseID
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'getURL') {
@@ -24,6 +25,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           grade = request.data
           chrome.storage.sync.get('localDictionary', (result) => {
             const localDictionary = result.localDictionary || {}; // Initialize if not present
+            confirm.log( courseID)
             localDictionary[courseID] = {
               data: grade
             };
