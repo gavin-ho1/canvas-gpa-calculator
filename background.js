@@ -29,7 +29,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.type === 'getGrade') {
           grade = request.data
           chrome.storage.sync.get('courseDict', (result) => {
-            const localDictionary = result.courseDict || {}; // Initialize if not present
+            const courseDict = result.courseDict || {}; // Initialize if not present
             localDictionary[courseID] = {
               data: grade
             };
