@@ -67,7 +67,8 @@ if (asideElement) {
     asideElement.insertAdjacentElement('afterbegin', newDiv);
     
   }
-  
-  if (request.type === 'grade'){
-    sendResponse({inject})
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.type === 'grade'){
+      sendResponse({inject})
   }
+});
