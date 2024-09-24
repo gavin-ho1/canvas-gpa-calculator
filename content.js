@@ -2,7 +2,11 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   const url = response.url;
 });
   
-
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.type === 'grade'){
+    sendResponse({inject})
+}
+});
 
   // Scrape numbers from span elements with the class "grade"
     // Select all <span> elements with the class "grade"
@@ -67,8 +71,3 @@ if (asideElement) {
     asideElement.insertAdjacentElement('afterbegin', newDiv);
     
   }
-  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.type === 'grade'){
-      sendResponse({inject})
-  }
-});
