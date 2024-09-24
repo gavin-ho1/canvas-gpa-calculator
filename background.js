@@ -20,7 +20,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const grade = response;
       });
       localDictionary[url] = {
-        grade
+        data: grade
       };
 
       // Save the dictionary to Chrome sync storage
