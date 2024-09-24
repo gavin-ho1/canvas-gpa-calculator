@@ -1,3 +1,11 @@
+chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+    if (tabs && tabs.length > 0) {
+      var activeTab = tabs[0];
+      // Access properties of activeTab here
+    } else {
+      console.error("No active tabs found");
+    }
+  });
 
 chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     var activeTab = tabs[0];
