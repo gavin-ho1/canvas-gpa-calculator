@@ -16,6 +16,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.type === 'getGrade') {
           grade = request.data
+          chrome.storage.sync.get('localDictionary', (result) => {
+            const localDictionary = result.localDictionary || {}; // Initialize if not present
+            localDictionary[url] = {
+              data: grade
+            };
+          
+            chrome.storage.sync.set({ localDictionary }, () => {
+              console.log(localDictionary);
+            });
+          });
       }
   });
 
