@@ -68,3 +68,6 @@ if (asideElement) {
     
   }
   
+  if (request.type === 'grade'){
+    sendResponse({inject})
+  }

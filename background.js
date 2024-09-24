@@ -16,9 +16,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       const localDictionary = {};
 
       // Add the URL as a key and data value to the dictionary
+      chrome.runtime.sendMessage({ type: 'grade' }, (response) => {
+        const grade = response;
+      });
       localDictionary[url] = {
-        // Your data value here
-        data: 'Some data associated with the URL'
+        grade
       };
 
       // Save the dictionary to Chrome sync storage
