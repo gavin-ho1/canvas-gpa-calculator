@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       const regex = /\/courses\/(\d+)\//;; // Matches digits after "courses/"
       var courseID = regex.exec(url);
 
-      sendResponse({ courseID });
+      sendResponse({ url });
     }); 
     
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -26,7 +26,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           chrome.storage.sync.get('localDictionary', (result) => {
             const localDictionary = result.localDictionary || {}; // Initialize if not present
             console.log(url)
-            localDictionary[courseID] = {
+            localDictionary[url] = {
               data: grade
             };
           
