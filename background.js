@@ -13,7 +13,7 @@ var courseID
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'getURL') {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      url = tabs[0].url;
+      // url = tabs[0].url;
       console.log(tabs[0])
       const regex = /courses\/(\d+)\/grades/; // Matches digits after "courses/"
       courseID = regex.exec(url);
