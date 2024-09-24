@@ -33,6 +33,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             courseDict[courseID] = {
               data: grade
             };
+            console.log(courseDict)
           
             chrome.storage.sync.set({ courseDict }, () => {
               console.log(courseDict)
