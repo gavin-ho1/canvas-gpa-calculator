@@ -60,7 +60,7 @@ if (asideElement) {
             <p>Grade: ${input}%</p>
         </div>
     `;
-    chrome.runtime.sendMessage({ type: 'grade', data: input }, (response) => {});
+    chrome.runtime.sendMessage({ type: 'getGrade', data: input }, (response) => {});
   
 
     // Insert the new div as the first child of the <aside> element

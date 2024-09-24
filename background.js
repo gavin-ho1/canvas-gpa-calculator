@@ -12,34 +12,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       const url = tabs[0].url;
       sendResponse({ url });
     }); 
+    
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      if (request.type === 'getGrade') {
+          console.log('Received message:', request.data);
+      }
+  });
+
   }
-});
-
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type === 'myMessage') {
-      console.log('Received message:', request.data);
-      sendResponse({ message: 'Message received' });
-
-            // Create a local dictionary
-            const localDictionary = {};
-
-            // Add the URL as a key and data value to the dictionary
-            chrome.runtime.sendMessage({ type: 'grade' }, (response) => {
-              const grade = response;
-              console.log(grade)
-            });
-            localDictionary[url] = {
-              data: grade
-            };
-      
-            // Save the dictionary to Chrome sync storage
-            chrome.storage.sync.set({ localDictionary }, () => {});
-      
-          // Retrieve the dictionary from Chrome sync storage on page load
-          chrome.storage.sync.get('localDictionary', (result) => {
-            if (result.localDictionary) {
-              localDictionary = result.localDictionary;
-              console.log('Dictionary:', result.localDictionary);
-            }
-  })}
 });
