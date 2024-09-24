@@ -82,4 +82,16 @@ if (asideElement) {
     
   }
 
+}else{
+  const gradeSpans = document.querySelectorAll('span.grade');  // Selects all <span class="grade">
+  gradeSpans.forEach(span => {
+    const gradeText = parseFloat(span.innerText.replace('%', ''));
+
+        // Check if the grade text contains a percentage symbol and skip it
+        if (gradeText.includes('%')) {
+          chrome.runtime.sendMessage({ type: 'getGrade', data: input }, (response) => {}); 
+        } 
+  })
+
+  
 }

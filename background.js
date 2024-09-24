@@ -34,7 +34,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
               data: grade
             };
           
-            chrome.storage.sync.set({ courseDict }, () => {});
+            chrome.storage.sync.set({ courseDict }, () => {
+              console.log(courseDict)
+            });
+            
           });
       }
   });
