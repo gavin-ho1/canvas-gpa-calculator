@@ -2,6 +2,7 @@
 chrome.runtime.onInstalled.addListener(() => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     tabURL = tabs[0].url;
+    console.log(tabURL)
     chrome.tabs.executeScript(tabs[0].id, { file: "content.js" });
   });
 });
@@ -18,7 +19,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       const courseID = regex.exec(url);
       console.log(courseID)
 
-      sendResponse({ url });
+      sendResponse({ courseID });
     }); 
     
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
