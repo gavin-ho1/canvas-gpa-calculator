@@ -1,13 +1,13 @@
 chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   const url = response.url;
 });
-const finalGradesDiv = querySelectorAll('#student-grades-final');
+const finalGradesDiv = querySelectorAll('student-grades-final');
 var autoGradingEnabled = true
 
 finalGradesDiv.forEach(div => {
   const divText = div.innerText;
   if(divText === "Calculation of totals has been disabled"){
-    div.innerHTML = "";
+    div.remove()
     autoGradingEnabled = false
   }
 
