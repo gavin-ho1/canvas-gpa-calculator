@@ -1,4 +1,4 @@
-# Wishlist:
+# To-Do:
 - ~~HTML injection directly into webpage~~
 - ~~Auto HTML injection upon page load~~
 - ~~Make HTML injection match Canvas theme~~
