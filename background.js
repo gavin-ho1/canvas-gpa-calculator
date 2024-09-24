@@ -15,7 +15,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.type === 'getGrade') {
-          console.log('Received message:', request.data);
+          grade = request.data
       }
   });
 
