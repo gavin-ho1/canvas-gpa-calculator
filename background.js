@@ -15,7 +15,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       url = tabs[0].url;
       const regex = /\/courses\/(\d+)\//;; // Matches digits after "courses/"
-      var courseID = regex.exec(url);
+      courseID = regex.exec(url);
 
       sendResponse({ url });
     }); 
