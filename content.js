@@ -1,27 +1,7 @@
 chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   const url = response.url;
 
-  // Create a local dictionary
-  const localDictionary = {};
-
-  // Add the URL as a key and data value to the dictionary
-  localDictionary[url] = {
-    // Your data value here
-    data: 'Some data associated with the URL'
-  };
-
-  // Save the dictionary to Chrome sync storage
-  chrome.storage.sync.set({ localDictionary }, () => {
-    console.log('Dictionary saved to Chrome sync storage');
-  });
-});
-
-// Retrieve the dictionary from Chrome sync storage on page load
-chrome.storage.sync.get('localDictionary', (result) => {
-  if (result.localDictionary) {
-    localDictionary = result.localDictionary;
-    console.log('Dictionary retrieved from Chrome sync storage');
-  }
+  
 });
   
 
