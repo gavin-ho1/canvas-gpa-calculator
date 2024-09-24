@@ -24,16 +24,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       };
 
       // Save the dictionary to Chrome sync storage
-      chrome.storage.sync.set({ localDictionary }, () => {
-        console.log('Dictionary saved to Chrome sync storage');
-      });
+      chrome.storage.sync.set({ localDictionary }, () => {});
     });
 
     // Retrieve the dictionary from Chrome sync storage on page load
     chrome.storage.sync.get('localDictionary', (result) => {
       if (result.localDictionary) {
         localDictionary = result.localDictionary;
-        console.log('Dictionary retrieved from Chrome sync storage');
         console.log('Dictionary:', result.localDictionary);
       }
       
