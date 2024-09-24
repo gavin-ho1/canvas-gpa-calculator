@@ -89,7 +89,7 @@ if (asideElement) {
 
         // Check if the grade text contains a percentage symbol and skip it
         if (gradeText.includes('%')) {
-          const stripedNum = parseFloat(gradeText.replace('%', ''))
+          const stripedNum = toString(gradeText.replace('%', ''))
           chrome.runtime.sendMessage({ type: 'getGrade', data: stripedNum }, (response) => {}); 
         } 
   })
