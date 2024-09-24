@@ -4,6 +4,6 @@ chrome.runtime.onInstalled.addListener(() => {
     chrome.tabs.executeScript(tabs[0].id, { file: "content.js" });
     tabURL = tabs[0].url;
     console.log(tabURL)
-    console.log("A")
+    alert("A")
   });
 });
