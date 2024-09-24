@@ -1,9 +1,3 @@
-  if (request.action === "URLRequest") {
-    sendResponse({ response: tabs[0].url });
-  }
-
-
-
   // Scrape numbers from span elements with the class "grade"
     // Select all <span> elements with the class "grade"
     const gradeSpans = document.querySelectorAll('span.grade');  // Selects all <span class="grade">
