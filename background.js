@@ -6,10 +6,13 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
+var url
+var grade
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'getURL') {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      const url = tabs[0].url;
+      url = tabs[0].url;
       sendResponse({ url });
     }); 
     
