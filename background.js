@@ -6,19 +6,18 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 //pull url and courseID on page load
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-  if (changeInfo.url) {
-    var url = tab.url;
-
-    // Extract the numbers using regular expression
-    var regex = /\/courses\/(\d+)\//;
+chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+  var activeTab = tabs[0];
+  var url = activeTab.url;
+  var regex = /\/courses\/(\d+)\//;
     var match = regex.exec(url);
 
     if (match) {
-      var courseId = match[1];
-      console.log("Course ID:", courseId);
+      var courseID = match[1];
+      console.log("Course ID:", courseID);
     } else {
       console.log("URL doesn't match the expected format.");
     }
-  }
+  
+  console.log(courseID);
 });
