@@ -1,7 +1,18 @@
 chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   const url = response.url;
 });
+const finalGradesDiv = querySelectorAll('#student-grades-final');
+var autoGradingEnabled = true
 
+finalGradesDiv.forEach(div => {
+  const divText = div.innerText;
+  if(divText === "Calculation of totals has been disabled"){
+    div.textContent = "";
+    autoGradingEnabled = false
+  }
+
+} )
+if(!autoGradingEnabled){
   // Scrape numbers from span elements with the class "grade"
     // Select all <span> elements with the class "grade"
     const gradeSpans = document.querySelectorAll('span.grade');  // Selects all <span class="grade">
@@ -68,3 +79,4 @@ if (asideElement) {
     
   }
 
+}
