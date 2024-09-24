@@ -1,12 +1,6 @@
 chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   const url = response.url;
 });
-  
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type === 'grade'){
-    sendResponse({inject})
-}
-});
 
   // Scrape numbers from span elements with the class "grade"
     // Select all <span> elements with the class "grade"
@@ -66,6 +60,11 @@ if (asideElement) {
             <p>Grade: ${input}%</p>
         </div>
     `;
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      if (request.type === 'grade'){
+        sendResponse({input})
+    }
+    });
 
     // Insert the new div as the first child of the <aside> element
     asideElement.insertAdjacentElement('afterbegin', newDiv);
