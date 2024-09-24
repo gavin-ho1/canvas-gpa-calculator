@@ -1,4 +1,7 @@
 
+const courseDict = {}
+
+//Scraping:
   // Scrape numbers from span elements with the class "grade"
     // Select all <span> elements with the class "grade"
     const gradeSpans = document.querySelectorAll('span.grade');  // Selects all <span class="grade">
@@ -46,7 +49,7 @@
 
     // Return the total sum of grades and max values
     const asideElement = document.getElementById('right-side-wrapper');
-  input = ((totalGrades/totalMax)*100).toFixed(2);
+  inject = ((totalGrades/totalMax)*100).toFixed(2);
 if (asideElement) {
     // Create a new div element
     const newDiv = document.createElement('div');
@@ -54,7 +57,7 @@ if (asideElement) {
     // Add some content to the new div with the custom font size
     newDiv.innerHTML = `
         <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; font-size: 1.2em; border-bottom: 1px solid #C7CDD1; border-top: 1px solid #C7CDD1;">
-            <p>Grade: ${input}%</p>
+            <p>Grade: ${inject}%</p>
         </div>
     `;
 
@@ -63,3 +66,11 @@ if (asideElement) {
     
     // return `${((totalGrades/totalMax)*100).toFixed(2)}%`
   }
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    const activeTab = tabs[0];
+    const activeTabUrl = activeTab.url;
+    const regex = /courses\/(\d+)/;
+    const courseID = activeTabUrl.match(regex)
+    chrome.storage.local.set({ courseID: inject });
+
+  });
