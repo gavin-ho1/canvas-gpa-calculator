@@ -17,10 +17,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
       if (match) {
         const courseID = match[1];  // The captured group (digits)
-        console.log("Course number:", courseID);
         // Do something with the extracted course number
       }
-      sendResponse({ url });
+      sendResponse({ courseID });
     });
   }
 });

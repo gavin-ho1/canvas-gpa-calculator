@@ -1,5 +1,7 @@
 chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   const currentURL = response.url;
+  const output = document.getElementById("output")
+  output.innerHTML = currentURL
   console.log(currentURL); // Do something with the current URL
 });
   
