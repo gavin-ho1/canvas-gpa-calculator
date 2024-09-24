@@ -1,11 +1,31 @@
 chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
-  const currentURL = response.url;
-  const output = document.getElementById("output")
-  output.innerHTML = currentURL
-  console.log(currentURL); // Do something with the current URL
-  chrome.runtime.sendMessage({ type: 'log', message: currentURL });
+  const url = response.url;
+
+  // Create a local dictionary
+  const localDictionary = {};
+
+  // Add the URL as a key and data value to the dictionary
+  localDictionary[url] = {
+    // Your data value here
+    data: 'Some data associated with the URL'
+  };
+
+  // Save the dictionary to Chrome sync storage
+  chrome.storage.sync.set({ localDictionary }, () => {
+    console.log('Dictionary saved to Chrome sync storage');
+  });
+});
+
+// Retrieve the dictionary from Chrome sync storage on page load
+chrome.storage.sync.get('localDictionary', (result) => {
+  if (result.localDictionary) {
+    localDictionary = result.localDictionary;
+    console.log('Dictionary retrieved from Chrome sync storage');
+  }
 });
   
+
+
   // Scrape numbers from span elements with the class "grade"
     // Select all <span> elements with the class "grade"
     const gradeSpans = document.querySelectorAll('span.grade');  // Selects all <span class="grade">
