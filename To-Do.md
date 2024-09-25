@@ -5,6 +5,7 @@
 - Options/settings menu (Do after HTML injection) [WIP] 
 - Letter Grades
 - Calculate and display GPA on dashboard
+- Weighted assigment grading
 - ~~Disabling extension grade calc when Canvas grades are turned on~~
 - ~~Assigning grade to a class (Store multiple course grades to create GPA Calc)~~
 - Grade display consistent with default Canavs theme
