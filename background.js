@@ -3,7 +3,7 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     tabURL = tabs[0].url;
     if(tabURL.includes("grades")){
-    chrome.tabs.executeScript(tabs[0].id, { file: "content.js" });
+      chrome.tabs.executeScript(tabs[0].id, { file: "content.js" });
     }else {
       chrome.tabs.executeScript(tabs[0].id, { file: "dashboard.js" });
     }
@@ -16,10 +16,9 @@ var courseID
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'getURL') {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs){
       
-      const activeTab = tabs[0];
-      url = activeTab.url;    
+      var url = tabs[0].url; 
 
       const regex = /courses\/(\d+)\/grades/; // Matches digits after "courses/"
       courseID = regex.exec(url)[1];
