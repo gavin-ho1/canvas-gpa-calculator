@@ -1,3 +1,7 @@
+var tabURL
+var grade
+var courseID
+
 //Run content.js on page load
 chrome.runtime.onInstalled.addListener(() => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -10,22 +14,19 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
-var url
-var grade
-var courseID
+
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'getURL') {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      
-      tabURL = tabs[0].url;
+    // chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    //   tabURL = tabs[0].url;
 
-      const regex = /courses\/(\d+)\/grades/; // Matches digits after "courses/"
-      courseID = regex.exec(tabURL)[1];
-      console.log(courseID, tabURL)
+    //   const regex = /courses\/(\d+)\/grades/; // Matches digits after "courses/"
+    //   courseID = regex.exec(tabURL)[1];
+    //   console.log(courseID, tabURL)
 
-      sendResponse({ courseID });
-    });
+      sendResponse({ tabURL });
+    // });
     
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
