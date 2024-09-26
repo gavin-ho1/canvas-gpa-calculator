@@ -4,7 +4,7 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   url = response[1];
 });
 
-if (url.includes("grades")){
+if (url.includes("grades") === true){
   var autoGradingEnabled = true
 
   const gradeDivs = document.querySelectorAll('#student-grades-final');
