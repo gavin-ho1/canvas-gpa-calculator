@@ -1,6 +1,6 @@
 var url 
 chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
-  url = response.url;
+  url = response;
 });
 
 if (url.includes("grades")){
