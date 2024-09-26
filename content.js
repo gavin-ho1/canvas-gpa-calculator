@@ -84,7 +84,8 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
     }
 
   }else{
-    const gradeSpans = document.querySelectorAll('span.grade');  // Selects all <span class="grade">
+    const rightSideContent = document.getElementById('student-grades-right-content')
+    const gradeSpans = rightSideContent.querySelectorAll('span.grade');  // Selects all <span class="grade">
     gradeSpans.forEach(span => {
       const gradeText = span.innerText.trim();
 
@@ -92,8 +93,6 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
           if (gradeText.includes('%')) {
             const stripedNum = gradeText.replace('%', '')
             chrome.runtime.sendMessage({ type: "getGrade", data: stripedNum }, (response) => {}); 
-          }else{
-            chrome.runtime.sendMessage({ type: "getGrade", data: "none" }, (response) => {});  
           }
     })
 
