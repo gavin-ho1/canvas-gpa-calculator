@@ -84,9 +84,9 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
     }
 
   }else{
-    const rightSideContent = document.getElementById('student_assignment final_grade')
-    const gradeSpans = rightSideContent.querySelectorAll('span.grade');  // Selects all <span class="grade">
-    gradeSpans.forEach(span => {
+    const gradeTDs = document.querySelector("td.assignment_score")
+
+    gradeTDs.forEach(span => {
       const gradeText = span.innerText.trim();
 
           // Check if the grade text contains a percentage symbol and skip it
