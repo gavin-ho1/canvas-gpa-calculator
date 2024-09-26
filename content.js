@@ -1,6 +1,7 @@
 var url 
 chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
-  url = response;
+  courseID = response[0];
+  url = response[1];
 });
 
 if (url.includes("grades")){
