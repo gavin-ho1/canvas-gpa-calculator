@@ -6,8 +6,6 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   courseID = regex.exec(url)[1];
 
 });
-
-if (url.includes("grades")){
   var autoGradingEnabled = true
 
   const gradeDivs = document.querySelectorAll('#student-grades-final');
@@ -102,9 +100,3 @@ if (url.includes("grades")){
 
     
   }
-
-}else{
-  chrome.runtime.sendMessage({ type: 'getCourseDict' }, (response) => {
-    courseDict = response;
-  }); 
-}
