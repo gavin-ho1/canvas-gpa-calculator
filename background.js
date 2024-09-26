@@ -26,7 +26,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       console.log(courseID)
 
 
-      sendResponse([url]);
+      sendResponse({url});
     }); 
     
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {

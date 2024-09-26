@@ -1,9 +1,6 @@
 var url 
-var courseID
 chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   url = response;
-  const regex = /courses\/(\d+)\/grades/; // Matches digits after "courses/"
-  courseID = regex.exec(url)[1];
 
 });
   var autoGradingEnabled = true
