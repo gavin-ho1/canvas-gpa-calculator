@@ -84,7 +84,7 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
     }
 
   }else{
-    const rightSideContent = document.getElementById('student-grades-right-content')
+    const rightSideContent = document.getElementById('student_assignment final_grade')
     const gradeSpans = rightSideContent.querySelectorAll('span.grade');  // Selects all <span class="grade">
     gradeSpans.forEach(span => {
       const gradeText = span.innerText.trim();
