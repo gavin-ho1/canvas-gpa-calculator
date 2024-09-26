@@ -11,7 +11,7 @@
     "default_title": "Calculator"
   },
   "background": {
-    "service_worker": "background.js"
+    "service_workers": ["background.js", "dashboard.js"]
   },
   "content_scripts": [
     {
