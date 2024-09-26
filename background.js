@@ -16,7 +16,7 @@ var courseID
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'getURL') {
-    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs){
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       
       url = tabs[0].url; 
 
