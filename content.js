@@ -1,11 +1,13 @@
 var url 
+var courseID
 chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
-  courseID = response[0];
-  url = response[1];
+  url = response;
+  const regex = /courses\/(\d+)\/grades/; // Matches digits after "courses/"
+  courseID = regex.exec(url)[1];
+
 });
 
-if (url.includes("grades") == true){
-  var autoGradingEnabled = true
+if (url.includes("grades")
 
   const gradeDivs = document.querySelectorAll('#student-grades-final');
 
