@@ -42,7 +42,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             
           });
       }
-      if (request.type === 'getCourtDict') {
+      if (request.type === 'getCourseDict') {
         chrome.storage.sync.get('courseDict', (result) => {
           const courseDict = result.courseDict || {}; // Initialize if not present
           

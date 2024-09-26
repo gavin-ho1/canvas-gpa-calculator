@@ -100,5 +100,7 @@ if (url.includes("grades")){
   }
 
 }else{
-  
+  chrome.runtime.sendMessage({ type: 'getCourseDict' }, (response) => {
+    courseDict = response;
+  }); 
 }
