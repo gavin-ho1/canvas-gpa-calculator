@@ -92,7 +92,9 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
           if (gradeText.includes('%')) {
             const stripedNum = gradeText.replace('%', '')
             chrome.runtime.sendMessage({ type: "getGrade", data: stripedNum }, (response) => {}); 
-          } 
+          }else{
+            chrome.runtime.sendMessage({ type: "getGrade", data: "none" }, (response) => {});  
+          }
     })
 
     
