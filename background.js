@@ -2,7 +2,9 @@
 chrome.runtime.onInstalled.addListener(() => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     tabURL = tabs[0].url;
+    if(tabURL.includes("grades")){
     chrome.tabs.executeScript(tabs[0].id, { file: "content.js" });
+    }
   });
 });
 
@@ -17,9 +19,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       const activeTab = tabs[0];
       url = activeTab.url;    
       console.log(url)
-      if (url.includes("grades")){
-        console.log("hi")
-      }
 
 
 
