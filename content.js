@@ -90,7 +90,7 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
 
           // Check if the grade text contains a percentage symbol and skip it
           // if (gradeText.includes('%')) {
-            const stripedNum = gradeText.replace('%', '')
+            // const stripedNum = gradeText.replace('%', '')
             chrome.runtime.sendMessage({ type: "getGrade", data: stripedNum }, (response) => {}); 
           // }
     })
