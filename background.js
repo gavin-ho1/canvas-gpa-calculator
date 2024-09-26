@@ -42,6 +42,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             
           });
       }
+      if (request.type === 'getCourtDict') {
+        chrome.storage.sync.get('courseDict', (result) => {
+          const courseDict = result.courseDict || {}; // Initialize if not present
+          
+          console.log(courseDict)
+          // For debugging
+          
+        });
+    }
   });
 
   }
