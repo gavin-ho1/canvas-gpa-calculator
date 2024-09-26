@@ -85,13 +85,15 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
 
   }else{
     const gradeSpans = document.querySelectorAll('div.student_assignment final_grade');  // Selects all <span class="grade">
+    
     gradeSpans.forEach(span => {
       const gradeText = span.innerText.trim();
+      chrome.runtime.sendMessage({ type: "print", data: gradeText }, (response) => {}); 
 
           // Check if the grade text contains a percentage symbol and skip it
           // if (gradeText.includes('%')) {
             // const stripedNum = gradeText.replace('%', '')
-            chrome.runtime.sendMessage({ type: "getGrade", data: gradeText }, (response) => {}); 
+            // chrome.runtime.sendMessage({ type: "getGrade", data: gradeText }, (response) => {}); 
           // }
     })
 
