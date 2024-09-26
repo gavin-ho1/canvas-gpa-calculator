@@ -11,12 +11,12 @@
     "default_title": "Calculator"
   },
   "background": {
-    "service_workers": ["background.js", "dashboard.js"]
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
       "matches": ["https://*.instructure.com/courses/*/grades","http://*.instructure.com/courses/*/grades","https://*.instructure.com/", "http://*.instructure.com/"],
-      "js": ["content.js"],
+      "js": ["content.js", "dashboard.js"],
       "run_at" : "document_idle"
     }
   ]
