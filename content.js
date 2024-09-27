@@ -89,11 +89,22 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
     const gradeSpans = document.querySelectorAll('span.grade');  // Selects all <span class="grade">
     
     gradeSpans.forEach(span => {
-      const gradeText = span.innerText.trim();
-      if (gradeText.includes('%')){
-        chrome.runtime.sendMessage({ type: "print", data: gradeText }, (response) => {});
-        chrome.runtime.sendMessage({ type: 'getGrade', data: gradeText }, (response) => {}); 
+       htmlContent = document.body.innerHTML;
+
+      // Regular expression to match "Total: <number>%"
+      const regex = /Total:\s*([\d.]+)%/;
+      
+      // Apply the regex to the HTML content
+       match = htmlContent.match(regex);
+      
+      if (match) {
+        // The number will be in the first capturing group
+        let totalNumber = match[1];
+        chrome.runtime.sendMessage({ type: 'print', data : "Extracted number: "+totalNumber }, (response) => {});
+      } else {
+        chrome.runtime.sendMessage({ type: 'print', data : "No number found" }, (response) => {});
       }
+      
     })
 
     
