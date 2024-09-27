@@ -52,12 +52,12 @@ gradedAssigments = document.querySelectorAll("tr.student_assignment.assignment_g
 //Pull <div.context> and <span.grades> for Assigment Type and Assigment points, respectively
 gradedAssigmentTypes = document.querySelectorAll("tr.student_assignment.assignment_graded.editable th.title div.context")
 
-gradedAssigmentGradesWrapper = document.querySelectorAll("tr.student_assignment.assignment_graded.editable td.assignment_score div.score_holder span.tooltip span.grade")
+gradedAssigmentGradeWrappers = document.querySelectorAll("tr.student_assignment.assignment_graded.editable td.assignment_score div.score_holder span.tooltip span.grade")
 
 //Append to List
 var earnedPoints
 var totalPoints
-gradedAssigmentGradesWrapper.forEach(gradeWrapper => {
+gradedAssigmentGradeWrappers.forEach(gradeWrapper => {
     //Get Earned Score
     grade = gradeWrapper.textContent.replace(/Click to test a different score/g, '').trim()
     chrome.runtime.sendMessage({ type: 'print', data : grade }, (response) => {});
