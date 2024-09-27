@@ -8,11 +8,11 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
 
 var weightedGradingEnabled = false
 const gradeHeaders = document.querySelectorAll('h2')
-gradeDivs.forEach(header => {
-  if(header.textContent.trim() === "Assignments are weighted by group:"){
-    weightedGradingEnabled = true
-  }
-})
+// gradeDivs.forEach(header => {
+//   if(header.textContent.trim() === "Assignments are weighted by group:"){
+//     weightedGradingEnabled = true
+//   }
+// })
   var autoGradingEnabled = true
 
   const gradeDivs = document.querySelectorAll('#student-grades-final');
@@ -94,10 +94,9 @@ gradeDivs.forEach(header => {
     }
 
   }else{
-    chrome.runtime.sendMessage({ type: 'print', data : "Auto Calculate is detected" }, (response) => {});
-    const gradeWrappers = document.querySelectorAll("#student-grades-right-content > div.student_assignment.final_grade > span.grade")
+    const gradeWrappers = document.querySelectorAll("#submission_final-grade > td.assignment_score > div > span.tooltip > span")
     gradeWrappers.forEach(function(gradeWrapper){
-      text = gradeWrapper.innerText
+      text = gradeWrapper.innerHTML
       chrome.runtime.sendMessage({ type: 'print', data : text }, (response) => {});
        
     })
