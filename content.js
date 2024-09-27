@@ -18,18 +18,27 @@ gradeHeaders.forEach(header => {
 
 if(weightedGradingEnabled){
   keys = document.querySelectorAll("table.summary th")
-  filteredKeys = keys.filter(item => item !== "Group")
-  filteredKeys = keys.filter(item => item !== "Weight")
-  filteredKeys = keys.filter(item => item !== "Total")
-  filteredItems.forEach(key =>{
-    chrome.runtime.sendMessage({ type: 'print', data : key.textContent }, (response) => {}); 
+  var filteredKeys = []
+  keys.forEach(key =>{
+    if(key.innerHTML !== "Group" || key.innerHTML !== "Weight", key.innerHTML !== "Total"){
+      filteredKeys.push(key.innerHTML)
+    }
   })
 
+  var filteredItems = []
   items = document.querySelectorAll('table.summary td')
-  filteredItems = items.filter(item => item !== "100%")
-  filteredItems.forEach(item => {
-    chrome.runtime.sendMessage({ type: 'print', data : item.textContent }, (response) => {}); 
+  items.forEach(item => {
+      if(item.innerHTML !== "100%"){
+        filteredItems.push(item.innerHTML)
+      }
   })
+  for(const key in filteredKeys){
+    chrome.runtime.sendMessage({ type: 'print', data : key }, (response) => {});
+  }
+
+  for(const item in filteredItems){
+    chrome.runtime.sendMessage({ type: 'print', data : item }, (response) => {});
+  }
 }
   var autoGradingEnabled = true
 
