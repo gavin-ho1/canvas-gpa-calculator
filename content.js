@@ -1,8 +1,8 @@
-chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
+
 var url 
 chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   url = response;
-
+  chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
 });
   var autoGradingEnabled = true
 

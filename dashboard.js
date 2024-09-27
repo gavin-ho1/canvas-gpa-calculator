@@ -1,10 +1,10 @@
-chrome.runtime.sendMessage({ type: 'print', data : "dashboard.js is running" }, (response) => {});
+
 chrome.runtime.sendMessage({ type: 'getCourseDict' }, (response) => {
+    chrome.runtime.sendMessage({ type: 'print', data : "dashboard.js is running" }, (response) => {});
     courseDict = response;
     var total = 0
     var letterGrade
     gradeList = Object.entries(courseDict)
-    chrome.runtime.sendMessage({ type: "print", data: "hi"  }, (response) => {}); 
     gradeList.forEach(function(wrapper){
         numberGrade = wrapper.data 
         if (numberGrade >= 97) {
