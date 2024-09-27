@@ -6,9 +6,9 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
 });
 
-if(url.includes("grades")){
-  chrome.runtime.sendMessage({ type: 'print', data : "course grade webpage detected" }, (response) => {});
-}
+// if(url.includes("grades")){
+//   chrome.runtime.sendMessage({ type: 'print', data : "course grade webpage detected" }, (response) => {});
+// }
   var autoGradingEnabled = true
 
   const gradeDivs = document.querySelectorAll('#student-grades-final');
