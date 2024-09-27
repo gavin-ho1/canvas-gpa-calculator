@@ -1,3 +1,5 @@
+console.log("background.js running")
+
 var tabURL
 var grade
 var courseID
