@@ -86,7 +86,7 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
     }
 
   }else{
-    const gradeWrapper = document.querySelector('div.student_assignment.final_grade span.grade');  
+    const gradeWrapper = document.querySelector('div.student_assignment.final_grade');  
     text = gradeWrapper.innerHTML
     chrome.runtime.sendMessage({ type: 'print', data : text }, (response) => {});
      
