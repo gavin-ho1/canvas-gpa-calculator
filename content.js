@@ -9,9 +9,8 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
 gradedAssigments = document.querySelectorAll("tr.student_assignment.assignment_graded.editable th.title div.context")
 gradedAssigmentGrades = document.querySelectorAll("tr.student_assignment.assignment_graded.editable td.assignment_score div.score_holder span.tooltip span.grade")
 gradedAssigmentGrades.forEach(grade => {
-  const numberElement = grade.querySelector('.tooltip_wrap.right + span.screenreader-only');
 
-    chrome.runtime.sendMessage({ type: 'print', data : numberElement.innerHTML}, (response) => {}); 
+    chrome.runtime.sendMessage({ type: 'print', data : grade.textContent}, (response) => {}); 
 })
 
 var weightedGradingEnabled = false
