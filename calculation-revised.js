@@ -64,9 +64,9 @@ gradedAssigmentGradesWrapper.forEach(gradeWrapper => {
     earnedPoints.push(grade)
 
     //Get Total Score
-    total = gradeWrapper.nextElementSibling.textContent
-    chrome.runtime.sendMessage({ type: 'print', data : total }, (response) => {});
-    totalPoints.push(total)
+    // total = gradeWrapper.nextElementSibling.textContent
+    // chrome.runtime.sendMessage({ type: 'print', data : total }, (response) => {});
+    // totalPoints.push(total)
 
 })
 
