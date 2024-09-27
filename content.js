@@ -20,7 +20,7 @@ if(weightedGradingEnabled){
   keys = document.querySelectorAll("table.summary th")
   var filteredKeys = []
   keys.forEach(key =>{
-    if(key.innerHTML !== "Group" || key.innerHTML !== "Weight", key.innerHTML !== "Total"){
+    if(key.innerHTML !== "Group" || key.innerHTML !== "Weight"|| key.innerHTML !== "Total"){
       filteredKeys.push(key.innerHTML)
     }
   })
