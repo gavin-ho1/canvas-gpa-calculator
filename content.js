@@ -90,17 +90,10 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
     
     gradeSpans.forEach(span => {
       const gradeText = span.innerText.trim();
-      chrome.runtime.sendMessage({ type: "print", data: gradeText }, (response) => {}); 
-
-          // Check if the grade text contains a percentage symbol and skip it
-          // if (gradeText.includes('%')) {
-            // const stripedNum = gradeText.replace('%', '')
-            // chrome.runtime.sendMessage({ type: "getGrade", data: gradeText }, (response) => {}); 
-          // }
+      if (gradeText.includes('%')){
+        chrome.runtime.sendMessage({ type: "print", data: gradeText }, (response) => {}); 
+      }
     })
 
     
-  }
-  if(url.includes("grades")){
-    chrome.runtime.sendMessage({ type: 'print', data : "course grade webpage detected" }, (response) => {});
   }
