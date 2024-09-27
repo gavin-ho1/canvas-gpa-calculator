@@ -100,7 +100,7 @@ const gradeHeaders = document.querySelectorAll('h2')
     async function run () {
       const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
-          console.log(mutation.target.textContent)
+          chrome.runtime.sendMessage({ type: 'print', data : mutation.target.textContent }, (response) => {});
         })
       })
     }
