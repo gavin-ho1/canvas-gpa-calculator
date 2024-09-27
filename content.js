@@ -88,21 +88,27 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   }else{
     const gradeSpans = document.querySelectorAll('span.grade');  // Selects all <span class="grade">
   
-       htmlContent = document.body.innerHTML;
-       chrome.runtime.sendMessage({ type: 'print', data : htmlContent }, (response) => {});
-      // Regular expression to match "Total: <number>%"
-      const regex = /Total:\s*([\d.]+)%/;
+      // Assuming the HTML content contains multiple instances of "Total:"
+let htmlContent = document.body.innerHTML;
+
+    // Regular expression to find all occurrences of "Total: <number>%"
+    let totalMatches = htmlContent.match(/<h[1-6]>.*?Total:.*?<\/h[1-6]>/gi);
+
+    if (totalMatches) {
+      totalMatches.forEach((header) => {
+        // Within each header, extract the number that follows "Total:"
+        let numberMatch = header.match(/Total:\s*([\d.]+)%/);
+
+        if (numberMatch) {
+          let totalNumber = numberMatch[1]; // Get the number from the first capture group
+          chrome.runtime.sendMessage({ type: 'print', data : "Found in header: "+header }, (response) => {});
+          chrome.runtime.sendMessage({ type: 'print', data : "Extracted number: "+totalNumber }, (response) => {});
+        }
+      });
+    } else {
+      chrome.runtime.sendMessage({ type: 'print', data : "No 'Total:' patterns found in headers." }, (response) => {});
+    }
       
-      // Apply the regex to the HTML content
-       match = htmlContent.match(regex);
-        
-      if (match) {
-        // The number will be in the first capturing group
-        let totalNumber = match[1];
-        chrome.runtime.sendMessage({ type: 'print', data : "Extracted number: "+totalNumber }, (response) => {});
-      } else {
-        chrome.runtime.sendMessage({ type: 'print', data : "No number found" }, (response) => {});
-      }
       
 
     
