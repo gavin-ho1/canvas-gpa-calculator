@@ -3,10 +3,12 @@ var url
 
 chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   url = response;
+  chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
 });
 
 if(url.includes("grades")){
-  chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
+  chrome.runtime.sendMessage({ type: 'print', data : "course grade webpage detected" }, (response) => {});
+}
   var autoGradingEnabled = true
 
   const gradeDivs = document.querySelectorAll('#student-grades-final');
@@ -103,4 +105,3 @@ if(url.includes("grades")){
 
     
   }
-}
