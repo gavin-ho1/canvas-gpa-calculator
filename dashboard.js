@@ -2,9 +2,9 @@ chrome.runtime.sendMessage({ type: 'getCourseDict' }, (response) => {
     courseDict = response;
     var total = 0
     var letterGrade
-    keyList = courseDict.keys()
-   chrome.runtime.sendMessage({ type: "print", data: keyList  }, (response) => {}); 
-    keyList.forEach(function(numberGrade){
+    gradeList = Object.entries(courseDict)
+   chrome.runtime.sendMessage({ type: "print", data: gradeList  }, (response) => {}); 
+    gradeList.forEach(function(numberGrade){
         if (numberGrade >= 97) {
             letterGrade = 'A+';
             total += 12
@@ -46,6 +46,6 @@ chrome.runtime.sendMessage({ type: 'getCourseDict' }, (response) => {
           }
           
     })
-    output = total/keyList.length
+    output = total/gradeList.length
     chrome.runtime.sendMessage({ type: "print", data: output  }, (response) => {});
   }); 
