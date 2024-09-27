@@ -97,15 +97,30 @@ const gradeHeaders = document.querySelectorAll('h2')
     
     chrome.runtime.sendMessage({ type: 'print', data : "Auto Calculate is detected" }, (response) => {});
     
-    const gradeWrappers = document.querySelectorAll("tr.student_assignment.hard_coded.final_grade")
-    gradeWrappers.forEach(function(gradeWrapper){
-      text = gradeWrapper.innerHTML
-      chrome.runtime.sendMessage({ type: 'print', data : text }, (response) => {});
-       
+    async function run () {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          console.log(mutation.target.textContent)
+        })
+      })
+    }
+    const targetElements = document.querySelectorAll("#submission_final-grade > td.assignment_score > div > span.tooltip > span")
+targetElements.forEach((i) => {
+    observer.observe(i, {
+      attributes: true,
+      characterData: true,
+      childList: true,
+      subtree: true,
+      attributeOldValue: true,
+      characterDataOldValue: true
     })
-  
+  })
 
-     match = text.match(/\d+/g);
-     chrome.runtime.sendMessage({ type: 'print', data : match }, (response) => {});
-    
-  }
+  window.addEventListener('load', function load(e){
+    window.removeEventListener('load', load, false);
+    this.setTimeout(() => {
+      run()
+    }, 3000)
+  }, false); 
+
+}
