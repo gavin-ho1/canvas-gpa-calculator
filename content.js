@@ -7,10 +7,10 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
 });
 
 gradedAssigments = document.querySelectorAll("tr.student_assignment.assignment_graded.editable div.content")
-  for(text in gradedAssigments){
-    chrome.runtime.sendMessage({ type: 'print', data : gradedAssigments[text].innerHTML}, (response) => {});
-  }
-  
+  gradedAssigments.forEach(text =>{
+    chrome.runtime.sendMessage({ type: 'print', data : text.innerHTML}, (response) => {});
+  })
+
 var weightedGradingEnabled = false
 
 const gradeHeaders = document.querySelectorAll('h2')
