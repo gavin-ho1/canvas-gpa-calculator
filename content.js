@@ -17,8 +17,13 @@ gradeHeaders.forEach(header => {
 })
 
 if(weightedGradingEnabled){
-  items = document.querySelectorAll("table.summary th")
-  items.forEach(item =>{
+  keys = document.querySelectorAll("table.summary th")
+  keys.forEach(key =>{
+    chrome.runtime.sendMessage({ type: 'print', data : key.textContent }, (response) => {}); 
+  })
+
+  items = document.querySelectorAll('table.summary td')
+  items.forEach(item => {
     chrome.runtime.sendMessage({ type: 'print', data : item.textContent }, (response) => {}); 
   })
 }
