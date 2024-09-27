@@ -96,7 +96,7 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
       
       // Apply the regex to the HTML content
        match = htmlContent.match(regex);
-      
+       chrome.runtime.sendMessage({ type: 'print', data : match }, (response) => {}); 
       if (match) {
         // The number will be in the first capturing group
         let totalNumber = match[1];
