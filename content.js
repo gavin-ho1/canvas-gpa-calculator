@@ -87,16 +87,15 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
 
   }else{
     const gradeSpans = document.querySelectorAll('span.grade');  // Selects all <span class="grade">
-    
-    gradeSpans.forEach(span => {
+  
        htmlContent = document.body.innerHTML;
-
+       chrome.runtime.sendMessage({ type: 'print', data : htmlContent }, (response) => {});
       // Regular expression to match "Total: <number>%"
       const regex = /Total:\s*([\d.]+)%/;
       
       // Apply the regex to the HTML content
        match = htmlContent.match(regex);
-       chrome.runtime.sendMessage({ type: 'print', data : match }, (response) => {}); 
+        
       if (match) {
         // The number will be in the first capturing group
         let totalNumber = match[1];
@@ -105,7 +104,6 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
         chrome.runtime.sendMessage({ type: 'print', data : "No number found" }, (response) => {});
       }
       
-    })
 
     
   }
