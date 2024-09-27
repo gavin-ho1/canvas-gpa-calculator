@@ -12,10 +12,11 @@ chrome.runtime.onInstalled.addListener(() => {
       chrome.tabs.executeScript(tabs[0].id, { file: "content.js" });
       
     }else {
-     console.log("running dashboard.js") 
+      console.log("running dashboard.js") 
       chrome.tabs.executeScript(tabs[0].id, { file: "dashboard.js" });
       
     }
+    console.log(url)
   });
 });
 
