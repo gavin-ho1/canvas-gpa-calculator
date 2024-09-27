@@ -6,7 +6,7 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   
 });
 
-gradedAssigments = document.querySelectorAll("tr.student_assignment.assignment_graded.editable th.title div.content")
+gradedAssigments = document.querySelectorAll("tr.student_assignment.assignment_graded.editable th.title div.context")
   gradedAssigments.forEach(text =>{
     chrome.runtime.sendMessage({ type: 'print', data : text.innerHTML}, (response) => {});
   })
