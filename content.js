@@ -96,7 +96,7 @@ const gradeHeaders = document.querySelectorAll('h2')
   }else{
     const gradeWrappers = document.querySelectorAll("#submission_final-grade > td.assignment_score > div > span.tooltip > span")
     gradeWrappers.forEach(function(gradeWrapper){
-      text = gradeWrapper.innerHTML.replace("%","")
+      text = gradeWrapper.textContent
       chrome.runtime.sendMessage({ type: 'print', data : text }, (response) => {});
        
     })
