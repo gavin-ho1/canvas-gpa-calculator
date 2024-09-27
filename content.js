@@ -94,7 +94,10 @@ const gradeHeaders = document.querySelectorAll('h2')
     }
 
   }else{
-    const gradeWrappers = document.querySelectorAll("#submission_final-grade > td.assignment_score > div > span.tooltip > span")
+    
+    chrome.runtime.sendMessage({ type: 'print', data : "Auto Calculate is detected" }, (response) => {});
+
+    const gradeWrappers = document.querySelectorAll("#student-grades-right-content > div.student_assignment.final_grade > span.grade")
     gradeWrappers.forEach(function(gradeWrapper){
       text = gradeWrapper.innerHTML
       chrome.runtime.sendMessage({ type: 'print', data : text }, (response) => {});
