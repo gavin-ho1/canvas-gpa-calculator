@@ -56,27 +56,27 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       sendResponse({ tabURL });
     });
     
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  //   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
-      //Get grade of current page
-      // if (request.type === 'getGrade') {
-      //     grade = request.data
-      //     console.log(grade)
-      //     chrome.storage.sync.get('courseDict', (result) => {
-      //       const courseDict = result.courseDict || {}; // Initialize if not present
-      //       courseDict[courseID] = {
-      //         data: grade
-      //       };
-      //       console.log(courseID, grade)
-      //       // For debugging
-      //       chrome.storage.sync.set({ courseDict }, () => {
-      //         console.log(courseDict)
-      //         // For Debuging
-      //       });
+  //     //Get grade of current page
+  //     if (request.type === 'getGrade') {
+  //         grade = request.data
+  //         console.log(grade)
+  //         chrome.storage.sync.get('courseDict', (result) => {
+  //           const courseDict = result.courseDict || {}; // Initialize if not present
+  //           courseDict[courseID] = {
+  //             data: grade
+  //           };
+  //           console.log(courseID, grade)
+  //           // For debugging
+  //           chrome.storage.sync.set({ courseDict }, () => {
+  //             console.log(courseDict)
+  //             // For Debuging
+  //           });
             
-      //     });
-      // }
-  });
+  //         });
+  //     }
+  // });
 
   }
 });
