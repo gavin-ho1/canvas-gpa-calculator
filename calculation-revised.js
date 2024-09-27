@@ -60,10 +60,12 @@ var totalPoints
 gradedAssigmentGradesWrapper.forEach(gradeWrapper => {
     //Get Earned Score
     grade = gradeWrapper.textContent.replace(/Click to test a different score/g, '').trim()
+    chrome.runtime.sendMessage({ type: 'print', data : grade }, (response) => {});
     earnedPoints.push(grade)
 
     //Get Total Score
     total = gradeWrapper.nextElementSibling.textContent
+    chrome.runtime.sendMessage({ type: 'print', data : total }, (response) => {});
     totalPoints.push(total)
 
 })
