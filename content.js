@@ -96,10 +96,10 @@ const gradeHeaders = document.querySelectorAll('h2')
   }else{
     
     chrome.runtime.sendMessage({ type: 'print', data : "Auto Calculate is detected" }, (response) => {});
-
-    const gradeWrappers = document.querySelectorAll("#student-grades-right-content > div.student_assignment.final_grade > span.grade")
+    
+    const gradeWrappers = document.querySelectorAll("#submission_final-grade > td.assignment_score > div > span.tooltip > span")
     gradeWrappers.forEach(function(gradeWrapper){
-      text = gradeWrapper.innerHTML
+      text = gradeWrapper.textContent
       chrome.runtime.sendMessage({ type: 'print', data : text }, (response) => {});
        
     })
