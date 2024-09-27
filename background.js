@@ -5,6 +5,41 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   url = response;
   
 });
+
+var weightedGradingEnabled = false
+
+const gradeHeaders = document.querySelectorAll('h2')
+gradeHeaders.forEach(header => {
+  if(header.textContent.trim() === "Assignments are weighted by group:"){
+    weightedGradingEnabled = true
+    chrome.runtime.sendMessage({ type: 'print', data : "Grade Weighting Detected" }, (response) => {});
+  }
+})
+
+if(weightedGradingEnabled){
+  keys = document.querySelectorAll("table.summary th")
+  var filteredKeys = []
+  keys.forEach(key =>{
+    if(key.innerHTML !== "Group" && key.innerHTML !== "Weight"&& key.innerHTML !== "Total"){
+      filteredKeys.push(key.innerHTML)
+    }
+  })
+
+  var filteredItems = []
+  items = document.querySelectorAll('table.summary td')
+  items.forEach(item => {
+      if(item.innerHTML !== "100%"){
+        filteredItems.push(item.innerHTML)
+      }
+  })
+  for(const key in filteredKeys){
+    chrome.runtime.sendMessage({ type: 'print', data : filteredKeys[key] }, (response) => {});
+  }
+
+  for(const item in filteredItems){
+    chrome.runtime.sendMessage({ type: 'print', data : filteredItems[item] }, (response) => {});
+  }
+}
   var autoGradingEnabled = true
 
   const gradeDivs = document.querySelectorAll('#student-grades-final');
@@ -86,15 +121,5 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
     }
 
   }else{
-    const gradeWrappers = document.querySelectorAll("#submission_final-grade > td.assignment_score > div > span.tooltip > span")
-    gradeWrappers.forEach(function(gradeWrapper){
-      text = gradeWrapper.innerHTML
-      chrome.runtime.sendMessage({ type: 'print', data : text }, (response) => {});
-       
-    })
-  
-
-     match = text.match(/\d+/g);
-     chrome.runtime.sendMessage({ type: 'print', data : match }, (response) => {});
-    
-  }
+    //Need to find a workaround, or just calculate with weighted grade (gives same result)
+}
