@@ -124,7 +124,28 @@ const callback = function(mutationsList, observer) {
 };
 
 // Create a new MutationObserver instance and pass it the callback function
-const observer = new MutationObserver(callback);
+const observer = new MutationObserver(
+  function(mutationsList, observer) {
+    // Iterate through the mutations that occurred
+    for (let mutation of mutationsList) {
+      // Check if new child nodes were added or content was changed
+      if (mutation.type === 'childList' || mutation.type === 'characterData') {
+        console.log('Change detected in child elements or text content.');
+  
+        // Check if the grade <span> has been populated
+        const gradeSpan = gradeWrapper.querySelector('span.grade');
+        if (gradeSpan) {
+          let gradeText = gradeSpan.innerText || gradeSpan.textContent;
+          if (gradeText.trim()) {
+            console.log('Extracted Grade:', gradeText);
+            // Process or send the data as needed
+          } else {
+            console.log('Grade is still empty.');
+          }
+        }
+      }
+    }
+  })
 
 // Configure what changes to observe: childList (for child node changes), subtree (all descendants)
 const config = { childList: true, subtree: true, characterData: true };
