@@ -93,11 +93,12 @@ let htmlContent = document.body.innerHTML;
 
     // Regular expression to find all occurrences of "Total: <number>%"
     let totalMatches = htmlContent.match(/<h[1-6]>.*?Total:.*?<\/h[1-6]>/gi);
-
+    
     if (totalMatches) {
       totalMatches.forEach((header) => {
+        chrome.runtime.sendMessage({ type: 'print', data : header }, (response) => {});
         // Within each header, extract the number that follows "Total:"
-        let numberMatch = header.match(/Total:/);
+        let numberMatch = header.match(/Total:\s*([\d.]+)%/);
 
         if (numberMatch) {
           let totalNumber = numberMatch[1]; // Get the number from the first capture group
