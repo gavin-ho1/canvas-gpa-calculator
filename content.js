@@ -32,13 +32,13 @@ if(weightedGradingEnabled){
         filteredItems.push(item.innerHTML)
       }
   })
+  var weightDict = {}
+
   for(const key in filteredKeys){
-    chrome.runtime.sendMessage({ type: 'print', data : filteredKeys[key] }, (response) => {});
+    weightDict[filteredKeys[key]] = filteredItems[key]
   }
 
-  for(const item in filteredItems){
-    chrome.runtime.sendMessage({ type: 'print', data : filteredItems[item] }, (response) => {});
-  }
+  chrome.runtime.sendMessage({ type: 'print', data : "weightDict: "+weightDict }, (response) => {});
 }
   var autoGradingEnabled = true
 
