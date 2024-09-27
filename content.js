@@ -12,9 +12,16 @@ const gradeHeaders = document.querySelectorAll('h2')
 gradeHeaders.forEach(header => {
   if(header.textContent.trim() === "Assignments are weighted by group:"){
     weightedGradingEnabled = true
-    chrome.runtime.sendMessage({ type: 'print', data : weightedGradingEnabled }, (response) => {});
+    chrome.runtime.sendMessage({ type: 'print', data : "Grade Weighting Detected" }, (response) => {});
   }
 })
+
+if(weightedGradingEnabled){
+  items = document.querySelectorAll("table.summary th")
+  items.forEach(item =>{
+    chrome.runtime.sendMessage({ type: 'print', data : item }, (response) => {}); 
+  })
+}
   var autoGradingEnabled = true
 
   const gradeDivs = document.querySelectorAll('#student-grades-final');
