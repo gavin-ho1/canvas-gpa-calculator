@@ -97,7 +97,7 @@ let htmlContent = document.body.innerHTML;
     if (totalMatches) {
       totalMatches.forEach((header) => {
         // Within each header, extract the number that follows "Total:"
-        let numberMatch = header.match(/Total:\s*([\d.]+)%/);
+        let numberMatch = header.match(/Total:/);
 
         if (numberMatch) {
           let totalNumber = numberMatch[1]; // Get the number from the first capture group
