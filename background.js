@@ -4,6 +4,7 @@ var tabURL
 var grade
 var courseID
 
+//Listen for getGrade
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   //Get grade of current page
@@ -27,6 +28,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
+//Listen for getURL
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'getURL') {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -37,12 +39,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       
       console.log("Tab URL:", tabURL)
       console.log("Pulled course ID:", courseID)
-
-      sendResponse({ tabURL });
     });
     
   }
 });
+
+//Listen for getCourseDict
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => { 
   if (request.type === 'getCourseDict') {
     chrome.storage.sync.get('courseDict', (result) => {
