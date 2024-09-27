@@ -10,7 +10,7 @@ var weightedGradingEnabled = false
 
 const gradeHeaders = document.querySelectorAll('h2')
 gradeHeaders.forEach(header => {
-  chrome.runtime.sendMessage({ type: 'print', data : header }, (response) => {});
+  chrome.runtime.sendMessage({ type: 'print', data : header.textContent }, (response) => {});
   if(header.textContent.trim() === "Assignments are weighted by group:"){
     weightedGradingEnabled = true
   }
