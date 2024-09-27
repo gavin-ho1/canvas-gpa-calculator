@@ -94,33 +94,5 @@ const gradeHeaders = document.querySelectorAll('h2')
     }
 
   }else{
-    
-    chrome.runtime.sendMessage({ type: 'print', data : "Auto Calculate is detected" }, (response) => {});
-    
-    async function run () {
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-          chrome.runtime.sendMessage({ type: 'print', data : mutation.target.textContent }, (response) => {});
-        })
-      })
-    }
-    const targetElements = document.querySelectorAll("#submission_final-grade > td.assignment_score > div > span.tooltip > span")
-targetElements.forEach((i) => {
-    observer.observe(i, {
-      attributes: true,
-      characterData: true,
-      childList: true,
-      subtree: true,
-      attributeOldValue: true,
-      characterDataOldValue: true
-    })
-  })
-
-  window.addEventListener('load', function load(e){
-    window.removeEventListener('load', load, false);
-    this.setTimeout(() => {
-      run()
-    }, 3000)
-  }, false); 
-
+    //Need to find a workaround, or just calculate with weighted grade (gives same result)
 }
