@@ -86,10 +86,13 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
     }
 
   }else{
-    const gradeWrapper = document.querySelector('#submission_final-grade td.assignment_score div span.tooltip span');  
-    text = gradeWrapper.innerHTML
-    chrome.runtime.sendMessage({ type: 'print', data : text }, (response) => {});
-     
+    const gradeWrappers = document.querySelectorAll('tr.student_assignment.hard_coded.final_grade td.assignment_score span.tooltip span.grade');  
+    gradeWrappers.forEach(function(gradeWrapper){
+      text = gradeWrapper.innerHTML
+      chrome.runtime.sendMessage({ type: 'print', data : text }, (response) => {});
+       
+    })
+  
 
      match = text.match(/\d+/g);
      chrome.runtime.sendMessage({ type: 'print', data : match }, (response) => {});
