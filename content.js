@@ -87,11 +87,11 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
 
   }else{
     const gradeWrapper = document.querySelector('div.student_assignment final_grade');  // Selects all <span class="grade">
-  
+    chrome.runtime.sendMessage({ type: 'print', data : gradeWrapper.innerHTML }, (response) => {});
       // Assuming the HTML content contains multiple instances of "Total:"
 
     // Regular expression to find all occurrences of "Total: <number>%"
-     match = gradeWrapper.match(/\d+/g);
+     match = gradeWrapper.innerHTML.match(/\d+/g);
      chrome.runtime.sendMessage({ type: 'print', data : match }, (response) => {});
     
   }
