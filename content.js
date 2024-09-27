@@ -94,7 +94,7 @@ const gradeHeaders = document.querySelectorAll('h2')
     }
 
   }else{
-    const gradeWrappers = document.querySelectorAll("tr.student_assignment.hard_coded.final_grade td.assignment_score div.score_holder")
+    const gradeWrappers = document.querySelectorAll("tr.student_assignment.hard_coded.final_grade td.assignment_score div.score_holder span.tooltip span.grade")
     gradeWrappers.forEach(function(gradeWrapper){
       text = gradeWrapper.textContent
       chrome.runtime.sendMessage({ type: 'print', data : text }, (response) => {});
