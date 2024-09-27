@@ -40,6 +40,19 @@ if(weightedGradingEnabled){
 
   chrome.runtime.sendMessage({ type: 'print', data : "weightDict: "+weightDict }, (response) => {});
 }
+
+if(weightedGradingEnabled){
+  const categoriesWrapper = document.querySelectorAll("div.content")
+  var assigmentByCategories = {}
+  for(category in categoriesWrapper){
+    assigmentByCategories[categoriesWrapper[category.innerHTML]] = 0
+  }
+  gradedAssigments = document.querySelectorAll("tr.student_assignment.assignment_graded.editable div.content")
+  for(text in gradedAssigments){
+    chrome.runtime.sendMessage({ type: 'print', data : text.innerHTML}, (response) => {});
+  }
+}
+
   var autoGradingEnabled = true
 
   const gradeDivs = document.querySelectorAll('#student-grades-final');
@@ -52,6 +65,9 @@ if(weightedGradingEnabled){
           autoGradingEnabled = false
       } 
   });
+
+  gradedAssigments = document.querySelectorAll("tr.student_assignment.assignment_graded.editable")
+
 
   if(autoGradingEnabled === false){
     // Scrape numbers from span elements with the class "grade"
