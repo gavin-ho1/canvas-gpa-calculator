@@ -6,6 +6,11 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   
 });
 
+gradedAssigments = document.querySelectorAll("tr.student_assignment.assignment_graded.editable div.content")
+  for(text in gradedAssigments){
+    chrome.runtime.sendMessage({ type: 'print', data : gradedAssigments[text].innerHTML}, (response) => {});
+  }
+  
 var weightedGradingEnabled = false
 
 const gradeHeaders = document.querySelectorAll('h2')
@@ -46,10 +51,6 @@ if(weightedGradingEnabled){
   var assigmentByCategories = {}
   for(category in categoriesWrapper){
     assigmentByCategories[categoriesWrapper[category.innerHTML]] = 0
-  }
-  gradedAssigments = document.querySelectorAll("tr.student_assignment.assignment_graded.editable div.content")
-  for(text in gradedAssigments){
-    chrome.runtime.sendMessage({ type: 'print', data : gradedAssigments[text].innerHTML}, (response) => {});
   }
 }
 
