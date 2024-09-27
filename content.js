@@ -7,8 +7,9 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
 });
 
 var weightedGradingEnabled = false
+
 const gradeHeaders = document.querySelectorAll('h2')
-gradeDivs.forEach(header => {
+gradeHeaders.forEach(header => {
   chrome.runtime.sendMessage({ type: 'print', data : header }, (response) => {});
   if(header.textContent.trim() === "Assignments are weighted by group:"){
     weightedGradingEnabled = true
