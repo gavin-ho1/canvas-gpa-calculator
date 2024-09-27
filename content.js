@@ -86,15 +86,6 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
     }
 
   }else{
-    const gradeWrappers = document.querySelectorAll("#submission_final-grade > td.assignment_score > div > span.tooltip > span")
-    gradeWrappers.forEach(function(gradeWrapper){
-      text = gradeWrapper.innerHTML
-      chrome.runtime.sendMessage({ type: 'print', data : text }, (response) => {});
-       
-    })
-  
-
-     match = text.match(/\d+/g);
-     chrome.runtime.sendMessage({ type: 'print', data : match }, (response) => {});
+    // Need to figure out 
     
   }
