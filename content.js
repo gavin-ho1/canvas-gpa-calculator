@@ -1,20 +1,9 @@
+//Debug Print
 chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
-var url 
-
-chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
-  url = response;
-  
-});
-
-gradedAssigments = document.querySelectorAll("tr.student_assignment.assignment_graded.editable th.title div.context")
-gradedAssigmentGrades = document.querySelectorAll("tr.student_assignment.assignment_graded.editable td.assignment_score div.score_holder span.tooltip span.grade")
-gradedAssigmentGrades.forEach(gradeWrapper => {
-    grade = gradeWrapper.textContent.replace(/Click to test a different score/g, '').trim()
-    chrome.runtime.sendMessage({ type: 'print', data : grade}, (response) => {}); 
-})
 
 var weightedGradingEnabled = false
 
+//Check for Weighted Grade
 const gradeHeaders = document.querySelectorAll('h2')
 gradeHeaders.forEach(header => {
   if(header.textContent.trim() === "Assignments are weighted by group:"){
@@ -23,54 +12,67 @@ gradeHeaders.forEach(header => {
   }
 })
 
-if(weightedGradingEnabled){
-  keys = document.querySelectorAll("table.summary th")
-  var filteredKeys = []
-  keys.forEach(key =>{
-    if(key.innerHTML !== "Group" && key.innerHTML !== "Weight"&& key.innerHTML !== "Total"){
-      filteredKeys.push(key.innerHTML)
-    }
-  })
+//Create weighted assigments dict for calculation refernce
+var filteredKeys = []
+var filteredItems = []
 
-  var filteredItems = []
-  items = document.querySelectorAll('table.summary td')
-  items.forEach(item => {
-      if(item.innerHTML !== "100%"){
-        filteredItems.push(item.innerHTML)
+if(weightedGradingEnabled){
+    keys = document.querySelectorAll("table.summary th")
+    
+    keys.forEach(key =>{
+      if(key.innerHTML !== "Group" && key.innerHTML !== "Weight"&& key.innerHTML !== "Total"){
+        filteredKeys.push(key.innerHTML)
       }
-  })
-  var weightDict = {}
-
-  for(const key in filteredKeys){
-    weightDict[filteredKeys[key]] = filteredItems[key]
-  }
-
-  chrome.runtime.sendMessage({ type: 'print', data : "weightDict: "+weightDict }, (response) => {});
+    })
+  
+    items = document.querySelectorAll('table.summary td')
+    items.forEach(item => {
+        if(item.innerHTML !== "100%"){
+          filteredItems.push(item.innerHTML)
+        }
+    })
 }
 
-if(weightedGradingEnabled){
-  const categoriesWrapper = document.querySelectorAll("div.content")
-  var assigmentByCategories = {}
-  for(category in categoriesWrapper){
-    assigmentByCategories[categoriesWrapper[category.innerHTML]] = 0
-  }
+//Will be final reference
+var weightDict = {}
+var pointDict = {}
+
+for(const key in filteredKeys){
+weightDict[filteredKeys[key]] = filteredItems[key]
+pointDict[filteredKeys[key]] = [0,0]
 }
 
-  var autoGradingEnabled = true
+//Debug
+chrome.runtime.sendMessage({ type: 'print', data : "weightDict: "+weightDict }, (response) => {});
 
-  const gradeDivs = document.querySelectorAll('#student-grades-final');
+//Scraping
+//Pull <tr> HTML element that has been graded
+gradedAssigments = document.querySelectorAll("tr.student_assignment.assignment_graded.editable div.content")
 
-  // Loop through each of the found divs
-  gradeDivs.forEach(div => {
-      // Check if the text content matches "Calculation of totals has been disabled"
-      if (div.textContent.trim() === "Calculation of totals has been disabled") {
-          div.remove()
-          autoGradingEnabled = false
-      } 
-  });
+//Pull <div.context> and <span.grades> for Assigment Type and Assigment points, respectively
+gradedAssigmentTypes = document.querySelectorAll("tr.student_assignment.assignment_graded.editable th.title div.context")
 
-  gradedAssigments = document.querySelectorAll("tr.student_assignment.assignment_graded.editable")
+gradedAssigmentGradeWrappers = document.querySelectorAll("tr.student_assignment.assignment_graded.editable td.assignment_score div.score_holder span.tooltip span.grade")
 
+//Append to List
+var earnedPoints
+var totalPoints
+gradedAssigmentGradeWrappers.forEach(gradeWrapper => {
+    //Get Earned Score
+    grade = gradeWrapper.textContent.replace(/Click to test a different score/g, '').trim()
+    chrome.runtime.sendMessage({ type: 'print', data : grade }, (response) => {});
+    earnedPoints.push(grade)
+
+    //Get Total Score
+    total = gradeWrapper.nextElementSibling.textContent.replace("/","").trim()
+    chrome.runtime.sendMessage({ type: 'print', data : total }, (response) => {});
+    totalPoints.push(total)
+
+})
+
+chrome.runtime.sendMessage({ type: 'print', data : earnedPoints }, (response) => {});
+
+chrome.runtime.sendMessage({ type: 'print', data : totalPoints }, (response) => {});
 
   if(autoGradingEnabled === false){
     // Scrape numbers from span elements with the class "grade"
