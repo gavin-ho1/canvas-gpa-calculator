@@ -33,11 +33,11 @@ if(weightedGradingEnabled){
       }
   })
   for(const key in filteredKeys){
-    chrome.runtime.sendMessage({ type: 'print', data : key }, (response) => {});
+    chrome.runtime.sendMessage({ type: 'print', data : filteredKeys[key] }, (response) => {});
   }
 
   for(const item in filteredItems){
-    chrome.runtime.sendMessage({ type: 'print', data : item }, (response) => {});
+    chrome.runtime.sendMessage({ type: 'print', data : filteredItems[item] }, (response) => {});
   }
 }
   var autoGradingEnabled = true
