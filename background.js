@@ -3,22 +3,22 @@ var grade
 var courseID
 
 //Run content.js on page load
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    url = tabs[0].url;
+// chrome.runtime.onInstalled.addListener(() => {
+//   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+//     url = tabs[0].url;
     
-    if(url.includes("grades")){
-      console.log("running content.js")
-      // chrome.tabs.executeScript(tabs[0].id, { file: "content.js" });
+//     if(url.includes("grades")){
+//       console.log("running content.js")
+//       chrome.tabs.executeScript(tabs[0].id, { file: "content.js" });
       
-    }else {
-      console.log("running dashboard.js") 
-      // chrome.tabs.executeScript(tabs[0].id, { file: "dashboard.js" });
+//     }else {
+//       console.log("running dashboard.js") 
+//       chrome.tabs.executeScript(tabs[0].id, { file: "dashboard.js" });
       
-    }
+//     }
     
-  });
-});
+//   });
+// });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
