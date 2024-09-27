@@ -1,5 +1,7 @@
 
 var url 
+
+if(url.includes("grades")){
 chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
   url = response;
   chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
@@ -100,3 +102,4 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
 
     
   }
+}
