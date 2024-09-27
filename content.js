@@ -91,7 +91,8 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
     gradeSpans.forEach(span => {
       const gradeText = span.innerText.trim();
       if (gradeText.includes('%')){
-        chrome.runtime.sendMessage({ type: "print", data: gradeText }, (response) => {}); 
+        chrome.runtime.sendMessage({ type: "print", data: gradeText }, (response) => {});
+        chrome.runtime.sendMessage({ type: 'getGrade', data: gradeText }, (response) => {}); 
       }
     })
 
