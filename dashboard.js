@@ -1,3 +1,4 @@
+chrome.runtime.sendMessage({ type: 'print', data : "dashboard.js is running" }, (response) => {});
 chrome.runtime.sendMessage({ type: 'getCourseDict' }, (response) => {
     courseDict = response;
     var total = 0
