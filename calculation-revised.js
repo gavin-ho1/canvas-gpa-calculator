@@ -1,3 +1,4 @@
+//Debug Print
 chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
 
 var weightedGradingEnabled = false
@@ -11,36 +12,62 @@ gradeHeaders.forEach(header => {
   }
 })
 
-//Create weighted assigments dict
+//Create weighted assigments dict for calculation refernce
+var filteredKeys = []
+var filteredItems = []
+
 if(weightedGradingEnabled){
     keys = document.querySelectorAll("table.summary th")
-    var filteredKeys = []
+    
     keys.forEach(key =>{
       if(key.innerHTML !== "Group" && key.innerHTML !== "Weight"&& key.innerHTML !== "Total"){
         filteredKeys.push(key.innerHTML)
       }
     })
   
-    var filteredItems = []
     items = document.querySelectorAll('table.summary td')
     items.forEach(item => {
         if(item.innerHTML !== "100%"){
           filteredItems.push(item.innerHTML)
         }
     })
-    var weightDict = {}
-  
-    for(const key in filteredKeys){
-      weightDict[filteredKeys[key]] = filteredItems[key]
-    }
-  
-    chrome.runtime.sendMessage({ type: 'print', data : "weightDict: "+weightDict }, (response) => {});
-  }
+}
 
+//Will be final reference
+var weightDict = {}
+var pointDict = {}
+
+for(const key in filteredKeys){
+weightDict[filteredKeys[key]] = filteredItems[key]
+pointDict[filteredKeys[key]] = [0,0]
+}
+
+//Debug
+chrome.runtime.sendMessage({ type: 'print', data : "weightDict: "+weightDict }, (response) => {});
+
+//Scraping
 //Pull <tr> HTML element that has been graded
 gradedAssigments = document.querySelectorAll("tr.student_assignment.assignment_graded.editable div.content")
+
+//Pull <div.context> and <span.grades> for Assigment Type and Assigment points, respectively
 gradedAssigmentTypes = document.querySelectorAll("tr.student_assignment.assignment_graded.editable th.title div.context")
-gradedAssigmentGrades = document.querySelectorAll("tr.student_assignment.assignment_graded.editable td.assignment_score div.score_holder span.tooltip span.grade")
-gradedAssigmentGrades.forEach(grade => {
-    chrome.runtime.sendMessage({ type: 'print', data : grade.innerHTML.match('/\d+/')}, (response) => {}); 
+
+gradedAssigmentGradesWrapper = document.querySelectorAll("tr.student_assignment.assignment_graded.editable td.assignment_score div.score_holder span.tooltip span.grade")
+
+//Append to List
+var earnedPoints
+var totalPoints
+gradedAssigmentGradesWrapper.forEach(gradeWrapper => {
+    //Get Earned Score
+    grade = gradeWrapper.textContent.replace(/Click to test a different score/g, '').trim()
+    earnedPoints.push(grade)
+
+    //Get Total Score
+    total = gradeWrapper.nextElementSibling.textContent
+    totalPoints.push(total)
+
 })
+
+chrome.runtime.sendMessage({ type: 'print', data : earnedPoints }, (response) => {});
+
+chrome.runtime.sendMessage({ type: 'print', data : totalPoints }, (response) => {});
