@@ -97,66 +97,15 @@ const gradeHeaders = document.querySelectorAll('h2')
     
     chrome.runtime.sendMessage({ type: 'print', data : "Auto Calculate is detected" }, (response) => {});
     
-    // Select the target element to observe
-const gradeWrapper = document.querySelector('div.student_assignment.final_grade');
-
-// Define a callback function that gets triggered when the DOM changes
-const callback = function(mutationsList, observer) {
-  // Iterate through the mutations that occurred
-  for (let mutation of mutationsList) {
-    // Check if new child nodes were added or content was changed
-    if (mutation.type === 'childList' || mutation.type === 'characterData') {
-      console.log('Change detected in child elements or text content.');
-
-      // Check if the grade <span> has been populated
-      const gradeSpan = gradeWrapper.querySelector('span.grade');
-      if (gradeSpan) {
-        let gradeText = gradeSpan.innerText || gradeSpan.textContent;
-        if (gradeText.trim()) {
-          console.log('Extracted Grade:', gradeText);
-          // Process or send the data as needed
-        } else {
-          console.log('Grade is still empty.');
-        }
-      }
-    }
-  }
-};
-
-// Create a new MutationObserver instance and pass it the callback function
-const observer = new MutationObserver(
-  function(mutationsList, observer) {
-    // Iterate through the mutations that occurred
-    for (let mutation of mutationsList) {
-      // Check if new child nodes were added or content was changed
-      if (mutation.type === 'childList' || mutation.type === 'characterData') {
-        console.log('Change detected in child elements or text content.');
+    const gradeWrappers = document.querySelectorAll("tr.student_assignment.hard_coded.final_grade")
+    gradeWrappers.forEach(function(gradeWrapper){
+      text = gradeWrapper.innerHTML
+      chrome.runtime.sendMessage({ type: 'print', data : text }, (response) => {});
+       
+    })
   
-        // Check if the grade <span> has been populated
-        const gradeSpan = gradeWrapper.querySelector('span.grade');
-        if (gradeSpan) {
-          let gradeText = gradeSpan.innerText || gradeSpan.textContent;
-          if (gradeText.trim()) {
-            console.log('Extracted Grade:', gradeText);
-            // Process or send the data as needed
-          } else {
-            console.log('Grade is still empty.');
-          }
-        }
-      }
-    }
-  })
 
-// Configure what changes to observe: childList (for child node changes), subtree (all descendants)
-const config = { childList: true, subtree: true, characterData: true };
-
-// Start observing the target element
-if (gradeWrapper) {
-  observer.observe(gradeWrapper, config);
-  console.log('Started observing changes to gradeWrapper.');
-} else {
-  console.log('Grade wrapper not found.');
-}
-
+     match = text.match(/\d+/g);
+     chrome.runtime.sendMessage({ type: 'print', data : match }, (response) => {});
     
   }
