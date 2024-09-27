@@ -19,7 +19,7 @@ gradeHeaders.forEach(header => {
 if(weightedGradingEnabled){
   items = document.querySelectorAll("table.summary th")
   items.forEach(item =>{
-    chrome.runtime.sendMessage({ type: 'print', data : item }, (response) => {}); 
+    chrome.runtime.sendMessage({ type: 'print', data : item.textContent }, (response) => {}); 
   })
 }
   var autoGradingEnabled = true
