@@ -84,7 +84,7 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
     }
 
   }else{
-    const gradeSpans = document.querySelectorAll('td.assignment_score');  // Selects all <span class="grade">
+    const gradeSpans = document.querySelectorAll('span.grade');  // Selects all <span class="grade">
     
     gradeSpans.forEach(span => {
       const gradeText = span.innerText.trim();
