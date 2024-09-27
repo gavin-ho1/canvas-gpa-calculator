@@ -18,11 +18,15 @@ gradeHeaders.forEach(header => {
 
 if(weightedGradingEnabled){
   keys = document.querySelectorAll("table.summary th")
+  keys.remove("Group")
+  keys.remove("Weight")
+  keys.remove("Total")
   keys.forEach(key =>{
     chrome.runtime.sendMessage({ type: 'print', data : key.textContent }, (response) => {}); 
   })
 
   items = document.querySelectorAll('table.summary td')
+  items.remove("100%")
   items.forEach(item => {
     chrome.runtime.sendMessage({ type: 'print', data : item.textContent }, (response) => {}); 
   })
