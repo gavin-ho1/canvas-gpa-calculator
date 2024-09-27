@@ -3,7 +3,7 @@ chrome.runtime.sendMessage({ type: 'getCourseDict' }, (response) => {
     var total = 0
     var letterGrade
     gradeList = Object.entries(courseDict)
-   chrome.runtime.sendMessage({ type: "print", data: gradeList  }, (response) => {}); 
+//    chrome.runtime.sendMessage({ type: "print", data: gradeList  }, (response) => {}); 
     gradeList.forEach(function(numberGrade){
         if (numberGrade >= 97) {
             letterGrade = 'A+';
