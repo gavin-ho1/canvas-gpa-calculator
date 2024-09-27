@@ -9,8 +9,10 @@ chrome.runtime.onInstalled.addListener(() => {
     
     if(url.includes("grades")){
       chrome.tabs.executeScript(tabs[0].id, { file: "content.js" });
+      console.log("running content.js")
     }else {
       chrome.tabs.executeScript(tabs[0].id, { file: "dashboard.js" });
+      console.log("running dashboard.js")
     }
   });
 });
