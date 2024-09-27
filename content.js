@@ -8,11 +8,11 @@ chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
 
 var weightedGradingEnabled = false
 const gradeHeaders = document.querySelectorAll('h2')
-// gradeDivs.forEach(header => {
-//   if(header.textContent.trim() === "Assignments are weighted by group:"){
-//     weightedGradingEnabled = true
-//   }
-// })
+gradeDivs.forEach(header => {
+  if(header.textContent.trim() === "Assignments are weighted by group:"){
+    weightedGradingEnabled = true
+  }
+})
   var autoGradingEnabled = true
 
   const gradeDivs = document.querySelectorAll('#student-grades-final');
@@ -94,11 +94,15 @@ const gradeHeaders = document.querySelectorAll('h2')
     }
 
   }else{
-    const gradeWrappers = document.querySelectorAll("tr.student_assignment.hard_coded.final_grade td.assignment_score div.score_holder span.tooltip span.grade")
+    const gradeWrappers = document.querySelectorAll("#submission_final-grade > td.assignment_score > div > span.tooltip > span")
     gradeWrappers.forEach(function(gradeWrapper){
-      text = gradeWrapper.textContent
+      text = gradeWrapper.innerHTML
       chrome.runtime.sendMessage({ type: 'print', data : text }, (response) => {});
        
     })
+  
+
+     match = text.match(/\d+/g);
+     chrome.runtime.sendMessage({ type: 'print', data : match }, (response) => {});
     
   }
