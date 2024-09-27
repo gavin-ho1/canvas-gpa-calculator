@@ -97,7 +97,7 @@ const gradeHeaders = document.querySelectorAll('h2')
     
     chrome.runtime.sendMessage({ type: 'print', data : "Auto Calculate is detected" }, (response) => {});
     
-    const gradeWrappers = document.querySelectorAll("tr.student_assignment.hard_coded.final_grade")
+    const gradeWrappers = document.querySelectorAll("tr.student_assignment.hard_coded.final_grade span.tooltip")
     gradeWrappers.forEach(function(gradeWrapper){
       text = gradeWrapper.innerHTML
       chrome.runtime.sendMessage({ type: 'print', data : text }, (response) => {});
