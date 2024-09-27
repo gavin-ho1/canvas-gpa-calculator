@@ -12,7 +12,7 @@ chrome.runtime.onInstalled.addListener(() => {
       chrome.tabs.executeScript(tabs[0].id, { file: "content.js" });
       
     }else {
-      
+     console.log("running dashboard.js") 
       chrome.tabs.executeScript(tabs[0].id, { file: "dashboard.js" });
       
     }
@@ -24,16 +24,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   //Get grade of current page
   if (request.type === 'getGrade') {
       grade = request.data
-      console.log(grade)
+      
       chrome.storage.sync.get('courseDict', (result) => {
         const courseDict = result.courseDict || {}; // Initialize if not present
         courseDict[courseID] = {
           data: grade
         };
-        console.log(courseID, grade)
+        console.log("Grade:", grade)
+        console.log("Course ID:", courseID)
         // For debugging
         chrome.storage.sync.set({ courseDict }, () => {
-          console.log(courseDict)
+          // console.log(courseDict)
           // For Debuging
         });
         
@@ -49,7 +50,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       const regex = /courses\/(\d+)\/grades/; // Matches digits after "courses/"
       courseID = regex.exec(tabURL)[1];
       
-      console.log(courseID, tabURL)
+      console.log("Tab URL:", tabURL)
+      console.log("Pulled course ID:", courseID)
 
       sendResponse({ tabURL });
     });
@@ -57,23 +59,23 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
       //Get grade of current page
-      if (request.type === 'getGrade') {
-          grade = request.data
-          console.log(grade)
-          chrome.storage.sync.get('courseDict', (result) => {
-            const courseDict = result.courseDict || {}; // Initialize if not present
-            courseDict[courseID] = {
-              data: grade
-            };
-            console.log(courseID, grade)
-            // For debugging
-            chrome.storage.sync.set({ courseDict }, () => {
-              console.log(courseDict)
-              // For Debuging
-            });
+      // if (request.type === 'getGrade') {
+      //     grade = request.data
+      //     console.log(grade)
+      //     chrome.storage.sync.get('courseDict', (result) => {
+      //       const courseDict = result.courseDict || {}; // Initialize if not present
+      //       courseDict[courseID] = {
+      //         data: grade
+      //       };
+      //       console.log(courseID, grade)
+      //       // For debugging
+      //       chrome.storage.sync.set({ courseDict }, () => {
+      //         console.log(courseDict)
+      //         // For Debuging
+      //       });
             
-          });
-      }
+      //     });
+      // }
   });
 
   }
