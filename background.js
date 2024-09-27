@@ -63,7 +63,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     chrome.storage.sync.get('courseDict', (result) => {
       const courseDict = result.courseDict || {}; // Initialize if not present
       
-      console.log(courseDict)
+      console.log("Requested courseDict:",courseDict)
       // For debugging
       
     });
