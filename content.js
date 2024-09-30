@@ -67,16 +67,12 @@ if(weightedGradingEnabled){
   categoriesWrappers.forEach(div => {
     categoriesList.push(div.innerHTML)
   })
-  const gradedAssigmentGradeWrappers = document.querySelectorAll("tr.student_assignment.assignment_graded.editable td.assignment_score div.score_holder span.tooltip span.grade")
+  const gradedAssigmentGradeWrappers = document.querySelectorAll("th.title")
   
   gradedAssigmentGradeWrappers.forEach(span => {
-    num = span.innerHTML.match(/(\d+)/)
-    if(num === null){
-      gradeList.push("--")
-    }else{
-      gradeList.push(num[0])
-    }
-    
+    chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML }, (response) => {}); 
+    num = span.innerHTML.match(/(\d+)/)[0]
+    gradeList.push(num)
     
   })
 }

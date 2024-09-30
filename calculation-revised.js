@@ -54,6 +54,13 @@ gradedAssigmentTypes = document.querySelectorAll("tr.student_assignment.assignme
 
 gradedAssigmentGradeWrappers = document.querySelectorAll("tr.student_assignment.assignment_graded.editable td.assignment_score div.score_holder span.tooltip span.grade")
 
+var gradeList
+gradedAssigmentGradeWrappers.forEach(span => {
+  num = span.innerHTML.match(/(\d+)/)[0]
+  gradeList.push(num)
+  
+})
+
 //Append to List
 var earnedPoints
 var totalPoints
