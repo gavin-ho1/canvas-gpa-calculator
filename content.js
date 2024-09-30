@@ -61,7 +61,7 @@ chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {}
 
 if(weightedGradingEnabled){
   const categoriesWrapper = document.querySelectorAll("div.content")
-  chrome.runtime.sendMessage({ type: 'print', data : categoriesWrapper }, (response) => {});
+  chrome.runtime.sendMessage({ type: 'print', data : categoriesWrapper.innerHTML }, (response) => {});
 }
 
   var autoGradingEnabled = true
