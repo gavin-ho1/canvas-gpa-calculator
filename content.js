@@ -39,6 +39,8 @@ if(weightedGradingEnabled){
         filteredItems.push(item.innerHTML)
       }
   })
+  chrome.runtime.sendMessage({ type: 'print', data :  filteredKeys}, (response) => {});
+  chrome.runtime.sendMessage({ type: 'print', data : filteredItems }, (response) => {});
   var weightDict = {}
 
   for(const key in filteredKeys){
