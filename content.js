@@ -42,13 +42,15 @@ if(weightedGradingEnabled){
   chrome.runtime.sendMessage({ type: 'print', data :  filteredKeys}, (response) => {});
   chrome.runtime.sendMessage({ type: 'print', data : filteredItems }, (response) => {});
 
-  var weightDict = filteredKeys.reduce((acc, key, index) => {
+    const weightDict = filteredKeys.reduce((acc, key, index) => {
     acc[key] = filteredItems[index];
     return acc;
   }, {});
 
-  chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
+  
 }
+
+chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
 
 if(weightedGradingEnabled){
   const categoriesWrapper = document.querySelectorAll("div.content")
