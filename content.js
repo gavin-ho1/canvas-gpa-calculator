@@ -23,6 +23,8 @@ gradeHeaders.forEach(header => {
   }
 })
 
+
+var weightDict
 if(weightedGradingEnabled){
   keys = document.querySelectorAll("table.summary th")
   var filteredKeys = []
@@ -42,7 +44,7 @@ if(weightedGradingEnabled){
   chrome.runtime.sendMessage({ type: 'print', data :  filteredKeys}, (response) => {});
   chrome.runtime.sendMessage({ type: 'print', data : filteredItems }, (response) => {});
 
-    const weightDict = filteredKeys.reduce((acc, key, index) => {
+    weightDict = filteredKeys.reduce((acc, key, index) => {
     acc[key] = filteredItems[index];
     return acc;
   }, {});
