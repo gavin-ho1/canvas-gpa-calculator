@@ -47,7 +47,7 @@ if(weightedGradingEnabled){
     return acc;
   }, {});
 
-  chrome.runtime.sendMessage({ type: 'print', data : "weightDict: "+weightDict }, (response) => {});
+  chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
 }
 
 if(weightedGradingEnabled){
