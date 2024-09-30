@@ -44,9 +44,10 @@ if(weightedGradingEnabled){
   // chrome.runtime.sendMessage({ type: 'print', data :  filteredKeys}, (response) => {});
   // chrome.runtime.sendMessage({ type: 'print', data : filteredItems }, (response) => {});
 
-  for(const key in filteredKeys){
-    weightDict[filteredKeys[key]] = filteredItems[key]
-  }
+    weightDict = filteredKeys.reduce((acc, key, index) => {
+    acc[key] = filteredItems[index];
+    return acc;
+  }, {});
 
   
 }
