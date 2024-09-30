@@ -60,8 +60,11 @@ chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {
 chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});
 
 if(weightedGradingEnabled){
-  const categoriesWrapper = document.querySelectorAll("div.content")
-  chrome.runtime.sendMessage({ type: 'print', data : categoriesWrapper.innerHTML }, (response) => {});
+  const categoriesWrappers = document.querySelectorAll("div.content")
+  categoriesWrappers.forEach(div => {
+    chrome.runtime.sendMessage({ type: 'print', data : div }, (response) => {});
+  })
+  
 }
 
   var autoGradingEnabled = true
