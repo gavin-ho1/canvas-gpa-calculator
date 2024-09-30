@@ -67,7 +67,7 @@ if(weightedGradingEnabled){
   })
   const gradedAssigmentGradeWrappers = document.querySelectorAll("tr.student_assignment.assignment_graded.editable td.assignment_score div.score_holder span.tooltip span.grade")
   gradedAssigmentGradeWrappers.forEach(span => {
-    chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML }, (response) => {});
+    chrome.runtime.sendMessage({ type: 'print', data : type(span.innerHTML) }, (response) => {});
   })
 }
 
