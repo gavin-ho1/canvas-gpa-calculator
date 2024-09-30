@@ -59,18 +59,24 @@ if(weightedGradingEnabled){
 chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
 chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});
 
+var categoriesList = []
+var gradeList = []
 if(weightedGradingEnabled){
   const categoriesWrappers = document.querySelectorAll("div.context")
-  categoriesList = []
+  
   categoriesWrappers.forEach(div => {
     categoriesList.push(div.innerHTML)
   })
   const gradedAssigmentGradeWrappers = document.querySelectorAll("tr.student_assignment.assignment_graded.editable td.assignment_score div.score_holder span.tooltip span.grade")
+  
   gradedAssigmentGradeWrappers.forEach(span => {
     num = span.innerHTML.match(/(\d+)/)[0]
-    chrome.runtime.sendMessage({ type: 'print', data : num }, (response) => {});
+    gradeList.push(num)
+    
   })
 }
+chrome.runtime.sendMessage({ type: 'print', data : categoriesList }, (response) => {});
+chrome.runtime.sendMessage({ type: 'print', data : gradeList }, (response) => {});
 
   var autoGradingEnabled = true
 
