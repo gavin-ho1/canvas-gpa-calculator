@@ -48,11 +48,16 @@ if(weightedGradingEnabled){
     acc[key] = filteredItems[index];
     return acc;
   }, {});
+    pointDict = filteredKeys.reduce((acc, key, index) => {
+      acc[key] = 0;
+      return acc;
+    }, {}); 
 
   
 }
 chrome.runtime.sendMessage({ type: 'print', data : "weightDict:" }, (response) => {});
 chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
+chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});
 
 if(weightedGradingEnabled){
   const categoriesWrapper = document.querySelectorAll("div.content")
