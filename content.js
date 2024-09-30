@@ -70,11 +70,11 @@ if(weightedGradingEnabled){
   const gradedAssigmentGradeWrappers = document.querySelectorAll("tr.student_assignment.assignment_graded.editable td.assignment_score div.score_holder span.tooltip span.grade")
   
   gradedAssigmentGradeWrappers.forEach(span => {
-    num = span.innerHTML.match(/(\d+)/)[0]
+    num = span.innerHTML.match(/(\d+)/)
     if(num === null){
       gradeList.push("--")
     }else{
-      gradeList.push(num)
+      gradeList.push(num[0])
     }
     
     
