@@ -55,12 +55,12 @@ if(weightedGradingEnabled){
 
   
 }
-chrome.runtime.sendMessage({ type: 'print', data : "weightDict:" }, (response) => {});
+//Debug Print
 chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
 chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});
 
 if(weightedGradingEnabled){
-  const categoriesWrappers = document.querySelectorAll("div.content")
+  const categoriesWrappers = document.querySelectorAll("div.context")
   categoriesWrappers.forEach(div => {
     chrome.runtime.sendMessage({ type: 'print', data : div }, (response) => {});
   })
