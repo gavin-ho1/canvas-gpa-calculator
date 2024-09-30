@@ -71,7 +71,12 @@ if(weightedGradingEnabled){
   
   gradedAssigmentGradeWrappers.forEach(span => {
     num = span.innerHTML.match(/(\d+)/)[0]
-    gradeList.push(num)
+    if(num === null){
+      gradeList.push("--")
+    }else{
+      gradeList.push(num)
+    }
+    
     
   })
 }
