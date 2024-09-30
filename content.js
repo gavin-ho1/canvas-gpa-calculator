@@ -41,11 +41,11 @@ if(weightedGradingEnabled){
   })
   chrome.runtime.sendMessage({ type: 'print', data :  filteredKeys}, (response) => {});
   chrome.runtime.sendMessage({ type: 'print', data : filteredItems }, (response) => {});
-  var weightDict = {}
 
-  for(const key in filteredKeys){
-    weightDict[filteredKeys[key]] = filteredItems[key]
-  }
+  var weightDict = filteredKeys.reduce((acc, key, index) => {
+    acc[key] = filteredItems[index];
+    return acc;
+  }, {});
 
   chrome.runtime.sendMessage({ type: 'print', data : "weightDict: "+weightDict }, (response) => {});
 }
