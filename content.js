@@ -41,8 +41,8 @@ if(weightedGradingEnabled){
         filteredItems.push(item.innerHTML)
       }
   })
-  chrome.runtime.sendMessage({ type: 'print', data :  filteredKeys}, (response) => {});
-  chrome.runtime.sendMessage({ type: 'print', data : filteredItems }, (response) => {});
+  // chrome.runtime.sendMessage({ type: 'print', data :  filteredKeys}, (response) => {});
+  // chrome.runtime.sendMessage({ type: 'print', data : filteredItems }, (response) => {});
 
     weightDict = filteredKeys.reduce((acc, key, index) => {
     acc[key] = filteredItems[index];
@@ -51,7 +51,7 @@ if(weightedGradingEnabled){
 
   
 }
-
+chrome.runtime.sendMessage({ type: 'print', data : "weightDict:" }, (response) => {});
 chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
 
 if(weightedGradingEnabled){
