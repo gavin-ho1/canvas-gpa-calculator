@@ -144,7 +144,7 @@ if(weightedGradingEnabled){
     totalPoints += parseFloat(span.nextElementSibling.innerHTML.match(/(\d+)/)[0])
     
   })
-  finalGrade = points/totalPoints
+  finalGrade = ((points/totalPoints)*100).tofixed(2)
 }
 
 
