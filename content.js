@@ -137,45 +137,12 @@ finalGrade = finalGrade.toFixed(2)
 
 chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"%" }, (response) => {}); 
 
-//BREAK
-
-
-
-
-
-
-
-
-
   const gradeDivs = document.querySelectorAll('#student-grades-final');
   // Loop through each of the found divs
 gradeDivs.forEach(div => {
     // Check if the text content matches "Calculation of totals has been disabled"
     if (div.textContent.trim() === "Calculation of totals has been disabled") {
-        div.textContent = "Hi"
+        div.textContent = "Grade: "+finalGrade+"%"
     } 
 });
-
-gradedAssigments = document.querySelectorAll("tr.student_assignment.assignment_graded.editable")
-
-
-// Return the total sum of grades and max values
-const asideElement = document.getElementById('right-side-wrapper');
-if (asideElement) {
-  // Create a new div element
-  const newDiv = document.createElement('div');
-
-    // Add some content to the new div with the custom font size
-  newDiv.innerHTML = `
-      <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; font-size: 1.2em; border-bottom: 1px solid #C7CDD1; border-top: 1px solid #C7CDD1;">
-          <span class = "grade">Grade: ${input}%</span>
-      </div>
-  `;
-  chrome.runtime.sendMessage({ type: 'getGrade', data: input }, (response) => {});
-    
-
-  // Insert the new div as the first child of the <aside> element
-  asideElement.insertAdjacentElement('afterbegin', newDiv);
-      
-}
 
