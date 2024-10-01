@@ -72,11 +72,11 @@ if(weightedGradingEnabled){
   gradedAssigmentGradeWrappers.forEach(span => {
     chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML }, (response) => {}); 
     num = span.innerHTML.match(/(\d+)/)[0]
-    // if(span.innerHTML.match("Instructor has not posted this grade")){
-    //   gradeList.push("--")
-    // }else{
-    //   gradeList.push(num)
-    // }
+    if(span.innerHTML.match("Instructor has not posted this grade")){
+      gradeList.push("--")
+    }else{
+      gradeList.push(num)
+    }
    
     
   })
