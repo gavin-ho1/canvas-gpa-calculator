@@ -111,7 +111,7 @@ chrome.runtime.sendMessage({ type: 'print', data : totalPointDict }, (response) 
 
 var finalGradeDict
 
-for (let key in pointDict){
+for (const key in pointDict){
   finalGradeDict[key] = pointDict[key]/totalPointDict[key]
 }
 
