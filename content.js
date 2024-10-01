@@ -5,6 +5,14 @@ var courseID
 dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for dashboard/homepage
 if(dashboardSpan){
   chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
+
+  chrome.storage.sync.get('courseDict', (result) => {
+    const courseDict = result.courseDict
+    Object.keys(courseDict).forEach(key => {
+      gradePoint = courseDict[key][3]
+      chrome.runtime.sendMessage({ type: 'print', data : gradePoint }, (response) => {}); 
+    })
+  })
   //If Card View
   //If List View
   //If Recent Activity View
