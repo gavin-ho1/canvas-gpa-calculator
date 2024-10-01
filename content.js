@@ -146,8 +146,7 @@ chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"%
 
 
 
-      const asideElement = document.getElementById('right-side-wrapper');
-    input = ((totalGrades/totalMax)*100).toFixed(2);
+  const asideElement = document.getElementById('right-side-wrapper');
   if (asideElement) {
       // Create a new div element
       const newDiv = document.createElement('div');
@@ -166,6 +165,4 @@ chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"%
       
     }
 
-
-    //Need to find a workaround, or just calculate with weighted grade (gives same result)
 
