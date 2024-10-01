@@ -5,14 +5,16 @@ var courseID
 dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for dashboard/homepage
 if(dashboardSpan){
   chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
-
+  var GPA = 0
   chrome.storage.sync.get('courseDict', (result) => {
     const courseDict = result.courseDict
     Object.keys(courseDict).forEach(key => {
       gradePoint = courseDict[key].gradePoint
-      chrome.runtime.sendMessage({ type: 'print', data : gradePoint }, (response) => {}); 
+      GPA += gradePoint
     })
   })
+  GPA /= Object.keys(courseDict).length
+  chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {}); 
   //If Card View
   //If List View
   //If Recent Activity View
