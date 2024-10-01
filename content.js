@@ -48,7 +48,7 @@ if(weightedGradingEnabled){
   // chrome.runtime.sendMessage({ type: 'print', data : filteredItems}, (response) => {});
 
     weightDict = filteredKeys.reduce((acc, key, index) => {
-    acc[key] = filteredItems[index];
+    acc[key] = parseFloat(filteredItems[index].replace("%",""));
     return acc;
   }, {});
     pointDict = filteredKeys.reduce((acc, key, index) => {
@@ -127,7 +127,7 @@ var finalGrade = 0
 
 filteredKeys.forEach(category => {
   if(finalGradeDict[category] !== "NaN"){
-    chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict[category] + weightDict[category] }, (response) => {}); 
+    chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict[category]*weightDict[category] }, (response) => {}); 
     finalGrade += finalGradeDict[category]*weightDict[category]
   }
   
