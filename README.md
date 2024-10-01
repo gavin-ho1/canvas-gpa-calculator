@@ -20,7 +20,10 @@ This code does **NOT** "hack" or break into Canvas or any site to get informatio
    - For example: `school.instructure.com/courses/1334/grades`
 5. To view GPA, go to your canvas hompage/dashboard (`school.instructure.com`) to see your calculated GPA. 
 
+##
+
 ### [To-Do List](/To-Do.md)
 
 ##
+
 Installation should work for other chromium based browsers, but double check on installation of other browsers - this extension has only been tested in chrome
