@@ -111,13 +111,13 @@ chrome.runtime.sendMessage({ type: 'print', data : totalPointDict }, (response) 
 
 var finalGradeDict
 
-for (const key in pointDict){
-  if(totalPointDict[key] !== 0){
-    chrome.runtime.sendMessage({ type: 'print', data : pointDict[key]/totalPointDict[key] }, (response) => {}); 
-    // finalGradeDict[key] = pointDict[key]/totalPointDict[key]
+categoriesList.forEach(category => {
+  if(totalPointDict[category] !== 0){
+    chrome.runtime.sendMessage({ type: 'print', data : pointDict[category]/totalPointDict[category] }, (response) => {}); 
+    finalGradeDict[category] = pointDict[category]/totalPointDict[category]
   }
 
-}
+})
 
 chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict }, (response) => {}); 
 
