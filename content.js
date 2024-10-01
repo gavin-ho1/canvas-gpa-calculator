@@ -87,6 +87,7 @@ chrome.runtime.sendMessage({ type: 'print', data : categoriesList }, (response) 
 chrome.runtime.sendMessage({ type: 'print', data : gradeList }, (response) => {});
 
 for(index in gradeList){
+  if(gradeList[index] !== "--")
   pointDict[categoriesList[index]] += gradeList[index]
 }
 chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {}); 
