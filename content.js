@@ -135,7 +135,7 @@ filteredKeys.forEach(category => {
 
 finalGrade = finalGrade.toFixed(2)
 
-chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade }, (response) => {}); 
+chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"%" }, (response) => {}); 
 
 //BREAK
 
