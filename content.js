@@ -105,8 +105,17 @@ for(index in gradeList){
   }
 
 }
+
 chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {}); 
 chrome.runtime.sendMessage({ type: 'print', data : totalPointDict }, (response) => {}); 
+
+var finalGradeDict
+
+for (let [key, value] of Object.entries(pointDict)){
+  finalGradeDict[key] = pointDict[key]/totalPointDict[key]
+}
+
+chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict }, (response) => {}); 
 
 //BREAK
 
