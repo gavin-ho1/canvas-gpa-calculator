@@ -67,10 +67,10 @@ if(weightedGradingEnabled){
   categoriesWrappers.forEach(div => {
     categoriesList.push(div.innerHTML)
   })
-  const gradedAssigmentGradeWrappers = document.querySelectorAll("#submission_493949 > td.assignment_score > div > span > span.grade")
+  const gradedAssigmentGradeWrappers = document.querySelectorAll("td.assignment_score span.grade")
   
   gradedAssigmentGradeWrappers.forEach(span => {
-    // chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML }, (response) => {}); 
+    chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML }, (response) => {}); 
     num = span.innerHTML.match(/(\d+)/)[0]
     if(span.innerHTML.match("Instructor has not posted this grade")){
       gradeList.push("--")
