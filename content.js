@@ -3,8 +3,7 @@ var courseID
 
 // chrome.runtime.sendMessage({ type: 'getID' }, (response) => {
   hyperLink = document.querySelector("a.mobile-header-title.expandable")
-  const regex = /courses\/(\d+)\/grades/; // Matches digits after "courses/"
-  courseID = regex.exec(hyperLink.href)[1]
+  courseID = hyperLink.href.match(/\d+/)
   chrome.runtime.sendMessage({ type: 'print', data : "CourseID: " +courseID }, (response) => {});
   
 // });
