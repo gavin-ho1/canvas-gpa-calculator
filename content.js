@@ -80,7 +80,8 @@ if(weightedGradingEnabled){
   
   gradedAssigmentGradeWrappers.forEach(span => {
     // chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() }, (response) => {}); 
-    num = span.innerHTML.trim().match(/\d+(\.\d+)?$/)
+    num = span.innerHTML.trim().match(/\d+(\.\d+)?$/) //Get numbers without percentage signs next to them
+    
     if(num){
       // chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
       gradeList.push(parseFloat(num[0]))
