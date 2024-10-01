@@ -1,12 +1,17 @@
 chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
 var courseID 
 
-// chrome.runtime.sendMessage({ type: 'getID' }, (response) => {
-  hyperLink = document.querySelector("a.mobile-header-title.expandable")
-  courseID = hyperLink.href.match(/\d+/)
-  chrome.runtime.sendMessage({ type: 'print', data : "CourseID: " +courseID }, (response) => {});
+
+dashboardSpan = document.querySelector("span.mobile-header-title")
+if(dashboardSpan){
+  chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
+}
+
+hyperLink = document.querySelector("a.mobile-header-title.expandable")
+courseID = hyperLink.href.match(/\d+/)
+chrome.runtime.sendMessage({ type: 'print', data : "CourseID: " +courseID }, (response) => {});
   
-// });
+
 
 gradedAssigments = document.querySelectorAll("tr.student_assignment.assignment_graded.editable th.title div.context")
 gradedAssigmentGrades = document.querySelectorAll("tr.student_assignment.assignment_graded.editable td.assignment_score div.score_holder span.tooltip span.grade")
