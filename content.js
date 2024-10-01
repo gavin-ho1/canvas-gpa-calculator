@@ -9,10 +9,11 @@ if(dashboardSpan){
   chrome.storage.sync.get('courseDict', (result) => {
     const courseDict = result.courseDict
     Object.keys(courseDict).forEach(key => {
-      GPA += parseFloat(courseDict[key].gradePoint)
+      gradePoint = courseDict[key].gradePoint
+      chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {})
+      GPA += gradePoint
     })
   })
-  // GPA = GPA/parseFloat(Object.keys(courseDict).length)
   chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {}); 
   //If Card View
   //If List View
