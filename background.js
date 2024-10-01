@@ -9,7 +9,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   //Get grade of current page
   if (request.type === 'getGrade') {
-      grade = request.data
+      grade = request.data[0]
+      courseID = request.data[1]
       
       chrome.storage.sync.get('courseDict', (result) => {
         const courseDict = result.courseDict || {}; // Initialize if not present
@@ -17,7 +18,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           data: grade
         };
         console.log("Grade:", grade)
-        console.log("Course ID:", courseID)
         // For debugging
         chrome.storage.sync.set({ courseDict }, () => {
           console.log("Course Dictonary:",courseDict)
@@ -28,21 +28,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-//Listen for getURL
-// chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-//   if (request.type === 'getID') {
-//     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-//       tabURL = tabs[0].url;
-
-//       const regex = /courses\/(\d+)\/grades/; // Matches digits after "courses/"
-//       courseID = regex.exec(tabURL)[1];
-      
-//       console.log("Tab URL:", tabURL)
-//       console.log("Pulled course ID:", courseID)
-//     });
-    
-//   }
-// });
 
 //Listen for getCourseDict
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => { 

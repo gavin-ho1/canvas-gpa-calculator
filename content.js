@@ -148,9 +148,7 @@ if(weightedGradingEnabled){
   finalGrade = finalGrade.toFixed(2)
 }
 
-
-
-
+chrome.runtime.sendMessage({type: "getGrade", data : [finalGrade,courseID]})
 
 
 chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"%" }, (response) => {}); 
