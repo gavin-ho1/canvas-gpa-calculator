@@ -113,7 +113,7 @@ var finalGradeDict = {}
 
 filteredKeys.forEach(category => {
   chrome.runtime.sendMessage({ type: 'print', data : pointDict[category]/totalPointDict[category] }, (response) => {}); 
-  if(totalPointDict[category] !== 0){
+  if(totalPointDict[category] !== 0){ //Check for div by zero
     finalGradeDict[category] = pointDict[category]/totalPointDict[category]
   }else{
     finalGradeDict[category] = "NaN"
@@ -122,6 +122,14 @@ filteredKeys.forEach(category => {
 })
 
 chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict }, (response) => {}); 
+
+var finalGrade = 0
+
+filteredKeys.forEach(category => {
+  finalGrade += finalGradeDict[category]*weightDict[category]
+})
+
+chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade }, (response) => {}); 
 
 //BREAK
 
