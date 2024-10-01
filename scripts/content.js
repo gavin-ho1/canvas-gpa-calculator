@@ -16,12 +16,14 @@ if(dashboardSpan){
     GPA /= Object.keys(courseDict).length
     chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {}); // GPA variable must be within chrome.storage.sync.get(), otherwise the variable doesn't get saved
     
-        //Put HTML inject here:
+    //Put HTML inject here:
     titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span")
     chrome.runtime.sendMessage({ type: 'print', data : titleSpan.textContent }, (response) => {}); 
     titleSpan.innerHTML += " ┃ GPA: "+GPA
 
     
+
+    // Do Later
     //If Card View
     cardViewDivs = document.querySelectorAll("div.ic-DashboardCard__header_hero")
 
@@ -32,11 +34,11 @@ if(dashboardSpan){
     recentViewDiv = document.querySelector("h2.recent-activity-header")
     
     if(cardViewDivs){
-      
+      //Inject html for a card
     }else if (listViewDiv){
-
+      //Inject html at top of list
     }else if(recentViewDiv){
-
+      //Inject html above "Recent Activity" div
     }
 
 
