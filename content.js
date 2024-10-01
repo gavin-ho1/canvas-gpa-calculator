@@ -67,7 +67,7 @@ if(weightedGradingEnabled){
   categoriesWrappers.forEach(div => {
     categoriesList.push(div.innerHTML)
   })
-  const gradedAssigmentGradeWrappers = document.querySelectorAll("td.assignment_score span.grade")
+  const gradedAssigmentGradeWrappers = document.querySelectorAll("#submission_493949 > td.assignment_score > div > span > span.grade")
   
   gradedAssigmentGradeWrappers.forEach(span => {
     // chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML }, (response) => {}); 
