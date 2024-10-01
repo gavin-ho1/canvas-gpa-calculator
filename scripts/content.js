@@ -17,10 +17,24 @@ if(dashboardSpan){
     chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {}); // GPA variable must be within chrome.storage.sync.get(), otherwise the variable doesn't get saved
     
     //Put HTML inject here:
-    sleep(1000)
-    titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span")
-    chrome.runtime.sendMessage({ type: 'print', data : titleSpan.textContent }, (response) => {}); 
-    titleSpan.innerHTML += " | GPA: "+GPA
+    // titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span")
+    // chrome.runtime.sendMessage({ type: 'print', data : titleSpan.textContent }, (response) => {}); 
+    // titleSpan.innerHTML += " | GPA: "+GPA
+    function findTitleSpan() {
+      const titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span");
+      
+      if (titleSpan) {
+          chrome.runtime.sendMessage({ type: 'print', data: titleSpan.textContent }, (response) => {}); 
+          titleSpan.innerHTML += " | GPA: " + GPA;
+      } else {
+          // Retry after 100ms if the element is not found
+          setTimeout(findTitleSpan, 100);
+      }
+  }
+  
+  // Start checking for the element
+  findTitleSpan();
+  
 
     // Do Later
     //If Card View
