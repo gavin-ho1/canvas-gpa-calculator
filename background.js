@@ -30,7 +30,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 //Listen for getURL
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type === 'getURL') {
+  if (request.type === 'getID') {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       tabURL = tabs[0].url;
 

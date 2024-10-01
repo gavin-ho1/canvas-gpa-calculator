@@ -1,10 +1,12 @@
 chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
-var url 
+var courseID 
 
-chrome.runtime.sendMessage({ type: 'getURL' }, (response) => {
-  url = response;
+// chrome.runtime.sendMessage({ type: 'getID' }, (response) => {
+  hyperLink = document.querySelector("a.mobile-header-title.expandable")
+  courseID = hyperLink.href;
+  chrome.runtime.sendMessage({ type: 'print', data : courseID }, (response) => {});
   
-});
+// });
 
 gradedAssigments = document.querySelectorAll("tr.student_assignment.assignment_graded.editable th.title div.context")
 gradedAssigmentGrades = document.querySelectorAll("tr.student_assignment.assignment_graded.editable td.assignment_score div.score_holder span.tooltip span.grade")
@@ -81,7 +83,7 @@ if(weightedGradingEnabled){
   gradedAssigmentGradeWrappers.forEach(span => {
     // chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() }, (response) => {}); 
     num = span.innerHTML.trim().match(/\d+(\.\d+)?$/) //Get numbers without percentage signs next to them
-    
+
     if(num){
       // chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
       gradeList.push(parseFloat(num[0]))
