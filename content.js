@@ -109,7 +109,7 @@ for(index in gradeList){
 chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {}); 
 chrome.runtime.sendMessage({ type: 'print', data : totalPointDict }, (response) => {}); 
 
-var finalGradeDict
+var finalGradeDict = {}
 
 filteredKeys.forEach(category => {
   if(totalPointDict[category] !== 0){
