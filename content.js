@@ -44,8 +44,8 @@ if(weightedGradingEnabled){
         filteredItems.push(item.innerHTML)
       }
   })
-  // chrome.runtime.sendMessage({ type: 'print', data :  filteredKeys}, (response) => {});
-  // chrome.runtime.sendMessage({ type: 'print', data : filteredItems }, (response) => {});
+  // chrome.runtime.sendMessage({ type: 'print', data : filteredKeys}, (response) => {});
+  // chrome.runtime.sendMessage({ type: 'print', data : filteredItems}, (response) => {});
 
     weightDict = filteredKeys.reduce((acc, key, index) => {
     acc[key] = filteredItems[index];
@@ -99,9 +99,11 @@ chrome.runtime.sendMessage({ type: 'print', data : gradeList }, (response) => {}
 chrome.runtime.sendMessage({ type: 'print', data : totalPointList }, (response) => {});
 
 for(index in gradeList){
-  if(gradeList[index] !== "--")
-  pointDict[categoriesList[index]] += gradeList[index]
-  totalPointDict[categoriesList[index]] += totalPointList[index]
+  if(gradeList[index] !== "--"){
+    pointDict[categoriesList[index]] += gradeList[index]
+    totalPointDict[categoriesList[index]] += totalPointList[index]
+  }
+
 }
 chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {}); 
 chrome.runtime.sendMessage({ type: 'print', data : totalPointDict }, (response) => {}); 
