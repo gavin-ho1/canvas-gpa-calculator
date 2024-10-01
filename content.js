@@ -104,7 +104,7 @@ for(index in gradeList){
   totalPointDict[categoriesList[index]] += totalPointList[index]
 }
 chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {}); 
-
+chrome.runtime.sendMessage({ type: 'print', data : totalPointDict }, (response) => {}); 
 
 //BREAK
 
