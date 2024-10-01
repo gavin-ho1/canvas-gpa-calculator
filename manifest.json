@@ -6,17 +6,17 @@
   "permissions": [ "scripting", "declarativeContent", "storage"],
   
   "action": {
-    "default_popup": "menu.html",
+    "default_popup": "menus/menu.html",
     "default_icon": "logo.png",
     "default_title": "Calculator"
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "scripts/background.js"
   },
   "content_scripts": [
     {
       "matches": ["https://*.instructure.com/courses/*/grades","http://*.instructure.com/courses/*/grades","https://*.instructure.com/", "http://*.instructure.com/"],
-      "js": ["content.js"],
+      "js": ["script/content.js"],
       "run_at" : "document_end"
     }
   ]
