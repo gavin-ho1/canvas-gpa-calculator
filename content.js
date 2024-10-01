@@ -9,7 +9,7 @@ if(dashboardSpan){
   chrome.storage.sync.get('courseDict', (result) => {
     const courseDict = result.courseDict
     Object.keys(courseDict).forEach(key => {
-      gradePoint = courseDict[key][2]
+      gradePoint = courseDict[key].gradePoint
       chrome.runtime.sendMessage({ type: 'print', data : gradePoint }, (response) => {}); 
     })
   })
