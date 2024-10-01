@@ -5,6 +5,9 @@ var courseID
 dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for dashboard/homepage
 if(dashboardSpan){
   chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
+  //If Card View
+  //If List View
+  //If Recent Activity View
 }else{
 
   hyperLink = document.querySelector("a.mobile-header-title.expandable")
@@ -153,10 +156,40 @@ if(dashboardSpan){
     finalGrade = finalGrade.toFixed(2)
   }
 
-  chrome.runtime.sendMessage({type: "getGrade", data : [finalGrade,courseID]})
+  let letterGrade;
+
+  if (grade >= 97) {
+    letterGrade = "A+";
+  } else if (grade >= 93) {
+    letterGrade = "A";
+  } else if (grade >= 90) {
+    letterGrade = "A-";
+  } else if (grade >= 87) {
+    letterGrade = "B+";
+  } else if (grade >= 83) {
+    letterGrade = "B";
+  } else if (grade >= 80) {
+    letterGrade = "B-";
+  } else if (grade >= 77) {
+    letterGrade = "C+";
+  } else if (grade >= 73) {
+    letterGrade = "C";
+  } else if (grade >= 70) {
+    letterGrade = "C-";
+  } else if (grade >= 67) {
+    letterGrade = "D+";
+  } else if (grade >= 63) {
+    letterGrade = "D";
+  } else if (grade >= 60) {
+    letterGrade = "D-";
+  } else {
+    letterGrade = "F";
+  }
+
+  chrome.runtime.sendMessage({type: "getGrade", data : [finalGrade,courseID,letterGrade]})
 
 
-  chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"%" }, (response) => {}); 
+  chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"% ("+letterGrade+")" }, (response) => {}); 
 
     const gradeDivs = document.querySelectorAll('#student-grades-final');
     // Loop through each of the found divs
