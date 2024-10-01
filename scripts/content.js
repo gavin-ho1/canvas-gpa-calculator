@@ -251,7 +251,7 @@ if(dashboardSpan){
       } 
   });
   const displayAside = document.querySelector("#right-side")
-  if(document.innerHTML.trim().match("Total:")) === null{
+  if(document.innerHTML.trim().match("Total:") === null) {
     displayAside.innerHTML = `<div id="student-grades-final" class="student_assignment final_grade" style="font-size: 1.2em;">Total: ${finalGrade}% (${letterGrade})</div>` + displayAside.innerHTML
   }
   
