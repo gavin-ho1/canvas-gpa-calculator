@@ -136,7 +136,7 @@ if(weightedGradingEnabled){
 }else{
   gradedAssigmentGradeWrappers = document.querySelectorAll("tr.student_assignment.assignment_graded.editable td.assignment_score div.score_holder span.tooltip span.grade")
 
-  var finalGrade
+  var finalGrade = 0
   gradedAssigmentGradeWrappers.forEach(span => {
     num = parseFloat(span.innerHTML.match(/(\d+)/)[0])
     finalGrade += num
