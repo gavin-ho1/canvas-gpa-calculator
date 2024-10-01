@@ -33,7 +33,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const courseDict = result.courseDict || {}; // Initialize if not present
         courseDict[courseID] = {
           grade: grade,
-          courseID : courseID,
           gradePoint : gradePoint
         };
         console.log("Grade:", grade)
