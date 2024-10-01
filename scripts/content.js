@@ -20,8 +20,13 @@ if(dashboardSpan){
     //Put HTML inject here:
     
     //If Card View
+    cardViewDiv = document.querySelectorAll("div.ic-DashboardCard__header_hero")
     //If List View
+    listViewDiv = document.querySelector("div.css-1sp24u-text")
+
     //If Recent Activity View
+    recentViewDiv = document.querySelector("h2.recent-activity-header")
+    
   })
    
   
