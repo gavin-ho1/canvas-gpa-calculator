@@ -126,7 +126,10 @@ chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict }, (response) 
 var finalGrade = 0
 
 filteredKeys.forEach(category => {
-  finalGrade += finalGradeDict[category]*weightDict[category]
+  if(category !== "NaN"){
+    finalGrade += finalGradeDict[category]*weightDict[category]
+  }
+  
 })
 
 chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade }, (response) => {}); 
