@@ -6,8 +6,7 @@
 - Options/settings menu (Do after HTML injection) [WIP] 
 - Letter Grades
 - Calculate and display GPA on dashboard [WIP]
-- ~~Disabling extension grade calc when Canvas grades are turned on~~
 - ~~Assigning grade to a class (Store multiple course grades to create GPA Calc)~~
 - ~~Grade display consistent with default Canavs theme~~
 - Beautify with css themes
-- Get google dev account and publish on webstore
+- Get google dev account and publish on webstore [WIP]
