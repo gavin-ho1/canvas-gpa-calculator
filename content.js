@@ -86,6 +86,11 @@ if(weightedGradingEnabled){
 chrome.runtime.sendMessage({ type: 'print', data : categoriesList }, (response) => {});
 chrome.runtime.sendMessage({ type: 'print', data : gradeList }, (response) => {});
 
+for(index in gradeList){
+  pointDict[categoriesList[index]] += gradeList[index]
+}
+chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {}); 
+
   var autoGradingEnabled = true
 
   const gradeDivs = document.querySelectorAll('#student-grades-final');
