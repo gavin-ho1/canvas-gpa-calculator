@@ -9,7 +9,7 @@ if(dashboardSpan){
   chrome.storage.sync.get('courseDict', (result) => {
     const courseDict = result.courseDict
     Object.keys(courseDict).forEach(key => {
-      GPA += courseDict[key].gradePoint
+      GPA += parseFloat(courseDict[key].gradePoint)
     })
   })
   // GPA = GPA/parseFloat(Object.keys(courseDict).length)
