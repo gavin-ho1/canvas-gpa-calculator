@@ -113,8 +113,9 @@ var finalGradeDict
 
 categoriesList.forEach(category => {
   if(totalPointDict[category] !== 0){
-    // chrome.runtime.sendMessage({ type: 'print', data : pointDict[category]/totalPointDict[category] }, (response) => {}); 
-    finalGradeDict[category] = pointDict[category]/totalPointDict[category]
+    chrome.runtime.sendMessage({ type: 'print', data : pointDict[category]/totalPointDict[category] }, (response) => {});
+    num = pointDict[category]/totalPointDict[category] 
+    finalGradeDict[category] = num
   }
 
 })
