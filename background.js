@@ -29,20 +29,20 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 //Listen for getURL
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type === 'getID') {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      tabURL = tabs[0].url;
+// chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+//   if (request.type === 'getID') {
+//     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+//       tabURL = tabs[0].url;
 
-      const regex = /courses\/(\d+)\/grades/; // Matches digits after "courses/"
-      courseID = regex.exec(tabURL)[1];
+//       const regex = /courses\/(\d+)\/grades/; // Matches digits after "courses/"
+//       courseID = regex.exec(tabURL)[1];
       
-      console.log("Tab URL:", tabURL)
-      console.log("Pulled course ID:", courseID)
-    });
+//       console.log("Tab URL:", tabURL)
+//       console.log("Pulled course ID:", courseID)
+//     });
     
-  }
-});
+//   }
+// });
 
 //Listen for getCourseDict
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => { 
