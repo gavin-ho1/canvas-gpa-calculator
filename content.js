@@ -5,8 +5,9 @@ var courseID
 dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for dashboard/homepage
 if(dashboardSpan){
   chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
-  var GPA = 0
+  
   chrome.storage.sync.get('courseDict', (result) => {
+    var GPA = 0
     const courseDict = result.courseDict
     Object.keys(courseDict).forEach(key => {
       gradePoint = courseDict[key].gradePoint
