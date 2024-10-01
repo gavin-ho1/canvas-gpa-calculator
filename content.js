@@ -2,7 +2,7 @@ chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (r
 var courseID 
 
 
-dashboardSpan = document.querySelector("span.mobile-header-title")
+dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for dashboard/homepage
 if(dashboardSpan){
   chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
 }else{
