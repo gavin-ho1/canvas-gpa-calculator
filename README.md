@@ -1,6 +1,17 @@
 # Canvas GPA Calculator
 Chrome Extension that calculates GPA on Canvas when blocked by a teacher because I couldn't find a good workaround online.
 
+## **⚠DISCLAIMER⚠**
+This Chrome Extension is not given permissions to store any senstive/private content (browser history, passwords, etc). It is literally **IMPOSSIBLE** to get this information without permissions. 
+
+Permissons are specified in the `manifest.json` file, under the key `"permissions"` as shown below:
+
+> `"permissions": ["storage"],`
+
+The `"storage"` permission is used to store grades calculated by the extension. This is the only permission used, and there is no way to send this information to and external third party. 
+
+This code does **NOT** "hack" or break into Canvas or any site to get information on grades, it simply takes the already given information on the webpage and calculates it. This would be the same as if a human copy/pasted their own grades from the Canvas webpage and calculated them manually. This extension simply automates that process for the user's convience. 
+
 ## Installation Guide
 1. Download zip file from lastest release (or just source code) and unzip
 2. In your browser, go to chrome://extensions/ in your browser
