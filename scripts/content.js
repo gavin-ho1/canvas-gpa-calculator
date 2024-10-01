@@ -17,9 +17,9 @@ if(dashboardSpan){
     chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {}); // GPA variable must be within chrome.storage.sync.get(), otherwise the variable doesn't get saved
     
     //Put HTML inject here:
-    // titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span")
-    // chrome.runtime.sendMessage({ type: 'print', data : titleSpan.textContent }, (response) => {}); 
-    // titleSpan.innerHTML += " | GPA: "+GPA
+
+    //Recursive to inject HTML into dynamic content 
+    //Basically checks if titleSpan exists, and injects. If not, wait and try again
     function findTitleSpan() {
       const titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span");
       
