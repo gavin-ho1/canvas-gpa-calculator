@@ -9,7 +9,7 @@
 - [X] Auto HTML injection upon page load
 - [X] Make HTML injection match Canvas theme
 - [X] Letter Grades
-- [ ] Display/HTML Inject GPA on dashboard **[WIP]**
+- [X] Display/HTML Inject GPA on dashboard **[WIP]**
 - [ ] Options/settings menu **[WIP]**
 - [ ] Grade display consistent with default Canavs theme **[WIP]**
 - [ ] Get google dev account and publish on webstore **[WIP]**
