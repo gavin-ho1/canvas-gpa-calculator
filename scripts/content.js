@@ -243,8 +243,6 @@ if(dashboardSpan){
   chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"% ("+letterGrade+")" }, (response) => {}); 
 
     const gradeDivs = document.querySelectorAll('#student-grades-final');
-    const displayAside = document.querySelector("#right-side")
-    displayAside.innerHTML = `<div id="student-grades-final" class="student_assignment final_grade" style="font-size: 1.2em;">Total: ${finalGrade}% (${letterGrade})</div>` + displayAside.innerHTML
     // Loop through each of the found divs
   gradeDivs.forEach(div => {
       // Check if the text content matches "Calculation of totals has been disabled"
@@ -252,4 +250,6 @@ if(dashboardSpan){
           div.remove()
       } 
   });
+  const displayAside = document.querySelector("#right-side")
+  displayAside.innerHTML = `<div id="student-grades-final" class="student_assignment final_grade" style="font-size: 1.2em;">Total: ${finalGrade}% (${letterGrade})</div>` + displayAside.innerHTML
 }
