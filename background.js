@@ -3,6 +3,21 @@ console.log("background.js running")
 var tabURL
 var grade
 var courseID
+gradeDict ={
+  "A+": 12,
+  "A": 11,
+  "A-": 10,
+  "B+": 9,
+  "B": 8,
+  "B-": 7,
+  "C+": 6,
+  "C": 5,
+  "C-": 4,
+  "D+": 3,
+  "D": 2,
+  "D-": 1,
+  "F": 0
+}
 
 //Listen for getGrade
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -11,6 +26,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'getGrade') {
       grade = request.data[0]
       courseID = request.data[1]
+      gradePoint = gradeDict[request.data[2]]
+      console.log(gradePoint)
       
       chrome.storage.sync.get('courseDict', (result) => {
         const courseDict = result.courseDict || {}; // Initialize if not present
