@@ -88,7 +88,7 @@ if(weightedGradingEnabled){
     }else{
       chrome.runtime.sendMessage({ type: 'print', data : "Grade not detected" }, (response) => {}); 
       gradeList.push("--")
-      totalPointList/push("--")
+      totalPointList.push("--")
     }
    
     
