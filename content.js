@@ -70,7 +70,7 @@ if(weightedGradingEnabled){
   const gradedAssigmentGradeWrappers = document.querySelectorAll("td.assignment_score span.grade")
   
   gradedAssigmentGradeWrappers.forEach(span => {
-    chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() }, (response) => {}); 
+    // chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() }, (response) => {}); 
     num = span.innerHTML.trim().match(/(\d+)/)
     if(num){
       chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
