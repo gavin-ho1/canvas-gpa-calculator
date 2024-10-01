@@ -15,7 +15,7 @@ if(dashboardSpan){
     })
     GPA /= Object.keys(courseDict).length
     chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {}); // GPA variable must be within chrome.storage.sync.get(), otherwise the variable doesn't get saved
-    titleSpan = document.querySelector("div.large.ic-Dashboard-header__layout span")
+    titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span")
     chrome.runtime.sendMessage({ type: 'print', data : titleSpan.textContent }, (response) => {}); 
     titleSpan.innerHTML += GPA
 
