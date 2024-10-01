@@ -2,7 +2,7 @@
 - ~~HTML injection directly into webpage~~
 - ~~Auto HTML injection upon page load~~
 - ~~Make HTML injection match Canvas theme~~
-- Weighted grades [WIP]
+- ~~Weighted grades [WIP]~~
 - Options/settings menu (Do after HTML injection) [WIP] 
 - Letter Grades
 - Calculate and display GPA on dashboard [WIP]
