@@ -145,7 +145,7 @@ if(weightedGradingEnabled){
     
   })
   finalGrade = (points/totalPoints)*100
-  finalGrade = finalGrade.tofixed(2)
+  finalGrade = finalGrade.toFixed(2)
 }
 
 
