@@ -121,8 +121,7 @@ if(weightedGradingEnabled){
     })
     
     finalGrade = finalGrade.toFixed(2)
-}
-//Debug Print
+    //Debug Print
 // chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
 // chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});
 
@@ -134,6 +133,17 @@ if(weightedGradingEnabled){
 
 // chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {}); 
 // chrome.runtime.sendMessage({ type: 'print', data : totalPointDict }, (response) => {}); 
+}else{
+  gradedAssigmentGradeWrappers = document.querySelectorAll("tr.student_assignment.assignment_graded.editable td.assignment_score div.score_holder span.tooltip span.grade")
+
+  var finalGrade
+  gradedAssigmentGradeWrappers.forEach(span => {
+    num = parseFloat(span.innerHTML.match(/(\d+)/)[0])
+    finalGrade += num
+    
+  })
+}
+
 
 
 
