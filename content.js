@@ -10,7 +10,7 @@ if(dashboardSpan){
     const courseDict = result.courseDict
     Object.keys(courseDict).forEach(key => {
       gradePoint = courseDict[key].gradePoint
-      chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {})
+      // chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {})
       GPA += gradePoint
     })
   })
