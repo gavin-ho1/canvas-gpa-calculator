@@ -142,7 +142,7 @@ chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"%
 gradeDivs.forEach(div => {
     // Check if the text content matches "Calculation of totals has been disabled"
     if (div.textContent.trim() === "Calculation of totals has been disabled") {
-        div.textContent = "Grade: "+finalGrade+"%"
+        div.textContent = "Total: "+finalGrade+"%"
     } 
 });
 
