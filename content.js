@@ -4,7 +4,7 @@ var courseID
 // chrome.runtime.sendMessage({ type: 'getID' }, (response) => {
   hyperLink = document.querySelector("a.mobile-header-title.expandable")
   courseID = hyperLink.href;
-  chrome.runtime.sendMessage({ type: 'print', data : courseID }, (response) => {});
+  chrome.runtime.sendMessage({ type: 'print', data : "CourseID: " +courseID }, (response) => {});
   
 // });
 
