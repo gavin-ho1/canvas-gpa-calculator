@@ -24,9 +24,9 @@ gradeHeaders.forEach(header => {
 })
 
 
-var weightDict
-var pointDict
-var totalPointDict
+var weightDict = {}
+var pointDict = {}
+var totalPointDict = {}
 
 if(weightedGradingEnabled){
   keys = document.querySelectorAll("table.summary th")
