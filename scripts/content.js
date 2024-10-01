@@ -19,7 +19,7 @@ if(dashboardSpan){
     //Put HTML inject here:
     titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span")
     chrome.runtime.sendMessage({ type: 'print', data : titleSpan.textContent }, (response) => {}); 
-    titleSpan.innerHTML += " ┃ GPA: "+GPA
+    titleSpan.innerHTML += " | GPA: "+GPA
 
     
 
