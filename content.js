@@ -74,7 +74,7 @@ if(weightedGradingEnabled){
     num = span.innerHTML.trim().match(/(\d+)/)
     if(num){
       chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
-      gradeList.push(num[0])
+      gradeList.push(parseFloat(num[0]))
     }else{
       chrome.runtime.sendMessage({ type: 'print', data : "Grade not detected" }, (response) => {}); 
       gradeList.push("--")
