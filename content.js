@@ -13,6 +13,7 @@ if(dashboardSpan){
       // chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {})
       GPA += gradePoint
     })
+    GPA /= Object.keys(courseDict).length
     chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {});
   })
    
