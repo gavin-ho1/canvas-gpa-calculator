@@ -19,10 +19,7 @@ if(dashboardSpan){
         //Put HTML inject here:
     titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span")
     chrome.runtime.sendMessage({ type: 'print', data : titleSpan.textContent }, (response) => {}); 
-    titleSpan.innerHTML += " GPA: "+GPA
-
-
-    document.querySelector("#dashboard-activity > div").innerHTML = document.querySelector("#dashboard-activity > div").innerHTML + `<h2 class="recent-activity-header"> Hi </h2>`
+    titleSpan.innerHTML += " | GPA: "+GPA
 
     
     //If Card View
