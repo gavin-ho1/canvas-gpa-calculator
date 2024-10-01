@@ -71,10 +71,10 @@ if(weightedGradingEnabled){
   
   gradedAssigmentGradeWrappers.forEach(span => {
     chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() }, (response) => {}); 
-    num = span.innerHTML.trim().match(/(\d+)/)[0]
+    num = span.innerHTML.trim().match(/(\d+)/)
     if(num){
       chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
-      gradeList.push(num)
+      gradeList.push(num[0])
     }else{
       chrome.runtime.sendMessage({ type: 'print', data : "Grade not detected" }, (response) => {}); 
       gradeList.push("--")
