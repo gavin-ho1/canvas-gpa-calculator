@@ -112,9 +112,11 @@ chrome.runtime.sendMessage({ type: 'print', data : totalPointDict }, (response) 
 var finalGradeDict = {}
 
 filteredKeys.forEach(category => {
+  chrome.runtime.sendMessage({ type: 'print', data : pointDict[category]/totalPointDict[category] }, (response) => {}); 
   if(totalPointDict[category] !== 0){
-    chrome.runtime.sendMessage({ type: 'print', data : pointDict[category]/totalPointDict[category] }, (response) => {}); 
     finalGradeDict[category] = pointDict[category]/totalPointDict[category]
+  }else{
+    finalGradeDict[category] = "NaN"
   }
 
 })
