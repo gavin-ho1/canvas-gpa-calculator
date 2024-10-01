@@ -13,7 +13,7 @@ if(dashboardSpan){
       GPA += gradePoint
     })
   })
-  GPA /= Object.keys(courseDict).length
+  GPA = GPA/parseFloat(Object.keys(courseDict).length)
   chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {}); 
   //If Card View
   //If List View
