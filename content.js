@@ -10,7 +10,7 @@ gradedAssigments = document.querySelectorAll("tr.student_assignment.assignment_g
 gradedAssigmentGrades = document.querySelectorAll("tr.student_assignment.assignment_graded.editable td.assignment_score div.score_holder span.tooltip span.grade")
 gradedAssigmentGrades.forEach(gradeWrapper => {
     grade = gradeWrapper.textContent.replace(/Click to test a different score/g, '').trim()
-    chrome.runtime.sendMessage({ type: 'print', data : grade}, (response) => {}); 
+    // chrome.runtime.sendMessage({ type: 'print', data : grade}, (response) => {}); 
 })
 
 var weightedGradingEnabled = false
@@ -63,8 +63,8 @@ if(weightedGradingEnabled){
   
 }
 //Debug Print
-chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
-chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});
+// chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
+// chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});
 
 var categoriesList = []
 var gradeList = []
@@ -82,11 +82,11 @@ if(weightedGradingEnabled){
     // chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() }, (response) => {}); 
     num = span.innerHTML.trim().match(/(\d+)/)
     if(num){
-      chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
+      // chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
       gradeList.push(parseFloat(num[0]))
       totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/","")))
     }else{
-      chrome.runtime.sendMessage({ type: 'print', data : "Grade not detected" }, (response) => {}); 
+      // chrome.runtime.sendMessage({ type: 'print', data : "Grade not detected" }, (response) => {}); 
       gradeList.push("--")
       totalPointList.push("--")
     }
@@ -94,9 +94,9 @@ if(weightedGradingEnabled){
     
   })
 }
-chrome.runtime.sendMessage({ type: 'print', data : categoriesList }, (response) => {});
-chrome.runtime.sendMessage({ type: 'print', data : gradeList }, (response) => {});
-chrome.runtime.sendMessage({ type: 'print', data : totalPointList }, (response) => {});
+// chrome.runtime.sendMessage({ type: 'print', data : categoriesList }, (response) => {});
+// chrome.runtime.sendMessage({ type: 'print', data : gradeList }, (response) => {});
+// chrome.runtime.sendMessage({ type: 'print', data : totalPointList }, (response) => {});
 
 for(index in gradeList){
   if(gradeList[index] !== "--"){
@@ -106,13 +106,13 @@ for(index in gradeList){
 
 }
 
-chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {}); 
-chrome.runtime.sendMessage({ type: 'print', data : totalPointDict }, (response) => {}); 
+// chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {}); 
+// chrome.runtime.sendMessage({ type: 'print', data : totalPointDict }, (response) => {}); 
 
 var finalGradeDict = {}
 
 filteredKeys.forEach(category => {
-  chrome.runtime.sendMessage({ type: 'print', data : pointDict[category]/totalPointDict[category] }, (response) => {}); 
+  // chrome.runtime.sendMessage({ type: 'print', data : pointDict[category]/totalPointDict[category] }, (response) => {}); 
   if(totalPointDict[category] !== 0){ //Check for div by zero
     finalGradeDict[category] = pointDict[category]/totalPointDict[category]
   }else{
@@ -121,7 +121,7 @@ filteredKeys.forEach(category => {
 
 })
 
-chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict }, (response) => {}); 
+// chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict }, (response) => {}); 
 
 var finalGrade = 0
 
@@ -132,6 +132,8 @@ filteredKeys.forEach(category => {
   }
   
 })
+
+finalGrade = finalGrade.toFixed(2)
 
 chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade }, (response) => {}); 
 
