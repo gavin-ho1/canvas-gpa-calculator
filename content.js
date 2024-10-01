@@ -29,6 +29,12 @@ gradeHeaders.forEach(header => {
 var weightDict = {}
 var pointDict = {}
 var totalPointDict = {}
+var finalGradeDict = {}
+
+var categoriesList = []
+var gradeList = []
+var totalPointList = []
+
 
 if(weightedGradingEnabled){
   keys = document.querySelectorAll("table.summary th")
@@ -62,81 +68,76 @@ if(weightedGradingEnabled){
       return acc;
     }, {});  
 
+    const categoriesWrappers = document.querySelectorAll("div.context")
   
+    categoriesWrappers.forEach(div => {
+      categoriesList.push(div.innerHTML)
+    })
+    const gradedAssigmentGradeWrappers = document.querySelectorAll("td.assignment_score span.grade")
+    
+    gradedAssigmentGradeWrappers.forEach(span => {
+      // chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() }, (response) => {}); 
+      num = span.innerHTML.trim().match(/\d+(\.\d+)?$/) //Get numbers without percentage signs next to them
+  
+      if(num){
+        // chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
+        gradeList.push(parseFloat(num[0]))
+        totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/","")))
+      }else{
+        // chrome.runtime.sendMessage({ type: 'print', data : "Grade not detected" }, (response) => {}); 
+        gradeList.push("--")
+        totalPointList.push("--")
+      }
+     
+      
+    })
+    for(index in gradeList){
+      if(gradeList[index] !== "--"){
+        pointDict[categoriesList[index]] += gradeList[index]
+        totalPointDict[categoriesList[index]] += totalPointList[index]
+      }
+    
+    }
+    filteredKeys.forEach(category => {
+      // chrome.runtime.sendMessage({ type: 'print', data : pointDict[category]/totalPointDict[category] }, (response) => {}); 
+      if(totalPointDict[category] !== 0){ //Check for div by zero
+        finalGradeDict[category] = pointDict[category]/totalPointDict[category]
+      }else{
+        finalGradeDict[category] = "NaN"
+      }
+    
+    })
+    
+    // chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict }, (response) => {}); 
+    
+    var finalGrade = 0
+    
+    filteredKeys.forEach(category => {
+      if(finalGradeDict[category] !== "NaN"){
+        chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict[category]*weightDict[category] }, (response) => {}); 
+        finalGrade += finalGradeDict[category]*weightDict[category]
+      }
+      
+    })
+    
+    finalGrade = finalGrade.toFixed(2)
 }
 //Debug Print
 // chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
 // chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});
 
-var categoriesList = []
-var gradeList = []
-var totalPointList = []
-
-if(weightedGradingEnabled){
-  const categoriesWrappers = document.querySelectorAll("div.context")
-  
-  categoriesWrappers.forEach(div => {
-    categoriesList.push(div.innerHTML)
-  })
-  const gradedAssigmentGradeWrappers = document.querySelectorAll("td.assignment_score span.grade")
-  
-  gradedAssigmentGradeWrappers.forEach(span => {
-    // chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() }, (response) => {}); 
-    num = span.innerHTML.trim().match(/\d+(\.\d+)?$/) //Get numbers without percentage signs next to them
-
-    if(num){
-      // chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
-      gradeList.push(parseFloat(num[0]))
-      totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/","")))
-    }else{
-      // chrome.runtime.sendMessage({ type: 'print', data : "Grade not detected" }, (response) => {}); 
-      gradeList.push("--")
-      totalPointList.push("--")
-    }
-   
-    
-  })
-}
 // chrome.runtime.sendMessage({ type: 'print', data : categoriesList }, (response) => {});
 // chrome.runtime.sendMessage({ type: 'print', data : gradeList }, (response) => {});
 // chrome.runtime.sendMessage({ type: 'print', data : totalPointList }, (response) => {});
 
-for(index in gradeList){
-  if(gradeList[index] !== "--"){
-    pointDict[categoriesList[index]] += gradeList[index]
-    totalPointDict[categoriesList[index]] += totalPointList[index]
-  }
 
-}
 
 // chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {}); 
 // chrome.runtime.sendMessage({ type: 'print', data : totalPointDict }, (response) => {}); 
 
-var finalGradeDict = {}
 
-filteredKeys.forEach(category => {
-  // chrome.runtime.sendMessage({ type: 'print', data : pointDict[category]/totalPointDict[category] }, (response) => {}); 
-  if(totalPointDict[category] !== 0){ //Check for div by zero
-    finalGradeDict[category] = pointDict[category]/totalPointDict[category]
-  }else{
-    finalGradeDict[category] = "NaN"
-  }
 
-})
 
-// chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict }, (response) => {}); 
-
-var finalGrade = 0
-
-filteredKeys.forEach(category => {
-  if(finalGradeDict[category] !== "NaN"){
-    chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict[category]*weightDict[category] }, (response) => {}); 
-    finalGrade += finalGradeDict[category]*weightDict[category]
-  }
-  
-})
-
-finalGrade = finalGrade.toFixed(2)
 
 chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"%" }, (response) => {}); 
 
