@@ -158,29 +158,30 @@ if(dashboardSpan){
 
   let letterGrade;
 
-  if (grade >= 97) {
+  //I'm not stupid, its just that js won't accept composite functions, which is why there is a lack of functions in this entire script
+  if (finalGrade >= 97) {
     letterGrade = "A+";
-  } else if (grade >= 93) {
+  } else if (finalGrade >= 93) {
     letterGrade = "A";
-  } else if (grade >= 90) {
+  } else if (finalGrade >= 90) {
     letterGrade = "A-";
-  } else if (grade >= 87) {
+  } else if (gradfinalGradee >= 87) {
     letterGrade = "B+";
-  } else if (grade >= 83) {
+  } else if (finalGrade >= 83) {
     letterGrade = "B";
-  } else if (grade >= 80) {
+  } else if (finalGrade >= 80) {
     letterGrade = "B-";
-  } else if (grade >= 77) {
+  } else if (finalGrade >= 77) {
     letterGrade = "C+";
-  } else if (grade >= 73) {
+  } else if (finalGrade >= 73) {
     letterGrade = "C";
-  } else if (grade >= 70) {
+  } else if (finalGrade >= 70) {
     letterGrade = "C-";
-  } else if (grade >= 67) {
+  } else if (finalGrade >= 67) {
     letterGrade = "D+";
-  } else if (grade >= 63) {
+  } else if (finalGrade >= 63) {
     letterGrade = "D";
-  } else if (grade >= 60) {
+  } else if (finalGrade >= 60) {
     letterGrade = "D-";
   } else {
     letterGrade = "F";
