@@ -14,12 +14,17 @@ if(dashboardSpan){
       GPA += gradePoint
     })
     GPA /= Object.keys(courseDict).length
-    chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {});
+    chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {}); // GPA variable must be within chrome.storage.sync.get(), otherwise the variable doesn't get saved
+
+
+    //Put HTML inject here:
+    
+    //If Card View
+    //If List View
+    //If Recent Activity View
   })
    
-  //If Card View
-  //If List View
-  //If Recent Activity View
+  
 }else{
 
   hyperLink = document.querySelector("a.mobile-header-title.expandable")
