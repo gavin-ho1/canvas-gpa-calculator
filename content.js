@@ -25,6 +25,9 @@ gradeHeaders.forEach(header => {
 
 
 var weightDict
+var pointDict
+var totalPointDict
+
 if(weightedGradingEnabled){
   keys = document.querySelectorAll("table.summary th")
   var filteredKeys = []
@@ -51,7 +54,11 @@ if(weightedGradingEnabled){
     pointDict = filteredKeys.reduce((acc, key, index) => {
       acc[key] = 0;
       return acc;
-    }, {}); 
+    }, {});
+    totalPointDict = filteredKeys.reduce((acc, key, index) => {
+      acc[key] = 0;
+      return acc;
+    }, {});  
 
   
 }
@@ -61,6 +68,8 @@ chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {}
 
 var categoriesList = []
 var gradeList = []
+var totalPointList = []
+
 if(weightedGradingEnabled){
   const categoriesWrappers = document.querySelectorAll("div.context")
   
@@ -75,6 +84,7 @@ if(weightedGradingEnabled){
     if(num){
       chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
       gradeList.push(parseFloat(num[0]))
+      totalPointList.push(parseFloat(num.nextElementSibling.innerHTML.replace("/","")))
     }else{
       chrome.runtime.sendMessage({ type: 'print', data : "Grade not detected" }, (response) => {}); 
       gradeList.push("--")
@@ -85,12 +95,22 @@ if(weightedGradingEnabled){
 }
 chrome.runtime.sendMessage({ type: 'print', data : categoriesList }, (response) => {});
 chrome.runtime.sendMessage({ type: 'print', data : gradeList }, (response) => {});
+chrome.runtime.sendMessage({ type: 'print', data : totalPointList }, (response) => {});
 
 for(index in gradeList){
   if(gradeList[index] !== "--")
   pointDict[categoriesList[index]] += gradeList[index]
 }
 chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {}); 
+
+
+//BREAK
+
+
+
+
+
+
 
   var autoGradingEnabled = true
 
