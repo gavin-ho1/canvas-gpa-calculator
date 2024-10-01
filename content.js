@@ -70,7 +70,7 @@ if(weightedGradingEnabled){
   const gradedAssigmentGradeWrappers = document.querySelectorAll("td.assignment_score span.grade")
   
   gradedAssigmentGradeWrappers.forEach(span => {
-    chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML }, (response) => {}); 
+    chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() }, (response) => {}); 
     num = span.innerHTML.trim().match(/(\d+)/)[0]
     if(span.innerHTML.trim().match("Instructor has not posted this grade")){
       gradeList.push("--")
