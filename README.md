@@ -1,7 +1,7 @@
 # Canvas GPA Calculator
 Chrome Extension that calculates GPA on Canvas when blocked by a teacher because I couldn't find an (good) existing extension online.
 
-## **⚠ DISCLAIMER ⚠**
+# **⚠ DISCLAIMER ⚠**
 This Chrome Extension is not given permissions to store any senstive/private content (browser history, passwords, etc). It is literally **IMPOSSIBLE** to get this information without permissions. 
 
 Permissons are specified in the `manifest.json` file, under the key `"permissions"` as shown below:
@@ -18,7 +18,7 @@ This code does **NOT** "hack" or break into Canvas or any site to get informatio
 3. Enable dev mode, then select the button labeled "Load unpacked"
 4. Select the unzipped file directory and then run in any `instructure.com` subdomain, must be the grades section of an individual course
    - For example: `school.instructure.com/courses/1334/grades`
-5. To view GPA, go to your canvas hompage/dashboard (`school.instructure.com`) to see your calculated GPA. 
+5. To view GPA, go to your Canvas hompage/dashboard (`school.instructure.com`) to see your calculated GPA. 
 
 ##
 

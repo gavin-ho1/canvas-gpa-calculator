@@ -25,7 +25,7 @@ if(dashboardSpan){
       
       if (titleSpan) {
           chrome.runtime.sendMessage({ type: 'print', data: titleSpan.textContent }, (response) => {}); 
-          titleSpan.innerHTML += " | GPA: " + GPA;
+          titleSpan.innerHTML += " ǀ GPA: " + GPA;
       } else {
           // Retry after 100ms if the element is not found
           setTimeout(findTitleSpan, 100);
