@@ -244,7 +244,7 @@ if(dashboardSpan){
 
     const gradeDivs = document.querySelectorAll('#student-grades-final');
     // Loop through each of the found divs
-    autoGrade = True
+    var autoGrade = True
   gradeDivs.forEach(div => {
       // Check if the text content matches "Calculation of totals has been disabled"
       if (div.textContent.trim() === "Calculation of totals has been disabled") {
