@@ -11,7 +11,7 @@
 - [X] Letter Grades
 - [X] Display/HTML Inject GPA onto dashboard 
 - [ ] Options/settings menu **[WIP]**
-- [ ] Grade display consistent with default Canvas theme **[WIP]**
+- [X] Grade display consistent with default Canvas theme **[WIP]**
 - [ ] Get google dev account and publish on webstore **[WIP]**
 - [ ] Make compatible with What-If Grades
 - [ ] Make nice documentation
