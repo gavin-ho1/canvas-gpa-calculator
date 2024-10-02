@@ -251,6 +251,18 @@ if(dashboardSpan){
       } 
   });
   const displayAside = document.querySelector("#right-side")
+  function findGradeSpan() {
+    const gradeSpan = document.querySelector("div.student_assignment.final_grade");
+    
+    if (gradeSpan) {
+        chrome.runtime.sendMessage({ type: 'print', data: gradeSpan.textContent }, (response) => {}); 
+        gradeSpan.remove()
+    } else {
+        // Retry after 100ms if the element is not found
+        setTimeout(findGradeSpan, 100);
+    }
+}
+findGradeSpan()
 
     displayAside.innerHTML = `<div id="student-grades-final" class="student_assignment final_grade" style="font-size: 1.2em;">Total: ${finalGrade}% (${letterGrade})</div>` + displayAside.innerHTML
   
