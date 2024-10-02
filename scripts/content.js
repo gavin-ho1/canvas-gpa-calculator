@@ -248,7 +248,7 @@ if(dashboardSpan){
   gradeDivs.forEach(div => {
       // Check if the text content matches "Calculation of totals has been disabled"
       if (div.textContent.trim() === "Calculation of totals has been disabled") {
-        autoGrade = False  
+        autoGrade = False
         div.remove()
           
       } 
@@ -256,7 +256,7 @@ if(dashboardSpan){
   
 
   //Find 
-  if(autoGrade === True){
+  if(autoGrade){
     function findGradeSpan() {
       const gradeSpan = document.querySelector("div.student_assignment.final_grade");
       
@@ -270,6 +270,7 @@ if(dashboardSpan){
   }
   findGradeSpan()
   }
+
   const displayAside = document.querySelector("#right-side") 
 
   displayAside.innerHTML = `<div id="student-grades-final" class="student_assignment final_grade" style="font-size: 1.2em;">Total: ${finalGrade}% (${letterGrade})</div>` + displayAside.innerHTML
