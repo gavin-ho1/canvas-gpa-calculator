@@ -253,7 +253,7 @@ if(dashboardSpan){
   });
   
 
-  //Find 
+  //If final grade exists, delete (use same recursive to delete dynamic content)
   if(document.querySelector("div.student_assignment.final_grade")){
     function findGradeSpan() {
       const gradeSpan = document.querySelector("div.student_assignment.final_grade");
