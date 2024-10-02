@@ -12,6 +12,7 @@
 - [X] Display/HTML Inject GPA onto dashboard 
 - [ ] Options/settings menu **[WIP]**
 - [ ] Custom GPA point scale
+- [ ] Auto Calculate (Open all course grade tabs, which will trigger the code, refreshing the grade of all courses, and therefore recalculating the overall GPA)
 - [X] Grade display consistent with default Canvas theme **[WIP]**
 - [ ] Get google dev account and publish on webstore **[WIP]**
 - [ ] Make compatible with What-If Grades
