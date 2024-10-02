@@ -253,7 +253,7 @@ if(dashboardSpan){
   
 
   //Find 
-  if(document.innerHTML.match("Total: ")){
+  if(document.textContent.match("Total: ")){
     function findGradeSpan() {
       const gradeSpan = document.querySelector("div.student_assignment.final_grade");
       
