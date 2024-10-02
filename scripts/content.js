@@ -256,7 +256,7 @@ if(dashboardSpan){
   
 
   //Find 
-  if(autoGrade){
+  if(autoGrade === True){
     function findGradeSpan() {
       const gradeSpan = document.querySelector("div.student_assignment.final_grade");
       
