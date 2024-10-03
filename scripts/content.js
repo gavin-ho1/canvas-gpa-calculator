@@ -151,10 +151,10 @@ if(dashboardSpan){
         
       })
       for(index in gradeList){
-        if(gradeList[index] !== null){
+        // if(gradeList[index] !== ""){
           pointDict[categoriesList[index]] += gradeList[index]
           totalPointDict[categoriesList[index]] += totalPointList[index]
-        }
+        // }
       
       }
       
