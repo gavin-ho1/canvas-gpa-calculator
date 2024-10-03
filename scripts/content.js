@@ -252,7 +252,8 @@ if(dashboardSpan){
   } else {
     letterGrade = "F";
   }
-
+  chrome.runtime.sendMessage({type: "print", data : letterGrade})
+  
   chrome.runtime.sendMessage({type: "getGrade", data : [finalGrade,courseID,letterGrade]})
 
 
