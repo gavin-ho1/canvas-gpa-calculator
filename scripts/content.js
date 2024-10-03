@@ -150,6 +150,8 @@ if(dashboardSpan){
       
         
       })
+      chrome.runtime.sendMessage({ type: 'print', description : "gradeList = ", data : gradeList }, (response) => {});  
+      chrome.runtime.sendMessage({ type: 'print', description : "totalPointList = ", data : totalPointList }, (response) => {}); 
       for(index in gradeList){
         // if(gradeList[index] !== ""){
           pointDict[categoriesList[index]] += gradeList[index]
@@ -157,7 +159,7 @@ if(dashboardSpan){
         // }
       
       }
-     chrome.runtime.sendMessage({ type: 'print', description : "weightDict = ", data : weightDict }, (response) => {});   
+      chrome.runtime.sendMessage({ type: 'print', description : "weightDict = ", data : weightDict }, (response) => {});   
       chrome.runtime.sendMessage({ type: 'print', description : "pointDict = ", data : pointDict }, (response) => {});  
       chrome.runtime.sendMessage({ type: 'print', description : "totalPointDict = ", data : totalPointDict }, (response) => {}); 
 
