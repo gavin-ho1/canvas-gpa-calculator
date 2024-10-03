@@ -1,5 +1,12 @@
 console.log("background.js running")
 
+const extensionIconClickListener = () => {
+  chrome.tabs.create({ url: 'https://example.com' });
+};
+       
+chrome.browserAction.onClicked.addListener(extensionIconClickListener);
+
+
 var tabURL
 var grade
 var courseID
