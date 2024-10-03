@@ -1,13 +1,10 @@
-function print(description = "", content){
-  chrome.runtime.sendMessage({ type: 'print', description : description, data : content })
-}
-print("Debug:", "content.js is running")
+chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
 var courseID 
 
 
 dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for dashboard/homepage
 if(dashboardSpan){
-  print("Debug:", "Dashboard page detected") 
+  chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
   var GPA = 0
   chrome.storage.sync.get('courseDict', (result) => {
     const courseDict = result.courseDict
@@ -17,7 +14,7 @@ if(dashboardSpan){
       GPA += gradePoint
     })
     GPA /= Object.keys(courseDict).length
-    chrome.runtime.sendMessage({ type: 'print', description : "Calculated GPA from chrome.storage.sync.get(): ", data : GPA }, (response) => {}); // GPA variable must be within chrome.storage.sync.get(), otherwise the variable doesn't get saved
+    chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {}); // GPA variable must be within chrome.storage.sync.get(), otherwise the variable doesn't get saved
     
     //Put HTML inject here:
 
@@ -27,7 +24,7 @@ if(dashboardSpan){
       const titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span");
       
       if (titleSpan) {
-          chrome.runtime.sendMessage({ type: 'print', description : "Detected titleSpan: ",data: titleSpan.textContent }, (response) => {}); 
+          chrome.runtime.sendMessage({ type: 'print', data: titleSpan.textContent }, (response) => {}); 
           titleSpan.innerHTML += " ǀ GPA: " + GPA;
       } else {
           // Retry after 100ms if the element is not found
@@ -65,7 +62,7 @@ if(dashboardSpan){
 
   hyperLink = document.querySelector("a.mobile-header-title.expandable")
   courseID = hyperLink.href.match(/\d+/)
-  chrome.runtime.sendMessage({ type: 'print', description : "courseID", data : courseID }, (response) => {});
+  chrome.runtime.sendMessage({ type: 'print', data : "CourseID: " +courseID }, (response) => {});
     
 
 
@@ -95,7 +92,6 @@ if(dashboardSpan){
   var categoriesList = []
   var gradeList = []
   var totalPointList = []
-  var finalGrade = 0
 
 
   if(weightedGradingEnabled){
@@ -145,56 +141,44 @@ if(dashboardSpan){
           // chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
           gradeList.push(parseFloat(num[0]))
           totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/","")))
-          // chrome.runtime.sendMessage({ type: 'print', data :  span.nextElementSibling.innerHTML.replace("/","") }, (response) => {});  
         }else{
           // chrome.runtime.sendMessage({ type: 'print', data : "Grade not detected" }, (response) => {}); 
-          gradeList.push(0)
-          totalPointList.push(0)
+          gradeList.push("--")
+          totalPointList.push("--")
         }
       
         
       })
-      chrome.runtime.sendMessage({ type: 'print', description : "gradeList = ", data : gradeList }, (response) => {});  
-      chrome.runtime.sendMessage({ type: 'print', description : "totalPointList = ", data : totalPointList }, (response) => {}); 
       for(index in gradeList){
-        // if(gradeList[index] !== ""){
+        if(gradeList[index] !== "--"){
           pointDict[categoriesList[index]] += gradeList[index]
           totalPointDict[categoriesList[index]] += totalPointList[index]
-        // }
+        }
       
       }
-      chrome.runtime.sendMessage({ type: 'print', description : "weightDict = ", data : weightDict }, (response) => {});   
-      chrome.runtime.sendMessage({ type: 'print', description : "pointDict = ", data : pointDict }, (response) => {});  
-      chrome.runtime.sendMessage({ type: 'print', description : "totalPointDict = ", data : totalPointDict }, (response) => {}); 
-
-      
       filteredKeys.forEach(category => {
+        // chrome.runtime.sendMessage({ type: 'print', data : pointDict[category]/totalPointDict[category] }, (response) => {}); 
         if(totalPointDict[category] !== 0){ //Check for div by zero
           finalGradeDict[category] = pointDict[category]/totalPointDict[category]
         }else{
           finalGradeDict[category] = "NaN"
         }
-        chrome.runtime.sendMessage({ type: 'print', data : totalPointDict[category] }, (response) => {}); 
+      
       })
       
-      chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict }, (response) => {}); 
+      // chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict }, (response) => {}); 
       
-
+      var finalGrade = 0
       
       filteredKeys.forEach(category => {
-        if(finalGradeDict[category] !== "NaN" || weightDict[category] !== null){
-          chrome.runtime.sendMessage({ type: 'print', description : "finalGradeDict[category] = ",data : finalGradeDict[category] }, (response) => {});
-          chrome.runtime.sendMessage({ type: 'print', description : "weightDict[category] = ",data : weightDict[category] }, (response) => {});  
-          chrome.runtime.sendMessage({ type: 'print', description : "finalGradeDict[category]*weightDict[category] = ",data : finalGradeDict[category]*weightDict[category] }, (response) => {}); 
+        if(finalGradeDict[category] !== "NaN"){
+          chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict[category]*weightDict[category] }, (response) => {}); 
           finalGrade += finalGradeDict[category]*weightDict[category]
-        }else{
-          chrome.runtime.sendMessage({ type: 'print', data : "NaN" }, (response) => {});  
         }
         
       })
       
       finalGrade = finalGrade.toFixed(2)
-
       //Debug Print
   // chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
   // chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});
@@ -222,11 +206,9 @@ if(dashboardSpan){
     finalGrade = finalGrade.toFixed(2)
   }
 
+  let letterGrade;
 
   //I'm not stupid, its just that js won't accept composite functions, which is why there is a lack of functions in this entire script
- 
-  chrome.runtime.sendMessage({type: "print", data : finalGrade})
-
   if (finalGrade >= 97) {
     letterGrade = "A+";
   } else if (finalGrade >= 93) {
@@ -254,8 +236,7 @@ if(dashboardSpan){
   } else {
     letterGrade = "F";
   }
-  chrome.runtime.sendMessage({type: "print", data : letterGrade})
-  
+
   chrome.runtime.sendMessage({type: "getGrade", data : [finalGrade,courseID,letterGrade]})
 
 
@@ -278,7 +259,6 @@ if(dashboardSpan){
       const gradeSpan = document.querySelector("div.student_assignment.final_grade");
       
       if (gradeSpan) {
-        chrome.runtime.sendMessage({ type: 'print', data : "Deleting gradeSpan" }, (response) => {}); 
           chrome.runtime.sendMessage({ type: 'print', data: gradeSpan.textContent }, (response) => {}); 
           gradeSpan.remove()
       } else {
