@@ -6,8 +6,6 @@ chrome.runtime.onMessage.addListener((message) => {
   }
 });
 
-       
-chrome.browserAction.onClicked.addListener(extensionIconClickListener);
 
 
 var tabURL
