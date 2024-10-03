@@ -222,7 +222,6 @@ if(dashboardSpan){
     finalGrade = finalGrade.toFixed(2)
   }
 
-  var letterGrade;
 
   //I'm not stupid, its just that js won't accept composite functions, which is why there is a lack of functions in this entire script
   
