@@ -1,3 +1,7 @@
+function print(description = "", content){
+  chrome.runtime.sendMessage({ type: 'print', description : description, data : content })
+}
+print("Debug:", "content.js is running")
 chrome.runtime.sendMessage({ type: 'print', description : "Debug: ", data : "content.js is running" }, (response) => {});
 var courseID 
 
