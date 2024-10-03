@@ -140,10 +140,10 @@ if(dashboardSpan){
         if(num){
           chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
           gradeList.push(parseFloat(num[0]))
-          totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/","")))
-          chrome.runtime.sendMessage({ type: 'print', data :  span.nextElementSibling.innerHTML.replace("/","") }, (response) => {});  
+          // totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/","")))
+          // chrome.runtime.sendMessage({ type: 'print', data :  span.nextElementSibling.innerHTML.replace("/","") }, (response) => {});  
         }else{
-          chrome.runtime.sendMessage({ type: 'print', data : "Grade not detected" }, (response) => {}); 
+          // chrome.runtime.sendMessage({ type: 'print', data : "Grade not detected" }, (response) => {}); 
           gradeList.push("--")
           totalPointList.push("--")
         }
@@ -175,6 +175,8 @@ if(dashboardSpan){
         if(finalGradeDict[category] !== "NaN"){
           chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict[category]*weightDict[category] }, (response) => {}); 
           finalGrade += finalGradeDict[category]*weightDict[category]
+        }else{
+          chrome.runtime.sendMessage({ type: 'print', data : "NaN" }, (response) => {});  
         }
         
       })
