@@ -95,6 +95,7 @@ if(dashboardSpan){
   var categoriesList = []
   var gradeList = []
   var totalPointList = []
+  var finalGrade = 0
 
 
   if(weightedGradingEnabled){
@@ -178,7 +179,7 @@ if(dashboardSpan){
       
       chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict }, (response) => {}); 
       
-      var finalGrade = 0
+
       
       filteredKeys.forEach(category => {
         if(finalGradeDict[category] !== "NaN" || weightDict[category] !== null){
@@ -193,7 +194,7 @@ if(dashboardSpan){
       })
       
       finalGrade = finalGrade.toFixed(2)
-      chrome.runtime.sendMessage({ type: 'print', description : "finalGrade = ",data : finalGrade}, (response) => {}); 
+
       //Debug Print
   // chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
   // chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});
