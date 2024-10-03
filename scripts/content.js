@@ -54,7 +54,7 @@ if(dashboardSpan){
         
         if (betterCanvasCards) {
             chrome.runtime.sendMessage({ type: 'print', data: "Better Canvas Cards Found" }, (response) => {}); 
-            chrome.runtime.sendMessage({ type: 'print', data: url.href }, (response) => {}); 
+            chrome.runtime.sendMessage({ type: 'print', data: betterCanvasCards }, (response) => {}); 
             betterCanvasCards.forEach(card => {
               url = card.href
               Object.keys(courseDict).forEach(key => {
