@@ -49,17 +49,27 @@ if(dashboardSpan){
     if(cardViewDivs){
       chrome.runtime.sendMessage({ type: 'print', data : "Better Canvas detected" }, (response) => {}); 
       //Inject html for a card
-      betterCanvasCards = document.querySelectorAll("a.bettercanvas-card-grade")
-      if(betterCanvasCards){
-        betterCanvasCards.forEach(card => {
-          url = card.href
-          Object.keys(courseDict).forEach(key => {
-            if(url.match(key)){
-              betterCanvasCards.textContent = courseDict[key].grade
-            }
-          })
-        })
-      }
+      function injectCardGrade() {
+        const betterCanvasCards = document.querySelectorAll("a.bettercanvas-card-grade")
+        
+        if (gradbetterCanvasCards) {
+            chrome.runtime.sendMessage({ type: 'print', data: "Better Canvas Cards Found" }, (response) => {}); 
+            betterCanvasCards.forEach(card => {
+              url = card.href
+              Object.keys(courseDict).forEach(key => {
+                if(url.match(key)){
+                  betterCanvasCards.textContent = courseDict[key].grade
+                }
+              })
+            })
+        } else {
+            // Retry after 100ms if the element is not found
+            setTimeout(injectCardGrade, 100);
+        }
+    }
+    
+    injectCardGrade()
+  
     }else if (listViewDiv){
       //Inject html at top of list
     }else if(recentViewDiv){
