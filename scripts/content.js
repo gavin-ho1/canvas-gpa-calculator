@@ -221,11 +221,11 @@ if(dashboardSpan){
     finalGrade = (points/totalPoints)*100
     finalGrade = finalGrade.toFixed(2)
   }
-
+  chrome.runtime.sendMessage({type: "getGrade", data : [finalGrade,courseID,letterGrade]})
   var letterGrade = "";
 
   //I'm not stupid, its just that js won't accept composite functions, which is why there is a lack of functions in this entire script
-  chrome.runtime.sendMessage({type: "[rint]", data : "hi"})
+  
   if (finalGrade >= 97) {
     letterGrade = "A+";
   } else if (finalGrade >= 93) {
