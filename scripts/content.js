@@ -47,30 +47,20 @@ if(dashboardSpan){
     recentViewDiv = document.querySelector("h2.recent-activity-header")
     
     if(cardViewDivs){
-      chrome.runtime.sendMessage({ type: 'print', data : "Better Canvas detected" }, (response) => {}); 
+      
       //Inject html for a card
-      function injectCardGrade() {
-        const betterCanvasCards = document.querySelectorAll("a.bettercanvas-card-grade")
-        chrome.runtime.sendMessage({ type: 'print', data: betterCanvasCards }, (response) => {});
-        if (betterCanvasCards) {
-            chrome.runtime.sendMessage({ type: 'print', data: "Better Canvas Cards Found" }, (response) => {}); 
-            chrome.runtime.sendMessage({ type: 'print', data: card.innerHTML }, (response) => {}); 
-            betterCanvasCards.forEach(card => {
-              url = card.href
-              Object.keys(courseDict).forEach(key => {
-                if(url.match(key)){
-                  betterCanvasCards.textContent = courseDict[key].grade+"%"
-                }
-              })
-            })
-        } else {
-            // Retry after 100ms if the element is not found
-            setTimeout(injectCardGrade, 100);
-        }
-    }
-    
-    injectCardGrade()
-  
+      betterCanvasCards = document.querySelectorAll("a.bettercanvas-card-grade")
+      if(betterCanvasCards){
+        chrome.runtime.sendMessage({ type: 'print', data : "Better Canvas detected" }, (response) => {}); 
+        betterCanvasCards.forEach(card => {
+          url = card.href
+          Object.keys(courseDict).forEach(key => {
+            if(url.match(key)){
+              betterCanvasCards.textContent = courseDict[key].grade
+            }
+          })
+        })
+      }
     }else if (listViewDiv){
       //Inject html at top of list
     }else if(recentViewDiv){
