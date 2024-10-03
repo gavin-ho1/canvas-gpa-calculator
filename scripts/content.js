@@ -47,6 +47,7 @@ if(dashboardSpan){
     recentViewDiv = document.querySelector("h2.recent-activity-header")
     
     if(cardViewDivs){
+      chrome.runtime.sendMessage({ type: 'print', data : "Better Canvas detected" }, (response) => {}); 
       //Inject html for a card
       betterCanvasCards = document.querySelectorAll("a.bettercanvas-card-grade")
       if(betterCanvasCards){
