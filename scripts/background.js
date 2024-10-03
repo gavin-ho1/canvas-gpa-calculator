@@ -63,6 +63,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 //Debug Print
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if(request.type === "print"){
-    console.log(request.data)
+    if(request.description !== null){
+      console.log(request.description, request.data)
+    }else{
+      console.log(request.data)
+    }
+    
   }
 })

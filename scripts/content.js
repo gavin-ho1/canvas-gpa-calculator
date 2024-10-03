@@ -158,14 +158,12 @@ if(dashboardSpan){
       
       }
       
-      chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});  
-      chrome.runtime.sendMessage({ type: 'print', data : totalPointDict }, (response) => {}); 
+      chrome.runtime.sendMessage({ type: 'print', description : "pointDict = ", data : pointDict }, (response) => {});  
+      chrome.runtime.sendMessage({ type: 'print', description : "totalPointDict = ", data : totalPointDict }, (response) => {}); 
 
       
       filteredKeys.forEach(category => {
-        // chrome.runtime.sendMessage({ type: 'print', data : pointDict[category]/totalPointDict[category] }, (response) => {}); 
         if(totalPointDict[category] !== 0){ //Check for div by zero
-          chrome.runtime.sendMessage({ type: 'print', data : pointDict[category] }, (response) => {}); 
           chrome.runtime.sendMessage({ type: 'print', data : totalPointDict[category] }, (response) => {}); 
           finalGradeDict[category] = pointDict[category]/totalPointDict[category]
         }else{
