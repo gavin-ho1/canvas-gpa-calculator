@@ -48,6 +48,17 @@ if(dashboardSpan){
     
     if(cardViewDivs){
       //Inject html for a card
+      betterCanvasCards = document.querySelectorAll("a.bettercanvas-card-grade")
+      if(betterCanvasCards){
+        betterCanvasCards.forEach(card => {
+          url = card.href
+          Object.keys(courseDict).forEach(key => {
+            if(url.match(key)){
+              betterCanvasCards.textContent = courseDict[key].grade
+            }
+          })
+        })
+      }
     }else if (listViewDiv){
       //Inject html at top of list
     }else if(recentViewDiv){
