@@ -1,10 +1,10 @@
-chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
+chrome.runtime.sendMessage({ type: 'print', description : "Debug: ", data : "content.js is running" }, (response) => {});
 var courseID 
 
 
 dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for dashboard/homepage
 if(dashboardSpan){
-  chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
+  chrome.runtime.sendMessage({ type: 'print', description : "Debug: ", data : "dashboard page detected" }, (response) => {}); 
   var GPA = 0
   chrome.storage.sync.get('courseDict', (result) => {
     const courseDict = result.courseDict
@@ -14,7 +14,7 @@ if(dashboardSpan){
       GPA += gradePoint
     })
     GPA /= Object.keys(courseDict).length
-    chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {}); // GPA variable must be within chrome.storage.sync.get(), otherwise the variable doesn't get saved
+    chrome.runtime.sendMessage({ type: 'print', description : "Calculated GPA from chrome.storage.sync.get(): ", data : GPA }, (response) => {}); // GPA variable must be within chrome.storage.sync.get(), otherwise the variable doesn't get saved
     
     //Put HTML inject here:
 
@@ -24,7 +24,7 @@ if(dashboardSpan){
       const titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span");
       
       if (titleSpan) {
-          chrome.runtime.sendMessage({ type: 'print', data: titleSpan.textContent }, (response) => {}); 
+          chrome.runtime.sendMessage({ type: 'print', description : "Detected titleSpan: ",data: titleSpan.textContent }, (response) => {}); 
           titleSpan.innerHTML += " ǀ GPA: " + GPA;
       } else {
           // Retry after 100ms if the element is not found
@@ -62,7 +62,7 @@ if(dashboardSpan){
 
   hyperLink = document.querySelector("a.mobile-header-title.expandable")
   courseID = hyperLink.href.match(/\d+/)
-  chrome.runtime.sendMessage({ type: 'print', data : "CourseID: " +courseID }, (response) => {});
+  chrome.runtime.sendMessage({ type: 'print', description : "courseID", data : courseID }, (response) => {});
     
 
 
@@ -178,10 +178,7 @@ if(dashboardSpan){
       
       filteredKeys.forEach(category => {
         if(finalGradeDict[category] !== "NaN" || weightDict[category] !== null){
-          chrome.runtime.sendMessage({ type: 'print', data : "Print Grade: " }, (response) => {}); 
-          chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict[category] }, (response) => {}); 
-          chrome.runtime.sendMessage({ type: 'print', data : weightDict[category] }, (response) => {}); 
-          chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict[category]*weightDict[category] }, (response) => {}); 
+          chrome.runtime.sendMessage({ type: 'print', description : "finalGradeDict[category]*weightDict[category]:",data : finalGradeDict[category]*weightDict[category] }, (response) => {}); 
           finalGrade += finalGradeDict[category]*weightDict[category]
         }else{
           chrome.runtime.sendMessage({ type: 'print', data : "NaN" }, (response) => {});  
