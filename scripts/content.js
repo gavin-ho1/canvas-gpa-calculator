@@ -140,7 +140,7 @@ if(dashboardSpan){
         if(num){
           // chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
           gradeList.push(parseFloat(num[0]))
-          // totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/","")))
+          totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/","")))
           // chrome.runtime.sendMessage({ type: 'print', data :  span.nextElementSibling.innerHTML.replace("/","") }, (response) => {});  
         }else{
           // chrome.runtime.sendMessage({ type: 'print', data : "Grade not detected" }, (response) => {}); 
