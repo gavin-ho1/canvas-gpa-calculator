@@ -179,7 +179,7 @@ if(dashboardSpan){
       var finalGrade = 0
       
       filteredKeys.forEach(category => {
-        if(finalGradeDict[category] !== "NaN"){
+        if(finalGradeDict[category] !== "NaN" || weightDict[category] !== null){
           chrome.runtime.sendMessage({ type: 'print', data : "Print Grade: " }, (response) => {}); 
           chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict[category] }, (response) => {}); 
           chrome.runtime.sendMessage({ type: 'print', data : weightDict[category] }, (response) => {}); 
