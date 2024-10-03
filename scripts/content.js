@@ -144,14 +144,14 @@ if(dashboardSpan){
           // chrome.runtime.sendMessage({ type: 'print', data :  span.nextElementSibling.innerHTML.replace("/","") }, (response) => {});  
         }else{
           // chrome.runtime.sendMessage({ type: 'print', data : "Grade not detected" }, (response) => {}); 
-          gradeList.push("--")
-          totalPointList.push("--")
+          gradeList.push(0)
+          totalPointList.push(0)
         }
       
         
       })
       for(index in gradeList){
-        if(gradeList[index] !== "--"){
+        if(gradeList[index] !== null){
           pointDict[categoriesList[index]] += gradeList[index]
           totalPointDict[categoriesList[index]] += totalPointList[index]
         }
