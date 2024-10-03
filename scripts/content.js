@@ -54,7 +54,7 @@ if(dashboardSpan){
         chrome.runtime.sendMessage({ type: 'print', data: betterCanvasCards }, (response) => {});
         if (Object.keys(betterCanvasCards).length !== 0) {
             chrome.runtime.sendMessage({ type: 'print', data: "Better Canvas Cards Found" }, (response) => {}); 
-            chrome.runtime.sendMessage({ type: 'print', data: betterCanvasCards }, (response) => {}); 
+            chrome.runtime.sendMessage({ type: 'print', data: card.innerHTML }, (response) => {}); 
             betterCanvasCards.forEach(card => {
               url = card.href
               Object.keys(courseDict).forEach(key => {
