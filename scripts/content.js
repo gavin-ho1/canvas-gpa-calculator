@@ -224,7 +224,9 @@ if(dashboardSpan){
 
 
   //I'm not stupid, its just that js won't accept composite functions, which is why there is a lack of functions in this entire script
-  
+ 
+  chrome.runtime.sendMessage({type: "print", data : finalGrade})
+
   if (finalGrade >= 97) {
     letterGrade = "A+";
   } else if (finalGrade >= 93) {
