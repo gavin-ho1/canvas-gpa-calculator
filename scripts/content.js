@@ -167,7 +167,7 @@ if(dashboardSpan){
       
       })
       
-      // chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict }, (response) => {}); 
+      chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict }, (response) => {}); 
       
       var finalGrade = 0
       
