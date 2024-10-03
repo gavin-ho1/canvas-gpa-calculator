@@ -17,7 +17,7 @@
     <button>Auto Scan GPA</button>
     <div>
         <button onclick="clearData()">Clear Course Info</button>
-        <p class="output", style='display:inline;'></p>
+        <p class="output", style='display:inline;'>Not Cleared</p>
         <script>
             function clearData(){
                 chrome.storage.sync.clear(() => {});
