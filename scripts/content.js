@@ -57,6 +57,7 @@ if(dashboardSpan){
           url = card.href
           chrome.runtime.sendMessage({ type: 'print', data : url }, (response) => {}); 
           Object.keys(courseDict).forEach(key => {
+            chrome.runtime.sendMessage({ type: 'print', courseDict[key].grade : url }, (response) => {}); 
             if(url.match(key)){
               betterCanvasCards.textContent = courseDict[key].grade
             }
