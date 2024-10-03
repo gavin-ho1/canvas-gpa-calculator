@@ -2,13 +2,12 @@ function print(description = "", content){
   chrome.runtime.sendMessage({ type: 'print', description : description, data : content })
 }
 print("Debug:", "content.js is running")
-chrome.runtime.sendMessage({ type: 'print', description : "Debug: ", data : "content.js is running" }, (response) => {});
 var courseID 
 
 
 dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for dashboard/homepage
 if(dashboardSpan){
-  chrome.runtime.sendMessage({ type: 'print', description : "Debug: ", data : "dashboard page detected" }, (response) => {}); 
+  print("Debug:", "Dashboard page detected") 
   var GPA = 0
   chrome.storage.sync.get('courseDict', (result) => {
     const courseDict = result.courseDict
@@ -183,7 +182,8 @@ if(dashboardSpan){
       
       filteredKeys.forEach(category => {
         if(finalGradeDict[category] !== "NaN" || weightDict[category] !== null){
-          chrome.runtime.sendMessage({ type: 'print', description : "finalGradeDict[category]*weightDict[category] = ",data : finalGradeDict[category]*weightDict[category] }, (response) => {}); 
+          chrome.runtime.sendMessage({ type: 'print', description : "finalGradeDict[category] = ",data : finalGradeDict[category] }, (response) => {});
+          chrome.runtime.sendMessage({ type: 'print', description : "weightDict[category] = ",data : weightDict[category] }, (response) => {});  
           finalGrade += finalGradeDict[category]*weightDict[category]
         }else{
           chrome.runtime.sendMessage({ type: 'print', data : "NaN" }, (response) => {});  
