@@ -138,7 +138,7 @@ if(dashboardSpan){
         num = span.innerHTML.trim().match(/\d+(\.\d+)?$/) //Get numbers without percentage signs next to them
     
         if(num){
-          chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
+          // chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
           gradeList.push(parseFloat(num[0]))
           // totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/","")))
           // chrome.runtime.sendMessage({ type: 'print', data :  span.nextElementSibling.innerHTML.replace("/","") }, (response) => {});  
@@ -174,6 +174,8 @@ if(dashboardSpan){
       filteredKeys.forEach(category => {
         if(finalGradeDict[category] !== "NaN"){
           chrome.runtime.sendMessage({ type: 'print', data : "Print Grade: " }, (response) => {}); 
+          chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict[category] }, (response) => {}); 
+          chrome.runtime.sendMessage({ type: 'print', data : weightDict[category] }, (response) => {}); 
           chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict[category]*weightDict[category] }, (response) => {}); 
           finalGrade += finalGradeDict[category]*weightDict[category]
         }else{
