@@ -1,8 +1,11 @@
 console.log("background.js running")
 
-const extensionIconClickListener = () => {
-  chrome.tabs.create({ url: 'https://example.com' });
-};
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.action === "openUrl") {
+    chrome.tabs.create({ url: "https://example.com" });
+  }
+});
+
        
 chrome.browserAction.onClicked.addListener(extensionIconClickListener);
 

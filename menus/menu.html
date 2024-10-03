@@ -3,9 +3,11 @@
   <head>
     <script>
         // Redirect user to a new page
-        window.onload = function() {
-          window.location.href = "https://www.example.com";
-        };
+        const openUrlButton = document.getElementById("openUrlButton");
+
+        openUrlButton.addEventListener("click", () => {
+            chrome.runtime.sendMessage({ action: "openUrl" });
+        });
       </script>
     <title>Canvas GPA Calculator</title>
   </head>
