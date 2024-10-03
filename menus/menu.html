@@ -16,6 +16,14 @@
     </div>
     <button>Auto Scan GPA</button>
     <div>
+        <button onclick="clearData()">Clear Course Info</button>
+        <script>
+            function clearData(){
+                chrome.storage.sync.clear(() => {});
+            }
+        </script>
+    </div>
+    <div>
         <button>About</button>
     </div>
 </body>
