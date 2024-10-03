@@ -52,7 +52,7 @@ if(dashboardSpan){
       function injectCardGrade() {
         const betterCanvasCards = document.querySelectorAll("a.bettercanvas-card-grade")
         
-        if (gradbetterCanvasCards) {
+        if (betterCanvasCards) {
             chrome.runtime.sendMessage({ type: 'print', data: "Better Canvas Cards Found" }, (response) => {}); 
             chrome.runtime.sendMessage({ type: 'print', data: url.href }, (response) => {}); 
             betterCanvasCards.forEach(card => {
