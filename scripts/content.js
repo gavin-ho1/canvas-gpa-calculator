@@ -244,7 +244,7 @@ if(dashboardSpan){
   chrome.runtime.sendMessage({type: "getGrade", data : [finalGrade,courseID,letterGrade]})
 
 
-  chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"% ("+letterGrade+")" }, (response) => {}); 
+  // chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"% ("+letterGrade+")" }, (response) => {}); 
 
     const gradeDivs = document.querySelectorAll('#student-grades-final');
     // Loop through each of the found divs
