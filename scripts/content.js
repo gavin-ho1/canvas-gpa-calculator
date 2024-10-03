@@ -233,7 +233,7 @@ if(dashboardSpan){
     letterGrade = "A";
   } else if (finalGrade >= 90) {
     letterGrade = "A-";
-  } else if (gradfinalGradee >= 87) {
+  } else if (finalGrade >= 87) {
     letterGrade = "B+";
   } else if (finalGrade >= 83) {
     letterGrade = "B";
