@@ -193,6 +193,7 @@ if(dashboardSpan){
       })
       
       finalGrade = finalGrade.toFixed(2)
+      chrome.runtime.sendMessage({ type: 'print', description : "finalGrade = ",data : finalGrade}, (response) => {}); 
       //Debug Print
   // chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
   // chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});
