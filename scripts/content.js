@@ -210,7 +210,7 @@ if(dashboardSpan){
     finalGrade = finalGrade.toFixed(2)
   }
 
-  let letterGrade;
+  let letterGrade = "";
 
   //I'm not stupid, its just that js won't accept composite functions, which is why there is a lack of functions in this entire script
   if (finalGrade >= 97) {
@@ -244,7 +244,7 @@ if(dashboardSpan){
   chrome.runtime.sendMessage({type: "getGrade", data : [finalGrade,courseID,letterGrade]})
 
 
-  // chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"% ("+letterGrade+")" }, (response) => {}); 
+  chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"% ("+letterGrade+")" }, (response) => {}); 
 
     const gradeDivs = document.querySelectorAll('#student-grades-final');
     // Loop through each of the found divs
@@ -263,6 +263,7 @@ if(dashboardSpan){
       const gradeSpan = document.querySelector("div.student_assignment.final_grade");
       
       if (gradeSpan) {
+        chrome.runtime.sendMessage({ type: 'print', data : "Deleting gradeSpan" }, (response) => {}); 
           chrome.runtime.sendMessage({ type: 'print', data: gradeSpan.textContent }, (response) => {}); 
           gradeSpan.remove()
       } else {
