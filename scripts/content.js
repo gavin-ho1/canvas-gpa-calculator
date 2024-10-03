@@ -160,6 +160,8 @@ if(dashboardSpan){
       filteredKeys.forEach(category => {
         // chrome.runtime.sendMessage({ type: 'print', data : pointDict[category]/totalPointDict[category] }, (response) => {}); 
         if(totalPointDict[category] !== 0){ //Check for div by zero
+          chrome.runtime.sendMessage({ type: 'print', data : pointDict[category] }, (response) => {}); 
+          chrome.runtime.sendMessage({ type: 'print', data : totalPointDict[category] }, (response) => {}); 
           finalGradeDict[category] = pointDict[category]/totalPointDict[category]
         }else{
           finalGradeDict[category] = "NaN"
