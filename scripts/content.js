@@ -49,7 +49,7 @@ if(dashboardSpan){
     if(cardViewDivs){
       
       //Inject html for a card
-      
+
       const observer = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
           if (mutation.type === 'childList') {
@@ -86,7 +86,8 @@ if(dashboardSpan){
           setTimeout(injectCard,100)
         }
       }
-      injectCard()
+      
+
       
     }else if (listViewDiv){
       //Inject html at top of list
