@@ -64,8 +64,9 @@ if(dashboardSpan){
               chrome.runtime.sendMessage({ type: 'print', data: url }, (response) => {});
       
               // Create a new element with the same class and styles as the card
+              key = parseFloat(url.match(/\d+/))
               const gradeElement = card.cloneNode(true);
-              gradeElement.textContent = ` - ${courseDict[key].grade}`;
+              gradeElement.textContent = `${courseDict[key].grade}%`;
       
               // Insert the new element after the card
               card.parentNode.insertBefore(gradeElement, card.nextSibling);
