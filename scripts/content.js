@@ -49,36 +49,44 @@ if(dashboardSpan){
     if(cardViewDivs){
       
       //Inject html for a card
-      function injectCard() {
-        const betterCanvasCards = document.querySelectorAll("a.bettercanvas-card-grade");
       
-        if (betterCanvasCards.length !== 0) {
-          chrome.runtime.sendMessage({ type: 'print', data: "Better Canvas detected" }, (response) => {});
+      const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          if (mutation.type === 'childList') {
+            mutation.addedNodes.forEach(node => {
+              if (node.classList.contains('bettercanvas-card-grade'))   
+       {
+                injectCard();
+              }
+            });
+          }
+        });
+      });
       
+      observer.observe(document.body, { childList: true, subtree: true });
+      
+
+      function injectCard(){
+        const betterCanvasCards = document.querySelectorAll("a.bettercanvas-card-grade")
+        if(betterCanvasCards.length !== 0){
+          chrome.runtime.sendMessage({ type: 'print', data : "Better Canvas detected" }, (response) => {}); 
           betterCanvasCards.forEach(card => {
-            const url = card.href;
-      
-            // Check if the card is visible before injecting content
-            if (card.style.display !== 'none' && card.offsetParent !== null) {
-              chrome.runtime.sendMessage({ type: 'print', data: card.innerHTML }, (response) => {});
-              chrome.runtime.sendMessage({ type: 'print', data: url }, (response) => {});
-      
-              // Create a new element with the same class and styles as the card
-              key = parseFloat(url.match(/\d+/))
-              const gradeElement = card.cloneNode(true);
-              gradeElement.textContent = `${courseDict[key].grade}%`;
-      
-              // Insert the new element after the card
-              card.parentNode.insertBefore(gradeElement, card.nextSibling);
-            }
-          });
-        } else {
-          setTimeout(injectCard, 100);
+            chrome.runtime.sendMessage({ type: 'print', data : card.innerHTML }, (response) => {}); 
+            url = card.href
+            chrome.runtime.sendMessage({ type: 'print', data : url }, (response) => {}); 
+            Object.keys(courseDict).forEach(key => {
+              
+              if(url.match(key)){
+                chrome.runtime.sendMessage({ type: 'print', data : courseDict[key].grade }, (response) => {}); 
+                card.textContent = `${courseDict[key].grade}%`
+              }
+            })
+          })
+        }else{
+          setTimeout(injectCard,100)
         }
       }
-      
-      injectCard();
-      
+      injectCard()
       
     }else if (listViewDiv){
       //Inject html at top of list
