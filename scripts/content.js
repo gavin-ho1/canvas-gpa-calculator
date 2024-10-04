@@ -20,7 +20,7 @@ if(dashboardSpan){
 
     //Recursive to inject HTML into dynamic content 
     //Basically checks if titleSpan exists, and injects. If not, wait and try again
-    var betterCanvasPresent = False
+  
 
     // Do Later
     //If Card View
@@ -31,6 +31,8 @@ if(dashboardSpan){
 
     //If Recent Activity View
     recentViewDiv = document.querySelector("h2.recent-activity-header")
+    
+    if(cardViewDivs){
       
       //Inject html for a card
 
@@ -38,12 +40,11 @@ if(dashboardSpan){
         mutations.forEach(mutation => {
           if (mutation.type === 'childList') {
             mutation.addedNodes.forEach(node => {
-              if (node.classList.contains('bettercanvas-card-grade')) {
-                betterCanvasPresent = True
+              if (node.classList.contains('bettercanvas-card-grade'))   
+       {
                 injectCard();
               }
               if (node.classList.contains("bettercanvas-gpa-card")){
-                betterCanvasPresent = True
                 injectGPA()
               }
             });
@@ -74,6 +75,10 @@ if(dashboardSpan){
           setTimeout(injectCard,100)
         }
       }
+      
+      
+
+
       function injectGPA(){
         gpaCardUnweighted = document.querySelector("#bettercanvas-gpa-unweighted")
         gpaCardWeighted = document.querySelector("#bettercanvas-gpa-weighted")
@@ -85,8 +90,15 @@ if(dashboardSpan){
         } else {
           setTimeout(injectGPA,100)
         }
-    }
-    if(betterCanvasPresent){
+      }      
+      
+
+      
+    }else if (listViewDiv){
+      //Inject html at top of list
+    }else if(recentViewDiv){
+      //Inject html above "Recent Activity" div
+    }else{
       function findTitleSpan() {
         const titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span");
         
@@ -102,6 +114,7 @@ if(dashboardSpan){
     // Start checking for the element
     findTitleSpan();
     }
+
 
   })
    
