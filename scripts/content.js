@@ -91,7 +91,6 @@ if(dashboardSpan){
           setTimeout(injectGPA,100)
         }
       }      
-    }else{
       function findListHeader(){
         listHeader = document.querySelector("h2.css-tz46fa-view-heading")
         if(listHeader){
@@ -104,6 +103,8 @@ if(dashboardSpan){
       
       }
       findListHeader()
+    }else{
+      
 
       function findTitleSpan() {
         const titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span");
