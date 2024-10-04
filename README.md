@@ -14,6 +14,8 @@ This code does **NOT** "hack" or break into Canvas or any site to get informatio
 
 ## Features
 - Individual course calculation based on published assigment grades
+   - Regular grade calculation
+   - Weighted grade calculation
 - Total GPA calculator
 - [Better Canvas](https://chromewebstore.google.com/detail/better-canvas/cndibmoanboadcifjkjbdpjgfedanolh) Compatibility
    - Overrides some features to display accurate grades
