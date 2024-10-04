@@ -106,10 +106,10 @@ if(dashboardSpan){
       }
       findListHeader()
     function findActivityHeader(){
-      activityHeader = document.querySelector("div.page_header_container")
+      activityHeader = document.querySelector("h2.recent-activity-header")
       if(activityHeader){
         chrome.runtime.sendMessage({ type: 'print', data: "Injected Recent Activity view" }, (response) => {}); 
-        activityHeader.innerHTML += `<h2 class = "recent-activity-header">GPA: ${GPA}</h2> `
+        activityHeader.innerHTML += `\nGPA: ${GPA}` 
         activityHeader.style.fontWeight = "bold";
 
       }else{
