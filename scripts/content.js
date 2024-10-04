@@ -121,6 +121,13 @@ if(dashboardSpan){
 
     }else{
       
+//       <div class="bettercanvas-gpa-card" style="display: inline-block;"><h3 class="bettercanvas-gpa-header">GPA</h3><div><p id="bettercanvas-gpa-unweighted">11</p>
+// <table cellpadding="0" cellspacing="0" border="0" width="100%">
+// <tbody><tr><td align="side">
+// <img src="https://raw.githubusercontent.com/gavin-ho1/canvas-gpa-calculator/refs/heads/main/logo.png">
+// </td></tr>
+// </tbody></table>
+// <p align="center">Canvas GPA Calculator</p></div></div>
 
       function findTitleSpan() {
         const titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span");
