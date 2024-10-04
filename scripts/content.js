@@ -35,7 +35,7 @@ if(dashboardSpan){
     betterCanvas = document.querySelector("#bettercanvas-aesthetics")
     
       //Inject html for a card
-    if(betterCanvas){
+    if(betterCanvas && cardViewDivs){
       const observer = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
           if (mutation.type === 'childList') {
