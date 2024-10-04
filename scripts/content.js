@@ -32,7 +32,7 @@ if(dashboardSpan){
     //If Recent Activity View
     recentViewDiv = document.querySelector("h2.recent-activity-header")
     
-    if(cardViewDivs){
+    if(document.querySelector("div.ic-DashboardCard__header_hero")){
       chrome.runtime.sendMessage({ type: 'print', data : "Card View Detected" }, (response) => {});
       
       //Inject html for a card
