@@ -33,6 +33,7 @@ if(dashboardSpan){
     recentViewDiv = document.querySelector("h2.recent-activity-header")
     
     if(cardViewDivs){
+      chrome.runtime.sendMessage({ type: 'print', data : "Card View Detected" }, (response) => {});
       
       //Inject html for a card
 
@@ -95,6 +96,7 @@ if(dashboardSpan){
 
       
     }else if (listViewDiv){
+      chrome.runtime.sendMessage({ type: 'print', data : "List View Detected" }, (response) => {});
       //Inject html at top of list
 
       const observer = new MutationObserver(mutations => {
@@ -125,6 +127,7 @@ if(dashboardSpan){
       injectDiv()
 
     }else if(recentViewDiv){
+      chrome.runtime.sendMessage({ type: 'print', data : "Recent View Detected" }, (response) => {});
       //Inject html above "Recent Activity" div
     }else{
       function findTitleSpan() {
