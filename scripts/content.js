@@ -91,6 +91,21 @@ if(dashboardSpan){
           setTimeout(injectGPA,100)
         }
       }      
+    }else{
+      function findTitleSpan() {
+        const titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span");
+        
+        if (titleSpan) {
+            chrome.runtime.sendMessage({ type: 'print', data: titleSpan.textContent }, (response) => {}); 
+            titleSpan.innerHTML += " ǀ GPA: " + GPA;
+        } else {
+            // Retry after 100ms if the element is not found
+            setTimeout(findTitleSpan, 100);
+        }
+    }
+    
+    // Start checking for the element
+    findTitleSpan();
     }
       
       
