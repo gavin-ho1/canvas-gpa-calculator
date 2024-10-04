@@ -20,7 +20,7 @@ if(dashboardSpan){
 
     //Recursive to inject HTML into dynamic content 
     //Basically checks if titleSpan exists, and injects. If not, wait and try again
-  
+    var betterCanvasPresent = False
 
     // Do Later
     //If Card View
@@ -31,9 +31,6 @@ if(dashboardSpan){
 
     //If Recent Activity View
     recentViewDiv = document.querySelector("h2.recent-activity-header")
-    
-    if(cardViewDivs){
-      chrome.runtime.sendMessage({ type: 'print', data : "Card View Detected" }, (response) => {});
       
       //Inject html for a card
 
@@ -41,11 +38,12 @@ if(dashboardSpan){
         mutations.forEach(mutation => {
           if (mutation.type === 'childList') {
             mutation.addedNodes.forEach(node => {
-              if (node.classList.contains('bettercanvas-card-grade'))   
-       {
+              if (node.classList.contains('bettercanvas-card-grade')) {
+                betterCanvasPresent = True
                 injectCard();
               }
               if (node.classList.contains("bettercanvas-gpa-card")){
+                betterCanvasPresent = True
                 injectGPA()
               }
             });
@@ -76,10 +74,6 @@ if(dashboardSpan){
           setTimeout(injectCard,100)
         }
       }
-      
-      
-
-
       function injectGPA(){
         gpaCardUnweighted = document.querySelector("#bettercanvas-gpa-unweighted")
         gpaCardWeighted = document.querySelector("#bettercanvas-gpa-weighted")
@@ -91,45 +85,8 @@ if(dashboardSpan){
         } else {
           setTimeout(injectGPA,100)
         }
-      }      
-      
-
-      
-    }else if (listViewDiv){
-      chrome.runtime.sendMessage({ type: 'print', data : "List View Detected" }, (response) => {});
-      //Inject html at top of list
-
-      const observer = new MutationObserver(mutations => {
-        mutations.forEach(mutation => {
-          if (mutation.type === 'childList') {
-            mutation.addedNodes.forEach(node => {
-              if (node.classList.contains('css-tz46fa-view-heading'))   
-       {
-                injectDiv();
-              }
-            });
-          }
-        });
-      });
-      
-      observer.observe(document.body, { childList: true, subtree: true });
-
-      function injectDiv(){
-        todayHeader = document.querySelector("#css-tz46fa-view-heading")
-        chrome.runtime.sendMessage({ type: 'print', data : todayHeader.innerHTML }, (response) => {});
-        
-        if(todayHeader){
-          todayHeader.innerHTML += `<div wrap="normal" letter-spacing="normal" class="css-1sp24u-text">GPA: ${GPA}%</div>`
-        }else{
-          setTimeout(injectDiv,100)
-        }
-      }
-      injectDiv()
-
-    }else if(recentViewDiv){
-      chrome.runtime.sendMessage({ type: 'print', data : "Recent View Detected" }, (response) => {});
-      //Inject html above "Recent Activity" div
-    }else{
+    }
+    if(betterCanvasPresent){
       function findTitleSpan() {
         const titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span");
         
@@ -145,7 +102,6 @@ if(dashboardSpan){
     // Start checking for the element
     findTitleSpan();
     }
-
 
   })
    
