@@ -58,6 +58,9 @@ if(dashboardSpan){
        {
                 injectCard();
               }
+              if (node.classList.contains("bettercanvas-gpa-card")){
+                injectGPA()
+              }
             });
           }
         });
@@ -86,6 +89,22 @@ if(dashboardSpan){
           setTimeout(injectCard,100)
         }
       }
+      
+      
+
+
+      function injectGPA(){
+        gpaCardUnweighted = document.querySelector("#bettercanvas-gpa-unweighted")
+        gpaCardWeighted = document.querySelector("#bettercanvas-gpa-weighted")
+
+        if(gpaCardUnweighted && gpaCardWeighted){
+          chrome.runtime.sendMessage({ type: 'print', data : "Better Canvas GPA card detected" }, (response) => {}); 
+          gpaCardUnweighted.innerHTML = GPA
+          gpaCardWeighted.innerHTML = GPA
+        } else {
+          setTimeout(injectGPA,100)
+        }
+      }      
       
 
       
