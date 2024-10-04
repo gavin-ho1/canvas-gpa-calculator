@@ -51,7 +51,7 @@ if(dashboardSpan){
       //Inject html for a card
       function injectCard(){
         const betterCanvasCards = document.querySelectorAll("a.bettercanvas-card-grade")
-        if(betterCanvasCards !== null){
+        if(betterCanvasCards.length !== 0){
           chrome.runtime.sendMessage({ type: 'print', data : "Better Canvas detected" }, (response) => {}); 
           betterCanvasCards.forEach(card => {
             chrome.runtime.sendMessage({ type: 'print', data : card.innerHTML }, (response) => {}); 
