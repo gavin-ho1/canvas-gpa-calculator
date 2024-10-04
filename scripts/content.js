@@ -92,8 +92,18 @@ if(dashboardSpan){
         }
       }      
     }else{
-      listHeader = document.querySelector("h2.css-tz46fa-view-heading")
-      listHeader.innerHTML += `<div wrap="normal" letter-spacing="normal" class="css-1sp24u-text">GPA: ${GPA}%</div>`
+      function findListHeader(){
+        listHeader = document.querySelector("h2.css-tz46fa-view-heading")
+        if(listHeader){
+          chrome.runtime.sendMessage({ type: 'print', data: "Injected List view" }, (response) => {}); 
+          listHeader.innerHTML += `<div wrap="normal" letter-spacing="normal" class="css-1sp24u-text">GPA: ${GPA}%</div>`
+
+        }else{
+          setTimeout(findListHeader, 100)
+        }
+      
+      }
+      findListHeader()
 
       function findTitleSpan() {
         const titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span");
