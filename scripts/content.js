@@ -31,9 +31,11 @@ if(dashboardSpan){
 
     //If Recent Activity View
     recentViewDiv = document.querySelector("h2.recent-activity-header")
+
+    betterCanvas = document.querySelector("#bettercanvas-aesthetics")
     
       //Inject html for a card
-
+    if(betterCanvas){
       const observer = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
           if (mutation.type === 'childList') {
@@ -89,6 +91,8 @@ if(dashboardSpan){
           setTimeout(injectGPA,100)
         }
       }      
+    }
+      
       
 
     
