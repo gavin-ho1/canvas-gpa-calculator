@@ -96,6 +96,10 @@ if(dashboardSpan){
       
     }else if (listViewDiv){
       //Inject html at top of list
+      todayHeader = document.querySelector("h2.css-tz46fa-view-heading")
+      if(todayHeader){
+        todayHeader.innerHTML += `<div wrap="normal" letter-spacing="normal" class="css-1sp24u-text">GPA: ${GPA}%</div>`
+      }
     }else if(recentViewDiv){
       //Inject html above "Recent Activity" div
     }else{
