@@ -112,9 +112,12 @@ if(dashboardSpan){
         activityHeader.innerHTML = `<span class="hidden-phone">GPA: ${GPA}</span>` + activityHeader.innerHTML 
         activityHeader.style.fontWeight = "bold";
 
+      }else{
+        setTimeout(findActivityHeader, 100)
       }
 
     }
+    findActivityHeader()
 
     }else{
       
