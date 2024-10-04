@@ -92,10 +92,10 @@ if(dashboardSpan){
         }
       }      
       function findListHeader(){
-        listHeader = document.querySelector("h2.css-tz46fa-view-heading")
+        listHeader = document.querySelector("h2.css-tz46fa-view-heading div")
         if(listHeader){
           chrome.runtime.sendMessage({ type: 'print', data: "Injected List view" }, (response) => {}); 
-          listHeader.innerHTML = `<span class="hidden-phone">GPA: ${GPA}</span>` + listHeader.innerHTML
+          listHeader.innerHTML += ` ǀ GPA: ${GPA}`
           listHeader.style.fontWeight = "bold";
 
 
