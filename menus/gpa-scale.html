@@ -24,8 +24,9 @@
             border: none;
             cursor: pointer;
         }
+        /* Initially hide the plus-minus fields */
         .plus-minus-fields {
-            display: none; /* Start hidden */
+            display: none;
         }
     </style>
 </head>
@@ -40,12 +41,14 @@
     </label>
 
     <form id="gpaForm">
-        <!-- GPA input fields -->
-        <label>A: <input type="number" id="a" placeholder="e.g. 4.0" step="0.01"></label>
-        <label>B: <input type="number" id="b" placeholder="e.g. 3.0" step="0.01"></label>
-        <label>C: <input type="number" id="c" placeholder="e.g. 2.0" step="0.01"></label>
-        <label>D: <input type="number" id="d" placeholder="e.g. 1.0" step="0.01"></label>
-        <label>F: <input type="number" id="f" placeholder="e.g. 0.0" step="0.01"></label>
+        <!-- Standard GPA input fields (visible by default) -->
+        <div id="standardGradeFields">
+            <label>A: <input type="number" id="a" placeholder="e.g. 4.0" step="0.01"></label>
+            <label>B: <input type="number" id="b" placeholder="e.g. 3.0" step="0.01"></label>
+            <label>C: <input type="number" id="c" placeholder="e.g. 2.0" step="0.01"></label>
+            <label>D: <input type="number" id="d" placeholder="e.g. 1.0" step="0.01"></label>
+            <label>F: <input type="number" id="f" placeholder="e.g. 0.0" step="0.01"></label>
+        </div>
 
         <!-- Pluses and minuses input fields (hidden initially) -->
         <div id="plusMinusFields" class="plus-minus-fields">
@@ -66,32 +69,29 @@
     <pre id="output"></pre>
 
     <script>
-        // Function to toggle the visibility of plus/minus fields
+        // Function to toggle the visibility of standard and plus/minus fields
         function togglePlusMinusFields() {
             const plusMinusFields = document.getElementById('plusMinusFields');
+            const standardGradeFields = document.getElementById('standardGradeFields');
             const isChecked = document.getElementById('togglePlusMinus').checked;
             
-            // Show or hide the plus-minus input fields based on checkbox state
+            // Show plus-minus fields and hide standard grades when checkbox is checked
             if (isChecked) {
                 plusMinusFields.style.display = 'block';
+                standardGradeFields.style.display = 'none';
             } else {
                 plusMinusFields.style.display = 'none';
+                standardGradeFields.style.display = 'block';
             }
         }
 
         function submitGPA() {
-            // Get the input values from the form
-            const gpaValues = {
-                "A": document.getElementById('a').value,
-                "B": document.getElementById('b').value,
-                "C": document.getElementById('c').value,
-                "D": document.getElementById('d').value,
-                "F": document.getElementById('f').value
-            };
+            const gpaValues = {};
 
-            // Only collect plus/minus values if the checkbox is checked
+            // Check if plus/minus grades are included
             const includePlusesMinuses = document.getElementById('togglePlusMinus').checked;
 
+            // Collect values based on toggle status
             if (includePlusesMinuses) {
                 gpaValues["A+"] = document.getElementById('aplus').value;
                 gpaValues["A-"] = document.getElementById('aminus').value;
@@ -101,35 +101,29 @@
                 gpaValues["C-"] = document.getElementById('cminus').value;
                 gpaValues["D+"] = document.getElementById('dplus').value;
                 gpaValues["D-"] = document.getElementById('dminus').value;
+                gpaValues["F"] = document.getElementById('f').value;
+            } else {
+                gpaValues["A"] = document.getElementById('a').value;
+                gpaValues["B"] = document.getElementById('b').value;
+                gpaValues["C"] = document.getElementById('c').value;
+                gpaValues["D"] = document.getElementById('d').value;
+                gpaValues["F"] = document.getElementById('f').value;
             }
 
             // Output the GPA values as a formatted string
-            let output = `
-            GPA Point Weighting:
-            A: ${gpaValues["A"]} 
-            B: ${gpaValues["B"]}
-            C: ${gpaValues["C"]}
-            D: ${gpaValues["D"]}
-            F: ${gpaValues["F"]}
-            `;
-
-            // Append pluses and minuses if applicable
-            if (includePlusesMinuses) {
-                output += `
-                A+: ${gpaValues["A+"]} 
-                A-: ${gpaValues["A-"]}
-                B+: ${gpaValues["B+"]}
-                B-: ${gpaValues["B-"]}
-                C+: ${gpaValues["C+"]}
-                C-: ${gpaValues["C-"]}
-                D+: ${gpaValues["D+"]}
-                D-: ${gpaValues["D-"]}
-                `;
+            let output = "GPA Point Weighting:\n";
+            for (let grade in gpaValues) {
+                output += `${grade}: ${gpaValues[grade]}\n`;
             }
 
             // Display the results in the output element
             document.getElementById('output').textContent = output;
         }
+
+        // Automatically show standard fields on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('standardGradeFields').style.display = 'block';
+        });
     </script>
 
 </body>
