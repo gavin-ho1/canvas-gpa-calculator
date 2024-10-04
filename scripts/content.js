@@ -32,8 +32,6 @@ if(dashboardSpan){
     //If Recent Activity View
     recentViewDiv = document.querySelector("h2.recent-activity-header")
     
-    if(cardViewDivs){
-      
       //Inject html for a card
 
       const observer = new MutationObserver(mutations => {
@@ -93,27 +91,7 @@ if(dashboardSpan){
       }      
       
 
-      
-    }else if (listViewDiv){
-      //Inject html at top of list
-    }else if(recentViewDiv){
-      //Inject html above "Recent Activity" div
-    }else{
-      function findTitleSpan() {
-        const titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span");
-        
-        if (titleSpan) {
-            chrome.runtime.sendMessage({ type: 'print', data: titleSpan.textContent }, (response) => {}); 
-            titleSpan.innerHTML += " ǀ GPA: " + GPA;
-        } else {
-            // Retry after 100ms if the element is not found
-            setTimeout(findTitleSpan, 100);
-        }
-    }
     
-    // Start checking for the element
-    findTitleSpan();
-    }
 
 
   })
