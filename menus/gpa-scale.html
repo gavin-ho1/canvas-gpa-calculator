@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom GPA Point Weighting</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input {
+            margin-left: 10px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .plus-minus-fields {
+            display: none; /* Start hidden */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Custom GPA Point Weighting</h1>
+
+    <!-- Checkbox to toggle pluses and minuses -->
+    <label>
+        <input type="checkbox" id="togglePlusMinus" onchange="togglePlusMinusFields()"> 
+        Include Pluses and Minuses
+    </label>
+
+    <form id="gpaForm">
+        <!-- GPA input fields -->
+        <label>A: <input type="number" id="a" placeholder="e.g. 4.0" step="0.01"></label>
+        <label>B: <input type="number" id="b" placeholder="e.g. 3.0" step="0.01"></label>
+        <label>C: <input type="number" id="c" placeholder="e.g. 2.0" step="0.01"></label>
+        <label>D: <input type="number" id="d" placeholder="e.g. 1.0" step="0.01"></label>
+        <label>F: <input type="number" id="f" placeholder="e.g. 0.0" step="0.01"></label>
+
+        <!-- Pluses and minuses input fields (hidden initially) -->
+        <div id="plusMinusFields" class="plus-minus-fields">
+            <label>A+: <input type="number" id="aplus" placeholder="e.g. 4.3" step="0.01"></label>
+            <label>A-: <input type="number" id="aminus" placeholder="e.g. 3.7" step="0.01"></label>
+            <label>B+: <input type="number" id="bplus" placeholder="e.g. 3.3" step="0.01"></label>
+            <label>B-: <input type="number" id="bminus" placeholder="e.g. 2.7" step="0.01"></label>
+            <label>C+: <input type="number" id="cplus" placeholder="e.g. 2.3" step="0.01"></label>
+            <label>C-: <input type="number" id="cminus" placeholder="e.g. 1.7" step="0.01"></label>
+            <label>D+: <input type="number" id="dplus" placeholder="e.g. 1.3" step="0.01"></label>
+            <label>D-: <input type="number" id="dminus" placeholder="e.g. 0.7" step="0.01"></label>
+        </div>
+        
+        <button type="button" onclick="submitGPA()">Submit</button>
+    </form>
+
+    <h2>Results:</h2>
+    <pre id="output"></pre>
+
+    <script>
+        // Function to toggle the visibility of plus/minus fields
+        function togglePlusMinusFields() {
+            const plusMinusFields = document.getElementById('plusMinusFields');
+            const isChecked = document.getElementById('togglePlusMinus').checked;
+            
+            // Show or hide the plus-minus input fields based on checkbox state
+            if (isChecked) {
+                plusMinusFields.style.display = 'block';
+            } else {
+                plusMinusFields.style.display = 'none';
+            }
+        }
+
+        function submitGPA() {
+            // Get the input values from the form
+            const gpaValues = {
+                "A": document.getElementById('a').value,
+                "B": document.getElementById('b').value,
+                "C": document.getElementById('c').value,
+                "D": document.getElementById('d').value,
+                "F": document.getElementById('f').value
+            };
+
+            // Only collect plus/minus values if the checkbox is checked
+            const includePlusesMinuses = document.getElementById('togglePlusMinus').checked;
+
+            if (includePlusesMinuses) {
+                gpaValues["A+"] = document.getElementById('aplus').value;
+                gpaValues["A-"] = document.getElementById('aminus').value;
+                gpaValues["B+"] = document.getElementById('bplus').value;
+                gpaValues["B-"] = document.getElementById('bminus').value;
+                gpaValues["C+"] = document.getElementById('cplus').value;
+                gpaValues["C-"] = document.getElementById('cminus').value;
+                gpaValues["D+"] = document.getElementById('dplus').value;
+                gpaValues["D-"] = document.getElementById('dminus').value;
+            }
+
+            // Output the GPA values as a formatted string
+            let output = `
+            GPA Point Weighting:
+            A: ${gpaValues["A"]} 
+            B: ${gpaValues["B"]}
+            C: ${gpaValues["C"]}
+            D: ${gpaValues["D"]}
+            F: ${gpaValues["F"]}
+            `;
+
+            // Append pluses and minuses if applicable
+            if (includePlusesMinuses) {
+                output += `
+                A+: ${gpaValues["A+"]} 
+                A-: ${gpaValues["A-"]}
+                B+: ${gpaValues["B+"]}
+                B-: ${gpaValues["B-"]}
+                C+: ${gpaValues["C+"]}
+                C-: ${gpaValues["C-"]}
+                D+: ${gpaValues["D+"]}
+                D-: ${gpaValues["D-"]}
+                `;
+            }
+
+            // Display the results in the output element
+            document.getElementById('output').textContent = output;
+        }
+    </script>
+
+</body>
+</html>
