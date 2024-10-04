@@ -61,7 +61,7 @@ if(dashboardSpan){
               
               if(url.match(key)){
                 chrome.runtime.sendMessage({ type: 'print', data : courseDict[key].grade }, (response) => {}); 
-                card.textContent += ` - ${courseDict[key].grade}`
+                card.textContent = `${courseDict[key].grade}%`
               }
             })
           })
