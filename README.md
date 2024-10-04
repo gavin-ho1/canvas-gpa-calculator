@@ -15,7 +15,9 @@ This code does **NOT** "hack" or break into Canvas or any site to get informatio
 ## Features
 - Individual course calculation based on published assigment grades
 - Total GPA calculator
-- [Better Canvas](https://chromewebstore.google.com/detail/better-canvas/cndibmoanboadcifjkjbdpjgfedanolh) Compatibility (Overrides some features to display accurate grades, and writes over Better Canvas' grade calculator)
+- [Better Canvas](https://chromewebstore.google.com/detail/better-canvas/cndibmoanboadcifjkjbdpjgfedanolh) Compatibility
+   - Overrides some features to display accurate grades
+   - Writes over Better Canvas' GPA calculator
 
 ## Installation Guide
 1. Download zip file from lastest release (or just source code) and unzip
