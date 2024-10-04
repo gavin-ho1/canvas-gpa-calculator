@@ -95,7 +95,7 @@ if(dashboardSpan){
         listHeader = document.querySelector("h2.css-tz46fa-view-heading")
         if(listHeader){
           chrome.runtime.sendMessage({ type: 'print', data: "Injected List view" }, (response) => {}); 
-          listHeader.innerHTML = `<span class="hidden-phone">GPA: ${GPA}</span>` + listHeader.innerHTML
+          listHeader.innerHTML = `<span class="hidden-phone", style="font-weight: bold;>GPA: ${GPA}</span>` + listHeader.innerHTML
 
         }else{
           setTimeout(findListHeader, 100)
