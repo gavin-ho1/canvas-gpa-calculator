@@ -51,23 +51,27 @@ if(dashboardSpan){
       //Inject html for a card
       function injectCard(){
         const betterCanvasCards = document.querySelectorAll("a.bettercanvas-card-grade")
-        if(betterCanvasCards.length !== 0){
-          chrome.runtime.sendMessage({ type: 'print', data : "Better Canvas detected" }, (response) => {}); 
-          betterCanvasCards.forEach(card => {
-            chrome.runtime.sendMessage({ type: 'print', data : card.innerHTML }, (response) => {}); 
-            url = card.href
-            chrome.runtime.sendMessage({ type: 'print', data : url }, (response) => {}); 
-            Object.keys(courseDict).forEach(key => {
-              
-              if(url.match(key)){
-                chrome.runtime.sendMessage({ type: 'print', data : courseDict[key].grade }, (response) => {}); 
-                card.innerHTML = `${courseDict[key].grade}%`
-              }
+        for (let i = 0; i < 2; i++) {
+          if(betterCanvasCards.length !== 0){
+            chrome.runtime.sendMessage({ type: 'print', data : "Better Canvas detected" }, (response) => {}); 
+            betterCanvasCards.forEach(card => {
+              chrome.runtime.sendMessage({ type: 'print', data : card.innerHTML }, (response) => {}); 
+              url = card.href
+              chrome.runtime.sendMessage({ type: 'print', data : url }, (response) => {}); 
+              Object.keys(courseDict).forEach(key => {
+                
+                if(url.match(key)){
+                  chrome.runtime.sendMessage({ type: 'print', data : courseDict[key].grade }, (response) => {}); 
+                  card.innerHTML = `${courseDict[key].grade}%`
+                }
+              })
             })
-          })
-        }else{
-          setTimeout(injectCard,100)
+          }else{
+            setTimeout(injectCard,100)
+          }
         }
+
+        
       }
       injectCard()
       
