@@ -106,7 +106,7 @@ if(dashboardSpan){
       }
       findListHeader()
     function findActivityHeader(){
-      activityHeader = document.querySelector("h2.recent-activity-header")
+      activityHeader = document.querySelector("div.page_header_container")
       if(activityHeader){
         chrome.runtime.sendMessage({ type: 'print', data: "Injected Recent Activity view" }, (response) => {}); 
         activityHeader.innerHTML = `<span class="hidden-phone">GPA: ${GPA}</span>` + activityHeader.innerHTML 
