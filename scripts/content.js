@@ -96,6 +96,22 @@ if(dashboardSpan){
       
     }else if (listViewDiv){
       //Inject html at top of list
+
+      const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          if (mutation.type === 'childList') {
+            mutation.addedNodes.forEach(node => {
+              if (node.classList.contains('css-tz46fa-view-heading'))   
+       {
+                injectDiv();
+              }
+            });
+          }
+        });
+      });
+      
+      observer.observe(document.body, { childList: true, subtree: true });
+      
       function injectDiv(){
         todayHeader = document.querySelector("h2.css-tz46fa-view-heading")
         chrome.runtime.sendMessage({ type: 'print', data : todayHeader.innerHTML }, (response) => {});
