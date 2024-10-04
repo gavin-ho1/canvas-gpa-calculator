@@ -98,6 +98,7 @@ if(dashboardSpan){
       //Inject html at top of list
       function injectDiv(){
         todayHeader = document.querySelector("h2.css-tz46fa-view-heading")
+        chrome.runtime.sendMessage({ type: 'print', data : todayHeader.innerHTML }, (response) => {});
         if(todayHeader){
           todayHeader.innerHTML += `<div wrap="normal" letter-spacing="normal" class="css-1sp24u-text">GPA: ${GPA}%</div>`
         }else{
