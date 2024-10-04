@@ -109,7 +109,7 @@ if(dashboardSpan){
       activityHeader = document.querySelector("h2.recent-activity-header")
       if(activityHeader){
         chrome.runtime.sendMessage({ type: 'print', data: "Injected Recent Activity view" }, (response) => {}); 
-        activityHeader.innerHTML += `\nGPA: ${GPA}` 
+        activityHeader.innerHTML += ` ǀ GPA: ${GPA}` 
         activityHeader.style.fontWeight = "bold";
 
       }else{
