@@ -35,7 +35,7 @@ if(dashboardSpan){
     betterCanvas = document.querySelector("#bettercanvas-aesthetics")
     
       //Inject html for a card
-    if(betterCanvas && cardViewDivs){
+    if(betterCanvas){
       const observer = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
           if (mutation.type === 'childList') {
@@ -92,6 +92,9 @@ if(dashboardSpan){
         }
       }      
     }else{
+      listHeader = document.querySelector("h2.css-tz46fa-view-heading")
+      listHeader.innerHTML += `<div wrap="normal" letter-spacing="normal" class="css-1sp24u-text">GPA: ${GPA}%</div>`
+
       function findTitleSpan() {
         const titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span");
         
