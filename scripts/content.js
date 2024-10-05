@@ -333,15 +333,10 @@ if(dashboardSpan){
     letterGrade = "F";
   }
 
+  chrome.runtime.sendMessage({type: "getGrade", data : [finalGrade,courseID,letterGrade]})
 
-  const isAllNaN = (obj) => {
-    chrome.runtime.sendMessage({ type: 'print', data :  "True"}, (response) => {}); 
-    return Object.values(obj).every(value => value === "NaN");
-  }; 
-  if(isAllNaN(finalGradeDict) !== false){
-    chrome.runtime.sendMessage({type: "getGrade", data : [finalGrade,courseID,letterGrade]})
 
-    chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"% ("+letterGrade+")" }, (response) => {}); 
+  chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"% ("+letterGrade+")" }, (response) => {}); 
 
     const gradeDivs = document.querySelectorAll('#student-grades-final');
     // Loop through each of the found divs
@@ -352,6 +347,8 @@ if(dashboardSpan){
           
       } 
   });
+  
+
   //If final grade exists, delete (use same recursive to delete dynamic content)
   if(document.querySelector("div.student_assignment.final_grade")){
     function findGradeSpan() {
@@ -371,14 +368,5 @@ if(dashboardSpan){
   const displayAside = document.querySelector("#right-side") 
 
   displayAside.innerHTML = `<div id="student-grades-final" class="student_assignment final_grade" style="font-size: 1.2em;">Total: ${finalGrade}% (${letterGrade})</div>` + displayAside.innerHTML
-  
-  }
-
-  
-
-
-  
-  
-
   
 }
