@@ -121,6 +121,7 @@ if(dashboardSpan){
 
     }else{
       
+//HTML for the Grade calculator card:
 //       <div class="bettercanvas-gpa-card" style="display: inline-block;"><h3 class="bettercanvas-gpa-header">GPA</h3><div><p id="bettercanvas-gpa-unweighted">11</p>
 // <table cellpadding="0" cellspacing="0" border="0" width="100%">
 // <tbody><tr><td align="side">
@@ -264,6 +265,12 @@ if(dashboardSpan){
       // chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict }, (response) => {}); 
       
       var finalGrade = 0
+      const isAllNaN = (obj) => {
+        chrome.runtime.sendMessage({ type: 'print', data :  "True"}, (response) => {}); 
+        return Object.values(obj).every(value => value === "NaN");
+      }; 
+      chrome.runtime.sendMessage({ type: 'print', data : isAllNaN(finalGradeDict) }, (response) => {}); 
+
       
       filteredKeys.forEach(category => {
         if(finalGradeDict[category] !== "NaN"){

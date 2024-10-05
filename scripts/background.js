@@ -11,7 +11,8 @@ chrome.runtime.onMessage.addListener((message) => {
 var tabURL
 var grade
 var courseID
-gradeDict ={
+
+var gradeDict ={
   "A+": 12,
   "A": 11,
   "A-": 10,
@@ -26,6 +27,17 @@ gradeDict ={
   "D-": 1,
   "F": 0
 }
+
+if (request.type === "changeGPAWeight")
+chrome.storage.sync.get('gradeDict', (result) => {
+  const gradeDict = result.gradeDict; // Initialize if not present
+  
+  chrome.storage.sync.set({ gradeDict }, () => {
+    console.log("Grade Weight:",gradeDict)
+    // For Debuging
+  });
+  
+});
 
 //Listen for getGrade
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
