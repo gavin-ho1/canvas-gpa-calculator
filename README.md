@@ -12,6 +12,8 @@ The `"storage"` permission is used to store grades calculated by the extension. 
 
 This code does **NOT** "hack" or break into Canvas or any site to get information on grades, it simply takes the already given information on the webpage and calculates it. This would be the same as if a human copy/pasted their own grades from the Canvas webpage and calculated them manually. In fact, many students resort to external tools that such as google sheets to track their grades by manually copying and pasting grades into a spreadsheet. This extension simply automates that process for the user's convience. 
 
+### **This extension should not be used to determine your final grade. Your course instructor may have a different method of grade calculation. This extension is only meant to be a productivity tool that gives you a general idea of what your grade is.**
+
 ## Features
 - Individual course calculation based on published assigment grades
    - Regular grade calculation
