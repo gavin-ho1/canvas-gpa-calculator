@@ -18,10 +18,17 @@ This code does **NOT** "hack" or break into Canvas or any site to get informatio
 - Individual course calculation based on published assigment grades
    - Regular grade calculation
    - Weighted grade calculation
+  
+<img src="README-sources/course-grade-calc-showcase.png">
+
 - Total GPA calculator
+<img src="README-sources/dashboard-showcase.png">
+
 - [Better Canvas](https://chromewebstore.google.com/detail/better-canvas/cndibmoanboadcifjkjbdpjgfedanolh) Compatibility
    - Overrides some features to display accurate grades
    - Writes over Better Canvas' GPA calculator
+ 
+<img src="README-sources/dashboard-showcase-BetterCanvas.png">
 
 ## Installation Guide
 1. Download zip file from [lastest release](https://github.com/gavin-ho1/canvas-gpa-calculator/releases/latest) and unzip
