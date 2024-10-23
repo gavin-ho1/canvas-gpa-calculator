@@ -16,5 +16,6 @@
 - [X] Grade display consistent with default Canvas theme **[WIP]**
 - [ ] Get google dev account and publish on webstore **[WIP]**
 - [ ] Make compatible with What-If Grades
+- [ ] Grade rounding (If a grade percentage is within a certain percentage range, say, +/- 0.5%, letter grade will be rounded up) 
 - [ ] Make nice documentation
 - [ ] Beautify with css themes
