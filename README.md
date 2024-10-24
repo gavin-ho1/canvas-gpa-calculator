@@ -40,8 +40,13 @@ This code does **NOT** "hack" or break into Canvas or any site to get informatio
 
 ##
 
+### Offical Chrome Web Store Extension coming soon!
+
+##
+
 ### [To-Do List](/To-Do.md)
 
 ##
 
-Installation should work for other chromium based browsers, but double check on installation of other browsers - this extension has only been tested in chrome
+Installation should work for other chromium based browsers, but double check on installation of other browsers - this extension has only been tested in chrome.
+
