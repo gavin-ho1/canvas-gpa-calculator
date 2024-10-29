@@ -278,6 +278,7 @@ if(dashboardSpan){
       
       chrome.runtime.sendMessage({ type: 'print', data : countedWeight }, (response) => {});
 
+      finalGrade /= countedWeight
       finalGrade = finalGrade.toFixed(2)
       //Debug Print
   // chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
