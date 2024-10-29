@@ -252,12 +252,12 @@ if(dashboardSpan){
         }
       
       }
-      var countedWeight = {}
+      var countedWeight = 0
       filteredKeys.forEach(category => {
         // chrome.runtime.sendMessage({ type: 'print', data : pointDict[category]/totalPointDict[category] }, (response) => {}); 
         if(totalPointDict[category] !== 0){ //Check for div by zero
           finalGradeDict[category] = pointDict[category]/totalPointDict[category]
-          countedWeight += 1
+          countedWeight += weightDict[category]
         }else{
           finalGradeDict[category] = "NaN"
         }
