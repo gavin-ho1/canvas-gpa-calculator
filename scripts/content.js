@@ -252,10 +252,12 @@ if(dashboardSpan){
         }
       
       }
+      var countedWeight = 0
       filteredKeys.forEach(category => {
         // chrome.runtime.sendMessage({ type: 'print', data : pointDict[category]/totalPointDict[category] }, (response) => {}); 
         if(totalPointDict[category] !== 0){ //Check for div by zero
           finalGradeDict[category] = pointDict[category]/totalPointDict[category]
+          countedWeight += finalGradeDict[category]
         }else{
           finalGradeDict[category] = "NaN"
         }
@@ -269,7 +271,7 @@ if(dashboardSpan){
       filteredKeys.forEach(category => {
         if(finalGradeDict[category] !== "NaN"){
           chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict[category]*weightDict[category] }, (response) => {}); 
-          finalGrade += finalGradeDict[category]*weightDict[category]
+          finalGrade += finalGradeDict[category]*weightDict[category]/countedWeight
         }
         
       })
