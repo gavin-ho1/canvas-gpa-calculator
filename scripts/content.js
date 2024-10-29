@@ -271,14 +271,13 @@ if(dashboardSpan){
       filteredKeys.forEach(category => {
         if(finalGradeDict[category] !== "NaN"){
           chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict[category]*weightDict[category] }, (response) => {}); 
-          finalGrade += finalGradeDict[category]*weightDict[category]
+          finalGrade += finalGradeDict[category]*weightDict[category]/countedWeight
         }
         
       })
       
       chrome.runtime.sendMessage({ type: 'print', data : countedWeight }, (response) => {});
 
-      finalGrade = finalGrade/countedWeight
       finalGrade = finalGrade.toFixed(2)
       //Debug Print
   // chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
