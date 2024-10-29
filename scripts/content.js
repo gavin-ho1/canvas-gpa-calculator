@@ -257,7 +257,7 @@ if(dashboardSpan){
         // chrome.runtime.sendMessage({ type: 'print', data : pointDict[category]/totalPointDict[category] }, (response) => {}); 
         if(totalPointDict[category] !== 0){ //Check for div by zero
           finalGradeDict[category] = pointDict[category]/totalPointDict[category]
-          countedWeight += type(weightDict[category])
+          countedWeight += 1
         }else{
           finalGradeDict[category] = "NaN"
         }
