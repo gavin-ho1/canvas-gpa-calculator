@@ -20,13 +20,20 @@ if(dashboardSpan){
     })
 
     links['courseList'] = urlList
-    
+
     chrome.storage.sync.set({ links }, () => {
       chrome.runtime.sendMessage({ type: 'print', data : links }, (response) => {});
     });
     
   });
-
+  chrome.storage.sync.get(["links"], function(result) {
+    const urls = result.links[1] || [];
+    
+    // Loop through the URLs and open each one in a new tab
+    urls.forEach(url => {
+        chrome.tabs.create({ url });
+    });
+});
   
 
   chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
