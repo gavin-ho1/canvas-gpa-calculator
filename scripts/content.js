@@ -13,12 +13,14 @@ if(dashboardSpan){
     const links = result.links || {}; // Initialize if not present
 
     links["org"] = orgLink
-    links["courseList"] = []
+    urlList = []
 
     courseLinks.forEach( course => {
-      links["courseList"].push(course.href)
+      urlList.push(course.href)
     })
 
+    links['courseList'] = urlList
+    
     chrome.storage.sync.set({ links }, () => {
       chrome.runtime.sendMessage({ type: 'print', data : links }, (response) => {});
     });
