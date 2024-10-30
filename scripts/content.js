@@ -280,6 +280,10 @@ if(dashboardSpan){
 
       finalGrade = (finalGrade/countedWeight)*100
       finalGrade = finalGrade.toFixed(2)
+
+      if(document.querySelector("span input#grading_period_select_menu").title.includes("All Grading Periods")){
+        chrome.runtime.sendMessage({ type: 'print', data : "All Grading Periods" }, (response) => {}); 
+      }
       //Debug Print
   // chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
   // chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});
