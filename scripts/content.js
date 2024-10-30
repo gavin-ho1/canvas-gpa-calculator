@@ -226,60 +226,25 @@ if(dashboardSpan){
       categoriesWrappers.forEach(div => {
         categoriesList.push(div.innerHTML)
       })
-     
+      const gradedAssigmentGradeWrappers = document.querySelectorAll("td.assignment_score span.grade")
       
-// Improved wrapper function for async waits
-async function ensureElementsExist(selector) {
-  return new Promise((resolve) => {
-      const elements = document.querySelectorAll(selector);
-      if (elements.length > 0) {
-          resolve(elements);
-      } else {
-          const observer = new MutationObserver((mutations, obs) => {
-              const elements = document.querySelectorAll(selector);
-              if (elements.length > 0) {
-                  obs.disconnect();
-                  resolve(elements);
-              }
-          });
-          observer.observe(document.body, { childList: true, subtree: true });
-      }
-  });
-}
-
-// Async main content execution to ensure sequence
-(async () => {
-  chrome.runtime.sendMessage({ type: 'print', data: "Starting content script" }, () => {});
-
-  // Example function calls with async handling
-  try {
-      const gradedAssigmentGradeWrappers = await ensureElementsExist("td.assignment_score span.grade");
-      console.log("Elements found:", gradedAssigmentGradeWrappers);
-
       gradedAssigmentGradeWrappers.forEach(span => {
-          if (!span.innerHTML.includes("Instructor has not posted this grade")) {
-              const num = span.innerHTML.trim().match(/\d+(\.\d+)?$/);
-              if (num) {
-                  gradeList.push(parseFloat(num[0]));
-                  totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/", "")));
-              }
-          }
-      });
-
-      // Continue with dependent operations
-  } catch (error) {
-      console.error("Error in element loading:", error);
-  }
-
-  // Additional async calls with await
-  try {
-      await injectCard();
-      await injectGPA();
-  } catch (error) {
-      console.error("Error in injection functions:", error);
-  }
-
-
+        if (!span.innerHTML.includes("Instructor has not posted this grade")){
+        // chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() }, (response) => {}); 
+        num = span.innerHTML.trim().match(/\d+(\.\d+)?$/) //Get numbers without percentage signs next to them
+    
+        if(num){
+          // chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
+          gradeList.push(parseFloat(num[0]))
+          totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/","")))
+        }else{
+          // chrome.runtime.sendMessage({ type: 'print', data : "Grade not detected" }, (response) => {}); 
+          gradeList.push("--")
+          totalPointList.push("--")
+        }
+      
+        }
+      })
       for(index in gradeList){
         if(gradeList[index] !== "--"){
           pointDict[categoriesList[index]] += gradeList[index]
@@ -298,7 +263,7 @@ async function ensureElementsExist(selector) {
         }
       
       })
-    })();
+      
       // chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict }, (response) => {}); 
       
       var finalGrade = 0
@@ -315,7 +280,6 @@ async function ensureElementsExist(selector) {
 
       finalGrade = (finalGrade/countedWeight)*100
       finalGrade = finalGrade.toFixed(2)
-    
       //Debug Print
   // chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
   // chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});
