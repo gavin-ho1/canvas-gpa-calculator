@@ -1,8 +1,6 @@
 console.log("background.js running")
 
 
-  chrome.tabs.create( "https://github.com/gavin-ho1/canvas-gpa-calculator" );
-
 
 
 

@@ -6,7 +6,7 @@ const openUrlButton = document.getElementById("openUrlButton");
             
             // Loop through the URLs and open each one in a new tab
             urls.forEach(url => {
-                chrome.tabs.create({ url });
+                chrome.tabs.create({ url : url});
             });
         });
 
