@@ -1,3 +1,5 @@
+
+document.addEventListener('DOMContentLoaded', () => {
 const openUrlButton = document.getElementById("openUrlButton");
 
         openUrlButton.addEventListener("click", () => {
@@ -17,3 +19,4 @@ const openUrlButton = document.getElementById("openUrlButton");
             chrome.storage.sync.clear(() => {});
         document.querySelector("p.output").textContent = "Cleared!"
         }
+    })
