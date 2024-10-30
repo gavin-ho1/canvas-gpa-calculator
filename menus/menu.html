@@ -1,15 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script>
-        // Redirect user to a new page
-        const openUrlButton = document.getElementById("openUrlButton");
-
-        openUrlButton.addEventListener("click", () => {
-            
-
-        });
-      </script>
+    <script src = "menus/menu.js"></script>
     <title>Canvas GPA Calculator</title>
   </head>
   <body>
@@ -27,13 +19,6 @@
     <div>
         <button onclick="clearData()">Clear Course Info</button>
         <p class="output", style='display:inline;'>Not Cleared</p>
-        <script>
-            function clearData(){
-                chrome.storage.sync.clear(() => {});
-            document.querySelector("p.output").textContent = "Cleared!"
-            }
-            
-        </script>
     </div>
     <div>
         <button>About</button>
