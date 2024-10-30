@@ -278,7 +278,7 @@ async function ensureElementsExist(selector) {
   } catch (error) {
       console.error("Error in injection functions:", error);
   }
-})();
+
 
       for(index in gradeList){
         if(gradeList[index] !== "--"){
@@ -315,6 +315,7 @@ async function ensureElementsExist(selector) {
 
       finalGrade = (finalGrade/countedWeight)*100
       finalGrade = finalGrade.toFixed(2)
+    })();
       //Debug Print
   // chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
   // chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});
