@@ -4,6 +4,29 @@ var courseID
 
 dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for dashboard/homepage
 if(dashboardSpan){
+  
+  orgLink = document.querySelector("a.ic-app-header__logomark").href
+
+  courseLinks = document.querySelectorAll("a.ic-DashboardCard__link")
+
+  chrome.storage.sync.get('links', (result) => {
+    const links = result.links || {}; // Initialize if not present
+
+    links["org"] = orgLink
+    links["courseList"] = []
+
+    courseLinks.forEach( course => {
+      links["courseList"].push(course.href)
+    })
+
+    chrome.storage.sync.set({ links }, () => {
+      
+    });
+    
+  });
+
+  
+
   chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
   var GPA = 0
   chrome.storage.sync.get('courseDict', (result) => {
@@ -121,6 +144,9 @@ if(dashboardSpan){
 
     }else{
       
+
+//Custom card html - need to implement later
+
 //       <div class="bettercanvas-gpa-card" style="display: inline-block;"><h3 class="bettercanvas-gpa-header">GPA</h3><div><p id="bettercanvas-gpa-unweighted">11</p>
 // <table cellpadding="0" cellspacing="0" border="0" width="100%">
 // <tbody><tr><td align="side">
