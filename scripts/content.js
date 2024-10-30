@@ -226,7 +226,37 @@ if(dashboardSpan){
       categoriesWrappers.forEach(div => {
         categoriesList.push(div.innerHTML)
       })
-      const gradedAssigmentGradeWrappers = document.querySelectorAll("td.assignment_score span.grade")
+     
+      function waitForElements(selector) {
+        return new Promise((resolve) => {
+            const elements = document.querySelectorAll(selector);
+            if (elements.length > 0) {
+                resolve(elements);
+                return;
+            }
+    
+            const observer = new MutationObserver(() => {
+                const elements = document.querySelectorAll(selector);
+                if (elements.length > 0) {
+                    resolve(elements);
+                    observer.disconnect();
+                }
+            });
+    
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        });
+    }
+    
+
+      var gradedAssigmentGradeWrappers 
+      
+      (async () => {
+        const gradedAssignmentGradeWrappers = await waitForElements("td.assignment_score span.grade");
+        console.log("Found elements:", gradedAssignmentGradeWrappers);
+    })();
       
       gradedAssigmentGradeWrappers.forEach(span => {
         if (span.innerHTML.includes("Instructor has not posted this grade") === false){
