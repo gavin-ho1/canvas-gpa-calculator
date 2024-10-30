@@ -298,7 +298,7 @@ async function ensureElementsExist(selector) {
         }
       
       })
-      
+    })();
       // chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict }, (response) => {}); 
       
       var finalGrade = 0
@@ -315,7 +315,7 @@ async function ensureElementsExist(selector) {
 
       finalGrade = (finalGrade/countedWeight)*100
       finalGrade = finalGrade.toFixed(2)
-    })();
+    
       //Debug Print
   // chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
   // chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});
