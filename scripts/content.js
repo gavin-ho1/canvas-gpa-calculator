@@ -8,7 +8,7 @@ if(dashboardSpan){
   orgLink = document.querySelector("a.ic-app-header__logomark").href
 
   courseLinks = document.querySelectorAll("a.ic-DashboardCard__link")
-
+  
   chrome.storage.sync.get('links', (result) => {
     const links = result.links || {}; // Initialize if not present
 
@@ -20,7 +20,7 @@ if(dashboardSpan){
     })
 
     chrome.storage.sync.set({ links }, () => {
-      
+      chrome.runtime.sendMessage({ type: 'print', data : links }, (response) => {});
     });
     
   });
