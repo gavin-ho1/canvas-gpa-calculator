@@ -9,7 +9,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       // Loop through the URLs and open each one in a new tab
       urls.forEach(url => {
           chrome.runtime.sendMessage({ type: 'print', data : url }, (response) => {});
-          chrome.tabs.create({ url : url});
+          chrome.tabs.create({ url });
       });
     });
   }
