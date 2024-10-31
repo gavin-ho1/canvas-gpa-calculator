@@ -1,4 +1,5 @@
 console.log("background.js running")
+console.log(courseDict)
 
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
