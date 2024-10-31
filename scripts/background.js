@@ -8,7 +8,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       
       // Loop through the URLs and open each one in a new tab
       urls.forEach(url => {
-          chrome.runtime.sendMessage({ type: 'print', data : url }, (response) => {});
           chrome.tabs.create({ url });
       });
     });
@@ -46,10 +45,24 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       console.log(gradePoint)
       
       chrome.storage.sync.get('courseDict', (result) => {
-        const courseDict = result.courseDict || {}; // Initialize if not present
+        const courseDict = result.courseDict || {timeGraph : {}}; // Initialize if not present
+        const date = new Date();
+
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+
+        // This arrangement can be altered based on how we want the date's format to appear.
+        let currentDate = `${day}-${month}-${year}`;
+        
+        timeGraph = courseDict.timeGraph
+        
+        timeGraph[currentDate] = grade
+
         courseDict[courseID] = {
           grade: grade,
-          gradePoint : gradePoint
+          gradePoint : gradePoint,
+          timeGraph : timeGraph
         };
         console.log("Grade:", grade)
         // For debugging
