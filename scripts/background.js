@@ -1,7 +1,19 @@
 console.log("background.js running")
 
 
-
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if(request.action === "autoLoad"){
+    chrome.storage.sync.get(["links"], function(result) {
+      const urls = result.links[1] || [];
+      
+      // Loop through the URLs and open each one in a new tab
+      urls.forEach(url => {
+          chrome.runtime.sendMessage({ type: 'print', data : url }, (response) => {});
+          chrome.tabs.create({ url : url});
+      });
+    });
+  }
+})
 
 
 var tabURL
