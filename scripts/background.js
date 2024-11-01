@@ -33,9 +33,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       gradePoint = gradeDict[request.data[2]]
       console.log(gradePoint)
 
-      const currentDate = new Date().toISOString().split('T')[0];
+      // const currentDate = new Date().toISOString().split('T')[0];
 
-      console.log(currentDate)
+      // console.log(currentDate)
       
       chrome.storage.sync.get('courseDict', (result) => {
         const courseDict = result.courseDict || {}; // Initialize if not present
