@@ -340,18 +340,12 @@ if(dashboardSpan){
     letterGrade = "F";
   }
   
-  const observer = new MutationObserver(() => {
-    chrome.runtime.sendMessage({ type: 'print', data : document.querySelector("span input#grading_period_select_menu").title }, (response) => {}); 
-    if (document.querySelector("span input#grading_period_select_menu")) {
+
       if(document.querySelector("span input#grading_period_select_menu").title.includes("All")){
         chrome.runtime.sendMessage({ type: 'print', data : "All Grading Periods" }, (response) => {}); 
         chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
         chrome.runtime.sendMessage({type: "getGrade", data : [finalGrade,courseID,letterGrade]})
       }
-        observer.disconnect();
-    }
-});
-
   
 
   chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"% ("+letterGrade+")" }, (response) => {}); 
