@@ -4,31 +4,6 @@ var courseID
 
 dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for dashboard/homepage
 if(dashboardSpan){
-  
-  orgLink = document.querySelector("a.ic-app-header__logomark").href
-
-  courseLinks = document.querySelectorAll("a.ic-DashboardCard__link")
-  
-  chrome.storage.sync.get('links', (result) => {
-    const links = result.links || {}; // Initialize if not present
-
-    links["org"] = orgLink
-    urlList = []
-
-    courseLinks.forEach( course => {
-      urlList.push(course.href)
-    })
-
-    links['courseList'] = urlList
-    
-    chrome.storage.sync.set({ links }, () => {
-      chrome.runtime.sendMessage({ type: 'print', data : links }, (response) => {});
-    });
-    
-  });
-
-  
-
   chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
   var GPA = 0
   chrome.storage.sync.get('courseDict', (result) => {
@@ -146,9 +121,6 @@ if(dashboardSpan){
 
     }else{
       
-
-//Custom card html - need to implement later
-
 //       <div class="bettercanvas-gpa-card" style="display: inline-block;"><h3 class="bettercanvas-gpa-header">GPA</h3><div><p id="bettercanvas-gpa-unweighted">11</p>
 // <table cellpadding="0" cellspacing="0" border="0" width="100%">
 // <tbody><tr><td align="side">
@@ -257,7 +229,7 @@ if(dashboardSpan){
       const gradedAssigmentGradeWrappers = document.querySelectorAll("td.assignment_score span.grade")
       
       gradedAssigmentGradeWrappers.forEach(span => {
-        if (!span.innerHTML.includes("Instructor has not posted this grade")){
+        if (span.innerHTML.includes("Instructor has not posted this grade") === false){
         // chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() }, (response) => {}); 
         num = span.innerHTML.trim().match(/\d+(\.\d+)?$/) //Get numbers without percentage signs next to them
     
@@ -308,8 +280,6 @@ if(dashboardSpan){
 
       finalGrade = (finalGrade/countedWeight)*100
       finalGrade = finalGrade.toFixed(2)
-
-      
       //Debug Print
   // chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
   // chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});
@@ -368,11 +338,9 @@ if(dashboardSpan){
     letterGrade = "F";
   }
 
-  if(document.querySelector("span input#grading_period_select_menu").title.includes("All Grading Periods")){
-    chrome.runtime.sendMessage({ type: 'print', data : "All Grading Periods" }, (response) => {}); 
-    chrome.runtime.sendMessage({type: "getGrade", data : [finalGrade,courseID,letterGrade]})
-  }
-  
+  chrome.runtime.sendMessage({type: "getGrade", data : [finalGrade,courseID,letterGrade]})
+
+
   chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"% ("+letterGrade+")" }, (response) => {}); 
 
     const gradeDivs = document.querySelectorAll('#student-grades-final');
