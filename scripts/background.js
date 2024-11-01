@@ -32,13 +32,26 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       courseID = request.data[1]
       gradePoint = gradeDict[request.data[2]]
       console.log(gradePoint)
+
+      const currentDate = new Date().toISOString().split('T')[0];
+
+      console.log(currentDate)
       
       chrome.storage.sync.get('courseDict', (result) => {
         const courseDict = result.courseDict || {}; // Initialize if not present
+
+        courseDict[courseID] = courseDict[courseID] || {
+          grade: grade,
+          gradePoint: gradePoint,
+          history: {}  // Initialize history if not present
+      };
+
         courseDict[courseID] = {
           grade: grade,
           gradePoint : gradePoint
         };
+        
+        courseDict[courseID].history[currentDate] = grade;
         console.log("Grade:", grade)
         // For debugging
         chrome.storage.sync.set({ courseDict }, () => {
