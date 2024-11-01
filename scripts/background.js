@@ -1,18 +1,7 @@
 console.log("background.js running")
 
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if(request.action === "autoLoad"){
-    chrome.storage.sync.get(["links"], function(result) {
-      const urls = result.links[1] || [];
-      
-      // Loop through the URLs and open each one in a new tab
-      urls.forEach(url => {
-          console.log(url)
-      });
-    });
-  }
-})
+
 
 
 var tabURL
@@ -45,24 +34,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       console.log(gradePoint)
       
       chrome.storage.sync.get('courseDict', (result) => {
-        const courseDict = result.courseDict || {timeGraph : {}}; // Initialize if not present
-        const date = new Date();
-
-        let day = date.getDate();
-        let month = date.getMonth() + 1;
-        let year = date.getFullYear();
-
-        // This arrangement can be altered based on how we want the date's format to appear.
-        let currentDate = `${day}-${month}-${year}`;
-        
-        timeGraph = courseDict.timeGraph
-        
-        timeGraph[currentDate] = grade
-
+        const courseDict = result.courseDict || {}; // Initialize if not present
         courseDict[courseID] = {
           grade: grade,
-          gradePoint : gradePoint,
-          timeGraph : timeGraph
+          gradePoint : gradePoint
         };
         console.log("Grade:", grade)
         // For debugging
