@@ -45,7 +45,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         };
         console.log("Grade:", grade)
         // For debugging
-        chrome.storage.sync.set({ courseDict }, () => {
+        chrome.storage.sync.set({ courseDict : courseDict }, () => {
           console.log("Course Dictonary:",courseDict)
           // For Debuging
         });
