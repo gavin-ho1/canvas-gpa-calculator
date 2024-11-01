@@ -8,7 +8,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       
       // Loop through the URLs and open each one in a new tab
       urls.forEach(url => {
-          chrome.tabs.create({ url });
+          console.log(url)
       });
     });
   }
