@@ -337,9 +337,10 @@ if(dashboardSpan){
   } else {
     letterGrade = "F";
   }
-
-  chrome.runtime.sendMessage({type: "getGrade", data : [finalGrade,courseID,letterGrade]})
-
+  if(document.querySelector("span input#grading_period_select_menu").title.includes("All Grading Periods")){
+    chrome.runtime.sendMessage({ type: 'print', data : "All Grading Periods" }, (response) => {}); 
+    chrome.runtime.sendMessage({type: "getGrade", data : [finalGrade,courseID,letterGrade]})
+  }
 
   chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"% ("+letterGrade+")" }, (response) => {}); 
 
