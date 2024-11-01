@@ -31,7 +31,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       grade = request.data[0]
       courseID = request.data[1]
       gradePoint = gradeDict[request.data[2]]
-      console.log(gradePoint)
+      console.log("Grade:", grade, "GradePoint:", gradePoint)
 
       const currentDate = new Date().toISOString().split('T')[0];
 
