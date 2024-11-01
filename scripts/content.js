@@ -341,6 +341,7 @@ if(dashboardSpan){
   }
   
   const observer = new MutationObserver(() => {
+    chrome.runtime.sendMessage({ type: 'print', data : document.querySelector("span input#grading_period_select_menu").title }, (response) => {}); 
     if (document.querySelector("span input#grading_period_select_menu")) {
       if(document.querySelector("span input#grading_period_select_menu").title.includes("All")){
         chrome.runtime.sendMessage({ type: 'print', data : "All Grading Periods" }, (response) => {}); 
