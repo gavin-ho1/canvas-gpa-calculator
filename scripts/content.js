@@ -8,7 +8,10 @@ if(dashboardSpan){
   var GPA = 0
   chrome.storage.sync.get('courseDict', (result) => {
     const courseDict = result.courseDict
-    chrome.runtime.sendMessage({ type: 'print', data : courseDict }, (response) => {}); 
+    chrome.runtime.sendMessage({ type: 'print', data : "courseDict:" });
+
+    chrome.runtime.sendMessage({ type: 'print', data : courseDict });
+      
     
     Object.keys(courseDict).forEach(key => {
       gradePoint = courseDict[key].gradePoint
@@ -16,6 +19,7 @@ if(dashboardSpan){
       GPA += gradePoint
     })
     GPA /= Object.keys(courseDict).length
+    chrome.runtime.sendMessage({ type: 'print', data : "GPA:" }, (response) => {});
     chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {}); // GPA variable must be within chrome.storage.sync.get(), otherwise the variable doesn't get saved
     
     //Put HTML inject here:
