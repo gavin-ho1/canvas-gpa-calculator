@@ -8,6 +8,8 @@ if(dashboardSpan){
   var GPA = 0
   chrome.storage.sync.get('courseDict', (result) => {
     const courseDict = result.courseDict
+    chrome.runtime.sendMessage({ type: 'print', data : courseDict }, (response) => {}); 
+    
     Object.keys(courseDict).forEach(key => {
       gradePoint = courseDict[key].gradePoint
       // chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {})
