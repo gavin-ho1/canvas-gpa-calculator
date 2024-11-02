@@ -27,6 +27,15 @@ gradeDict ={
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   //Get grade of current page
+  if(request.type === "courseList"){
+    const courseObjs = request.data
+    tempList = []
+    courseObjs.forEach(course => {
+      tempList.push(course.href+"/grades?grading_period_id=0")
+    })
+    console.log(tempList)
+    chrome.storage.sync.set({ "courseLink" : tempList})
+  }
   if (request.type === 'getGrade') {
       grade = request.data[0]
       courseID = request.data[1]
