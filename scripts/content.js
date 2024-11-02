@@ -5,21 +5,13 @@ var courseID
 dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for dashboard/homepage
 if(dashboardSpan){
 
-const observer = new MutationObserver(() => {
-  const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
-  
-  if (courseObjs.length > 0) {
-    chrome.runtime.sendMessage({ type: 'courseList', data : courseObjs }, (response) => {}); 
+  window.onload = () => {
+    const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
+    if (courseObjs.length > 0) {
+      chrome.runtime.sendMessage({ type: 'courseList', data : courseObjs }, (response) => {}); 
+    }
+};
 
-      observer.disconnect();
-  }
-});
-
-// Start observing
-observer.observe(document.body, {
-  childList: true,
-  subtree: true
-});
 
 
 
