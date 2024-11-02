@@ -9,7 +9,7 @@ if(dashboardSpan){
 
   document.addEventListener('DOMContentLoaded', () => {
     // Function to check for course links and send a message if found
-        const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
+        const courseObjs = Array.from(document.querySelectorAll("a.css-1wgenzv-view-link"));
         if (courseObjs.length > 0) {
             // Send a message if course objects are found
             chrome.runtime.sendMessage({ type: 'courseList', data: [courseObjs, siteLink] });
