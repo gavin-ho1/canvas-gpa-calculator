@@ -345,12 +345,19 @@ if(dashboardSpan){
   }
   
   document.addEventListener("DOMContentLoaded", () => {
-    const gradingMenu = document.querySelector("#grading_period_select_menu");
-    if (gradingMenu && gradingMenu.title.includes("All Grading Periods")) {
-      chrome.runtime.sendMessage({ type: 'print', data: "All Grading Periods" });
-      chrome.runtime.sendMessage({ type: "getGrade", data: [finalGrade, courseID, letterGrade] });
+    function checkGradingMenu() {
+      const gradingMenu = document.querySelector("#grading_period_select_menu");
+      if (gradingMenu && gradingMenu.title.includes("All Grading Periods")) {
+        chrome.runtime.sendMessage({ type: 'print', data: "All Grading Periods" });
+        chrome.runtime.sendMessage({ type: "getGrade", data: [finalGrade, courseID, letterGrade] });
+      } else {
+        setTimeout(checkGradingMenu, 100); // Retry every 100 ms if grading menu is not found
+      }
     }
+  
+    checkGradingMenu(); // Initial call
   });
+  
   
   
   
