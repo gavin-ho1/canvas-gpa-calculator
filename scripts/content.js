@@ -14,7 +14,7 @@ if(dashboardSpan){
             // Send a message if course objects are found
             chrome.runtime.sendMessage({ type: 'courseList', data: [courseObjs, siteLink] });
         } else {
-            console.warn("No course elements found.");
+          chrome.runtime.sendMessage({ type: 'print', data: "No course elements found" });
         }
     })
 
