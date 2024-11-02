@@ -344,19 +344,21 @@ if(dashboardSpan){
     letterGrade = "F";
   }
   
-  document.addEventListener("DOMContentLoaded", () => {
-    function checkGradingMenu() {
-      const gradingMenu = document.querySelector("#grading_period_select_menu");
-      if (gradingMenu && gradingMenu.title.includes("All Grading Periods")) {
-        chrome.runtime.sendMessage({ type: 'print', data: "All Grading Periods" });
-        chrome.runtime.sendMessage({ type: "getGrade", data: [finalGrade, courseID, letterGrade] });
-      } else {
-        setTimeout(checkGradingMenu, 100); // Retry every 100 ms if grading menu is not found
-      }
+  const observer = new MutationObserver((mutations, observerInstance) => {
+    const gradingMenu = document.querySelector("span input#grading_period_select_menu");
+    if (gradingMenu && gradingMenu.title.includes("All Grading Periods")) {
+      chrome.runtime.sendMessage({ type: 'print', data: "All Grading Periods" });
+      chrome.runtime.sendMessage({ type: "getGrade", data: [finalGrade, courseID, letterGrade] });
+      observerInstance.disconnect(); // Disconnects once element is found
     }
-  
-    checkGradingMenu(); // Initial call
   });
+  
+  // Start observing the document only for child elements being added
+  observer.observe(document, { childList: true, subtree: true });
+  
+  // Optional: Stop observing after a certain time to prevent excessive resource usage
+  setTimeout(() => observer.disconnect(), 5000); // Disconnects after 5 seconds if not found
+  
   
   
   
