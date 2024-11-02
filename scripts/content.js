@@ -6,7 +6,7 @@ dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for 
 if(dashboardSpan){
 
   window.onload = () => {
-    const courseObjs = document.querySelectorAll("a.ic-DashboardCard__link");
+    const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
     if (courseObjs.length > 0) {
       chrome.runtime.sendMessage({ type: 'courseList', data : courseObjs }, (response) => {}); 
     }
