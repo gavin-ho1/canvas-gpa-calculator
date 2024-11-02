@@ -5,16 +5,16 @@ var courseID
 dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for dashboard/homepage
 if(dashboardSpan){
 
-  siteLink = document.querySelector("a.ic-app-header__logomark").href
-        const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
-        if (courseObjs.length > 0) {
-            // Send a message if course objects are found
-            chrome.runtime.sendMessage({ type: 'courseList', data: [courseObjs, siteLink] });
-        } else {
-          chrome.runtime.sendMessage({ type: 'print', data: "No course elements found" });
-        }
+  document.addEventListener('DOMContentLoaded', () => {
+    const siteLink = document.querySelector("a.ic-app-header__logomark").href;
+    const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
 
-
+    if (courseObjs.length > 0) {
+        chrome.runtime.sendMessage({ type: 'courseList', data: [courseObjs, siteLink] });
+    } else {
+        chrome.runtime.sendMessage({ type: 'print', data: "No course elements found" });
+    }
+});
 
 
 
