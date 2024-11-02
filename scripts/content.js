@@ -10,7 +10,9 @@ if(dashboardSpan){
   document.addEventListener('DOMContentLoaded', () => {
 
     const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
+    if (courseObjs.length > 0) {
       chrome.runtime.sendMessage({ type: 'courseList', data : [courseObjs, siteLink] });
+    }
   })
 };
 
