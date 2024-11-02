@@ -366,7 +366,7 @@ if(dashboardSpan){
     letterGrade = "F";
   }
   
-  chrome.runtime.sendMessage({ type: 'print', data : typeof finalGrade }, (response) => {});
+  chrome.runtime.sendMessage({ type: 'print', data : finalGrade }, (response) => {});
   
   // Set up a mutation observer to monitor the loading of specific elements
 const observer = new MutationObserver((mutations, observerInstance) => {
