@@ -375,7 +375,7 @@ const observer = new MutationObserver((mutations, observerInstance) => {
     const gradingMenu = document.querySelector("span input#grading_period_select_menu");
     if (gradingMenu && gradingMenu.title.includes("All Grading Periods")) {
       chrome.runtime.sendMessage({ type: 'print', data: "All Grading Periods" });
-      if (!finalGrade === "NaN"){
+      if (finalGrade !== "NaN"){
         chrome.runtime.sendMessage({ type: "getGrade", data: [finalGrade, courseID, letterGrade] });
       }
     }
