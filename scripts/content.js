@@ -5,26 +5,16 @@ var courseID
 dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for dashboard/homepage
 if(dashboardSpan){
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const siteLink = document.querySelector("a.ic-app-header__logomark").href;
+  siteLink = document.querySelector("a.ic-app-header__logomark").href
+        const courseObjs = Array.from(document.querySelectorAll("a.css-1wgenzv-view-link"));
+        if (courseObjs.length > 0) {
+          chrome.runtime.sendMessage({ type: 'print', data: "Course elements found" });
+            chrome.runtime.sendMessage({ type: 'courseList', data: [courseObjs, siteLink] });
+        } else {
+          chrome.runtime.sendMessage({ type: 'print', data: "No course elements found" });
+        }
 
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            if (mutation.type === 'childList') {
-                const courseObjs = Array.from(mutation.addedNodes).filter(node => node.tagName === 'A' && node.classList.contains('ic-DashboardCard__link'));
 
-                if (courseObjs.length > 0) {
-                    chrome.runtime.sendMessage({ type: 'print', data: "Course elements found" });
-                    chrome.runtime.sendMessage({ type: 'courseList', data: [courseObjs, siteLink] });
-                } else {
-                    chrome.runtime.sendMessage({ type: 'print', data: "No course elements found" });
-                }
-            }
-        });
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-});
 
 
 
