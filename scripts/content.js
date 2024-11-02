@@ -7,12 +7,30 @@ if(dashboardSpan){
 
   siteLink = document.querySelector("a.ic-app-header__logomark").href
 
-  window.onload = () => {
+  function checkForCourses() {
     const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
     if (courseObjs.length > 0) {
-      chrome.runtime.sendMessage({ type: 'courseList', data : [courseObjs, siteLink] });
+        // Send a message if course objects are found
+        chrome.runtime.sendMessage({ type: 'courseList', data: [courseObjs, siteLink] });
+    } else {
+        console.warn("No course elements found.");
     }
-};
+}
+
+// Create a MutationObserver to watch for changes in the DOM
+const observer = new MutationObserver((mutations) => {
+    // Check for the presence of course objects whenever mutations occur
+    checkForCourses();
+});
+
+// Start observing the document body for child node changes
+observer.observe(document.body, {
+    childList: true, // Observe direct children
+    subtree: true    // Also observe all descendants
+});
+
+// Initial check for courses to catch them if they are already present on load
+checkForCourses();
 
 
 
