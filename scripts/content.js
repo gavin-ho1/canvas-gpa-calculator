@@ -6,7 +6,7 @@ dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for 
 if(dashboardSpan){
 
   siteLink = document.querySelector("a.ic-app-header__logomark").href
-        const courseObjs = Array.from(document.querySelectorAll("a.css-1wgenzv-view-link"));
+        const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__action.announcements"));
         if (courseObjs.length > 0) {
           chrome.runtime.sendMessage({ type: 'print', data: "Course elements found" });
             chrome.runtime.sendMessage({ type: 'courseList', data: [courseObjs, siteLink] });
