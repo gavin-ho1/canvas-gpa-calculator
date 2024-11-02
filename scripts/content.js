@@ -6,9 +6,6 @@ dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for 
 if(dashboardSpan){
 
   siteLink = document.querySelector("a.ic-app-header__logomark").href
-
-  document.addEventListener('DOMContentLoaded', () => {
-    // Function to check for course links and send a message if found
         const courseObjs = Array.from(document.querySelectorAll("a.css-1wgenzv-view-link"));
         if (courseObjs.length > 0) {
             // Send a message if course objects are found
@@ -16,7 +13,6 @@ if(dashboardSpan){
         } else {
           chrome.runtime.sendMessage({ type: 'print', data: "No course elements found" });
         }
-    })
 
 
 
