@@ -4,11 +4,14 @@ var courseID
 
 dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for dashboard/homepage
 if(dashboardSpan){
+  document.addEventListener("DOMContentLoaded", () => {
+    const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
+    chrome.runtime.sendMessage({ type: 'courseList', data : courseObjs }, (response) => {}); 
+});
 
 
-  const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
 
-  chrome.runtime.sendMessage({ type: 'courseList', data : courseObjs }, (response) => {}); 
+  
 
   chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
   var GPA = 0
