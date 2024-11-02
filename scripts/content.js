@@ -344,21 +344,27 @@ if(dashboardSpan){
     letterGrade = "F";
   }
   
-  const observer = new MutationObserver((mutations, observerInstance) => {
+  // Set up a mutation observer to monitor the loading of specific elements
+const observer = new MutationObserver((mutations, observerInstance) => {
+  if (document.readyState === "complete") {
+    // Once the document is fully loaded, check for the grading menu
     const gradingMenu = document.querySelector("span input#grading_period_select_menu");
     if (gradingMenu && gradingMenu.title.includes("All Grading Periods")) {
       chrome.runtime.sendMessage({ type: 'print', data: "All Grading Periods" });
       chrome.runtime.sendMessage({ type: "getGrade", data: [finalGrade, courseID, letterGrade] });
-      observerInstance.disconnect(); // Disconnects once element is found
     }
-  });
-  
-  // Start observing the document only for child elements being added
-  observer.observe(document, { childList: true, subtree: true });
-  
-  // Optional: Stop observing after a certain time to prevent excessive resource usage
-  setTimeout(() => observer.disconnect(), 5000); // Disconnects after 5 seconds if not found
-  
+
+    // Disconnect observer as it has finished its job after page load
+    observerInstance.disconnect();
+  }
+});
+
+// Observe the entire document for changes (necessary if elements are dynamically added post-load)
+observer.observe(document, { childList: true, subtree: true });
+
+// Optional: Disconnect observer after a timeout in case the page load is delayed
+setTimeout(() => observer.disconnect(), 5000); // Adjust timeout duration as needed
+
   
   
   
