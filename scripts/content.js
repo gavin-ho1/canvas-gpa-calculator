@@ -361,7 +361,7 @@ if(dashboardSpan){
   } else if (finalGrade >= 60) {
     letterGrade = "D-";
   } else if (finalGrade === "NaN"){
-    letterGrade = "No assigments graded"
+    letterGrade = "None"
   }else{
     letterGrade = "F";
   }
@@ -373,7 +373,7 @@ const observer = new MutationObserver((mutations, observerInstance) => {
     const gradingMenu = document.querySelector("span input#grading_period_select_menu");
     if (gradingMenu && gradingMenu.title.includes("All Grading Periods")) {
       chrome.runtime.sendMessage({ type: 'print', data: "All Grading Periods" });
-      if (!finalGrade === "NaN"){
+      if (!letterGrade === "None"){
         chrome.runtime.sendMessage({ type: "getGrade", data: [finalGrade, courseID, letterGrade] });
       }
     }
@@ -426,7 +426,7 @@ setTimeout(() => observer.disconnect(), 5000); // Adjust timeout duration as nee
   }
 
   const displayAside = document.querySelector("#right-side") 
-  if(finalGrade === "NaN"){
+  if(letterGrade === "None"){
     displayAside.innerHTML = `<div id="student-grades-final" class="student_assignment final_grade" style="font-size: 1.2em;">Total: ${finalGrade}% (${letterGrade})</div>` + displayAside.innerHTML
   }else{
     displayAside.innerHTML = `<div id="student-grades-final" class="student_assignment final_grade" style="font-size: 1.2em;">${letterGrade}</div>` + displayAside.innerHTML
