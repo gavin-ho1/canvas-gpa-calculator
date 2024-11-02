@@ -41,16 +41,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       chrome.storage.sync.get('courseDict', (result) => {
         const courseDict = result.courseDict || {}; // Initialize if not present
 
-        courseDict[courseID]["history"] =  courseDict[courseID]["history"] || {}
-
         courseDict[courseID] = {
           grade: grade,
           gradePoint : gradePoint
         };
-
-        
-
-        courseDict[courseID]["history"][currentDate] = grade
 
         console.log("Grade:", grade)
         // For debugging
