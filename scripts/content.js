@@ -4,10 +4,23 @@ var courseID
 
 dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for dashboard/homepage
 if(dashboardSpan){
-  document.addEventListener("DOMContentLoaded", () => {
+  const observer = new MutationObserver(() => {
     const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
-    chrome.runtime.sendMessage({ type: 'courseList', data : courseObjs }, (response) => {}); 
+
+    // Only process if we find any courseObjs
+    if (courseObjs.length > 0) {
+      chrome.storage.sync.set({ "courseLink": courseObjs });
+
+        observer.disconnect(); // Stop observing after processing
+    }
 });
+
+// Start observing the document for added nodes
+observer.observe(document.body, {
+    childList: true, // Observe direct children of the body
+    subtree: true // Observe all descendants, not just immediate children
+});
+
 
 
 
