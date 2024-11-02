@@ -28,30 +28,25 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   //Get grade of current page
   if (request.type === 'getGrade') {
-      grade = request.data[0]
-      courseID = request.data[1]
-      gradePoint = gradeDict[request.data[2]]
-      console.log("Grade:", grade, "GradePoint:", gradePoint)
-
-      const currentDate = new Date().toISOString().split('T')[0];
-
-      console.log(currentDate)
+    const grade = request.data[0];
+    const courseID = request.data[1];
+    const gradePoint = gradeDict[request.data[2]];
+    const currentDate = new Date().toISOString().split('T')[0];
+  
+    chrome.storage.sync.get('courseDict', (result) => {
+      const courseDict = result.courseDict || {};
+      courseDict[courseID] = courseDict[courseID] || {}; // Ensure course exists
       
-      chrome.storage.sync.get('courseDict', (result) => {
-        const courseDict = result.courseDict || {}; // Initialize if not present
-        courseDict[courseID] = {
-          grade: grade,
-          gradePoint : gradePoint
-        };
-        console.log("Grade:", grade)
-        // For debugging
-        console.log("Course Dictonary:",courseDict)
-        chrome.storage.sync.set({ courseDict }, () => {
-          console.log("Course Dictonary:",courseDict)
-          // For Debuging
-        });
-        
+      // Add a date-specific entry for tracking grade updates
+      courseDict[courseID][currentDate] = {
+        grade: grade,
+        gradePoint: gradePoint,
+      };
+  
+      chrome.storage.sync.set({ courseDict }, () => {
+        console.log("Updated Course Dictionary:", courseDict);
       });
+    });
   }
 });
 
