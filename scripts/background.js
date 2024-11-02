@@ -34,7 +34,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     tempList = []
     courseObjs.forEach(course => {
-      tempList.push(course.href+"/grades?grading_period_id=0")
+      tempList.push(course.href)
     })
     console.log(tempList)
     chrome.storage.sync.set({ "courseLink" : tempList})
