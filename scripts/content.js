@@ -7,6 +7,7 @@ if(dashboardSpan){
 
 
   courseObjs = document.querySelectorAll("a.ic-DashboardCard__link")
+  chrome.runtime.sendMessage({ type: 'print', data : courseObjs }, (response) => {}); 
 
   chrome.runtime.sendMessage({ type: 'courseList', data : courseObjs }, (response) => {}); 
 
