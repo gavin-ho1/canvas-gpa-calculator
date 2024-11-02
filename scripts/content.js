@@ -345,13 +345,22 @@ if(dashboardSpan){
   }
   
   const observer = new MutationObserver(() => {
-    const gradingMenu = document.querySelector("span input#grading_period_select_menu");
+    const gradingMenu = document.querySelector("#grading_period_select_menu");
+    chrome.runtime.sendMessage({ type: 'print', data: "Observer triggered" });
+  
+    if (gradingMenu) {
+      chrome.runtime.sendMessage({ type: 'print', data: "Grading menu found" });
+    }
+  
     if (gradingMenu && gradingMenu.title.includes("All Grading Periods")) {
       chrome.runtime.sendMessage({ type: 'print', data: "All Grading Periods" });
       chrome.runtime.sendMessage({ type: "getGrade", data: [finalGrade, courseID, letterGrade] });
       observer.disconnect();
     }
   });
+  
+  observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["title"] });
+  
   
 
   
