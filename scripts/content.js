@@ -44,7 +44,7 @@ if(dashboardSpan){
     chrome.runtime.sendMessage({ type: 'print', data : typeof GPA }, (response) => {}); // GPA variable must be within chrome.storage.sync.get(), otherwise the variable doesn't get saved
     
     if(isNaN(GPA)){
-      GPA = "No course grade saved"
+      GPA = "No course grades saved"
     }
     
     //Put HTML inject here:
