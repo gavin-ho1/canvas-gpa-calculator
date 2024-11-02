@@ -30,7 +30,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if(request.type === "courseList"){
     const courseObjs = request.data[0]
     console.log("courseObjs:", courseObjs);
-    siteLink = request.data[1].substring(0, str.length - 1);
+    siteLink = request.data[1].substring(0, request.data[1].length - 1);
 
     console.log(siteLink)
 
