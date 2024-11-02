@@ -344,11 +344,15 @@ if(dashboardSpan){
     letterGrade = "F";
   }
   
-
-      if(document.querySelector("span input#grading_period_select_menu").title.includes("All Grading Periods")){
-        chrome.runtime.sendMessage({ type: 'print', data : "All Grading Periods" }, (response) => {}); 
-        chrome.runtime.sendMessage({type: "getGrade", data : [finalGrade,courseID,letterGrade]})
-      };
+  const observer = new MutationObserver(() => {
+    const gradingMenu = document.querySelector("span input#grading_period_select_menu");
+    if (gradingMenu && gradingMenu.title.includes("All Grading Periods")) {
+      chrome.runtime.sendMessage({ type: 'print', data: "All Grading Periods" });
+      chrome.runtime.sendMessage({ type: "getGrade", data: [finalGrade, courseID, letterGrade] });
+      observer.disconnect();
+    }
+  });
+  
 
   
 
