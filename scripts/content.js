@@ -427,9 +427,9 @@ setTimeout(() => observer.disconnect(), 5000); // Adjust timeout duration as nee
 
   const displayAside = document.querySelector("#right-side") 
   if(finalGrade === NaN){
-    displayAside.innerHTML = `<div id="student-grades-final" class="student_assignment final_grade" style="font-size: 1.2em;">Total: ${finalGrade}% (${letterGrade})</div>` + displayAside.innerHTML
-  }else{
     displayAside.innerHTML = `<div id="student-grades-final" class="student_assignment final_grade" style="font-size: 1.2em;">No Grade: No assignments graded</div>` + displayAside.innerHTML
+  }else{
+    displayAside.innerHTML = `<div id="student-grades-final" class="student_assignment final_grade" style="font-size: 1.2em;">Total: ${finalGrade}% (${letterGrade})</div>` + displayAside.innerHTML
 
   }
   
