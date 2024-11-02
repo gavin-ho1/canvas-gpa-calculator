@@ -360,7 +360,7 @@ if(dashboardSpan){
     letterGrade = "D";
   } else if (finalGrade >= 60) {
     letterGrade = "D-";
-  } else if (finalGrade === "Nan"){
+  } else if (finalGrade === "NaN"){
     letterGrade = "No assigments graded"
   }else{
     letterGrade = "F";
