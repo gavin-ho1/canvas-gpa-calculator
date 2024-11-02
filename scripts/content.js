@@ -7,11 +7,11 @@ if(dashboardSpan){
 
   siteLink = document.querySelector("a.ic-app-header__logomark").href
 
-  window.onload = () => {
+  document.addEventListener('DOMContentLoaded', () => {
+
     const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
-    if (courseObjs.length > 0) {
       chrome.runtime.sendMessage({ type: 'courseList', data : [courseObjs, siteLink] });
-    }
+  })
 };
 
 
