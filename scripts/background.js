@@ -36,10 +36,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       const currentDate = new Date().toISOString().split('T')[0];
 
       console.log(currentDate)
-      courseDict[courseID]["history"] =  courseDict[courseID]["history"] || {}
+      
       
       chrome.storage.sync.get('courseDict', (result) => {
         const courseDict = result.courseDict || {}; // Initialize if not present
+
+        courseDict[courseID]["history"] =  courseDict[courseID]["history"] || {}
+
         courseDict[courseID] = {
           grade: grade,
           gradePoint : gradePoint
