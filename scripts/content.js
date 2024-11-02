@@ -40,7 +40,8 @@ if(dashboardSpan){
     })
     GPA /= Object.keys(courseDict).length
     chrome.runtime.sendMessage({ type: 'print', data : "GPA:" }, (response) => {});
-    chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {}); // GPA variable must be within chrome.storage.sync.get(), otherwise the variable doesn't get saved
+    chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {});
+    chrome.runtime.sendMessage({ type: 'print', data : typeof GPA }, (response) => {}); // GPA variable must be within chrome.storage.sync.get(), otherwise the variable doesn't get saved
     
     if(GPA === null){
       GPA = "No course grade saved"
