@@ -29,6 +29,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   //Get grade of current page
   if(request.type === "courseList"){
     const courseObjs = request.data
+    console.log("courseObjs:", courseObjs);
+
+
     tempList = []
     courseObjs.forEach(course => {
       tempList.push(course.href+"/grades?grading_period_id=0")
