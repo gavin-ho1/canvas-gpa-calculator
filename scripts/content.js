@@ -7,7 +7,7 @@ if(dashboardSpan){
   chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
   var GPA = 0
   chrome.storage.sync.get('courseDict', (result) => {
-    const courseDict = result.courseDict
+    const courseDict = result.courseDict || {};
     chrome.runtime.sendMessage({ type: 'print', data : "courseDict:" });
 
     chrome.runtime.sendMessage({ type: 'print', data : courseDict });
