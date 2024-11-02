@@ -373,7 +373,9 @@ const observer = new MutationObserver((mutations, observerInstance) => {
     const gradingMenu = document.querySelector("span input#grading_period_select_menu");
     if (gradingMenu && gradingMenu.title.includes("All Grading Periods")) {
       chrome.runtime.sendMessage({ type: 'print', data: "All Grading Periods" });
-      chrome.runtime.sendMessage({ type: "getGrade", data: [finalGrade, courseID, letterGrade] });
+      if (!finalGrade === "NaN"){
+        chrome.runtime.sendMessage({ type: "getGrade", data: [finalGrade, courseID, letterGrade] });
+      }
     }
 
     // Disconnect observer as it has finished its job after page load
@@ -424,7 +426,11 @@ setTimeout(() => observer.disconnect(), 5000); // Adjust timeout duration as nee
   }
 
   const displayAside = document.querySelector("#right-side") 
+  if(finalGrade === "NaN"){
+    displayAside.innerHTML = `<div id="student-grades-final" class="student_assignment final_grade" style="font-size: 1.2em;">Total: ${finalGrade}% (${letterGrade})</div>` + displayAside.innerHTML
+  }else{
+    displayAside.innerHTML = `<div id="student-grades-final" class="student_assignment final_grade" style="font-size: 1.2em;">${letterGrade}</div>` + displayAside.innerHTML
 
-  displayAside.innerHTML = `<div id="student-grades-final" class="student_assignment final_grade" style="font-size: 1.2em;">Total: ${finalGrade}% (${letterGrade})</div>` + displayAside.innerHTML
+  }
   
 }
