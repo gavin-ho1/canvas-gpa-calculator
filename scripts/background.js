@@ -28,8 +28,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   //Get grade of current page
   if(request.type === "courseList"){
-    const courseObjs = request.data
+    const courseObjs = request.data[0]
     console.log("courseObjs:", courseObjs);
+    siteLink = request.data[1].substring(0, str.length - 1);
+
+    console.log(siteLink)
 
 
     tempList = []
@@ -37,7 +40,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       console.log(course); // Log the course element
       if (course.href) {
         console.log(course.href)
-          tempList.push(course.href + "/grades?grading_period_id=0");
+          tempList.push(`${siteLink}${course.href}"/grades?grading_period_id=0"`);
       } else {
           console.warn("Href is undefined for course:", course);
       }
