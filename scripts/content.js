@@ -8,13 +8,16 @@ if(dashboardSpan){
   siteLink = document.querySelector("a.ic-app-header__logomark").href
 
   document.addEventListener('DOMContentLoaded', () => {
+    // Function to check for course links and send a message if found
+        const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
+        if (courseObjs.length > 0) {
+            // Send a message if course objects are found
+            chrome.runtime.sendMessage({ type: 'courseList', data: [courseObjs, siteLink] });
+        } else {
+            console.warn("No course elements found.");
+        }
+    })
 
-    const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
-    if (courseObjs.length > 0) {
-      chrome.runtime.sendMessage({ type: 'courseList', data : [courseObjs, siteLink] });
-    }
-  })
-};
 
 
 
