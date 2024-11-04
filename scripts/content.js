@@ -10,7 +10,7 @@ if(dashboardSpan){
   function checkForCourseObjects(){
     const courseObjs = document.querySelectorAll("a.ic-DashboardCard__link");
     chrome.runtime.sendMessage({ type: 'print', data: typeof courseObjs });
-    if (courseObjs) {
+    if (Object.keys(courseObjs).length !== 0) {
       chrome.runtime.sendMessage({ type: 'print', data: "Course elements found" });
       chrome.runtime.sendMessage({ type: 'courseList', data: [courseObjs, siteLink] });
     } else {
