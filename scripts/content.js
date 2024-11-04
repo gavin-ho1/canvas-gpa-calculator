@@ -20,6 +20,7 @@ if(dashboardSpan){
       setTimeout(() => {
         checkForCourseObjects();
       }, 1000);
+      checkForCourseObjects()
     } 
   } 
   
