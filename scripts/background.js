@@ -28,7 +28,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   //Get grade of current page
   if(request.type === "courseList"){
-    const courseObjs = request.data
+    const courseObjs = Array.from(request.data)
     console.log("courseObjs:", courseObjs[0].href);
 
 
