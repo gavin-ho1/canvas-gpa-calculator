@@ -8,9 +8,9 @@ if(dashboardSpan){
   siteLink = document.querySelector("a.ic-app-header__logomark").href
 
   function checkForCourseObjects(){
-    const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
+    const courseObjs = document.querySelectorAll("a.ic-DashboardCard__link");
     chrome.runtime.sendMessage({ type: 'print', data: courseObjs.length });
-    if(courseObjs.length !== 0){
+    if(courseObjs){
       chrome.runtime.sendMessage({ type: 'print', data: "Course elements found" });
       chrome.runtime.sendMessage({ type: 'courseList', data: [courseObjs, siteLink] });
     }else{
