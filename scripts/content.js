@@ -15,7 +15,7 @@ if(dashboardSpan){
       
       tempList = []
       courseObjs.forEach(course => {
-        tempList.push(course.href+"grades?grading_period_id=0") 
+        tempList.push(course.href+"/grades?grading_period_id=0") 
     });
     chrome.runtime.sendMessage({ type: 'courseList', data: tempList});
 
