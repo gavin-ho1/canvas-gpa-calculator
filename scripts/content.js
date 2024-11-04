@@ -6,13 +6,19 @@ dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for 
 if(dashboardSpan){
 
   function checkForCourseObjects(){
-    const courseObjs = document.querySelectorAll("a.ic-DashboardCard__link");
+    const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
     chrome.runtime.sendMessage({ type: 'print', data: typeof courseObjs });
     if (Object.keys(courseObjs).length !== 0) {
       chrome.runtime.sendMessage({ type: 'print', data: "Course elements found" });
       chrome.runtime.sendMessage({ type: 'print', data: courseObjs });
        
-      chrome.runtime.sendMessage({ type: 'courseList', data: Array.from(courseObjs) });
+      
+      tempList = []
+      courseObjs.forEach(course => {
+        tempList.push(course.href) 
+    });
+    chrome.runtime.sendMessage({ type: 'courseList', data: tempList});
+
     } else {
       chrome.runtime.sendMessage({ type: 'print', data: "Course elements not found" });
       setTimeout(() => {

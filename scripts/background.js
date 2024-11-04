@@ -28,20 +28,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   //Get grade of current page
   if(request.type === "courseList"){
-    const courseObjs = request.data
-    const iterable = Array.isArray(courseObjs) ? courseObjs : Object.values(courseObjs)
-
-    console.log("courseObjs:", courseObjs);
-
-    for (const course of iterable) {
-      console.log(course.href); 
-    }
-    
-
-    tempList = []
-
-    console.log(tempList)
-    chrome.storage.sync.set({ "courseLink" : tempList})
+    const tempList = request.data
+    console.log("tempList:", tempList);
+    chrome.storage.sync.set({ "courseLinks" : tempList})
   }
   if (request.type === 'getGrade') {
       grade = request.data[0]
