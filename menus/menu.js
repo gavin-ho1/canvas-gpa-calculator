@@ -20,7 +20,7 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
             console.log("Opened tab in new window:", tab.id);
 
             // Listen for updates to the tab
-            chrome.tabs.onUpdated.addListener(function onUpdated(updatedTabId, changeInfo) {
+            const onUpdated = (updatedTabId, changeInfo) => {
               // Check if this is the tab we opened and if it's fully loaded
               if (updatedTabId === tab.id && changeInfo.status === 'complete') {
                 console.log("Tab is fully loaded. Closing tab:", tab.id);
@@ -51,7 +51,10 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
                 // Remove the listener to prevent it from firing for other tabs
                 chrome.tabs.onUpdated.removeListener(onUpdated);
               }
-            });
+            };
+
+            // Add the listener to check the loading status
+            chrome.tabs.onUpdated.addListener(onUpdated);
           });
         });
       });
@@ -60,10 +63,6 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
     }
   });
 });
-
-
-
-
 
 
 document.getElementById('link').addEventListener('click', () => {
