@@ -35,7 +35,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     tempList = []
     courseObjs.forEach(course => {
-  //     console.log(course.href); // Log the course element
+      console.log(course.href); // Log the course element
   });
 
     console.log(tempList)
