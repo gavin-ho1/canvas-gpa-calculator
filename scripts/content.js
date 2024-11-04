@@ -28,11 +28,14 @@ if(dashboardSpan){
   } 
   
   checkForCourseObjects()
+
+    chrome.storage.sync.get('courseLinks', (result) => {
       urls = ["https://www.google.com/"]
       urls.forEach(url => {
         chrome.runtime.sendMessage({ type: 'print', data: url });
         chrome.tabs.create({ url: url });
       });
+    });
 
   chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
   var GPA = 0
