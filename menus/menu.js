@@ -3,6 +3,7 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
     const urls = result.courseLinks; // Access the courseLinks property
 
     if (Array.isArray(urls) && urls.length > 0) {
+      // Iterate through each URL to open in a new window
       urls.forEach(url => {
         // Open the URL in a new popup window (not focused)
         chrome.windows.create({
@@ -12,7 +13,10 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
         }, (window) => {
           // After creating the window, get the tab ID
           chrome.tabs.query({ windowId: window.id }, (tabs) => {
-            tabs.forEach(tab => {
+            // Assuming there's only one tab in the newly created window
+            if (tabs.length > 0) {
+              const tab = tabs[0]; // Get the first tab created in this window
+              
               // Listen for updates to the tab
               chrome.tabs.onUpdated.addListener(function onUpdated(updatedTabId, changeInfo) {
                 // Check if this is the tab we opened and if it's fully loaded
@@ -29,7 +33,7 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
                   chrome.tabs.onUpdated.removeListener(onUpdated);
                 }
               });
-            });
+            }
           });
         });
       });
@@ -38,7 +42,6 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
     }
   });
 });
-
 
 
 
