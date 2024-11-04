@@ -7,7 +7,7 @@ if(dashboardSpan){
   var maxLoop = 0
   function checkForCourseObjects(){
     const cardView = document.getElementById("DashboardCard_Container")
-    cardView.attr('hidden', false)
+    cardView.removeAttr('hidden')
     const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
     chrome.runtime.sendMessage({ type: 'print', data: typeof courseObjs });
     maxLoop += 1
