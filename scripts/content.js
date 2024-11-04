@@ -30,7 +30,7 @@ if(dashboardSpan){
   checkForCourseObjects()
 
     chrome.storage.sync.get('courseLinks', (result) => {
-      chrome.runtime.sendMessage({ type: 'print', data : result }, (response) => {}); 
+      chrome.runtime.sendMessage({ type: 'print', data : result.data }, (response) => {}); 
     });
 
   chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
