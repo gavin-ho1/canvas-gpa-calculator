@@ -1,9 +1,9 @@
+document.getElementById('openUrlButton').addEventListener('click', () => {
 chrome.storage.sync.get('courseLinks', (result) => {
   urls = result.data
-  document.getElementById('openUrlButton').addEventListener('click', () => {
-    urls.forEach(url => {
-      chrome.tabs.create({ url });
-    });
+  urls.forEach(url => {
+    chrome.tabs.create({ url });
+  });
   });
 })
 
