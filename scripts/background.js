@@ -7,21 +7,26 @@ console.log("background.js running")
 var tabURL
 var grade
 var courseID
-gradeDict ={
+
+var gradeDict
+chrome.storage.sync.get('gradeDict', (result) => {
+gradeDict = result.gradeDict || {
   "A+": 12,
-  "A": 11,
-  "A-": 10,
-  "B+": 9,
-  "B": 8,
-  "B-": 7,
-  "C+": 6,
-  "C": 5,
-  "C-": 4,
-  "D+": 3,
-  "D": 2,
-  "D-": 1,
-  "F": 0
-}
+    "A": 11,
+    "A-": 10,
+    "B+": 9,
+    "B": 8,
+    "B-": 7,
+    "C+": 6,
+    "C": 5,
+    "C-": 4,
+    "D+": 3,
+    "D": 2,
+    "D-": 1,
+    "F": 0
+  }
+  chrome.storage.sync.set({ gradeDict: gradeDict }, () => {});
+});
 
 //Listen for getGrade
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
