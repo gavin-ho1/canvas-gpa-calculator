@@ -3,7 +3,7 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
     urls = result.courseLinks
     urls.forEach(url => {
       chrome.runtime.sendMessage({ type: 'print', data: url });
-      chrome.tabs.create({ url: url });
+      chrome.tabs.create({ url: url, active: false });
     });
     });
 })
