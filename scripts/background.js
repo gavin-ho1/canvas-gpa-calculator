@@ -34,7 +34,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log("courseObjs:", courseObjs);
 
     for (const course of iterable) {
-      console.log(course); // Do something with each node
+      console.log(course.href); // Do something with each node
     }
     
 
