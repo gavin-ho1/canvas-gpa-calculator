@@ -56,7 +56,7 @@ document.getElementById('settings').addEventListener('click', () => {
 });
 
 document.getElementById('clear').addEventListener('click', () => {
-  chrome.storage.local.clear(() => {
+  chrome.storage.sync.clear(() => {
     if (chrome.runtime.lastError) {
       console.error("Error clearing local storage:", chrome.runtime.lastError.message);
     } else {
