@@ -4,14 +4,11 @@ var courseID
 
 dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for dashboard/homepage
 if(dashboardSpan){
+
+  siteLink = document.querySelector("a.ic-app-header__logomark").href
+  const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__action.announcements"));
+  chrome.runtime.sendMessage({ type: 'print', data: "Course elements found" });
   chrome.runtime.sendMessage({ type: 'courseList', data: [courseObjs, siteLink] });
-
-
-
-
-
-
-
 
 
   
