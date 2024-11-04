@@ -29,8 +29,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   //Get grade of current page
   if(request.type === "courseList"){
     const courseObjs = request.data
+    const iterable = Array.isArray(courseObjs) ? courseObjs : Object.values(courseObjs)
+
     console.log("courseObjs:", courseObjs);
-    for (const course of courseObjs) {
+
+    for (const course of iterable) {
       console.log(course); // Do something with each node
     }
     
