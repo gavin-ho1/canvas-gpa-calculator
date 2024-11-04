@@ -10,6 +10,9 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
         focused: false // The window will not be focused
       }, (newWindow) => {
         console.log("New window created:", newWindow.id);
+        
+        // Keep track of the number of tabs opened
+        let tabsLoaded = 0;
 
         // Open each URL in the new window
         urls.forEach(url => {
@@ -21,37 +24,43 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
               // Check if this is the tab we opened and if it's fully loaded
               if (updatedTabId === tab.id && changeInfo.status === 'complete') {
                 console.log("Tab is fully loaded. Closing tab:", tab.id);
+                
+                // Close the tab
                 chrome.tabs.remove(tab.id, () => {
                   if (chrome.runtime.lastError) {
                     console.error("Error closing tab:", chrome.runtime.lastError.message);
                   } else {
                     console.log(`Tab with ID ${tab.id} has been closed.`);
+                    
+                    // Increment the count of loaded tabs
+                    tabsLoaded++;
+
+                    // If all tabs are loaded and closed, close the window
+                    if (tabsLoaded === urls.length) {
+                      chrome.windows.remove(newWindow.id, () => {
+                        if (chrome.runtime.lastError) {
+                          console.error("Error closing window:", chrome.runtime.lastError.message);
+                        } else {
+                          console.log(`Window with ID ${newWindow.id} has been closed.`);
+                        }
+                      });
+                    }
                   }
                 });
+
                 // Remove the listener to prevent it from firing for other tabs
                 chrome.tabs.onUpdated.removeListener(onUpdated);
               }
             });
           });
         });
-
-        // Optionally, close the window after a certain time or immediately
-        // You can close the new window after a timeout
-        setTimeout(() => {
-          chrome.windows.remove(newWindow.id, () => {
-            if (chrome.runtime.lastError) {
-              console.error("Error closing window:", chrome.runtime.lastError.message);
-            } else {
-              console.log(`Window with ID ${newWindow.id} has been closed.`);
-            }
-          });
-        }, 5000); // Close the window after 5 seconds (adjust as needed)
       });
     } else {
       console.warn("No URLs found or courseLinks is not an array.");
     }
   });
 });
+
 
 
 
