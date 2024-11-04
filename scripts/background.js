@@ -37,14 +37,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     tempList = []
     courseObjs.forEach(course => {
-      console.log(course); // Log the course element
-      if (course.href) {
-        Href = course.href;
-        console.log(Href);
-          tempList.push(`${siteLink}${Href}"/grades?grading_period_id=0"`);
-      } else {
-          console.warn("Href is undefined for course:", course);
-      }
+      console.log(course.href); // Log the course element
   });
 
     console.log(tempList)
