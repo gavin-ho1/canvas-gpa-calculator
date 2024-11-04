@@ -6,7 +6,7 @@ dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for 
 if(dashboardSpan){
   var maxLoop = 0
   function checkForCourseObjects(){
-    const courseObjs = Array.from(document.querySelectorAll("ul a.css-1wgenzv-view-link"));
+    const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
     chrome.runtime.sendMessage({ type: 'print', data: typeof courseObjs });
     maxLoop += 1
     if (Object.keys(courseObjs).length !== 0) {
