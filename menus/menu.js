@@ -54,3 +54,14 @@ document.getElementById('link').addEventListener('click', () => {
 document.getElementById('settings').addEventListener('click', () => {
   chrome.tabs.create({ url: chrome.runtime.getURL("menus/options.html") });
 });
+
+document.getElementById('clear').addEventListener('click', () => {
+  chrome.storage.local.clear(() => {
+    if (chrome.runtime.lastError) {
+      console.error("Error clearing local storage:", chrome.runtime.lastError.message);
+    } else {
+      document.getElementById('output').innerText = "Cleared!"
+      console.log("Local storage cleared successfully.");
+    }
+  });  
+});
