@@ -28,7 +28,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   //Get grade of current page
   if(request.type === "courseList"){
-    const courseObjs = request.data[0]
+
+    siteLink = document.querySelector("a.ic-app-header__logomark").href
+    const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__action.announcements"));
+    
     console.log("courseObjs:", courseObjs);
     siteLink = request.data[1].substring(0, request.data[1].length - 1);
 
