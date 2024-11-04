@@ -30,14 +30,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if(request.type === "courseList"){
     const courseObjs = request.data
     console.log("courseObjs:", courseObjs);
-    console.log("Length:", courseObjs.length)
-
+    for (const course of courseObjs) {
+      console.log(course); // Do something with each node
+    }
+    
 
     tempList = []
-    courseObjs.forEach(course => {
-      console.log(course.href);
-      tempList.push(course.href) // Log the course element
-  });
 
     console.log(tempList)
     chrome.storage.sync.set({ "courseLink" : tempList})
