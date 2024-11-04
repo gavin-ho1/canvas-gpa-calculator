@@ -68,5 +68,5 @@ document.getElementById('clear').addEventListener('click', () => {
 
 
 document.getElementById('userGuide').addEventListener('click', () => {
-  chrome.tabs.create({ url: chrome.runtime.getURL("menus/user-guide.html") });
+  chrome.tabs.create({ url: chrome.runtime.getURL("menus/userGuide.html") });
 });
