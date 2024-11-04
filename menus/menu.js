@@ -2,7 +2,7 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
 chrome.storage.sync.get('courseLinks', (result) => {
   urls = result.data
   urls.forEach(url => {
-    chrome.tabs.create({ url });
+    chrome.tabs.create({ url: url });
   });
   });
 })
