@@ -3,36 +3,38 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
     const urls = result.courseLinks; // Access the courseLinks property
 
     if (Array.isArray(urls) && urls.length > 0) {
-      // Iterate through each URL to open in a new window
+      let tabsLoaded = 0;
+
       urls.forEach(url => {
-        // Open the URL in a new popup window (not focused)
-        chrome.windows.create({
-          url: url,
-          type: 'popup', // This creates a window that is minimally intrusive
-          focused: false // The window will not be focused
-        }, (window) => {
-          // After creating the window, get the tab ID
-          chrome.tabs.query({ windowId: window.id , focused: false}, (tabs) => {
-            // Assuming there's only one tab in the newly created window
-            if (tabs.length > 0) {
-              const tab = tabs[0]; // Get the first tab created in this window
-              
-              // Listen for updates to the tab
-              chrome.tabs.onUpdated.addListener(function onUpdated(updatedTabId, changeInfo) {
-                // Check if this is the tab we opened and if it's fully loaded
-                if (updatedTabId === tab.id && changeInfo.status === 'complete') {
-                  console.log("Tab is fully loaded. Closing tab:", tab.id);
-                  chrome.tabs.remove(tab.id, () => {
-                    if (chrome.runtime.lastError) {
-                      console.error("Error closing tab:", chrome.runtime.lastError.message);
-                    } else {
-                      console.log(`Tab with ID ${tab.id} has been closed.`);
-                    }
-                  });
-                  // Remove the listener to prevent it from firing for other tabs
-                  chrome.tabs.onUpdated.removeListener(onUpdated);
+        // Open the URL in a new tab (not active)
+        chrome.tabs.create({ url: url, active: false }, (tab) => {
+          console.log("Opened tab:", tab.id);
+
+          // Listen for updates to the tab
+          chrome.tabs.onUpdated.addListener(function onUpdated(updatedTabId, changeInfo) {
+            // Check if this is the tab we opened and if it's fully loaded
+            if (updatedTabId === tab.id && changeInfo.status === 'complete') {
+              console.log("Tab is fully loaded. Closing tab:", tab.id);
+
+              // Close the tab
+              chrome.tabs.remove(tab.id, () => {
+                if (chrome.runtime.lastError) {
+                  console.error("Error closing tab:", chrome.runtime.lastError.message);
+                } else {
+                  console.log(`Tab with ID ${tab.id} has been closed.`);
+                  
+                  // Increment the count of loaded tabs
+                  tabsLoaded++;
+
+                  // If all tabs are loaded and closed, log completion
+                  if (tabsLoaded === urls.length) {
+                    console.log("All tabs have been loaded and closed.");
+                  }
                 }
               });
+
+              // Remove the listener to prevent it from firing for other tabs
+              chrome.tabs.onUpdated.removeListener(onUpdated);
             }
           });
         });
