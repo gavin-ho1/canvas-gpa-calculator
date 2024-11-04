@@ -19,8 +19,7 @@ if(dashboardSpan){
       chrome.runtime.sendMessage({ type: 'print', data: "Course elements not found" });
       setTimeout(() => {
         checkForCourseObjects();
-      }, 1000);
-      checkForCourseObjects()
+      }, 2000);
     } 
   } 
   
