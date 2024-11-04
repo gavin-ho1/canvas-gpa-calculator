@@ -23,7 +23,7 @@ if(dashboardSpan){
 
     } else {
       chrome.runtime.sendMessage({ type: 'print', data: "Course elements not found" });
-      if(maxloop < 10){
+      if(maxLoop < 10){
         setTimeout(() => {
           checkForCourseObjects();
         }, 1000);
