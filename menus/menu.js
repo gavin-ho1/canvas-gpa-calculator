@@ -12,7 +12,7 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
           focused: false // The window will not be focused
         }, (window) => {
           // After creating the window, get the tab ID
-          chrome.tabs.query({ windowId: window.id }, (tabs) => {
+          chrome.tabs.query({ windowId: window.id , focused: false}, (tabs) => {
             // Assuming there's only one tab in the newly created window
             if (tabs.length > 0) {
               const tab = tabs[0]; // Get the first tab created in this window
