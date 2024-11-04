@@ -13,8 +13,8 @@ if(dashboardSpan){
       chrome.runtime.sendMessage({ type: 'print', data: "Course elements found" });
       chrome.runtime.sendMessage({ type: 'courseList', data: [courseObjs, siteLink] });
     }else{
-      chrome.runtime.sendMessage({ type: 'print', data: "Course elements not found" }); 
-      setTimeout(checkForCourseObjects, 50)
+      // chrome.runtime.sendMessage({ type: 'print', data: "Course elements not found" }); 
+      setTimeout(checkForCourseObjects, 100)
     } 
   } 
 
