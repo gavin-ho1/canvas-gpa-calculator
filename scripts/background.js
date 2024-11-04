@@ -30,7 +30,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if(request.type === "courseList"){
     const tempList = request.data
     console.log("tempList:", tempList);
-    chrome.storage.sync.set({ "courseLinks" : tempList})
+    chrome.storage.sync.set({ courseLinks : tempList})
   }
   if (request.type === 'getGrade') {
       grade = request.data[0]
