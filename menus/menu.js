@@ -1,4 +1,4 @@
-chrome.storage.sync.get('courseList', (result) => {
+chrome.storage.sync.get('courseLists', (result) => {
   urls = result.data
   document.getElementById('openUrlButton').addEventListener('click', () => {
     urls.forEach(url => {
