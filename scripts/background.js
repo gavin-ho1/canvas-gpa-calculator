@@ -39,7 +39,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     courseObjs.forEach(course => {
       console.log(course); // Log the course element
       if (course.href) {
-        Href = course.attr('href');
+        Href = course.href;
         console.log(Href);
           tempList.push(`${siteLink}${Href}"/grades?grading_period_id=0"`);
       } else {
