@@ -5,12 +5,8 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
       urls.forEach(url => {
         chrome.runtime.sendMessage({ type: 'print', data: url });
         chrome.tabs.create({ url: url, active: false });
-        idList.push(tab.id)
+        chrome.tabs.remove(tab.id)
       });
-      setTimeout(1000)
-      idList.forEach(tabID => {
-        chrome.tabs.remove(tabID)
-      })
     });
 })
 
