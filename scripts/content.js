@@ -6,11 +6,20 @@ dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for 
 if(dashboardSpan){
 
   siteLink = document.querySelector("a.ic-app-header__logomark").href
-  const courseObjs = document.querySelector("a.ic-DashboardCard__link")
 
-  chrome.runtime.sendMessage({ type: 'print', data: courseObjs });
-  // chrome.runtime.sendMessage({ type: 'courseList', data: [courseObjs, siteLink] });
+  function checkForCourseObjects(){
+    const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
+    if(courseObjs){
+      chrome.runtime.sendMessage({ type: 'print', data: "Course elements found" });
+      chrome.runtime.sendMessage({ type: 'courseList', data: [courseObjs, siteLink] });
+    }else{
+      chrome.runtime.sendMessage({ type: 'print', data: "Course elements not found" }); 
+      setTimeout(checkForCourseObjects, 50)
+    } 
+  } 
 
+  checkForCourseObjects()
+  
 
   
 
