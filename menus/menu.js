@@ -55,6 +55,11 @@ document.getElementById('settings').addEventListener('click', () => {
   chrome.tabs.create({ url: chrome.runtime.getURL("menus/options.html") });
 });
 
+document.getElementById('userGuide').addEventListener('click', () => {
+  chrome.tabs.create({ url: chrome.runtime.getURL("menus/userGuide.html") });
+});
+
+
 document.getElementById('clear').addEventListener('click', () => {
   chrome.storage.sync.clear(() => {
     if (chrome.runtime.lastError) {
@@ -67,6 +72,3 @@ document.getElementById('clear').addEventListener('click', () => {
 });
 
 
-document.getElementById('userGuide').addEventListener('click', () => {
-  chrome.tabs.create({ url: chrome.runtime.getURL("menus/userGuide.html") });
-});
