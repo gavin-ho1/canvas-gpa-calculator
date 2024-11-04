@@ -29,10 +29,20 @@ if(dashboardSpan){
   
   checkForCourseObjects()
 
-    chrome.storage.sync.get('courseLinks', (result) => {
-      chrome.runtime.sendMessage({ type: 'print', data : "courseLinks" }, (response) => {}); 
-      chrome.runtime.sendMessage({ type: 'print', data : result.courseLinks }, (response) => {}); 
-    });
+  chrome.storage.sync.get('courseLinks', (result) => {
+    console.log("Result from storage:", result); // Log the entire result
+    const courseLinks = result.courseLinks; // Access courseLinks from the result
+
+    if (courseLinks) {
+      console.log("Course Links:", courseLinks); // Log course links
+      chrome.runtime.sendMessage({ type: 'print', data: courseLinks }, (response) => {
+        console.log("Response from background:", response); // Log the response
+      });
+    } else {
+      console.warn("No courseLinks found in storage.");
+    }
+  });
+
 
   chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
   var GPA = 0
