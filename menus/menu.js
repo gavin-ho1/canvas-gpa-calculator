@@ -7,7 +7,7 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
         chrome.tabs.create({ url: url, active: false });
         idList.push(tab.id)
       });
-      // setTimeout(1000)
+      setTimeout(1000)
       idList.forEach(tabID => {
         chrome.tabs.remove(tabID)
       })
