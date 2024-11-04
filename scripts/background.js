@@ -30,7 +30,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if(request.type === "courseList"){
     const courseObjs = Array.from(request.data)
     console.log("courseObjs:", courseObjs);
-    console.log(typeof courseObjs)
+    console.log("Type", typeof courseObjs)
 
 
     tempList = []
