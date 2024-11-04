@@ -5,6 +5,7 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
       urls.forEach(url => {
         chrome.runtime.sendMessage({ type: 'print', data: url });
         chrome.tabs.create({ url: url, active: false });
+        
         chrome.tabs.remove(tab.id)
       });
     });
