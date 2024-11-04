@@ -4,11 +4,13 @@ var courseID
 
 dashboardSpan = document.querySelector("span.mobile-header-title") //Detect for dashboard/homepage
 if(dashboardSpan){
-
+  var maxLoop = 0
   function checkForCourseObjects(){
-    const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
+    const courseObjs = Array.from(document.querySelectorAll("ul a.css-1wgenzv-view-link"));
     chrome.runtime.sendMessage({ type: 'print', data: typeof courseObjs });
+    maxLoop += 1
     if (Object.keys(courseObjs).length !== 0) {
+      
       chrome.runtime.sendMessage({ type: 'print', data: "Course elements found" });
       chrome.runtime.sendMessage({ type: 'print', data: courseObjs });
        
@@ -21,9 +23,12 @@ if(dashboardSpan){
 
     } else {
       chrome.runtime.sendMessage({ type: 'print', data: "Course elements not found" });
-      setTimeout(() => {
-        checkForCourseObjects();
-      }, 1000);
+      if(maxloop < 10){
+        setTimeout(() => {
+          checkForCourseObjects();
+        }, 1000);
+      }
+      
     } 
   } 
   
