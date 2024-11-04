@@ -12,7 +12,7 @@ if(dashboardSpan){
       chrome.runtime.sendMessage({ type: 'print', data: "Course elements found" });
       chrome.runtime.sendMessage({ type: 'print', data: courseObjs });
        
-      chrome.runtime.sendMessage({ type: 'courseList', data: courseObjs });
+      chrome.runtime.sendMessage({ type: 'courseList', data: Array.from(courseObjs) });
     } else {
       chrome.runtime.sendMessage({ type: 'print', data: "Course elements not found" });
       setTimeout(() => {
