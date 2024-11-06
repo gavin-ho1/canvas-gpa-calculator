@@ -1,21 +1,11 @@
 // Select all toggle containers
 
 
-if (typeof chrome !== 'undefined' && chrome.storage) {
-    chrome.storage.sync.get("settings", (result) => {
-        const settings = result.settings || {
-            active : true,
-            letterGrades : true,
-            showGPA : true
-        }
-        chrome.storage.sync.set(settings, function() {
-            return settings
-        });
-        
-    });
-}else{
-    console.error('Chrome storage is not available.');
-}
+chrome.runtime.sendMessage({type : 'getSettings'}, (response) => {
+    settings = response.settings
+    document.querySelector("p").innerText = settings
+    // Rest of your code...
+});
 
 
 

@@ -34,6 +34,18 @@ gradeDict = result.gradeDict || {
 
 //Listen for getGrade
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if(request.type === "getSettings"){
+    chrome.storage.sync.get('courseDict', (result) => {
+    const settings = response.settings || {
+      active: true,
+      letterGrades: true,
+      showGPA: true
+    };
+    sendResponse({ settings });
+  })
+  }
+
+
   //Get grade of current page
   if(request.type === "courseList"){
     const tempList = request.data
