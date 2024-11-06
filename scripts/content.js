@@ -443,13 +443,21 @@ setTimeout(() => observer.disconnect(), 5000); // Adjust timeout duration as nee
   findGradeSpan()
   }
 
-  const displayAside = document.querySelector("#right-side") 
+  const displayAside = document.querySelector("#right-side #student-grades-right-content") 
   if(finalGrade === "NaN"){
-    displayAside.innerHTML = `<div id="student-grades-final" class="student_assignment final_grade" style="font-size: 1.2em;">No Grade: No assignments graded</div>` + displayAside.innerHTML
+    displayAside.innerHTML =   `<div class="student_assignment final_grade">
+    Total:
+      <span class="grade">No assigments graded</span>
+        (<span class="letter_grade" id="final_letter_grade_text"></span>)
+  </div>` + displayAside.innerHTML
   }else{
-    displayAside.innerHTML = `<div id="student-grades-final" class="student_assignment final_grade" style="font-size: 1.2em;">Total: ${finalGrade}% (${letterGrade})</div>` + displayAside.innerHTML
+    displayAside.innerHTML =   `<div class="student_assignment final_grade">
+    Total:
+      <span class="grade">${finalGrade}%</span>
+        (<span class="letter_grade" id="final_letter_grade_text">${letterGrade}</span>)
+  </div>` + displayAside.innerHTML
 
   }
-  
+
 }
 });
