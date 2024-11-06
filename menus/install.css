@@ -54,10 +54,10 @@ body, h1, h2, h3 {
     list-style: none;
   }
   
-  /* Numbered steps */
+  /* Numbered steps - Change bullet point color to black */
   h3::before {
     content: '•';
-    color: #4CAF50;
+    color: #000; /* Set bullet point color to black */
     font-weight: bold;
     margin-right: 10px;
   }
