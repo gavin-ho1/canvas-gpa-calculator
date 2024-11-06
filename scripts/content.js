@@ -275,8 +275,9 @@ if(dashboardSpan){
       gradedAssigmentGradeWrappers.forEach(span => {
         if (span.innerHTML.includes("Instructor has not posted this grade") === false){
         chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() }, (response) => {}); 
-        num = Number(span.innerHTML.trim().match(/\d+(\.\d+)?/g)[0]); //Get numbers without percentage signs next to them
-        chrome.runtime.sendMessage({ type: 'print', data : num }, (response) => {}); 
+        num = span.innerHTML.trim().match(/\d+(\.\d+)?/g); //Get numbers without percentage signs next to them
+        chrome.runtime.sendMessage({ type: 'print', data : typeof num }, (response) => {});
+        chrome.runtime.sendMessage({ type: 'print', data :  num }, (response) => {});  
         
         if(num){
           // chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
