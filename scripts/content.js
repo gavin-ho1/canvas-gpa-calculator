@@ -58,7 +58,10 @@ if(dashboardSpan){
     
     if(isNaN(GPA)){
       GPA = "No course grades saved"
+    }else{
+      GPA = GPA.toFixed(2)
     }
+    
     
     //Put HTML inject here:
 
