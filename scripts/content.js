@@ -59,7 +59,7 @@ if(dashboardSpan){
     if(isNaN(GPA)){
       GPA = "No course grades saved"
     }else{
-      // GPA = GPA.toFixed(2)
+      GPA = GPA.toFixed(2)
     }
     
     
@@ -293,6 +293,7 @@ if(dashboardSpan){
         }
       });
       
+      chrome.runtime.sendMessage({ type: 'print', data : gradeList }, (response) => {}); 
 
       for(index in gradeList){
         if(gradeList[index] !== "--"){
