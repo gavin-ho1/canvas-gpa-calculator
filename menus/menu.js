@@ -52,7 +52,7 @@ document.getElementById('link').addEventListener('click', () => {
 });
 
 document.getElementById('settings').addEventListener('click', () => {
-  chrome.tabs.create({ url: chrome.runtime.getURL("menus/options.html") });
+  chrome.runtime.openOptionsPage()
 });
 
 document.getElementById('userGuide').addEventListener('click', () => {
