@@ -1,7 +1,9 @@
 console.log("background.js running")
 
 
-
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.tabs.create({ url: chrome.runtime.getURL('menus/install.html') });
+});
 
 
 var tabURL
