@@ -28,7 +28,7 @@ This code does **NOT** "hack" or break into Canvas or any site to get informatio
 - [Better Canvas](https://chromewebstore.google.com/detail/better-canvas/cndibmoanboadcifjkjbdpjgfedanolh) Compatibility
    - Overrides some features to display accurate grades
    - Writes over Better Canvas' GPA calculator
-## Installation Guide
+## Manual Installation Guide (For Alpha and Beta testing only)
 1. Download zip file from [lastest release](https://github.com/gavin-ho1/canvas-gpa-calculator/releases/latest) and unzip
 2. In your browser, go to chrome://extensions/ in your browser
 3. Enable dev mode, then select the button labeled "Load unpacked"
