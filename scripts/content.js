@@ -350,6 +350,8 @@ if(dashboardSpan){
 
       points += num
       totalPoints += parseFloat(span.nextElementSibling.innerHTML.match(/(\d+(\.\d+)?)/)[0])
+
+      chrome.runtime.sendMessage({ type: 'print', data : num }, (response) => {});
       
     })
     finalGrade = (points/totalPoints)*100
