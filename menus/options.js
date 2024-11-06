@@ -12,7 +12,7 @@ function getSettings() {
     });
 }
 
-document.querySelector("p").innerText = settings
+document.querySelector("p").innerText = getSettings()
 
 
 
