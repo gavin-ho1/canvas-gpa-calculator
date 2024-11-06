@@ -14,6 +14,12 @@ This code does **NOT** "hack" or break into Canvas or any site to get informatio
 
 ### **This extension should not be used to determine your final grade. Your course instructor may have a different method of grade calculation. This extension is only meant to be a productivity tool that gives you a general idea of what your grade is.**
 
+##
+
+### [Offical Chrome Web Store Extension](https://chromewebstore.google.com/detail/canvas-gpa-calculator/hedjldnoldbeihmghalfbkaobifigmhi)
+
+##
+
 ## Features
 - Individual course calculation based on published assigment grades
    - Regular grade calculation
@@ -29,10 +35,6 @@ This code does **NOT** "hack" or break into Canvas or any site to get informatio
 4. Select the unzipped file directory and then run in any `instructure.com` subdomain, must be the grades section of an individual course
    - For example: `school.instructure.com/courses/1334/grades`
 5. To view GPA, go to your Canvas hompage/dashboard (`school.instructure.com`) to see your calculated GPA. 
-
-##
-
-### Offical Chrome Web Store Extension coming soon!
 
 ##
 
