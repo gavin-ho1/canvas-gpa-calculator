@@ -8,9 +8,11 @@ function getSettings() {
             letterGrades : true,
             showGPA : true
         }
+        return settings
     });
 }
 
+document.querySelector("p").innerText = settings
 
 
 
