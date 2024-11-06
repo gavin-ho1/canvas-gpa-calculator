@@ -269,12 +269,15 @@ if(dashboardSpan){
     
       categoriesWrappers.forEach(div => {
         categoriesList.push(div.innerHTML)
-      })
+      }
+    )
       const gradedAssigmentGradeWrappers = document.querySelectorAll("td.assignment_score span.grade")
       
       gradedAssigmentGradeWrappers.forEach(span => {
         // Modified regex to handle decimals (numbers with or without decimals)
         let num = span.innerHTML.trim().match(/(\d+(\.\d+)?)/);  // This will match integers or decimals
+        chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() }, (response) => {});
+
         if (num) {
           // If a grade with a decimal is detected, push it into gradeList
           gradeList.push(parseFloat(num[0])); 
