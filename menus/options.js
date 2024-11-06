@@ -1,7 +1,11 @@
 // Select all toggle containers
-chrome.runtime.sendMessage({ type: 'settings'}, (response) => {
-    settings = response.settings
-
+chrome.storage.sync.get("settings", (result) => {
+    settings = result.settings || {
+        active : true,
+        letterGrades : true,
+        showGPA : true
+    }
+});
 
 document.querySelectorAll('.toggleContainer').forEach(container => {
     // Get the switch and label within each container
@@ -19,4 +23,3 @@ document.querySelectorAll('.toggleContainer').forEach(container => {
     });
   });
   
-});
