@@ -35,15 +35,22 @@ gradeDict = result.gradeDict || {
 //Listen for getGrade
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
-  if(request.type === "settings"){
+  if (request.type === "settings") {
+    // Get settings from chrome.storage.sync
     chrome.storage.sync.get("settings", (result) => {
-      settings = result.settings || {
-          active : true,
-          letterGrades : true,
-          showGPA : true
-      }
-    })
-    sendResponse({ settings });
+      // Use default settings if not found in sync storage
+      const settings = result.settings || {
+        active: true,
+        letterGrades: true,
+        showGPA: true
+      };
+
+      // Send the response after settings are loaded
+      sendResponse({ settings });
+    });
+
+    // Return true to indicate the response is sent asynchronously
+    return true;
   }
   //Get grade of current page
   if(request.type === "courseList"){
