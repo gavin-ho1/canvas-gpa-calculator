@@ -11,6 +11,8 @@ var grade
 var courseID
 
 var gradeDict
+
+
 chrome.storage.sync.get('gradeDict', (result) => {
 gradeDict = result.gradeDict || {
   "A+": 12,
@@ -33,6 +35,16 @@ gradeDict = result.gradeDict || {
 //Listen for getGrade
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
+  if(request.type === "settings"){
+    chrome.storage.sync.get("settings", (result) => {
+      settings = result.settings || {
+          active : true,
+          letterGrades : true,
+          showGPA : true
+      }
+    })
+    sendResponse({ settings });
+  }
   //Get grade of current page
   if(request.type === "courseList"){
     const tempList = request.data
