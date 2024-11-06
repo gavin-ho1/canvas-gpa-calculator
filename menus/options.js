@@ -1,14 +1,3 @@
-// Select all toggle containers
-
-
-chrome.runtime.sendMessage({type : 'getSettings'}, (response) => {
-    settings = response.settings
-    document.querySelector("p").innerText = settings
-    // Rest of your code...
-});
-
-
-
 
 document.querySelectorAll('.toggleContainer').forEach(container => {
     // Get the switch and label within each container
