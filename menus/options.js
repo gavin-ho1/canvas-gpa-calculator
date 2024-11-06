@@ -1,15 +1,18 @@
 // Select all toggle containers
-chrome.storage.sync.get("settings", (result) => {
-    const settings = result.settings || {
-        active : true,
-        letterGrades : true,
-        showGPA : true
-    }
-    chrome.storage.sync.set(settings, function() {
-        console.log('Data has been saved:', settings);
-    });
 
-});
+
+function getSettings() {
+    chrome.storage.sync.get("settings", (result) => {
+        const settings = result.settings || {
+            active : true,
+            letterGrades : true,
+            showGPA : true
+        }
+    });
+}
+
+
+
 
 document.querySelectorAll('.toggleContainer').forEach(container => {
     // Get the switch and label within each container
