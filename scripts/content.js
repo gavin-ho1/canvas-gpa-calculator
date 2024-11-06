@@ -273,23 +273,20 @@ if(dashboardSpan){
       const gradedAssigmentGradeWrappers = document.querySelectorAll("td.assignment_score span.grade")
       
       gradedAssigmentGradeWrappers.forEach(span => {
-        if (span.innerHTML.includes("Instructor has not posted this grade") === false){
-        chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() }, (response) => {}); 
-        num = span.innerHTML.trim().match(/\d+(\.\d+)?$/) //Get numbers without percentage signs next to them
-        chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() }, (response) => {}); 
-        
-        if(num){
-          // chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
-          gradeList.push(parseFloat(num[0]))
-          totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/","")))
-        }else{
-          // chrome.runtime.sendMessage({ type: 'print', data : "Grade not detected" }, (response) => {}); 
-          gradeList.push("--")
-          totalPointList.push("--")
+        // Modified regex to handle decimals (numbers with or without decimals)
+        let num = span.innerHTML.trim().match(/(\d+(\.\d+)?)/);  // This will match integers or decimals
+        if (num) {
+          // If a grade with a decimal is detected, push it into gradeList
+          gradeList.push(parseFloat(num[0])); 
+          totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/","")));
+        } else {
+          // Handle cases where no grade is found
+          gradeList.push("--");
+          totalPointList.push("--");
         }
+      });
       
-        }
-      })
+
       for(index in gradeList){
         if(gradeList[index] !== "--"){
           pointDict[categoriesList[index]] += gradeList[index]
