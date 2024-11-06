@@ -283,9 +283,9 @@ if(dashboardSpan){
           // chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
           gradeList.push(num)
           chrome.runtime.sendMessage({ type: 'print', data :  span.nextElementSibling.innerHTML }, (response) => {}); 
-          chrome.runtime.sendMessage({ type: 'print', data :  span.nextElementSibling.innerHTML.replace("/","").trim() }, (response) => {});  
+          chrome.runtime.sendMessage({ type: 'print', data :  parseFloat(span.nextElementSibling.innerHTML.replace("/","")) }, (response) => {});  
           
-          totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/","").trim()))
+          totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/","")))
         }else{
           // chrome.runtime.sendMessage({ type: 'print', data : "Grade not detected" }, (response) => {}); 
           gradeList.push("--")
