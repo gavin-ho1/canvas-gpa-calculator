@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("load", () => {
 
   chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
 var courseID 
@@ -454,4 +454,4 @@ setTimeout(() => observer.disconnect(), 5000); // Adjust timeout duration as nee
   }
   
 }
-})
+});
