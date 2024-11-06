@@ -282,6 +282,7 @@ if(dashboardSpan){
         if(num){
           // chrome.runtime.sendMessage({ type: 'print', data : "Grade  detected" }, (response) => {}); 
           gradeList.push(num)
+          chrome.runtime.sendMessage({ type: 'print', data :  span.nextElementSibling.innerHTML }, (response) => {});  
           totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/","")))
         }else{
           // chrome.runtime.sendMessage({ type: 'print', data : "Grade not detected" }, (response) => {}); 
