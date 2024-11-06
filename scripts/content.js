@@ -280,7 +280,8 @@ if(dashboardSpan){
 
         if (num) {
           // If a grade with a decimal is detected, push it into gradeList
-          gradeList.push(parseFloat(num[0])); 
+          gradeList.push(parseFloat(num[0]));
+          chrome.runtime.sendMessage({ type: 'print', data : num }, (response) => {}); 
           totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/","")));
         } else {
           // Handle cases where no grade is found
