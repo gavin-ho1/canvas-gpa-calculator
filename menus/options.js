@@ -15,6 +15,8 @@ function getSettings() {
     });
 }
 
+hi = getSettings()
+
 
 
 
