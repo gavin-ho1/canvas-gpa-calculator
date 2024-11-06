@@ -27,17 +27,22 @@ body, h1, h2, h3 {
   
   /* Header Styling */
   h1 {
-    color: #4CAF50;
+    color: #000; /* Set h1 to black */
     font-size: 2.5em;
     margin-bottom: 15px;
     text-align: center;
   }
   
   h2 {
+    color: #000; /* Set h2 to black */
     font-size: 1.8em;
-    color: #333;
     margin-bottom: 20px;
     text-align: center;
+  }
+  
+  /* Container for h2 and h3 */
+  .header-container {
+    margin-bottom: 30px; /* Add spacing below this container */
   }
   
   /* List items */
