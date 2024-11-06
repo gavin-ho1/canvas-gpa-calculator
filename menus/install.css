@@ -1,0 +1,82 @@
+/* styles.css */
+
+/* Basic reset */
+body, h1, h2, h3 {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Body Styling */
+  body {
+    background-color: #f4f7f6;
+    color: #333;
+    padding: 20px;
+    line-height: 1.6;
+  }
+  
+  /* Main container */
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header Styling */
+  h1 {
+    color: #4CAF50;
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  h2 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* List items */
+  h3 {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 12px;
+    padding-left: 20px;
+    list-style: none;
+  }
+  
+  /* Numbered steps */
+  h3::before {
+    content: '•';
+    color: #4CAF50;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  /* Section spacing */
+  .step-list {
+    margin-top: 20px;
+    padding: 0;
+  }
+  
+  /* Button styling (if you add buttons in the future) */
+  .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    font-size: 1em;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    margin: 20px 0;
+  }
+  
+  .btn:hover {
+    background-color: #45a049;
+  }
+  
