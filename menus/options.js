@@ -1,6 +1,6 @@
 // Select all toggle containers
 chrome.storage.sync.get("settings", (result) => {
-    settings = result.settings || {
+    const settings = result.settings || {
         active : true,
         letterGrades : true,
         showGPA : true
