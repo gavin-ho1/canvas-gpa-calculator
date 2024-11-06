@@ -2,16 +2,31 @@
 <html>
   <head>
     <title>Settings</title>
+    <link rel="stylesheet" href="options.css">
   </head>
   <body>
     <h1>Settings</h1>
-    <form>
-        <input type = "checkbox" id = "letter">
-        <label for="letter">Show letter grade</label><br>
-
-
-        <button id = "Save">Save Settings</button>
-    </form>
+    <div class="toggleContainer" data-id="toggle1">
+      <div class="switch">
+        <div class="circle"></div>
+      </div>
+      <span class="toggleLabel">Off</span>
+    </div>
     
+    <div class="toggleContainer" data-id="toggle2">
+      <div class="switch">
+        <div class="circle"></div>
+      </div>
+      <span class="toggleLabel">Off</span>
+    </div>
+    
+    <div class="toggleContainer" data-id="toggle3">
+      <div class="switch">
+        <div class="circle"></div>
+      </div>
+      <span class="toggleLabel">Off</span>
+    </div>
+        
+    <script src = "options.js"></script>
 </body>
 </html>
