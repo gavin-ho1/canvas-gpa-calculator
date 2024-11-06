@@ -351,7 +351,7 @@ if(dashboardSpan){
       points += num
       totalPoints += parseFloat(span.nextElementSibling.innerHTML.trim().match(/(\d+(\.\d+)?)/)[0])
 
-      chrome.runtime.sendMessage({ type: 'print', data : span.nextElementSibling.innerHTML.trim().match(/(\d+(\.\d+)?)/ }, (response) => {});
+      chrome.runtime.sendMessage({ type: 'print', data : span.nextElementSibling.innerHTML.trim().match(/(\d+(\.\d+)?)/) }, (response) => {});
       chrome.runtime.sendMessage({ type: 'print', data : num }, (response) => {});
       
     })
