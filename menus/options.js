@@ -8,11 +8,13 @@ function getSettings() {
             letterGrades : true,
             showGPA : true
         }
-        return settings
+        chrome.storage.sync.set(settings, function() {
+            return settings
+        });
+        
     });
 }
 
-const settings = getSettings()
 
 
 
