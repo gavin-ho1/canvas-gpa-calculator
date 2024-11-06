@@ -1,7 +1,7 @@
 // Select all toggle containers
 
 
-function getSettings() {
+if (typeof chrome !== 'undefined' && chrome.storage) {
     chrome.storage.sync.get("settings", (result) => {
         const settings = result.settings || {
             active : true,
@@ -13,9 +13,9 @@ function getSettings() {
         });
         
     });
+}else{
+    console.error('Chrome storage is not available.');
 }
-
-hi = getSettings()
 
 
 
