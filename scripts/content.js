@@ -60,6 +60,11 @@ if(active){
       
       Object.keys(courseDict).forEach(key => {
         gradePoint = courseDict[key].gradePoint
+
+        if(gpaScale === false){
+          gradePoint /= 3
+          gradePoint = Math.ceil(gradePoint)
+        }
         // chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {})
         GPA += gradePoint
       })
