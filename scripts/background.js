@@ -56,8 +56,6 @@ if(gpaScale){
     }
 }
 
-chrome.storage.sync.set({ gradeDict: gradeDict }, () => {});
-
 //Listen for getGrade
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   //Get grade of current page
