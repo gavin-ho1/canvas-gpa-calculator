@@ -105,7 +105,6 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
                 console.log("Tab is fully loaded. Closing tab:", tab.id);
   
                 // Close the tab
-                
                 chrome.tabs.remove(tab.id, () => {
                   if (chrome.runtime.lastError) {
                     console.error("Error closing tab:", chrome.runtime.lastError.message);
