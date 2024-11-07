@@ -22,7 +22,7 @@
     {
       "matches": ["https://*.instructure.com/courses/*/grades*","http://*.instructure.com/courses/*/grades*","http://*.instructure.com/", "https://*.instructure.com/"],
       "exclude_matches" : ["https://*.instructure.com/*/assignments/*","http://*.instructure.com/*/assignments/*"],
-      "js": ["scripts/content.js"],
+      "js": ["scripts/content.js", "menus/options.js"],
       "run_at" : "document_idle"
     }
   ]
