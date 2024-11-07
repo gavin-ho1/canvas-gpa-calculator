@@ -15,17 +15,17 @@ var gradeDict
 
 chrome.storage.sync.get('gradeDict', (result) => {
 gradeDict = result.gradeDict || {
-  "A+": 4,
-    "A": 4,
-    "A-": 4,
-    "B+": 3,
-    "B": 3,
-    "B-": 3,
-    "C+": 2,
-    "C": 2,
-    "C-": 2,
-    "D+": 1,
-    "D": 1,
+  "A+": 12,
+    "A": 11,
+    "A-": 10,
+    "B+": 9,
+    "B": 8,
+    "B-": 7,
+    "C+": 6,
+    "C": 5,
+    "C-": 4,
+    "D+": 3,
+    "D": 2,
     "D-": 1,
     "F": 0
   }
@@ -47,8 +47,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'getGrade') {
       grade = request.data[0]
       courseID = request.data[1]
-      letterGrade = request.data[2]
-      console.log("Grade:", grade, "letterGrade:", letterGrade)
+      gradePoint = gradeDict[request.data[2]]
+      console.log("Grade:", grade, "GradePoint:", gradePoint)
 
       const currentDate = new Date().toISOString().split('T')[0];
 
@@ -60,7 +60,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
         courseDict[courseID] = {
           grade: grade,
-          letterGrade : letterGrade
+          gradePoint : gradePoint
         };
 
         console.log("Grade:", grade)

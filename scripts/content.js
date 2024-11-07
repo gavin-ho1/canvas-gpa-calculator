@@ -1,13 +1,11 @@
 chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
 chrome.storage.sync.get(
-  { active : true, letterGrade : true, showGPA : true, gpaScale : false, gradeDict},
+  { active : true, letterGrade : true, showGPA : true, gpaScale : false},
   (items) => {
-    const active = items.active
-    const letterGrades = items.letterGrade
-    const showGPA = items.showGPA
-    const gradeDict = items.gradeDict
-    chrome.runtime.sendMessage({ type: 'print', data : gradeDict }, (response) => {});
-
+    active = items.active
+    letterGrades = items.letterGrade
+    showGPA = items.showGPA
+    gpaScale = items.gpaScale
     
 
 
@@ -61,8 +59,8 @@ if(active){
         
       
       Object.keys(courseDict).forEach(key => {
-        gradePoint = gradeDict[courseDict[key].letterGrade]
-        chrome.runtime.sendMessage({ type: 'print', data : courseDict[key].letterGrade }, (response) => {})
+        gradePoint = courseDict[key].gradePoint
+        // chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {})
         GPA += gradePoint
       })
       GPA /= Object.keys(courseDict).length
@@ -377,7 +375,7 @@ if(active){
       finalGrade = finalGrade.toFixed(2)
     }
   
-    var letterGrade;
+    let letterGrade;
   
     //I'm not stupid, its just that js won't accept composite functions, which is why there is a lack of functions in this entire script
     if (finalGrade >= 97) {
