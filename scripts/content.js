@@ -5,7 +5,7 @@ chrome.storage.sync.get(
     active = items.active
     letterGrades = items.letterGrade
     showGPA = items.showGPA
-    gpaScale = items.gpaScale
+
     
 
 
