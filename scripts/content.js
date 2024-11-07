@@ -6,6 +6,7 @@ chrome.storage.sync.get(
     letterGrade = items.letterGrade
     showGPA = items.showGPA
     gpaScale = items.gpaScale
+    chrome.runtime.sendMessage({ type: 'print', data : active }, (response) => {});
   })
 
 
