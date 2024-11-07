@@ -93,12 +93,12 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
       if (Array.isArray(urls) && urls.length > 0) {
         let currentIndex = 0;
   
-        // Function to load a URL in the same tab and wait for it to fully load
-        function loadUrlInTab(tabId) {
-          chrome.tabs.update(tabId, { url: urls[currentIndex] }, () => {
-            console.log(`Loading URL: ${urls[currentIndex]} in tab ID: ${tabId}`);
+        function openAndCloseTab() {
+          // Open a new tab with the current URL
+          chrome.tabs.create({ url: urls[currentIndex], active: false }, (tab) => {
+            console.log(`Opened tab for URL: ${urls[currentIndex]} with tab ID: ${tab.id}`);
   
-            // Wait for the document to fully load using scripting
+            // Function to check if the document is fully loaded
             function checkDocumentLoaded() {
               return new Promise((resolve) => {
                 const interval = setInterval(() => {
@@ -110,39 +110,37 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
               });
             }
   
-            // Inject the polling script to check if the document is fully loaded
+            // Inject the script to check if the document is fully loaded
             chrome.scripting.executeScript({
-              target: { tabId: tabId },
+              target: { tabId: tab.id },
               func: checkDocumentLoaded,
             }).then(() => {
               console.log(`Document fully loaded for URL: ${urls[currentIndex]}`);
   
-              currentIndex++;
+              // Close the tab after loading completes
+              chrome.tabs.remove(tab.id, () => {
+                if (chrome.runtime.lastError) {
+                  console.error("Error closing tab:", chrome.runtime.lastError.message);
+                } else {
+                  console.log(`Tab with ID ${tab.id} has been closed.`);
   
-              // Check if there are more URLs to load
-              if (currentIndex < urls.length) {
-                // Load the next URL in the same tab
-                loadUrlInTab(tabId);
-              } else {
-                // Close the tab after all URLs have been loaded
-                chrome.tabs.remove(tabId, () => {
-                  if (chrome.runtime.lastError) {
-                    console.error("Error closing tab:", chrome.runtime.lastError.message);
+                  // Move to the next URL in the list
+                  currentIndex++;
+                  if (currentIndex < urls.length) {
+                    openAndCloseTab(); // Recursive call to open the next URL
                   } else {
-                    console.log("All URLs have been loaded and the tab has been closed.");
+                    console.log("All URLs have been loaded and closed.");
                   }
-                });
-              }
+                }
+              });
             }).catch(error => {
               console.error("Error injecting script:", error);
             });
           });
         }
   
-        // Create a new tab to start the process
-        chrome.tabs.create({ active: false }, (tab) => {
-          loadUrlInTab(tab.id);
-        });
+        // Start the process with the first URL
+        openAndCloseTab();
       } else {
         console.warn("No URLs found or courseLinks is not an array.");
       }
