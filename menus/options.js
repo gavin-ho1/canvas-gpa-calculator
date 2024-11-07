@@ -1,21 +1,23 @@
+console.log(chrome);  
+
 const saveOptions = () => {
     const active = document.getElementById('active').checked;
-    const letterGrades = document.getElementById('letterGraders').checked
+    const letterGrade = document.getElementById('letterGrade').checked
     const showGPA = document.getElementById('showGPA').checked
     chrome.storage.sync.set(
-        { active, letterGrades, showGPA },
+        { active, letterGrade, showGPA },
         () => {
-            console.log({ active: active, letterGrades: letterGrades, showGPA : showGPA}) 
+            console.log({ active: active, letterGrade: letterGrade, showGPA : showGPA}) 
         })
     
 }
 
 const restoreOptions = () => {
     chrome.storage.sync.get(
-      { active : true, letterGrades : true, showGPA : true },
+      { active : true, letterGrade : true, showGPA : true },
       (items) => {
         document.getElementById('active').checked = items.active
-        document.getElementById('letterGraders').checked = items.letterGrades
+        document.getElementById('letterGrade').checked = items.letterGrade
         document.getElementById('showGPA').checked = items.showGPA
       }
     )}  
@@ -37,5 +39,7 @@ document.querySelectorAll('.toggleContainer').forEach(container => {
   });
   
   document.addEventListener('DOMContentLoaded', restoreOptions);
-
-  document.querySelectorAll('input').addEventListener('click', saveOptions);
+  
+  document.getElementById('active').addEventListener('click', saveOptions);
+  document.getElementById('letterGrade').addEventListener('click', saveOptions);
+  document.getElementById('showGPA').addEventListener('click', saveOptions);
