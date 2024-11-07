@@ -1,10 +1,11 @@
 chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
 chrome.storage.sync.get(
-  { active : true, letterGrade : true, showGPA : true, gpaScale : false},
+  { active : true, letterGrade : true, showGPA : true, gpaScale : false, gradeDict},
   (items) => {
     active = items.active
     letterGrades = items.letterGrade
     showGPA = items.showGPA
+    gradeDict = items.gradeDict
 
     
 
@@ -59,7 +60,7 @@ if(active){
         
       
       Object.keys(courseDict).forEach(key => {
-        gradePoint = courseDict[key].gradePoint
+        gradePoint = gradeDict[courseDict[key].letterGrade]
         // chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {})
         GPA += gradePoint
       })
