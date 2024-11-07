@@ -6,28 +6,33 @@
   </head>
   <body>
     <h1>Settings</h1>
+
     <div class="toggleContainer" data-id="active">
-      <div class="switch">
-        <div class="circle"></div>
-      </div>
+      <label class="switch">
+        <input type="checkbox" id="active">
+        <span class="slider"></span>
+      </label>
       <span class="toggleLabel">Enable Extension</span>
     </div>
     
     <div class="toggleContainer" data-id="letterGrade">
-      <div class="switch">
-        <div class="circle"></div>
-      </div>
+      <label class="switch">
+        <input type="checkbox" id="letterGrade">
+        <span class="slider"></span>
+      </label>
       <span class="toggleLabel">Show Letter Grades</span>
     </div>
     
     <div class="toggleContainer" data-id="showGPA">
-      <div class="switch">
-        <div class="circle"></div>
-      </div>
+      <label class="switch">
+        <input type="checkbox" id="showGPA">
+        <span class="slider"></span>
+      </label>
       <span class="toggleLabel">Show GPA</span>
     </div>
+    
     <p></p>
         
-    <script src = "options.js"></script>
-</body>
+    <script src="options.js"></script>
+  </body>
 </html>

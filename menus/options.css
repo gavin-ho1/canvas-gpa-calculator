@@ -1,44 +1,60 @@
-/* Container for centering */
-.toggleContainer {
+/* Hide the default checkbox appearance */
+input[type="checkbox"] {
+    display: none;
+  }
+  
+  /* Container for the toggle and label for vertical alignment */
+  .toggleContainer {
     display: flex;
-    align-items: center;
-    gap: 10px;  /* Space between switch and label */
-    margin-bottom: 10px; /* Spacing between toggle containers */
+    align-items: center; /* Vertically center the toggle and label */
+    margin-bottom: 10px;  /* Add spacing between toggle sections */
   }
   
-  /* Switch styling */
+  /* Style for the label's slider */
   .switch {
-    width: 40px;
-    height: 20px;
-    background-color: #ccc;
-    border-radius: 20px;
     position: relative;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    display: inline-block;
+    width: 30px;  /* Smaller width */
+    height: 18px; /* Smaller height */
   }
   
-  .switch .circle {
-    width: 18px;
-    height: 18px;
-    background-color: #fff;
-    border-radius: 50%;
+  .switch input:checked + .slider {
+    background-color: #4CAF50;
+  }
+  
+  .slider {
     position: absolute;
-    top: 1px;
-    left: 1px;
-    transition: left 0.3s;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 50px; /* More rounded slider */
   }
   
-  .switch.on {
-    background-color: #4caf50;
+  /* Circle inside the slider */
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 12px;  /* Smaller circle */
+    width: 12px;   /* Smaller circle */
+    border-radius: 50%;
+    left: 3px;     /* Adjusted for centering */
+    bottom: 3px;   /* Adjusted for centering */
+    background-color: white;
+    transition: 0.4s;
   }
   
-  .switch.on .circle {
-    left: 21px;
+  /* Move the circle when checked */
+  input:checked + .slider:before {
+    transform: translateX(12px); /* Adjusted movement */
   }
   
   .toggleLabel {
-    font-size: 14px;
-    color: #333;
+    margin-left: 10px;
+    font-size: 14px;  /* Adjust text size to ensure it's consistent */
+    line-height: 18px; /* Match line height to vertically align text */
   }
   

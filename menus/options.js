@@ -1,3 +1,5 @@
+const saveOptions = () => {}
+
 
 document.querySelectorAll('.toggleContainer').forEach(container => {
     // Get the switch and label within each container
