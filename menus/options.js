@@ -98,18 +98,6 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
           chrome.tabs.create({ url: url, active: false }, (tab) => {
             console.log("Opened tab:", tab.id);
   
-            // Inject content.js into the newly opened tab
-            chrome.scripting.executeScript({
-              target: { tabId: tab.id },
-              files: ['content.js']
-            }, () => {
-              if (chrome.runtime.lastError) {
-                console.error("Error injecting content script:", chrome.runtime.lastError.message);
-              } else {
-                console.log(`Injected content.js into tab ${tab.id}`);
-              }
-            });
-  
             // Listen for updates to the tab
             chrome.tabs.onUpdated.addListener(function onUpdated(updatedTabId, changeInfo) {
               // Check if this is the tab we opened and if it's fully loaded
@@ -117,6 +105,7 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
                 console.log("Tab is fully loaded. Closing tab:", tab.id);
   
                 // Close the tab
+                
                 chrome.tabs.remove(tab.id, () => {
                   if (chrome.runtime.lastError) {
                     console.error("Error closing tab:", chrome.runtime.lastError.message);
@@ -144,7 +133,6 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
       }
     });
   });
-  
 
   document.getElementById('clear').addEventListener('click', () => {
     chrome.storage.sync.clear(() => {

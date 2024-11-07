@@ -3,7 +3,7 @@
   "name": "Canvas GPA Calculator",
   "version": "1.2",
   "description": "A Chrome extension that scrapes numbers or text from a webpage.",
-  "permissions": ["storage", "scripting"],
+  "permissions": ["storage"],
   
   "action": {
     "default_popup": "menus/options.html",
