@@ -2,10 +2,10 @@ chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (r
 chrome.storage.sync.get(
   { active : true, letterGrade : true, showGPA : true, gpaScale : false, gradeDict},
   (items) => {
-    active = items.active
-    letterGrades = items.letterGrade
-    showGPA = items.showGPA
-    gradeDict = items.gradeDict
+    const active = items.active
+    const letterGrades = items.letterGrade
+    const showGPA = items.showGPA
+    const gradeDict = items.gradeDict
     chrome.runtime.sendMessage({ type: 'print', data : gradeDict }, (response) => {});
 
     
