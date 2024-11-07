@@ -3,10 +3,11 @@ const saveOptions = () => {
     const active = document.getElementById('active').checked;
     const letterGrade = document.getElementById('letterGrade').checked
     const showGPA = document.getElementById('showGPA').checked
+    const gpaScale = document.getElementById('gpaScale').checked
     chrome.storage.sync.set(
-        { active, letterGrade, showGPA },
+        { active, letterGrade, showGPA, gpaScale},
         () => {
-            console.log({ active: active, letterGrade: letterGrade, showGPA : showGPA}) 
+            console.log({ active: active, letterGrade: letterGrade, showGPA : showGPA, gpaScale : gpaScale}) 
         })
     
 }
