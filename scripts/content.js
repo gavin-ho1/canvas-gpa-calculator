@@ -6,6 +6,7 @@ chrome.storage.sync.get(
     letterGrades = items.letterGrade
     showGPA = items.showGPA
     gradeDict = items.gradeDict
+    chrome.runtime.sendMessage({ type: 'print', data : gradeDict }, (response) => {});
 
     
 
@@ -376,7 +377,7 @@ if(active){
       finalGrade = finalGrade.toFixed(2)
     }
   
-    let letterGrade;
+    var letterGrade;
   
     //I'm not stupid, its just that js won't accept composite functions, which is why there is a lack of functions in this entire script
     if (finalGrade >= 97) {
