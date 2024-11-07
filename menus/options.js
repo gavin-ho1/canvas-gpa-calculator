@@ -38,4 +38,4 @@ document.querySelectorAll('.toggleContainer').forEach(container => {
   
   document.addEventListener('DOMContentLoaded', restoreOptions);
 
-  document.querySelectorAll('checkbox').addEventListener('click', saveOptions);
+  document.querySelectorAll('input').addEventListener('click', saveOptions);
