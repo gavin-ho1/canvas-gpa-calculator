@@ -1,3 +1,8 @@
+html {
+  height: 800px;  
+  width: 600px;      
+}
+
 /* Hide the default checkbox appearance */
 input[type="checkbox"] {
     display: none;
