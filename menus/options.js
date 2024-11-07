@@ -98,20 +98,29 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
           chrome.tabs.create({ url: url, active: false }, (tab) => {
             console.log("Opened tab:", tab.id);
   
-            // Listen for updates to the tab
-            chrome.tabs.onUpdated.addListener(function onUpdated(updatedTabId, changeInfo) {
-              // Check if this is the tab we opened and if it's fully loaded
-              if (updatedTabId === tab.id && changeInfo.status === 'complete') {
-                console.log("Tab is fully loaded. Closing tab:", tab.id);
+            // Inject a script to check for DOM content loading
+            chrome.scripting.executeScript({
+              target: { tabId: tab.id },
+              func: () => {
+                return new Promise(resolve => {
+                  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                    resolve(); // DOM is already loaded
+                  } else {
+                    document.addEventListener('DOMContentLoaded', () => resolve());
+                  }
+                });
+              }
+            }).then(() => {
+              console.log("DOM content fully loaded for tab:", tab.id);
   
-                // Close the tab
-                setTimeout(500)
+              // Close the tab after a delay
+              setTimeout(() => {
                 chrome.tabs.remove(tab.id, () => {
                   if (chrome.runtime.lastError) {
                     console.error("Error closing tab:", chrome.runtime.lastError.message);
                   } else {
                     console.log(`Tab with ID ${tab.id} has been closed.`);
-                    
+  
                     // Increment the count of loaded tabs
                     tabsLoaded++;
   
@@ -121,10 +130,9 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
                     }
                   }
                 });
-  
-                // Remove the listener to prevent it from firing for other tabs
-                chrome.tabs.onUpdated.removeListener(onUpdated);
-              }
+              }, 500); // Delay to allow any additional processing if necessary
+            }).catch(error => {
+              console.error("Error injecting script:", error);
             });
           });
         });
@@ -133,6 +141,7 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
       }
     });
   });
+  
 
   document.getElementById('clear').addEventListener('click', () => {
     chrome.storage.sync.clear(() => {
