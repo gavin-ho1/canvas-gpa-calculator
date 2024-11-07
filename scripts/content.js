@@ -1,4 +1,7 @@
 chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
+
+
+
 var courseID 
 
 
