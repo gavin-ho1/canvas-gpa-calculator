@@ -36,4 +36,6 @@ document.querySelectorAll('.toggleContainer').forEach(container => {
     });
   });
   
+  document.addEventListener('DOMContentLoaded', restoreOptions);
+
   document.getElementById('save').addEventListener('click', saveOptions);
