@@ -62,4 +62,22 @@ input[type="checkbox"] {
     font-size: 14px;  /* Adjust text size to ensure it's consistent */
     line-height: 18px; /* Match line height to vertically align text */
   }
-  
+ /* Style for the Auto-Update button */
+/* Smaller style for the Auto-Update button */
+/* Add spacing between the Auto-Update button and the GitHub link */
+button {
+  background-color: #4CAF50; /* Green color */
+  color: white;
+  border: none;
+  padding: 6px 12px; /* Smaller padding */
+  font-size: 12px; /* Smaller font size */
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  margin-bottom: 10px; /* Add spacing below the button */
+}
+
+button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
