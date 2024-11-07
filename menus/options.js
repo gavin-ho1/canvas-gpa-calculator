@@ -1,5 +1,24 @@
-const saveOptions = () => {}
+const saveOptions = () => {
+    const active = document.getElementById('active').checked;
+    const letterGrades = document.getElementById('letterGraders').checked
+    const showGPA = document.getElementById('showGPA').checked
+    chrome.storage.sync.set(
+        { active, letterGrades, showGPA },
+        () => {
+            console.log({ active: active, letterGrades: letterGrades, showGPA : showGPA}) 
+        })
+    
+}
 
+const restoreOptions = () => {
+    chrome.storage.sync.get(
+      { active : true, letterGrades : true, showGPA : true },
+      (items) => {
+        document.getElementById('active').checked = items.active
+        document.getElementById('letterGraders').checked = items.letterGrades
+        document.getElementById('showGPA').checked = items.showGPA
+      }
+    )}  
 
 document.querySelectorAll('.toggleContainer').forEach(container => {
     // Get the switch and label within each container
@@ -17,3 +36,4 @@ document.querySelectorAll('.toggleContainer').forEach(container => {
     });
   });
   
+  document.getElementById('save').addEventListener('click', saveOptions);
