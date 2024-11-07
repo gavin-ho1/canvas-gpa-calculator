@@ -47,6 +47,9 @@ if(active){
   
   
     chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
+    if(showGPA === false){
+      throw "GPA not shown";
+    }
     var GPA = 0
     chrome.storage.sync.get('courseDict', (result) => {
       const courseDict = result.courseDict || {};
