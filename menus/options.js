@@ -88,65 +88,51 @@ document.querySelectorAll('.toggleContainer').forEach(container => {
 
 document.getElementById('openUrlButton').addEventListener('click', () => {
     chrome.storage.sync.get('courseLinks', (result) => {
-      const urls = result.courseLinks;
+      const urls = result.courseLinks; // Access the courseLinks property
   
       if (Array.isArray(urls) && urls.length > 0) {
-        let currentIndex = 0;
+        let tabsLoaded = 0;
   
-        function openAndCloseTab() {
-          // Open a new tab with the current URL
-          chrome.tabs.create({ url: urls[currentIndex], active: false }, (tab) => {
-            console.log(`Opened tab for URL: ${urls[currentIndex]} with tab ID: ${tab.id}`);
+        urls.forEach(url => {
+          // Open the URL in a new tab (not active)
+          chrome.tabs.create({ url: url, active: false }, (tab) => {
+            console.log("Opened tab:", tab.id);
   
-            // Function to check if the document is fully loaded
-            function checkDocumentLoaded() {
-              return new Promise((resolve) => {
-                const interval = setInterval(() => {
-                  if (document.readyState === 'complete') {
-                    clearInterval(interval);
-                    resolve();
-                  }
-                }, 100); // Check every 100ms
-              });
-            }
+            // Listen for updates to the tab
+            chrome.tabs.onUpdated.addListener(function onUpdated(updatedTabId, changeInfo) {
+              // Check if this is the tab we opened and if it's fully loaded
+              if (updatedTabId === tab.id && changeInfo.status === 'complete') {
+                console.log("Tab is fully loaded. Closing tab:", tab.id);
   
-            // Inject the script to check if the document is fully loaded
-            chrome.scripting.executeScript({
-              target: { tabId: tab.id },
-              func: checkDocumentLoaded,
-            }).then(() => {
-              console.log(`Document fully loaded for URL: ${urls[currentIndex]}`);
-  
-              // Close the tab after loading completes
-              chrome.tabs.remove(tab.id, () => {
-                if (chrome.runtime.lastError) {
-                  console.error("Error closing tab:", chrome.runtime.lastError.message);
-                } else {
-                  console.log(`Tab with ID ${tab.id} has been closed.`);
-  
-                  // Move to the next URL in the list
-                  currentIndex++;
-                  if (currentIndex < urls.length) {
-                    openAndCloseTab(); // Recursive call to open the next URL
+                // Close the tab
+                setTimeout(10000)
+                chrome.tabs.remove(tab.id, () => {
+                  if (chrome.runtime.lastError) {
+                    console.error("Error closing tab:", chrome.runtime.lastError.message);
                   } else {
-                    console.log("All URLs have been loaded and closed.");
+                    console.log(`Tab with ID ${tab.id} has been closed.`);
+                    
+                    // Increment the count of loaded tabs
+                    tabsLoaded++;
+  
+                    // If all tabs are loaded and closed, log completion
+                    if (tabsLoaded === urls.length) {
+                      console.log("All tabs have been loaded and closed.");
+                    }
                   }
-                }
-              });
-            }).catch(error => {
-              console.error("Error injecting script:", error);
+                });
+  
+                // Remove the listener to prevent it from firing for other tabs
+                chrome.tabs.onUpdated.removeListener(onUpdated);
+              }
             });
           });
-        }
-  
-        // Start the process with the first URL
-        openAndCloseTab();
+        });
       } else {
         console.warn("No URLs found or courseLinks is not an array.");
       }
     });
   });
-  
 
   document.getElementById('clear').addEventListener('click', () => {
     chrome.storage.sync.clear(() => {
