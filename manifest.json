@@ -14,7 +14,10 @@
     "service_worker": "scripts/background.js"
   },
   "options_page": "menus/options.html",
-
+  "options_ui": {
+    "page": "menus/options.html",
+    "open_in_tab": false
+  },
   "content_scripts": [
     {
       "matches": ["https://*.instructure.com/courses/*/grades*","http://*.instructure.com/courses/*/grades*","http://*.instructure.com/", "https://*.instructure.com/"],
