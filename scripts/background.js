@@ -19,6 +19,7 @@ chrome.storage.sync.get(
   (items) => {
     gpaScale = items.gpaScale
   })
+console.log(gpaScale)
 
 
 if(gpaScale){
