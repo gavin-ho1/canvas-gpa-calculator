@@ -1,26 +1,30 @@
 console.log(chrome.storage);  
 
-const saveOptions = () => {
+function saveOptions() {
     const active = document.getElementById('active').checked;
-    const letterGrade = document.getElementById('letterGrade').checked
-    const showGPA = document.getElementById('showGPA').checked
-    chrome.storage.sync.set(
-        { active, letterGrade, showGPA },
-        () => {
-            console.log({ active: active, letterGrade: letterGrade, showGPA : showGPA}) 
-        })
-    
-}
+    const letterGrade = document.getElementById('letterGrade').checked;
+    const showGPA = document.getElementById('showGPA').checked;
+  
+    // Send message to background script with options data
+    chrome.runtime.sendMessage({
+      action: 'saveOptions',
+      data: { active, letterGrade, showGPA },
+    });
+  }
 
-const restoreOptions = () => {
-    chrome.storage.sync.get(
-      { active : true, letterGrade : true, showGPA : true },
-      (items) => {
-        document.getElementById('active').checked = items.active
-        document.getElementById('letterGrade').checked = items.letterGrade
-        document.getElementById('showGPA').checked = items.showGPA
+  function restoreOptions() {
+    // Send a message to the background script to fetch options
+    chrome.runtime.sendMessage({ action: 'restoreOptions' }, (response) => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError.message);
+      } else {
+        document.getElementById('active').checked = response.active;
+        document.getElementById('letterGrade').checked = response.letterGrade;
+        document.getElementById('showGPA').checked = response.showGPA;
       }
-    )}  
+    });
+  }
+  
 
 document.querySelectorAll('.toggleContainer').forEach(container => {
     // Get the switch and label within each container
