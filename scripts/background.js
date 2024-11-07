@@ -34,32 +34,6 @@ gradeDict = result.gradeDict || {
 
 //Listen for getGrade
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === 'saveOptions') {
-    const { active, letterGrade, showGPA } = request.data;
-
-    // Use chrome.storage.sync.set here
-    chrome.storage.sync.set({ active, letterGrade, showGPA }, () => {
-      if (chrome.runtime.lastError) {
-        console.error(chrome.runtime.lastError.message);
-        sendResponse(false); // Optional: Send error response
-      } else {
-        console.log('Options saved to storage.');
-        sendResponse(true); // Optional: Send success response
-      }
-    });
-  }
-
-  if (request.action === 'restoreOptions') {
-    chrome.storage.sync.get(['active', 'letterGrade', 'showGPA'], (result) => {
-      if (chrome.runtime.lastError) {
-        console.error(chrome.runtime.lastError.message);
-        sendResponse(false); // Optional: Send error response
-      } else {
-        sendResponse(result);
-      }
-    });
-  }
-
   //Get grade of current page
   if(request.type === "courseList"){
     const tempList = request.data
