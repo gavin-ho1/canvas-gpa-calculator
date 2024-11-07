@@ -98,7 +98,7 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
           chrome.tabs.create({ url: url, active: false }, (tab) => {
             console.log("Opened tab:", tab.id);
   
-            // Inject a script to check for document readiness state in a loop
+            // Function to check if the document is fully loaded
             function checkDocumentLoaded() {
               return new Promise((resolve) => {
                 const interval = setInterval(() => {
@@ -110,30 +110,29 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
               });
             }
   
+            // Inject the polling script to check if the document is fully loaded
             chrome.scripting.executeScript({
               target: { tabId: tab.id },
               func: checkDocumentLoaded,
             }).then(() => {
               console.log("Document fully loaded for tab:", tab.id);
   
-              // Close the tab after a short delay to ensure all content is processed
-              setTimeout(() => {
-                chrome.tabs.remove(tab.id, () => {
-                  if (chrome.runtime.lastError) {
-                    console.error("Error closing tab:", chrome.runtime.lastError.message);
-                  } else {
-                    console.log(`Tab with ID ${tab.id} has been closed.`);
+              // Close the tab immediately after loading completes
+              chrome.tabs.remove(tab.id, () => {
+                if (chrome.runtime.lastError) {
+                  console.error("Error closing tab:", chrome.runtime.lastError.message);
+                } else {
+                  console.log(`Tab with ID ${tab.id} has been closed.`);
   
-                    // Increment the count of loaded tabs
-                    tabsLoaded++;
+                  // Increment the count of loaded tabs
+                  tabsLoaded++;
   
-                    // If all tabs are loaded and closed, log completion
-                    if (tabsLoaded === urls.length) {
-                      console.log("All tabs have been loaded and closed.");
-                    }
+                  // If all tabs are loaded and closed, log completion
+                  if (tabsLoaded === urls.length) {
+                    console.log("All tabs have been loaded and closed.");
                   }
-                });
-              }, 500); // Adjust delay as necessary
+                }
+              });
             }).catch(error => {
               console.error("Error injecting script:", error);
             });
