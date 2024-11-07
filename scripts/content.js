@@ -61,7 +61,7 @@ if(active){
       
       Object.keys(courseDict).forEach(key => {
         gradePoint = gradeDict[courseDict[key].letterGrade]
-        // chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {})
+        chrome.runtime.sendMessage({ type: 'print', data : courseDict[key].letterGrade }, (response) => {})
         GPA += gradePoint
       })
       GPA /= Object.keys(courseDict).length
