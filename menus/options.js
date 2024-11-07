@@ -88,7 +88,7 @@ document.querySelectorAll('.toggleContainer').forEach(container => {
 
 document.getElementById('openUrlButton').addEventListener('click', () => {
     chrome.storage.sync.get('courseLinks', (result) => {
-      const urls = result.courseLinks; // Access the courseLinks property
+      const urls = result.courseLinks;
   
       if (Array.isArray(urls) && urls.length > 0) {
         let tabsLoaded = 0;
@@ -98,22 +98,25 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
           chrome.tabs.create({ url: url, active: false }, (tab) => {
             console.log("Opened tab:", tab.id);
   
-            // Inject a script to check for DOM content loading
+            // Inject a script to check for document readiness state in a loop
+            function checkDocumentLoaded() {
+              return new Promise((resolve) => {
+                const interval = setInterval(() => {
+                  if (document.readyState === 'complete') {
+                    clearInterval(interval);
+                    resolve();
+                  }
+                }, 100); // Check every 100ms
+              });
+            }
+  
             chrome.scripting.executeScript({
               target: { tabId: tab.id },
-              func: () => {
-                return new Promise(resolve => {
-                  if (document.readyState === 'complete' || document.readyState === 'interactive') {
-                    resolve(); // DOM is already loaded
-                  } else {
-                    document.addEventListener('DOMContentLoaded', () => resolve());
-                  }
-                });
-              }
+              func: checkDocumentLoaded,
             }).then(() => {
-              console.log("DOM content fully loaded for tab:", tab.id);
+              console.log("Document fully loaded for tab:", tab.id);
   
-              // Close the tab after a delay
+              // Close the tab after a short delay to ensure all content is processed
               setTimeout(() => {
                 chrome.tabs.remove(tab.id, () => {
                   if (chrome.runtime.lastError) {
@@ -130,7 +133,7 @@ document.getElementById('openUrlButton').addEventListener('click', () => {
                     }
                   }
                 });
-              }, 500); // Delay to allow any additional processing if necessary
+              }, 500); // Adjust delay as necessary
             }).catch(error => {
               console.error("Error injecting script:", error);
             });
