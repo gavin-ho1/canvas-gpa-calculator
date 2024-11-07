@@ -55,7 +55,7 @@ if(gpaScale){
       "F": 0
     }
 }
-console.log(gradePoint)
+console.log(gradeDict)
 
 //Listen for getGrade
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
