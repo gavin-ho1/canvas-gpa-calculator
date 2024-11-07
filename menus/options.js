@@ -13,11 +13,12 @@ const saveOptions = () => {
 
 const restoreOptions = () => {
     chrome.storage.sync.get(
-      { active : true, letterGrade : true, showGPA : true },
+      { active : true, letterGrade : true, showGPA : true, gpaScale : false},
       (items) => {
         document.getElementById('active').checked = items.active
         document.getElementById('letterGrade').checked = items.letterGrade
         document.getElementById('showGPA').checked = items.showGPA
+        document.getElementById('gpaScale').checked = items.gpaScale
       }
     )}  
 
@@ -42,3 +43,4 @@ document.querySelectorAll('.toggleContainer').forEach(container => {
   document.getElementById('active').addEventListener('click', saveOptions);
   document.getElementById('letterGrade').addEventListener('click', saveOptions);
   document.getElementById('showGPA').addEventListener('click', saveOptions);
+  document.getElementById('gpaScale').addEventListener('click', saveOptions);
