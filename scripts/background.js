@@ -12,53 +12,49 @@ var courseID
 
 var gradeDict
 
-var gpaScale
 
-chrome.storage.sync.get(
-  {gpaScale : false},
-  (items) => {
-    gpaScale = items.gpaScale
-  })
-console.log(gpaScale)
-
-
-if(gpaScale){
-  gradeDict = {
-    "A+": 12,
-      "A": 11,
-      "A-": 10,
-      "B+": 9,
-      "B": 8,
-      "B-": 7,
-      "C+": 6,
-      "C": 5,
-      "C-": 4,
-      "D+": 3,
-      "D": 2,
-      "D-": 1,
-      "F": 0
-    }
-}else{
-  gradeDict = {
-    "A+": 4,
-      "A": 4,
-      "A-": 4,
-      "B+": 3,
-      "B": 3,
-      "B-": 3,
-      "C+": 2,
-      "C": 2,
-      "C-": 2,
-      "D+": 1,
-      "D": 1,
-      "D-": 1,
-      "F": 0
-    }
-}
-console.log(gradeDict)
+chrome.storage.sync.get('gradeDict', (result) => {
+  if(gpaScale){
+    gradeDict = {
+      "A+": 12,
+        "A": 11,
+        "A-": 10,
+        "B+": 9,
+        "B": 8,
+        "B-": 7,
+        "C+": 6,
+        "C": 5,
+        "C-": 4,
+        "D+": 3,
+        "D": 2,
+        "D-": 1,
+        "F": 0
+      }
+  }else{
+    gradeDict = {
+      "A+": 4,
+        "A": 4,
+        "A-": 4,
+        "B+": 3,
+        "B": 3,
+        "B-": 3,
+        "C+": 2,
+        "C": 2,
+        "C-": 2,
+        "D+": 1,
+        "D": 1,
+        "D-": 1,
+        "F": 0
+      }
+  }
+  
+  chrome.storage.sync.set({ gradeDict: gradeDict }, () => {});
+});
 
 //Listen for getGrade
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+
+
   //Get grade of current page
   if(request.type === "courseList"){
     const tempList = request.data
