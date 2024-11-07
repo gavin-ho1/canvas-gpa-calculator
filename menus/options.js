@@ -1,4 +1,4 @@
-console.log(chrome);  
+console.log(chrome.storage);  
 
 const saveOptions = () => {
     const active = document.getElementById('active').checked;
