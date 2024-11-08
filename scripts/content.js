@@ -346,7 +346,7 @@ if(active){
         chrome.runtime.sendMessage({ type: 'print', data : countedWeight }, (response) => {});
   
         finalGrade = (finalGrade/countedWeight)*100
-        finalGrade = finalGrade.toFixed(2)
+        finalGrade = parseFloat(finalGrade.toFixed(2))
         
         chrome.runtime.sendMessage({ type: 'print', data : finalGrade }, (response) => {}); 
         //Debug Print
