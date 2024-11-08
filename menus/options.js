@@ -24,14 +24,14 @@ const restoreOptions = () => {
             document.getElementById('showGPA').checked = items.showGPA;
             document.getElementById('gpaScale').checked = items.gpaScale;
             document.getElementById('gradeRoundingSlider').value = items.gradeRounding;
-            document.getElementById('gradeRoundingValue').innerText = items.gradeRounding.toFixed(1);
+            document.getElementById('gradeRoundingValue').innerText = items.gradeRounding.toFixed(2);
         }
     );
 };
 
 // Update displayed slider value and save options on slider change
 document.getElementById('gradeRoundingSlider').addEventListener('input', (event) => {
-    const value = parseFloat(event.target.value).toFixed(1);
+    const value = parseFloat(event.target.value).toFixed(2);
     document.getElementById('gradeRoundingValue').innerText = value;
     saveOptions();
 });
