@@ -1,4 +1,6 @@
 chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
+while(true){
+
 chrome.storage.sync.get(
   { active : true, letterGrade : true, showGPA : true, gpaScale : false, gradeRounding : 0},
   (items) => {
@@ -507,3 +509,4 @@ if(active){
   
 }
 })
+}
