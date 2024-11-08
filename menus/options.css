@@ -1,83 +1,100 @@
 html {
-  height: auto;  
-  width: 400px;      
+  height: auto;
+  width: 400px;
 }
 
-/* Hide the default checkbox appearance */
 input[type="checkbox"] {
-    display: none;
-  }
-  
-  /* Container for the toggle and label for vertical alignment */
-  .toggleContainer {
-    display: flex;
-    align-items: center; /* Vertically center the toggle and label */
-    margin-bottom: 10px;  /* Add spacing between toggle sections */
-  }
-  
-  /* Style for the label's slider */
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 30px;  /* Smaller width */
-    height: 18px; /* Smaller height */
-  }
-  
-  .switch input:checked + .slider {
-    background-color: #4CAF50;
-  }
-  
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: 0.4s;
-    border-radius: 50px; /* More rounded slider */
-  }
-  
-  /* Circle inside the slider */
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 12px;  /* Smaller circle */
-    width: 12px;   /* Smaller circle */
-    border-radius: 50%;
-    left: 3px;     /* Adjusted for centering */
-    bottom: 3px;   /* Adjusted for centering */
-    background-color: white;
-    transition: 0.4s;
-  }
-  
-  /* Move the circle when checked */
-  input:checked + .slider:before {
-    transform: translateX(12px); /* Adjusted movement */
-  }
-  
-  .toggleLabel {
-    margin-left: 10px;
-    font-size: 14px;  /* Adjust text size to ensure it's consistent */
-    line-height: 18px; /* Match line height to vertically align text */
-  }
- /* Style for the Auto-Update button */
-/* Smaller style for the Auto-Update button */
-/* Add spacing between the Auto-Update button and the GitHub link */
+  display: none;
+}
+
+.toggleContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 18px;
+}
+
+.switch input:checked + .slider {
+  background-color: #4CAF50;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 50px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+}
+
+input:checked + .slider:before {
+  transform: translateX(12px);
+}
+
+.toggleLabel {
+  margin-left: 10px;
+  font-size: 14px;
+  line-height: 18px;
+}
+
 button {
-  background-color: #4CAF50; /* Green color */
+  background-color: #4CAF50;
   color: white;
   border: none;
-  padding: 6px 12px; /* Smaller padding */
-  font-size: 12px; /* Smaller font size */
+  padding: 6px 12px;
+  font-size: 12px;
   cursor: pointer;
   border-radius: 4px;
   transition: background-color 0.3s;
-  margin-bottom: 10px; /* Add spacing below the button */
+  margin-bottom: 10px;
 }
 
 button:hover {
-  background-color: #45a049; /* Darker green on hover */
+  background-color: #45a049;
 }
 
+/* Dropdown styling */
+.dropdownContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.dropdownLabel {
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+select {
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+select:hover {
+  border-color: #4CAF50;
+}

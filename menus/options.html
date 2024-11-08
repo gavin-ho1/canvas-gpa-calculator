@@ -1,53 +1,69 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Settings</title>
     <link rel="stylesheet" href="options.css">
-    
-  </head>
-  <body>
-    
-    
+</head>
+<body>
     <h1>Settings</h1>
 
     <div class="toggleContainer" data-id="active">
-      <label class="switch">
-        <input type="checkbox" id="active">
-        <span class="slider"></span>
-      </label>
-      <span class="toggleLabel">Enable Extension</span>
+        <label class="switch">
+            <input type="checkbox" id="active">
+            <span class="slider"></span>
+        </label>
+        <span class="toggleLabel">Enable Extension</span>
     </div>
-    
+
     <div class="toggleContainer" data-id="letterGrade">
-      <label class="switch">
-        <input type="checkbox" id="letterGrade">
-        <span class="slider"></span>
-      </label>
-      <span class="toggleLabel">Show Letter Grades</span>
-    </div>
-    
-    <div class="toggleContainer" data-id="showGPA">
-      <label class="switch">
-        <input type="checkbox" id="showGPA">
-        <span class="slider"></span>
-      </label>
-      <span class="toggleLabel">Show GPA</span>
-    </div>
-    
-    <div class="toggleContainer" data-id="showGPA">
-      <label class="switch">
-        <input type="checkbox" id="gpaScale">
-        <span class="slider"></span>
-      </label>
-      <span class="toggleLabel">Use 12-Point GPA Scale (Default: 4-Point scale)</span>
+        <label class="switch">
+            <input type="checkbox" id="letterGrade">
+            <span class="slider"></span>
+        </label>
+        <span class="toggleLabel">Show Letter Grades</span>
     </div>
 
-    <button id = "openUrlButton">Auto-Update</button><br>
+    <div class="toggleContainer" data-id="showGPA">
+        <label class="switch">
+            <input type="checkbox" id="showGPA">
+            <span class="slider"></span>
+        </label>
+        <span class="toggleLabel">Show GPA</span>
+    </div>
 
+    <div class="toggleContainer" data-id="gpaScale">
+        <label class="switch">
+            <input type="checkbox" id="gpaScale">
+            <span class="slider"></span>
+        </label>
+        <span class="toggleLabel">Use 12-Point GPA Scale (Default: 4-Point scale)</span>
+    </div>
+
+    <!-- Grade Rounding Dropdown -->
+    <div class="dropdownContainer">
+        <select id="gradeRounding">
+            <option value="0">0.0%</option>
+            <option value="0.05">0.5%</option>
+            <option value="0.1">1.0%</option>
+            <option value="0.15">1.5%</option>
+            <option value="0.2">2.0%</option>
+            <option value="0.25">2.5%</option>
+            <option value="0.3">3.0%</option>
+            <option value="0.35">3.5%</option>
+            <option value="0.4">4.0%</option>
+            <option value="0.45">4.5%</option>
+            <option value="0.5">5.0%</option>
+        </select>
+        <label for="gradeRounding" class="dropdownLabel">Grade Rounding</label>
+    </div>
+
+    <button id="openUrlButton">Auto-Update</button><br>
     <button id="clear">Clear Course Info</button><br>
 
-    <a href="https://github.com/gavin-ho1/canvas-gpa-calculator" id="link"><img src = "https://img.shields.io/badge/GitHub-black?logo=github"></a>
-        
+    <a href="https://github.com/gavin-ho1/canvas-gpa-calculator" id="link">
+        <img src="https://img.shields.io/badge/GitHub-black?logo=github">
+    </a>
+
     <script src="options.js" defer></script>
-  </body>
+</body>
 </html>
