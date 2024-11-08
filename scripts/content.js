@@ -1,5 +1,25 @@
+// content.js
+
+// Main function that contains the entire logic of your script
+function runYourScript() {
+  // Listen for changes in chrome.storage and rerun the script if specific variables are updated
+chrome.storage.onChanged.addListener((changes, areaName) => {
+  if (areaName === 'local') {
+      // Check for changes in specific variables you want to track
+      if (changes.variableKey) {  // Replace 'variableKey' with the actual key you're monitoring
+          console.log('Chrome storage updated, rerunning script...');
+          runYourScript(); // Call your function to rerun the script
+      }
+  }
+});
+
+// Initial script execution when the content script is loaded
+runYourScript(); // This runs the script when the page is initially loaded
+
+// If needed, call stopObserver() to stop the MutationObserver (e.g., when navigating away or unloading the page)
+
+
 chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
-while(true){
 
 chrome.storage.sync.get(
   { active : true, letterGrade : true, showGPA : true, gpaScale : false, gradeRounding : 0},
@@ -510,3 +530,26 @@ if(active){
 }
 })
 }
+
+// Set up MutationObserver to detect changes on the page
+const observer = new MutationObserver((mutationsList, observer) => {
+  mutationsList.forEach(mutation => {
+      if (mutation.type === 'childList' || mutation.type === 'attributes') {
+          console.log('Page changed, rerunning script...');
+          runYourScript(); // Trigger the script to run again
+      }
+  });
+});
+
+// Configure the observer to watch for changes in the body or any specific element
+observer.observe(document.body, {
+  childList: true,   // Watch for added/removed child elements
+  subtree: true,     // Watch all descendant elements
+  attributes: true   // Watch for attribute changes
+});
+
+// Function to stop observing when needed (optional)
+function stopObserver() {
+  observer.disconnect();
+}
+
