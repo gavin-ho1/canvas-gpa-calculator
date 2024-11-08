@@ -452,7 +452,7 @@ if(active){
   
     
   
-    chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+gradeRounding+"% ("+letterGrade+")"+"rounding: "+gradeRounding }, (response) => {}); 
+    chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"% ("+letterGrade+")"+"rounding: "+gradeRounding }, (response) => {}); 
   
       const gradeDivs = document.querySelectorAll('#student-grades-final');
       // Loop through each of the found divs
