@@ -384,6 +384,13 @@ if(active){
   
     //I'm not stupid, its just that js won't accept composite functions, which is why there is a lack of functions in this entire script
     let roundedGrade = finalGrade+gradeRounding
+
+    if (!isNaN(gradeRounding)) {
+      roundedGrade = Math.round(finalGrade + gradeRounding); // Rounds to the nearest integer
+    } else {
+      roundedGrade = finalGrade; // If gradeRounding is not a valid number, just use the finalGrade without rounding
+    }
+    
     if (roundedGrade >= 97) {
       letterGrade = "A+";
     } else if (roundedGrade >= 93) {
