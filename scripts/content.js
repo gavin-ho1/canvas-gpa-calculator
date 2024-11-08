@@ -417,7 +417,7 @@ if(active){
       letterGrade = "F";
     }
     
-    finalGrade - finalGrade.toFixed(2)
+    finalGrade = finalGrade.toFixed(2)
     chrome.runtime.sendMessage({ type: 'print', data : typeof finalGrade }, (response) => {});
     
     // Set up a mutation observer to monitor the loading of specific elements
