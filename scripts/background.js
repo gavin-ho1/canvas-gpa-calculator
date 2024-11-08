@@ -35,6 +35,16 @@ gradeDict = result.gradeDict || {
 //Listen for getGrade
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   //Get grade of current page
+  if(request.type === "courseRegistry"){
+    const courseRegistry = request.data
+    console.log("courseRegistry:", courseRegistry);
+    chrome.storage.sync.set({ courseRegistry: courseRegistry }, () => {
+      console.log("Course links have been stored.");
+      sendResponse({ status: "success" }); // Optional: send a response
+    });
+  }
+
+
   if(request.type === "courseList"){
     const tempList = request.data
     console.log("tempList:", tempList);

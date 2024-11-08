@@ -21,6 +21,10 @@ if(active){
     var maxLoop = 0
     function checkForCourseObjects(){
       const courseObjs = Array.from(document.querySelectorAll("a.ic-DashboardCard__link"));
+      const courseNames = Array.from(document.querySelectorAll("h3 span"));
+
+      var courseRegistry = {}
+
       chrome.runtime.sendMessage({ type: 'print', data: typeof courseObjs });
       maxLoop += 1
       if (Object.keys(courseObjs).length !== 0) {
@@ -33,7 +37,12 @@ if(active){
         courseObjs.forEach(course => {
           tempList.push(course.href+"/grades?grading_period_id=0") 
       });
+      for (let step = 0; step < courseObjs.length; step++) {
+        courseRegistry[courseObjs[step].match(/\d+/g)[0]] = courseNames[step]
+      }
+
       chrome.runtime.sendMessage({ type: 'courseList', data: tempList});
+      chrome.runtime.sendMessage({ type: 'courseRegistry', data: courseRegistry});
   
       } else {
         chrome.runtime.sendMessage({ type: 'print', data: "Course elements not found" });
