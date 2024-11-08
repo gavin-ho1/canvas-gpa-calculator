@@ -74,27 +74,48 @@ button:hover {
   background-color: #45a049;
 }
 
-/* Dropdown styling */
-.dropdownContainer {
-  display: flex;
-  align-items: center;
+/* Main container styling */
+.sliderContainer {
   margin-bottom: 10px;
 }
 
-.dropdownLabel {
+/* Label and slider wrapper (stack vertically) */
+.label-and-slider {
+  display: flex;
+  flex-direction: column; /* Stack label and slider vertically */
+  align-items: center; /* Align label and slider to the center */
+  width: max-content; /* Width adjusts to fit the label */
+}
+
+
+/* Label styling */
+.sliderLabel {
   font-size: 14px;
-  margin-left: 10px;
+  color: #333;
+  margin-bottom: 5px; /* Space between label and slider */
 }
 
-select {
-  padding: 4px 8px;
-  font-size: 12px;
+/* Style the slider */
+input[type="range"] {
+  appearance: none;
+  width: 100%; /* Decrease the width of the slider */
+  height: 4px;
+  background: #ddd;
   border-radius: 4px;
-  border: 1px solid #ccc;
-  cursor: pointer;
-  transition: border-color 0.3s;
+  outline: none;
+  transition: background 0.3s;
 }
 
-select:hover {
-  border-color: #4CAF50;
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #4CAF50;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  background-color: #45a049;
 }
