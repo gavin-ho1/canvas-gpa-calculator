@@ -383,29 +383,30 @@ if(active){
     let letterGrade;
   
     //I'm not stupid, its just that js won't accept composite functions, which is why there is a lack of functions in this entire script
-    if (finalGrade+gradeRounding >= 97) {
+    let roundedGrade = finalGrade+gradeRounding
+    if (roundedGrade >= 97) {
       letterGrade = "A+";
-    } else if (finalGrade+gradeRounding >= 93) {
+    } else if (roundedGrade >= 93) {
       letterGrade = "A";
-    } else if (finalGrade+gradeRounding >= 90) {
+    } else if (roundedGrade >= 90) {
       letterGrade = "A-";
-    } else if (finalGrade+gradeRounding >= 87) {
+    } else if (roundedGrade >= 87) {
       letterGrade = "B+";
-    } else if (finalGrade+gradeRounding >= 83) {
+    } else if (roundedGrade >= 83) {
       letterGrade = "B";
-    } else if (finalGrade+gradeRounding >= 80) {
+    } else if (roundedGrade >= 80) {
       letterGrade = "B-";
-    } else if (finalGrade+gradeRounding >= 77) {
+    } else if (roundedGrade >= 77) {
       letterGrade = "C+";
-    } else if (finalGrade+gradeRounding >= 73) {
+    } else if (roundedGrade >= 73) {
       letterGrade = "C";
-    } else if (finalGrade+gradeRounding >= 70) {
+    } else if (roundedGrade >= 70) {
       letterGrade = "C-";
-    } else if (finalGrade+gradeRounding >= 67) {
+    } else if (roundedGrade >= 67) {
       letterGrade = "D+";
-    } else if (finalGrade+gradeRounding >= 63) {
+    } else if (roundedGrade >= 63) {
       letterGrade = "D";
-    } else if (finalGrade+gradeRounding >= 60) {
+    } else if (roundedGrade >= 60) {
       letterGrade = "D-";
     } else if (finalGrade === NaN){
       letterGrade = "None"
