@@ -132,13 +132,12 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 .course-name {
-  width: 150px; /* Adjust based on longest course name */
   text-align: left; /* Left-aligns the course name */
   margin-right: 10px;
 }
 
 .course-input {
-  width: 20px; /* Smaller width for fewer digits */
+  width: 35px; /* Smaller width for fewer digits */
   padding: 2px 4px;
   text-align: center;
 }

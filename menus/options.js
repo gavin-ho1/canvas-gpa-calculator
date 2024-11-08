@@ -30,21 +30,25 @@ const restoreOptions = () => {
             const courseRegistryContainer = document.getElementById('courseRegistryContainer');
             courseRegistryContainer.innerHTML = ''; 
 
-            // Iterate over each key-value pair in courseRegistry and create elements
-            var maxLen = 0
-            for (const [courseKey, courseName] of Object.entries(items.courseRegistry)) {
-                if(courseName.length > maxLen){
-                    maxLen = courseName.length 
-                }
+            // Calculate the maximum length of all course names
+            const maxCourseNameLength = Math.max(
+                ...Object.values(items.courseRegistry).map((courseName) => courseName.length)
+            );
 
+            // Set the width in pixels based on the longest course name (assuming average character width of 8px)
+            const maxWidth = `${maxCourseNameLength * 8}px`;
+
+            // Iterate over each key-value pair in courseRegistry and create elements
+            for (const [courseKey, courseName] of Object.entries(items.courseRegistry)) {
                 // Create a container for each course item
                 const courseElement = document.createElement('div');
                 courseElement.className = 'course-item';
 
-                // Add course name with a flex element for alignment
+                // Add course name
                 const courseNameElement = document.createElement('span');
                 courseNameElement.className = 'course-name';
                 courseNameElement.innerText = `${courseName}: `;
+                courseNameElement.style.width = maxWidth; // Set dynamic width
                 courseElement.appendChild(courseNameElement);
 
                 // Add numeric input for the course
@@ -58,9 +62,9 @@ const restoreOptions = () => {
                     const value = parseFloat(event.target.value) || 0;
 
                     // Update storage with new value
-                    chrome.storage.sync.get({ courseRegistry: {} }, (data) => {
-                        data.courseRegistry[courseKey] = value;
-                        chrome.storage.sync.set({ courseRegistry: data.courseRegistry });
+                    chrome.storage.sync.get({ courseDict: {} }, (data) => {
+                        data.courseDict[courseKey] = value;
+                        chrome.storage.sync.set({ courseDict: data.courseDict });
                     });
                 });
 
@@ -70,7 +74,6 @@ const restoreOptions = () => {
                 // Append the course element to the container
                 courseRegistryContainer.appendChild(courseElement);
             }
-            document.getElementsByClassName('course-name').width = maxLen 
         }
     );
 };
