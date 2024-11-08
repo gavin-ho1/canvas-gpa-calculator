@@ -17,7 +17,7 @@ const saveOptions = () => {
 // Restore options function, updated to restore gradeRounding slider
 const restoreOptions = () => {
     chrome.storage.sync.get(
-        { active: true, letterGrade: true, showGPA: true, gpaScale: false, gradeRounding: 0 , courseRegistry: {}},
+        { active: true, letterGrade: true, showGPA: true, gpaScale: false, gradeRounding: 0 , courseRegistry: {}, courseDict:{}},
         (items) => {
             document.getElementById('active').checked = items.active;
             document.getElementById('letterGrade').checked = items.letterGrade;
@@ -63,7 +63,7 @@ const restoreOptions = () => {
 
                     // Update storage with new value
                     chrome.storage.sync.get({ courseDict: {} }, (data) => {
-                        data.courseDict[courseKey] = value;
+                        data.courseDict[courseKey].grade = parseFloat(value);
                         chrome.storage.sync.set({ courseDict: data.courseDict });
                     });
                 });
