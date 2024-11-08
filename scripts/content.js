@@ -39,7 +39,8 @@ if(active){
       });
       for (let step = 0; step < courseObjs.length; step++) {
         chrome.runtime.sendMessage({ type: 'print', data: tempList[step].match(/\d+/g)[0] });
-        courseRegistry[tempList[step].match(/\d+/g)[0]] = courseNames[step]
+        chrome.runtime.sendMessage({ type: 'print', data: courseNames[step].innerHTML });
+        courseRegistry[tempList[step].match(/\d+/g)[0]] = courseNames[step].innerHTML
       }
 
       chrome.runtime.sendMessage({ type: 'courseList', data: tempList});
