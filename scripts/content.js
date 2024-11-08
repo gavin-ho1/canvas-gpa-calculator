@@ -417,7 +417,6 @@ if(active){
       letterGrade = "F";
     }
     
-    finalGrade = finalGrade.toFixed(2)
     chrome.runtime.sendMessage({ type: 'print', data : typeof finalGrade }, (response) => {});
     
     // Set up a mutation observer to monitor the loading of specific elements
@@ -497,7 +496,7 @@ if(active){
       }else{
         displayAside.innerHTML =   `<div class="student_assignment final_grade">
         Total:
-          <span class="grade">${finalGrade}%</span>
+          <span class="grade">${finalGrade.toFixed(2)}%</span>
             <span class="letter_grade" id="final_letter_grade_text"></span>
       </div>` + displayAside.innerHTML 
       }
