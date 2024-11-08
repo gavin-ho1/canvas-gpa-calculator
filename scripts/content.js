@@ -38,6 +38,7 @@ if(active){
           tempList.push(course.href+"/grades?grading_period_id=0") 
       });
       for (let step = 0; step < courseObjs.length; step++) {
+        chrome.runtime.sendMessage({ type: 'print', data: courseObjs[step].match(/\d+/g)[0] });
         courseRegistry[courseObjs[step].match(/\d+/g)[0]] = courseNames[step]
       }
 
