@@ -496,7 +496,7 @@ if(active){
       }else{
         displayAside.innerHTML =   `<div class="student_assignment final_grade">
         Total:
-          <span class="grade">${finalGrade.toFixed(2)}%</span>
+          <span class="grade">${finalGrade.toLocaleString("en", { minimumFractionDigits: 2 })}%</span>
             <span class="letter_grade" id="final_letter_grade_text"></span>
       </div>` + displayAside.innerHTML 
       }
