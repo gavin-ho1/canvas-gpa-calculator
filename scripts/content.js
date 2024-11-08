@@ -76,7 +76,7 @@ if(active){
       if(isNaN(GPA)){
         GPA = "No course grades saved"
       }else{
-        GPA = GPA.toFixed(2)
+        GPA = parseFloat(GPA.toFixed(2))
       }
       
       
