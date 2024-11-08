@@ -76,7 +76,7 @@ if(active){
       if(isNaN(GPA)){
         GPA = "No course grades saved"
       }else{
-        GPA = parseFloat(GPA.toFixed(2))
+        GPA = parseFloatGPA.toFixed(2)
       }
       
       
@@ -417,6 +417,7 @@ if(active){
       letterGrade = "F";
     }
     
+    finalGrade - finalGrade.toFixed(2)
     chrome.runtime.sendMessage({ type: 'print', data : typeof finalGrade }, (response) => {});
     
     // Set up a mutation observer to monitor the loading of specific elements
