@@ -377,7 +377,7 @@ if(active){
         
       })
       finalGrade = (points/totalPoints)*100
-      finalGrade = finalGrade.toFixed(2)
+      finalGrade = parseFloat(finalGrade.toFixed(2))
     }
   
     let letterGrade;
