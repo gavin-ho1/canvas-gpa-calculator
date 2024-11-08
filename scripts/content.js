@@ -1,12 +1,12 @@
 chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
 chrome.storage.sync.get(
-  { active : true, letterGrade : true, showGPA : true, gpaScale : false},
+  { active : true, letterGrade : true, showGPA : true, gpaScale : false, gradeRounding : 0},
   (items) => {
     active = items.active
     letterGrades = items.letterGrade
     showGPA = items.showGPA
     gpaScale = items.gpaScale
-    
+    gradeRounding = items.gradeRounding
 
 
 
@@ -383,29 +383,29 @@ if(active){
     let letterGrade;
   
     //I'm not stupid, its just that js won't accept composite functions, which is why there is a lack of functions in this entire script
-    if (finalGrade >= 97) {
+    if (finalGrade+gradeRounding >= 97) {
       letterGrade = "A+";
-    } else if (finalGrade >= 93) {
+    } else if (finalGrade+gradeRounding >= 93) {
       letterGrade = "A";
-    } else if (finalGrade >= 90) {
+    } else if (finalGrade+gradeRounding >= 90) {
       letterGrade = "A-";
-    } else if (finalGrade >= 87) {
+    } else if (finalGrade+gradeRounding >= 87) {
       letterGrade = "B+";
-    } else if (finalGrade >= 83) {
+    } else if (finalGrade+gradeRounding >= 83) {
       letterGrade = "B";
-    } else if (finalGrade >= 80) {
+    } else if (finalGrade+gradeRounding >= 80) {
       letterGrade = "B-";
-    } else if (finalGrade >= 77) {
+    } else if (finalGrade+gradeRounding >= 77) {
       letterGrade = "C+";
-    } else if (finalGrade >= 73) {
+    } else if (finalGrade+gradeRounding >= 73) {
       letterGrade = "C";
-    } else if (finalGrade >= 70) {
+    } else if (finalGrade+gradeRounding >= 70) {
       letterGrade = "C-";
-    } else if (finalGrade >= 67) {
+    } else if (finalGrade+gradeRounding >= 67) {
       letterGrade = "D+";
-    } else if (finalGrade >= 63) {
+    } else if (finalGrade+gradeRounding >= 63) {
       letterGrade = "D";
-    } else if (finalGrade >= 60) {
+    } else if (finalGrade+gradeRounding >= 60) {
       letterGrade = "D-";
     } else if (finalGrade === NaN){
       letterGrade = "None"
