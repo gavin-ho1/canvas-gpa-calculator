@@ -189,3 +189,6 @@ details[open] #courseRegistryContainer {
   width: 50px; /* Smaller width for fewer digits */
   text-align: center;
 }
+img{
+  margin-top: 10px;
+}
