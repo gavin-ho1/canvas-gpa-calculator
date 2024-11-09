@@ -130,7 +130,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
 /* Details Dropdown */
 details {
   margin-top: 10px;
-  border: 1px solid #999; /* Consistent grey for course list border */
   border-radius: 4px;
   overflow: hidden;
   width: 100%;
@@ -153,7 +152,6 @@ details summary {
   padding: 6px 10px;
   background-color: #999; /* Consistent grey */
   color: white;
-  border-radius: 2px;
   outline: none;
   display: flex;
   align-items: center;
