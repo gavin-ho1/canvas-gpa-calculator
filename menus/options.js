@@ -103,7 +103,7 @@ const restoreOptions = () => {
                         }
 
                         data.courseDict[courseKey].grade = parseFloat(value);
-                        data.courseDict[courseKey].gradePoint = value;
+                        data.courseDict[courseKey].gradePoint = gradePoint;
                         chrome.storage.sync.set({ courseDict: data.courseDict });
                     });
                 });
