@@ -7,6 +7,7 @@
 <body>
     <h1>Settings</h1>
 
+    <!-- Existing toggle elements -->
     <div class="toggleContainer" data-id="active">
         <label class="switch">
             <input type="checkbox" id="active">
@@ -40,17 +41,19 @@
     </div>
 
     <div class="sliderContainer">
-      <div class="label-and-slider">
-          <label for="gradeRoundingSlider" class="sliderLabel">Grade Rounding: <span id="gradeRoundingValue">0.0</span>%</label>
-          <input type="range" id="gradeRoundingSlider" min="0" max="0.5" step="0.01" value="0">
-      </div>
-  </div>
-  <div id="courseRegistryContainer"></div>
-  
-  
-  
-  
+        <div class="label-and-slider">
+            <label for="gradeRoundingSlider" class="sliderLabel">Grade Rounding: <span id="gradeRoundingValue">0.0</span>%</label>
+            <input type="range" id="gradeRoundingSlider" min="0" max="0.5" step="0.01" value="0">
+        </div>
+    </div>
 
+    <!-- Course Registry as an expandable dropdown -->
+    <details>
+        <summary>Course List</summary>
+        <div id="courseRegistryContainer"></div>
+    </details>
+
+    <!-- Additional elements -->
     <button id="openUrlButton">Auto-Update</button><br>
     <button id="clear">Clear Course Info</button><br>
 

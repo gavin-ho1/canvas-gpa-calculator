@@ -56,14 +56,54 @@ const restoreOptions = () => {
                 inputElement.type = 'number';
                 inputElement.min = '0';
                 inputElement.step = '0.01';
-                inputElement.value = items.courseRegistry[courseKey] || '';
+                inputElement.value = items.courseDict[courseKey].grade || '';
                 inputElement.className = 'course-input';
                 inputElement.addEventListener('input', (event) => {
-                    const value = parseFloat(event.target.value) || 0;
+                const value = parseFloat(event.target.value) || 0;
 
+
+                
+    
                     // Update storage with new value
                     chrome.storage.sync.get({ courseDict: {} }, (data) => {
+                        let gradePoint;
+  
+            
+                        let roundedGrade = data.courseDict[courseKey].grade + items.gradeRounding
+                        
+
+                        if (roundedGrade >= 97) {
+                            gradePoint = 12;
+                        } else if (roundedGrade >= 93) {
+                            gradePoint = 11;
+                        } else if (roundedGrade >= 90) {
+                            gradePoint = 10;
+                        } else if (roundedGrade >= 87) {
+                            gradePoint = 9;
+                        } else if (roundedGrade >= 83) {
+                            gradePoint = 8;
+                        } else if (roundedGrade >= 80) {
+                            gradePoint = 7;
+                        } else if (roundedGrade >= 77) {
+                            gradePoint = 6;
+                        } else if (roundedGrade >= 73) {
+                            gradePoint = 5;
+                        } else if (roundedGrade >= 70) {
+                            gradePoint = 4;
+                        } else if (roundedGrade >= 67) {
+                            gradePoint = 3;
+                        } else if (roundedGrade >= 63) {
+                            gradePoint = 2;
+                        } else if (roundedGrade >= 60) {
+                            gradePoint = 1;
+                        } else if (finalGrade === NaN){
+                            gradePoint = "None"
+                        }else{
+                            gradePoint = 0;
+                        }
+
                         data.courseDict[courseKey].grade = parseFloat(value);
+                        data.courseDict[courseKey].gradePoint = value;
                         chrome.storage.sync.set({ courseDict: data.courseDict });
                     });
                 });
