@@ -7,9 +7,9 @@ const saveOptions = () => {
     const gradeRounding = parseFloat(document.getElementById('gradeRoundingSlider').value);
 
     chrome.storage.sync.set(
-        { active, letterGrade, showGPA, gpaScale, gradeRounding , courseRegistry},
+        { active, letterGrade, showGPA, gpaScale, gradeRounding , courseRegistry, courseDict},
         () => {
-            console.log({ active, letterGrade, showGPA, gpaScale, gradeRounding });
+            console.log({ active, letterGrade, showGPA, gpaScale, gradeRounding , courseDict});
         }
     );
 };
@@ -25,6 +25,7 @@ const restoreOptions = () => {
             document.getElementById('gpaScale').checked = items.gpaScale;
             document.getElementById('gradeRoundingSlider').value = items.gradeRounding;
             document.getElementById('gradeRoundingValue').innerText = items.gradeRounding.toFixed(2);
+
             
             // Clear previous entries
             const courseRegistryContainer = document.getElementById('courseRegistryContainer');
@@ -59,53 +60,46 @@ const restoreOptions = () => {
                 inputElement.value = items.courseDict[courseKey].grade || '';
                 inputElement.className = 'course-input';
                 inputElement.addEventListener('input', (event) => {
-                const value = parseFloat(event.target.value) || 0;
-
-
-                
-    
-                    // Update storage with new value
-                    chrome.storage.sync.get({ courseDict: {} }, (data) => {
-                        let gradePoint;
+                    const value = parseFloat(event.target.value) || 0;
+                        var point;
   
             
-                        let roundedGrade = data.courseDict[courseKey].grade + items.gradeRounding
+                        let roundedGrade = items.courseDict[courseKey].grade + items.gradeRounding
                         
 
                         if (roundedGrade >= 97) {
-                            gradePoint = 12;
+                            point = 12;
                         } else if (roundedGrade >= 93) {
-                            gradePoint = 11;
+                            point = 11;
                         } else if (roundedGrade >= 90) {
-                            gradePoint = 10;
+                            point = 10;
                         } else if (roundedGrade >= 87) {
-                            gradePoint = 9;
+                            point = 9;
                         } else if (roundedGrade >= 83) {
-                            gradePoint = 8;
+                            point = 8;
                         } else if (roundedGrade >= 80) {
-                            gradePoint = 7;
+                            point = 7;
                         } else if (roundedGrade >= 77) {
-                            gradePoint = 6;
+                            point = 6;
                         } else if (roundedGrade >= 73) {
-                            gradePoint = 5;
+                            point = 5;
                         } else if (roundedGrade >= 70) {
-                            gradePoint = 4;
+                            point = 4;
                         } else if (roundedGrade >= 67) {
-                            gradePoint = 3;
+                            point = 3;
                         } else if (roundedGrade >= 63) {
-                            gradePoint = 2;
+                            point = 2;
                         } else if (roundedGrade >= 60) {
-                            gradePoint = 1;
+                            point = 1;
                         } else if (finalGrade === NaN){
-                            gradePoint = "None"
+                            point = "None"
                         }else{
-                            gradePoint = 0;
+                            point = 0;
                         }
 
-                        data.courseDict[courseKey].grade = parseFloat(value);
-                        data.courseDict[courseKey].gradePoint = gradePoint;
-                        chrome.storage.sync.set({ courseDict: data.courseDict });
-                    });
+                        items.courseDict[courseKey].grade = parseFloat(value);
+                        items.courseDict[courseKey].gradePoint = parseFloat(point);
+                        chrome.storage.sync.set({ courseDict: items.courseDict });
                 });
 
                 // Append the input element next to the course name
