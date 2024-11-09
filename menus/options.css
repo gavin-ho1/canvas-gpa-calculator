@@ -67,7 +67,7 @@ button {
   cursor: pointer;
   border-radius: 4px;
   transition: background-color 0.3s;
-  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 button:hover {
@@ -167,6 +167,7 @@ details[open] summary::after {
   transition: max-height 0.6s ease, padding 0.6s ease; /* Slower animation */
   padding: 0 10px;
   width:min-content;
+  margin-bottom : 10px
 }
 
 details[open] #courseRegistryContainer {
