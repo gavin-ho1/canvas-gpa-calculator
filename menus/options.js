@@ -77,10 +77,21 @@ const displayCourseList = (courseRegistry, courseDict, gradeRounding) => {
             chrome.storage.sync.set({ courseDict });
         });
 
+        // Create and style the '%' label
+        const percentLabel = document.createElement('span');
+        percentLabel.className = 'percent-label';
+        percentLabel.innerText = '%';
+        percentLabel.style.marginLeft = '4px';
+
+        // Append input and '%' sign to course element
         courseElement.appendChild(inputElement);
+        courseElement.appendChild(percentLabel);
+
+        // Append the course element to the container
         courseRegistryContainer.appendChild(courseElement);
     }
 };
+
 
 // Calculate grade point based on rounded grade
 const calculateGradePoint = (roundedGrade) => {
