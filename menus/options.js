@@ -125,3 +125,7 @@ document.getElementById('gpaScale').addEventListener('click', saveOptions);
 
 // Restore options on page load
 document.addEventListener('DOMContentLoaded', restoreOptions);
+
+document.getElementById("link").addEventListener('click', function() {
+    chrome.tabs.create({ url: "https://github.com/gavin-ho1/canvas-gpa-calculator/tree/main" });
+});
