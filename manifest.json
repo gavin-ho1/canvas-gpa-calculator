@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Canvas GPA Calculator",
-  "version": "1.4",
-  "description": "A Chrome extension that scrapes numbers or text from a webpage.",
+  "version": "1.5",
+  "description": "A Chrome Extension that automatically calculates your Canvas grades and GPA",
   "permissions": ["storage"],
   
   "action": {
