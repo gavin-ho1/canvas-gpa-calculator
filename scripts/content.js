@@ -392,6 +392,9 @@ if(active){
       })
       finalGrade = (points/totalPoints)*100
       finalGrade = parseFloat(finalGrade.toFixed(2))
+      if(finalGrade === "Infinity"){
+        finalGrade = "NaN"
+      }
     }
   
     let letterGrade;
