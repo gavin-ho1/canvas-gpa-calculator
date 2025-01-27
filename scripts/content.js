@@ -497,7 +497,6 @@ if(active){
       displayAside.innerHTML =   `<div class="student_assignment final_grade">
       Total:
         <span class="grade">No assigments graded</span>
-          (<span class="letter_grade" id="final_letter_grade_text"></span>)
     </div>` + displayAside.innerHTML
     }else{
       if(letterGrades){
