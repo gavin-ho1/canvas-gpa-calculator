@@ -361,9 +361,6 @@ if(active){
   
         finalGrade = (finalGrade/countedWeight)*100
         finalGrade = parseFloat(finalGrade.toFixed(2))
-        if(finalGrade === Infinity){
-          finalGrade = "NaN"
-        }
         
         chrome.runtime.sendMessage({ type: 'print', data : finalGrade }, (response) => {}); 
         //Debug Print
@@ -395,9 +392,6 @@ if(active){
       })
       finalGrade = (points/totalPoints)*100
       finalGrade = parseFloat(finalGrade.toFixed(2))
-      if(finalGrade === Infinity){
-        finalGrade = "NaN"
-      }
     }
   
     let letterGrade;
@@ -503,6 +497,7 @@ if(active){
       displayAside.innerHTML =   `<div class="student_assignment final_grade">
       Total:
         <span class="grade">No assigments graded</span>
+          (<span class="letter_grade" id="final_letter_grade_text"></span>)
     </div>` + displayAside.innerHTML
     }else{
       if(letterGrades){
