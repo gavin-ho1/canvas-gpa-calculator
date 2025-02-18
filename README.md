@@ -17,6 +17,7 @@ This code does **NOT** "hack" or break into Canvas or any site to get informatio
 ##
 
 ### [Offical Chrome Web Store Extension](https://chromewebstore.google.com/detail/canvas-gpa-calculator/hedjldnoldbeihmghalfbkaobifigmhi)
+### [Offical Microsoft Edge Addons Extension](https://microsoftedge.microsoft.com/addons/detail/canvas-gpa-calculator/kjljmlkojppfklkhdifcbbkhbalhmgfm)
 
 ##
 
