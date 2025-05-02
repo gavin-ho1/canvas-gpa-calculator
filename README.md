@@ -1,4 +1,5 @@
-# <img src="logo.png" width="30"> Canvas GPA Calculator <br /> ![Chrome Users](https://img.shields.io/chrome-web-store/users/hedjldnoldbeihmghalfbkaobifigmhi?style=for-the-badge&label=Chrome%20Users:&labelColor=4285F4&labelColor=4285F4&color=4285F4) ![Edge Addons Users](https://img.shields.io/badge/dynamic/json?label=Edge%20Addons%20Users:\&query=%24.activeInstallCount\&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fkjljmlkojppfklkhdifcbbkhbalhmgfm\&style=for-the-badge\&logo=microsoft-edge\&color=4285F4\&labelColor=4285F4\&labelColor=4285F4)
+# <img src="logo.png" width="30"> Canvas GPA Calculator 
+![Chrome Users](https://img.shields.io/chrome-web-store/users/hedjldnoldbeihmghalfbkaobifigmhi?style=for-the-badge&label=Chrome%20Users:&labelColor=4285F4&labelColor=4285F4&color=4285F4) ![Edge Addons Users](https://img.shields.io/badge/dynamic/json?label=Edge%20Addons%20Users:\&query=%24.activeInstallCount\&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fkjljmlkojppfklkhdifcbbkhbalhmgfm\&style=for-the-badge\&logo=microsoft-edge\&color=4285F4\&labelColor=4285F4\&labelColor=4285F4)
 
 <br />
 
