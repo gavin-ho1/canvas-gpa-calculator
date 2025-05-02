@@ -129,3 +129,8 @@ document.addEventListener('DOMContentLoaded', restoreOptions);
 document.getElementById("link").addEventListener('click', function() {
     chrome.tabs.create({ url: "https://github.com/gavin-ho1/canvas-gpa-calculator/tree/main" });
 });
+document.getElementById("review-link").addEventListener('click', function() {
+    chrome.tabs.create({ url: "https://chromewebstore.google.com/detail/canvas-gpa-calculator/hedjldnoldbeihmghalfbkaobifigmhi/reviews" });
+});
+
+
