@@ -1,5 +1,16 @@
-# <img src="logo.png" width="30"> Canvas GPA Calculator
+# <img src="logo.png" width="30"> Canvas GPA Calculator <br /> ![Chrome Users](https://img.shields.io/chrome-web-store/users/hedjldnoldbeihmghalfbkaobifigmhi?style=for-the-badge&label=Chrome%20Users:&labelColor=4285F4&labelColor=4285F4&color=4285F4) ![Edge Addons Users](https://img.shields.io/badge/dynamic/json?label=Edge%20Addons%20Users:\&query=%24.activeInstallCount\&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fkjljmlkojppfklkhdifcbbkhbalhmgfm\&style=for-the-badge\&logo=microsoft-edge\&color=4285F4\&labelColor=4285F4\&labelColor=4285F4)
+
+<br />
+
+![Chrome Users](https://img.shields.io/chrome-web-store/stars/hedjldnoldbeihmghalfbkaobifigmhi?style=for-the-badge&label=Chrome%20Rating:&labelColor=4285F4&labelColor=4285F4&color=4285F4) ![Edge Rating](https://img.shields.io/badge/Edge%20Addons%20Rating%3A-No%20ratings%20yet-4285F4?style=for-the-badge&logo=microsoft-edge&labelColor=4285F4&labelColor=4285F4)
+
+
+
+
+
+
 Chrome Extension that calculates GPA on Canvas when blocked by a teacher because I couldn't find an (good) existing extension online.
+
 
 # **⚠ DISCLAIMER ⚠**
 This Chrome Extension is not given permissions to store any senstive/private content (browser history, passwords, etc). It is literally **IMPOSSIBLE** to get this information without permissions. 
@@ -16,8 +27,11 @@ This code does **NOT** "hack" or break into Canvas or any site to get informatio
 
 ##
 
-### [Offical Chrome Web Store Extension](https://chromewebstore.google.com/detail/canvas-gpa-calculator/hedjldnoldbeihmghalfbkaobifigmhi)
-### [Offical Microsoft Edge Addons Extension](https://microsoftedge.microsoft.com/addons/detail/canvas-gpa-calculator/kjljmlkojppfklkhdifcbbkhbalhmgfm)
+### [Official Chrome Web Store Extension](https://chromewebstore.google.com/detail/canvas-gpa-calculator/hedjldnoldbeihmghalfbkaobifigmhi) 
+### [Official Microsoft Edge Addons Extension](https://microsoftedge.microsoft.com/addons/detail/canvas-gpa-calculator/kjljmlkojppfklkhdifcbbkhbalhmgfm) 
+
+
+
 
 ##
 
