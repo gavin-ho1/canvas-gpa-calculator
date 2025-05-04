@@ -24,8 +24,6 @@ This code does **NOT** "hack" or break into Canvas or any site to get informatio
 ### [Official Microsoft Edge Addons Extension](https://microsoftedge.microsoft.com/addons/detail/canvas-gpa-calculator/kjljmlkojppfklkhdifcbbkhbalhmgfm) 
 
 
-
-
 ##
 
 ## Features
