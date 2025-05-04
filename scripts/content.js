@@ -11,8 +11,6 @@ chrome.storage.sync.get(
     gpaScale = items.gpaScale
     gradeRounding = items.gradeRounding
 
-
-
 var courseID 
 
 if(active){
@@ -31,7 +29,6 @@ if(active){
         
         chrome.runtime.sendMessage({ type: 'print', data: "Course elements found" });
         chrome.runtime.sendMessage({ type: 'print', data: courseObjs });
-         
         
         tempList = []
         courseObjs.forEach(course => {
