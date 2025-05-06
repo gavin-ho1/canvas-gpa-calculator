@@ -194,53 +194,38 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Animation function for the counter
-  function animateCounter(element, target) {
-    const start = 0;
-    const duration = 1000; // Animation duration in milliseconds (1 second for quick animation)
-    let startTime = null;
-
-    function updateCounter(timestamp) {
-      if (!startTime) startTime = timestamp;
-      const progress = timestamp - startTime;
-      const current = Math.min(Math.floor((progress / duration) * target), target);
-      element.textContent = `${current}+`;
-
-      if (progress < duration) {
-        requestAnimationFrame(updateCounter);
-      } else {
-        element.textContent = `${target}`; // Ensure it ends exactly at the target
-      }
-    }
-    
-
-    requestAnimationFrame(updateCounter);
-  }
 
   // Define metrics elements and observer outside to manage scope
   const metricsSection = document.querySelector('.metrics-container');
   const userCountElement = document.getElementById('user-count');
   let metricsObserver = null; // Use a single observer variable
 
-  // Function to trigger the counter animation if conditions are met
+  // Function to trigger the counter animation after a delay if conditions are met
   function triggerCounterAnimation() {
     if (userCountElement && metricsSection) {
       const target = +userCountElement.dataset.target; // Get the target number
 
       // Check if target is a valid number and animation hasn't run yet (textContent is still '0')
       if (!isNaN(target) && userCountElement.textContent === '0') {
-        console.log("Triggering counter animation."); // Log for debugging
-        animateCounter(userCountElement, target);
-        // Disconnect the observer after triggering the animation if it exists
-        if (metricsObserver) { // Use the correctly scoped observer variable
+        console.log("Metrics section intersected. Setting timeout for counter animation.");
+
+        // Disconnect the observer immediately once intersecting and conditions are met
+        if (metricsObserver) {
             metricsObserver.unobserve(metricsSection);
-            console.log("Observer disconnected."); // Log for debugging
+            console.log("Observer disconnected.");
         }
+
+        // Set a timeout to start the counter animation after a delay
+        // The delay should be slightly longer than the AOS slide-right animation duration
+        setTimeout(() => {
+          console.log("Timeout finished. Starting counter animation.");
+          animateCounter(userCountElement, target);
+        }, 1000); // 1000ms delay, matching AOS default duration
       }
     }
   }
 
-  // Animation function for the counter (Keeping existing function)
+  // Animation function for the counter
   function animateCounter(element, target) {
     const start = 0;
     const duration = 1000; // Animation duration in milliseconds (1 second for quick animation)
@@ -262,11 +247,11 @@ document.addEventListener('DOMContentLoaded', function() {
     requestAnimationFrame(updateCounter);
   }
 
-  // Function to fetch and set the target for the counter and display rating (Keeping existing function)
-  async function fetchAndPrepareMetrics() { // Renamed function
-    const averageRatingSpan = document.getElementById('average-rating'); // Get inside function if needed
+  // Function to fetch and set the target for the counter and display rating
+  async function fetchAndPrepareMetrics() {
+    const averageRatingSpan = document.getElementById('average-rating');
 
-    if (!userCountElement || !averageRatingSpan) { // Adjusted check
+    if (!userCountElement || !averageRatingSpan) {
       console.warn("Elements with ID 'user-count' or 'average-rating' not found.");
       return;
     }
@@ -275,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const response = await fetch('https://raw.githubusercontent.com/gavin-ho1/canvas-gpa-calculator/main/docs/extension_data.json');
       if (!response.ok) {
         console.error(`Failed to fetch data from GitHub Pages: ${response.status}`);
-        userCountElement.textContent = 'Error loading data'; // Keep error display
+        userCountElement.textContent = 'Error loading data';
         return;
       }
       const data = await response.json();
@@ -296,14 +281,14 @@ document.addEventListener('DOMContentLoaded', function() {
       weightedAverageRating = Math.round(weightedAverageRating * 10) / 10;
 
       // Display the star rating and average rating immediately
-      const starRatingDiv = averageRatingSpan.querySelector('.star-rating'); // Select here
+      const starRatingDiv = averageRatingSpan.querySelector('.star-rating');
       if(starRatingDiv) {
         displayStarRating(weightedAverageRating, starRatingDiv, averageRatingSpan);
       }
 
     } catch (error) {
       console.error('Error fetching or parsing data from GitHub Pages:', error);
-      userCountElement.textContent = 'Error loading data'; // Keep error display
+      userCountElement.textContent = 'Error loading data';
     }
   }
 
