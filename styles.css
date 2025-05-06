@@ -169,20 +169,26 @@ code {
 }
 
 .sidebar-heading {
+    height: 40px; /* Make the heading height the same as the circle button */
+    margin-top: 10px; /* Add top margin to align vertically with the toggle button */
     color: var(--secondary-color); /* Use secondary color for the heading */
     font-size: 0.9em; /* Slightly smaller font size */
-    padding: 15px 20px 5px 20px; /* Add padding to match links, less at the bottom */
+    padding: 0 20px; /* Keep horizontal padding, remove vertical as height is set */
     font-weight: 600; /* Make it a bit bolder */
     text-transform: uppercase; /* Uppercase text */
     letter-spacing: 1px; /* Add some letter spacing */
+    display: flex; /* Use flexbox to center content vertically */
+    align-items: center; /* Vertically center the text */
 }
 
 .sidebar a {
-    padding: 15px 20px; /* Add horizontal and vertical padding to links */
+    height: 40px; /* Make the link height the same as the circle button */
+    padding: 0 20px; /* Keep horizontal padding, remove vertical as height is set */
     text-decoration: none;
     font-size: 1em; /* Adjusted font size */
     color: var(--text-color);
-    display: block; /* Make links block elements to fill the width */
+    display: flex; /* Use flexbox to center content vertically */
+    align-items: center; /* Vertically center text and icon */
     transition: background-color 0.2s ease;
     white-space: nowrap; /* Prevent text wrapping */
     overflow: hidden; /* Hide overflowing text */
@@ -211,8 +217,8 @@ code {
 
 .toggle-btn {
     position: fixed; /* Fixed position so it stays in place */
-    top: 10px; /* 10px from the top */
-    left: 10px; /* 10px from the left */
+    top: 5px; /* 5px from the top */
+    left: 5px; /* 5px from the left */
     background-color: var(--card-bg); /* White background */
     color: var(--text-color); /* Dark grey text */
     border: none;
@@ -222,7 +228,7 @@ code {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    border-radius: 50%; /* Make it a perfect circle */
+    border-radius: 5px; /* Make it a rounded corner square */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     z-index: 1002; /* Ensure button is above everything */
     transition: left 0.3s ease, background-color 0.2s ease, color 0.2s ease; /* Smooth transitions */
@@ -233,7 +239,7 @@ code {
 }
 
 body.sidebar-open .toggle-btn {
-    left: 260px; /* Move button to the right when sidebar is open (sidebar width + padding) */
+    left: 255px; /* Move button to be 5px away from the sidebar when open */
 }
 
 body.sidebar-open .toggle-btn i {
