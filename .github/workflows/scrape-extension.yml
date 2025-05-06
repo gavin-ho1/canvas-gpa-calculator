@@ -4,7 +4,10 @@ on:
   schedule:
     - cron: "0 0 * * *"  # Run once at midnight UTC
     - cron: "0 12 * * *"  # Run once at noon UTC
-  workflow_dispatch:  # Allows manual triggering of the action
+  workflow_dispatch:  # Allows manual triggering
+  push:
+    branches:
+      - workflow-branch  # This ensures the workflow runs only on `workflow-branch`
 
 jobs:
   scrape:
