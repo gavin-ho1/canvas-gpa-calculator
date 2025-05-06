@@ -53,6 +53,19 @@ document.addEventListener('DOMContentLoaded', function() {
   const mainContent = document.querySelector('.main-content');
   const sidebarLinks = document.querySelectorAll('.sidebar a'); // Select all sidebar links
 
+  // Set active class based on current URL
+  const currentUrl = window.location.href;
+  sidebarLinks.forEach(link => {
+    if (link.href === currentUrl) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active'); // Ensure no other links have the active class statically set
+    }
+  });
+
+  // Store a reference to the initially active link
+  const initiallyActiveLink = document.querySelector('.sidebar a.active');
+
   if (toggleBtn && sidebar && mainContent) {
     toggleBtn.addEventListener('click', function() {
       sidebar.classList.toggle('collapsed');
@@ -61,14 +74,26 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Smooth transition for sidebar links
+  // Add hover effects to sidebar links and handle click for smooth transition
   sidebarLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
-      const targetUrl = this.href;
+    link.addEventListener('mouseover', function() {
+      // If this link is not the active one, remove the active class from the initially active link
+      if (initiallyActiveLink && this !== initiallyActiveLink) {
+        initiallyActiveLink.classList.remove('active');
+      }
+    });
 
-      // Check if the sidebar is open before adding transition logic
+    link.addEventListener('mouseout', function() {
+      // If this link is not the active one, add the active class back to the initially active link
+      if (initiallyActiveLink && this !== initiallyActiveLink) {
+        initiallyActiveLink.classList.add('active');
+      }
+    });
+
+    link.addEventListener('click', function(e) {
+      // Prevent default navigation only if sidebar is not collapsed (for smooth transition)
       if (!sidebar.classList.contains('collapsed')) {
-        e.preventDefault(); // Prevent default navigation
+        e.preventDefault();
 
         // Trigger the sidebar close animation
         sidebar.classList.add('collapsed');
@@ -76,13 +101,19 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.remove('sidebar-open'); // Update body class
 
         // Wait for the animation to complete before navigating
-        // The transition duration is 0.3s, so a slight delay like 350ms is good
         setTimeout(() => {
-          window.location.href = targetUrl; // Navigate to the target URL
-        }, 350); // Delay in milliseconds
-      } else {
-        // If sidebar is already collapsed, allow default navigation
+          window.location.href = this.href; // Navigate to the clicked link's URL
+        }, 350); // Match the transition duration
       }
+       // If sidebar is collapsed, default navigation is allowed
+
+      // Update the active class on click
+      if (initiallyActiveLink) {
+        initiallyActiveLink.classList.remove('active');
+      }
+      this.classList.add('active');
+      // Update initiallyActiveLink reference
+      initiallyActiveLink = this; // This line might cause an error if initiallyActiveLink is const
     });
   });
 
