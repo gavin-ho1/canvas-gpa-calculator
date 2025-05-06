@@ -8,7 +8,11 @@ on:
   
   push:
     branches:
+<<<<<<< HEAD
       - website  # This ensures the workflow runs only on `workflow-branch`
+=======
+      - main  # This ensures the workflow runs only on `main`
+>>>>>>> 4027693714f915e6bad3bd8482c2b86792bfab6d
 permissions:
   contents: write
   
