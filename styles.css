@@ -298,6 +298,7 @@ body.sidebar-open .toggle-btn i {
 
 .mode-toggle-button i {
     font-size: 1.2em; /* Icon size */
+    transition: color 0.6s ease, transform 0.6s ease; /* Add transition for smooth icon change */
 }
 
 .mode-toggle-button:hover {
@@ -395,6 +396,7 @@ body.dark-mode li,
 body.dark-mode a,
 body.dark-mode i,
 body.dark-mode span,
+body.dark-mode code,
 body.dark-mode .sidebar-heading,
 body.dark-mode .metric-label,
 body.dark-mode .metric-value,
