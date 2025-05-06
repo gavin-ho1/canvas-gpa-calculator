@@ -354,7 +354,7 @@ body.dark-mode .sidebar a {
 
 body.dark-mode .sidebar a:hover {
     background-color: var(--primary-color);
-    color: var(--text-color); /* Change text color on hover to dark mode text color */
+    color: var(--card-bg); /* Make hover color same as active color in dark mode */
 }
 
 body.dark-mode .sidebar .active {
