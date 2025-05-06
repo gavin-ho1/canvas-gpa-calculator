@@ -293,6 +293,11 @@ body.sidebar-open .toggle-btn i {
         right: 10px; /* Position near right edge of sidebar */
     }
 
+    body.sidebar-open .toggle-btn {
+        left: 205px; /* Move button to be 5px away from the sidebar when open */
+        right: auto; /* Remove the right positioning */
+    }
+
     .sidebar.collapsed .toggle-btn {
          right: -50px; /* Move button further right when sidebar is collapsed */
     }
