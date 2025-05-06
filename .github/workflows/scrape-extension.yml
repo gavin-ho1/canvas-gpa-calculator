@@ -1,0 +1,43 @@
+name: Scrape Extension Data
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # Run once at midnight UTC
+    - cron: "0 12 * * *"  # Run once at noon UTC
+  workflow_dispatch:  # Allows manual triggering
+  
+  push:
+    branches:
+      - main  # This ensures the workflow runs only on `main`
+permissions:
+  contents: write
+  
+jobs:
+  scrape:
+    runs-on: ubuntu-latest  # Use a fresh Ubuntu runner
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2  # This checks out your code so that the action can run on it
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'  # Specifies the Python version to use
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt  # Install the dependencies from your requirements.txt
+
+    - name: Run the scraper script
+      run: |
+        python scrape.py  # Runs your scraping script (change if your script is named differently)
+
+    - name: Commit and push results
+      uses: EndBug/add-and-commit@v7  # GitHub Action to automatically commit changes
+      with:
+        author_name: "github-actions[bot]"
+        author_email: "github-actions[bot]@users.noreply.github.com"
+        message: "Scrape extension data and update results"
+        add: "docs/extension_data.json"  # Path to your result file
