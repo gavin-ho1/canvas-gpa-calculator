@@ -293,7 +293,7 @@ body.sidebar-open .toggle-btn i {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.3s ease, color 5.0s ease; /* Animation for rotation and color, color transition set to 5 seconds */
+    transition: transform 0.3s ease; /* Animation for rotation and color, color transition set to 5 seconds */
 }
 
 .mode-toggle-button i {
@@ -306,7 +306,7 @@ body.sidebar-open .toggle-btn i {
 
 body.dark-mode .mode-toggle-button {
     color: var(--text-color); /* Icon color in dark mode */
-    transition: color 5.0s ease; /* Explicitly set transition for dark mode */
+    transition: unset; /* Explicitly set transition for dark mode */
 }
 
 body.dark-mode .mode-toggle-button:hover {
@@ -389,8 +389,15 @@ body.dark-mode footer a:hover {
 
 body.dark-mode h1,
 body.dark-mode h2,
+body.dark-mode h3,
 body.dark-mode p,
-body.dark-mode li {
+body.dark-mode li,
+body.dark-mode .sidebar-heading,
+body.dark-mode .metric-label,
+body.dark-mode .metric-value,
+body.dark-mode .cta-button,
+body.dark-mode .toggle-btn,
+body.dark-mode .mode-toggle-button {
   text-shadow: 0 0 8px var(--primary-color); /* Add subtle glow in dark mode */
 }
 
