@@ -7,7 +7,7 @@ on:
   workflow_dispatch:  # Allows manual triggering
   push:
     branches:
-      - workflow-branch  # This ensures the workflow runs only on `workflow-branch`
+      - website  # This ensures the workflow runs only on `workflow-branch`
 
 jobs:
   scrape:
