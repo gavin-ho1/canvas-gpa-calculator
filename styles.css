@@ -24,7 +24,6 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-bottom: 80px; /* Add padding at the bottom equal to the footer height */
 }
 
 .container {
@@ -144,7 +143,7 @@ code {
 
 /* Side Navigation Bar */
 .sidebar {
-    position: fixed;
+    position: fixed; /* Fixed position so it stays in place */
     top: 0;
     left: 0; /* Start from the left edge */
     width: 250px;
@@ -301,19 +300,11 @@ body.sidebar-open .toggle-btn i {
     }
 }
 
-
 footer {
   text-align: center;
   padding: 40px 0; /* More padding */
   font-size: 0.9em;
   color: var(--secondary-color); /* Use secondary color for footer text */
-  width: 100%;
-  position: fixed; /* Fix position to the bottom */
-  bottom: 0; /* Align to the bottom */
-  left: 0; /* Align to the left */
-  background-color: var(--bg-color); /* Add background to prevent content showing through */
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05); /* Add a subtle shadow at the top */
-  z-index: 999; /* Ensure footer is above most content */
 }
 
 footer a {
@@ -334,3 +325,43 @@ footer a:hover {
     border-bottom: 1px solid var(--border-color); /* Separator between sections */
     margin-bottom: 30px; /* Space below separator */
 }
+
+.metrics-container {
+    display: flex;
+    justify-content: space-around; /* Center items with space around */
+    margin-top: 20px; /* Keep the top margin */
+    margin-bottom: 20px; /* Keep the bottom margin */
+    padding: 0; /* Remove padding */
+}
+
+.metric-item {
+    display: flex;
+    flex-direction: column; /* Stack label above value */
+    text-align: center; /* Center content horizontally */
+    flex: 1; /* Allow items to grow and shrink */
+    margin: 0 10px; /* Add some horizontal margin between items */
+}
+
+.metric-label {
+    font-size: 1.6em; /* Increased size */
+    color: var(--secondary-color); /* Keep similar color to old labels */
+    margin-bottom: 5px; /* Space between label and value */
+    font-weight: 600; /* Make labels a bit bolder */
+}
+
+.metric-value {
+    font-size: 2.5em; /* Increased size */
+    font-weight: 800; /* Make value text bolder */
+    color: var(--text-color); /* Use main text color for numbers and stars */
+}
+
+.star-rating {
+    display: inline-block; /* Display stars inline with the text */
+    vertical-align: middle; /* Align stars vertically with the text */
+}
+
+.star-rating i {
+    color: gold; /* Color the stars with gold/yellow */
+    margin-right: 2px; /* Add a little space between stars */
+}
+```
