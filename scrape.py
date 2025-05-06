@@ -100,7 +100,7 @@ def main():
     }
 
     # Save to JSON file
-    with open("extension_data.json", "w") as f:
+    with open("docs/extension_data.json", "w") as f:
         json.dump(all_data, f, indent=2)
 
 if __name__ == "__main__":
