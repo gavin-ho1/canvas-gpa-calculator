@@ -4,6 +4,49 @@ document.addEventListener('DOMContentLoaded', function() {
     once: true // animations will only run once on scroll down
   });
 
+  // Mode toggle functionality
+  const modeToggleBtn = document.getElementById('mode-toggle');
+  const modeIcon = modeToggleBtn ? modeToggleBtn.querySelector('i') : null;
+
+  // Check for saved mode preference in localStorage and set initial icon
+  const savedMode = localStorage.getItem('darkMode');
+  if (savedMode) {
+    document.body.classList.add('dark-mode');
+    if (modeIcon) {
+      modeIcon.classList.remove('fa-sun');
+      modeIcon.classList.add('fa-moon');
+    }
+  } else {
+     if (modeIcon) {
+      modeIcon.classList.remove('fa-moon');
+      modeIcon.classList.add('fa-sun');
+    }
+  }
+
+  if (modeToggleBtn) {
+    modeToggleBtn.addEventListener('click', function() {
+      document.body.classList.toggle('dark-mode');
+
+      // Toggle the icon and add animation
+      if (modeIcon) {
+        modeIcon.classList.add('rotating'); // Add rotating class to trigger animation
+        if (document.body.classList.contains('dark-mode')) {
+          modeIcon.classList.remove('fa-sun');
+          modeIcon.classList.add('fa-moon');
+          localStorage.setItem('darkMode', 'enabled'); // Save the preference to localStorage
+        } else {
+          modeIcon.classList.remove('fa-moon');
+          modeIcon.classList.add('fa-sun');
+          localStorage.removeItem('darkMode'); // Remove the preference from localStorage
+        }
+         // Remove the rotating class after the animation completes
+        setTimeout(() => {
+          modeIcon.classList.remove('rotating');
+        }, 600); // Match the animation duration
+      }
+    });
+  }
+
   // Sidebar toggle functionality
   const toggleBtn = document.querySelector('.toggle-btn');
   const sidebar = document.querySelector('.sidebar');
