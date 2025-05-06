@@ -107,7 +107,7 @@ code {
   border: none;
   padding: 0;
   background: none;
-  box-shadow: none;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
 }
 
 .button-group {
@@ -412,6 +412,12 @@ body.dark-mode .section:not(:last-child) {
 
 body.dark-mode .metric-label, body.dark-mode .metric-value {
     color: var(--text-color);
+}
+
+/* Add glow to logo in dark mode */
+body.dark-mode .logo {
+  filter: drop-shadow(0 0 15px var(--primary-color));
+  box-shadow: none;
 }
 
 /* Add some basic responsive adjustments */
