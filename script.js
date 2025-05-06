@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     try {
-      const response = await fetch('https://raw.githubusercontent.com/gavin-ho1/canvas-gpa-calculator/website/docs/extension_data.json');
+      const response = await fetch('https://raw.githubusercontent.com/gavin-ho1/canvas-gpa-calculator/main/docs/extension_data.json');
       if (!response.ok) {
         console.error(`Failed to fetch data from GitHub Pages: ${response.status}`);
         userCountElement.textContent = 'Error loading data'; // Keep error display
