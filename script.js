@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Store a reference to the initially active link
-  const initiallyActiveLink = document.querySelector('.sidebar a.active');
+  let initiallyActiveLink = document.querySelector('.sidebar a.active');
 
   if (toggleBtn && sidebar && mainContent) {
     toggleBtn.addEventListener('click', function() {
@@ -74,7 +74,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Add hover effects to sidebar links and handle click for smooth transition
   sidebarLinks.forEach(link => {
     link.addEventListener('mouseover', function() {
       // If this link is not the active one, remove the active class from the initially active link
@@ -147,88 +146,14 @@ document.addEventListener('DOMContentLoaded', function() {
     averageRatingSpan.textContent = ` ${rating.toFixed(1)} / 5`;
   }
 
-  // Function to fetch and set the target for the counter and display rating
-  async function fetchAndPrepareMetrics() { // Renamed function
-    const userCountElement = document.getElementById('user-count');
-    const averageRatingSpan = document.getElementById('average-rating');
-    // Note: starRatingDiv is now selected inside displayStarRating if needed
-
-    if (!userCountElement || !averageRatingSpan) { // Adjusted check
-      console.warn("Elements with ID 'user-count' or 'average-rating' not found.");
-      return;
-    }
-
-    try {
-      const response = await fetch('https://raw.githubusercontent.com/gavin-ho1/canvas-gpa-calculator/main/docs/extension_data.json');
-      if (!response.ok) {
-        console.error(`Failed to fetch data from GitHub Pages: ${response.status}`);
-        userCountElement.textContent = 'Error loading data'; // Keep error display
-        return;
-      }
-      const data = await response.json();
-
-      console.log('Fetched data:', data); // Log the fetched data
-
-      // Calculate total user count and set as data attribute
-      const totalUserCount = data.chrome_extension.users + data.edge_extension.users;
-      const roundedUserCount = Math.floor(totalUserCount / 100) * 100;
-      userCountElement.dataset.target = roundedUserCount; // Store target number
-      userCountElement.textContent = '0'; // Initialize display text to 0
-
-      // Calculate weighted average rating
-      const totalRatingSum = (data.chrome_extension.rating * data.chrome_extension.number_of_ratings) +
-                            (data.edge_extension.rating * data.edge_extension.number_of_ratings);
-      const totalRatings = data.chrome_extension.number_of_ratings + data.edge_extension.number_of_ratings;
-      let weightedAverageRating = totalRatingSum / totalRatings;
-      weightedAverageRating = Math.round(weightedAverageRating * 10) / 10;
-
-      // Display the star rating and average rating immediately
-      const starRatingDiv = averageRatingSpan.querySelector('.star-rating'); // Select here
-      if(starRatingDiv) {
-        displayStarRating(weightedAverageRating, starRatingDiv, averageRatingSpan);
-      }
-
-    } catch (error) {
-      console.error('Error fetching or parsing data from GitHub Pages:', error);
-      userCountElement.textContent = 'Error loading data'; // Keep error display
-    }
-  }
-
-
-  // Define metrics elements and observer outside to manage scope
+  // Define metrics elements outside to manage scope
   const metricsSection = document.querySelector('.metrics-container');
   const userCountElement = document.getElementById('user-count');
-  let metricsObserver = null; // Use a single observer variable
-
-  // Function to trigger the counter animation after a delay if conditions are met
-  function triggerCounterAnimation() {
-    if (userCountElement && metricsSection) {
-      const target = +userCountElement.dataset.target; // Get the target number
-
-      // Check if target is a valid number and animation hasn't run yet (textContent is still '0')
-      if (!isNaN(target) && userCountElement.textContent === '0') {
-        console.log("Metrics section intersected. Setting timeout for counter animation.");
-
-        // Disconnect the observer immediately once intersecting and conditions are met
-        if (metricsObserver) {
-            metricsObserver.unobserve(metricsSection);
-            console.log("Observer disconnected.");
-        }
-
-        // Set a timeout to start the counter animation after a delay
-        // The delay should be slightly longer than the AOS slide-right animation duration
-        setTimeout(() => {
-          console.log("Timeout finished. Starting counter animation.");
-          animateCounter(userCountElement, target);
-        }, 1000); // 1000ms delay, matching AOS default duration
-      }
-    }
-  }
 
   // Animation function for the counter
   function animateCounter(element, target) {
     const start = 0;
-    const duration = 1000; // Animation duration in milliseconds (1 second for quick animation)
+    const duration = 1000; // Animation duration in milliseconds
     let startTime = null;
 
     function updateCounter(timestamp) {
@@ -251,8 +176,8 @@ document.addEventListener('DOMContentLoaded', function() {
   async function fetchAndPrepareMetrics() {
     const averageRatingSpan = document.getElementById('average-rating');
 
-    if (!userCountElement || !averageRatingSpan) {
-      console.warn("Elements with ID 'user-count' or 'average-rating' not found.");
+    if (!userCountElement || !averageRatingSpan || !metricsSection) { // Added metricsSection to check
+      console.warn("One or more required elements for metrics not found.");
       return;
     }
 
@@ -286,42 +211,41 @@ document.addEventListener('DOMContentLoaded', function() {
         displayStarRating(weightedAverageRating, starRatingDiv, averageRatingSpan);
       }
 
+      // After data is fetched and target is set, set up the AOS event listener
+      metricsSection.addEventListener('aos:in', () => {
+        const target = +userCountElement.dataset.target; // Get the target number
+
+        // Check if target is a valid number and animation hasn't run yet (textContent is still '0')
+        if (!isNaN(target) && userCountElement.textContent === '0') {
+          console.log("Metrics section AOS animation started. Starting counter animation.");
+          animateCounter(userCountElement, target);
+        }
+      });
+
+      // Also check if the element is already visible on page load and trigger animation
+      const rect = metricsSection.getBoundingClientRect();
+      const isVisibleInitially = (
+          rect.top < window.innerHeight &&
+          rect.bottom > 0 &&
+          rect.left < window.innerWidth &&
+          rect.right > 0
+      );
+      if (isVisibleInitially) {
+           const target = +userCountElement.dataset.target; // Get the target number
+           if (!isNaN(target) && userCountElement.textContent === '0') {
+              console.log("Metrics section visible initially. Starting counter animation.");
+              animateCounter(userCountElement, target);
+           }
+      }
+
     } catch (error) {
       console.error('Error fetching or parsing data from GitHub Pages:', error);
       userCountElement.textContent = 'Error loading data';
     }
   }
 
-  // Set up the Intersection Observer
-  if (metricsSection) {
-      metricsObserver = new IntersectionObserver((entries, obs) => {
-          entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                  triggerCounterAnimation(); // Call the trigger function
-              }
-          });
-      }, {
-        threshold: 0.1 // Trigger when 10% of the element is visible
-      });
-
-      metricsObserver.observe(metricsSection);
-  }
-
   // Initial data fetch when DOM is ready
   fetchAndPrepareMetrics().then(() => {
-      // After data is fetched and target is set, check if visible and trigger immediately
-      if (metricsSection) {
-        const rect = metricsSection.getBoundingClientRect();
-        const isVisibleInitially = (
-            rect.top < window.innerHeight &&
-            rect.bottom > 0 &&
-            rect.left < window.innerWidth &&
-            rect.right > 0
-        );
-        if (isVisibleInitially) {
-             triggerCounterAnimation(); // Call the trigger function
-        }
-      }
       // Initialize AOS after the initial data fetch (before potential animations)
       AOS.refresh();
   });
