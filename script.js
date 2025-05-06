@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const toggleBtn = document.querySelector('.toggle-btn');
   const sidebar = document.querySelector('.sidebar');
   const mainContent = document.querySelector('.main-content');
+  const sidebarLinks = document.querySelectorAll('.sidebar a'); // Select all sidebar links
 
   if (toggleBtn && sidebar && mainContent) {
     toggleBtn.addEventListener('click', function() {
@@ -16,6 +17,31 @@ document.addEventListener('DOMContentLoaded', function() {
       document.body.classList.toggle('sidebar-open'); // Toggle class on body
     });
   }
+
+  // Smooth transition for sidebar links
+  sidebarLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      const targetUrl = this.href;
+
+      // Check if the sidebar is open before adding transition logic
+      if (!sidebar.classList.contains('collapsed')) {
+        e.preventDefault(); // Prevent default navigation
+
+        // Trigger the sidebar close animation
+        sidebar.classList.add('collapsed');
+        mainContent.classList.add('collapsed'); // Adjust main content
+        document.body.classList.remove('sidebar-open'); // Update body class
+
+        // Wait for the animation to complete before navigating
+        // The transition duration is 0.3s, so a slight delay like 350ms is good
+        setTimeout(() => {
+          window.location.href = targetUrl; // Navigate to the target URL
+        }, 350); // Delay in milliseconds
+      } else {
+        // If sidebar is already collapsed, allow default navigation
+      }
+    });
+  });
 
   // Function to display star rating
   function displayStarRating(rating, containerElement, averageRatingSpan) {

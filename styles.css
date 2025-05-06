@@ -154,6 +154,8 @@ code {
     transition: transform 0.3s ease; /* Transition for sliding effect */
     transform: translateX(-250px); /* Hide sidebar off-screen by default */
     overflow-x: hidden; /* Hide horizontal scrollbar */
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .sidebar.collapsed {
