@@ -1,0 +1,336 @@
+:root {
+  --bg-color: #f4f7f6; /* Soft light grey background */
+  --text-color: #2d3748; /* Dark grey for main text */
+  --primary-color: #4299e1; /* Calm blue accent */
+  --secondary-color: #718096; /* Muted grey for secondary text */
+  --border-color: #e2e8f0; /* Light grey border */
+  --card-bg: #ffffff; /* White background for any potential card elements */
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+body {
+  font-family: var(--font-main);
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6; /* Slightly reduced line height for better density */
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 80px; /* Add padding at the bottom equal to the footer height */
+}
+
+.container {
+  width: 100%;
+  max-width: 800px; /* Slightly narrower max-width for focused content */
+  margin: 0 auto; /* Centering */
+  padding: 0 20px; /* Horizontal padding */
+  flex-grow: 1;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 50px; /* Adjusted space below header */
+  padding-bottom: 20px;
+  padding-top: 50px; /* More padding at top of header */
+}
+
+header h1 {
+  font-family: var(--font-heading);
+  font-size: 2.5em; /* Adjusted heading size */
+  color: var(--text-color);
+  margin: 0;
+  font-weight: 800; /* Bolder */
+  letter-spacing: -0.5px;
+}
+
+h2 {
+  font-family: var(--font-heading);
+  color: var(--text-color);
+  margin-top: 40px; /* More space above h2 */
+  margin-bottom: 15px;
+  padding-bottom: 0;
+  font-size: 1.6em; /* Adjusted heading size */
+  font-weight: 700;
+}
+
+p, li {
+  color: var(--secondary-color);
+  font-size: 1em; /* Adjusted base font size */
+  margin-bottom: 15px;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+a:hover {
+  color: #3182ce; /* Slightly darker blue on hover */
+  opacity: 1;
+  text-decoration: underline;
+}
+
+ul, ol {
+  padding-left: 25px;
+  color: var(--secondary-color);
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+code {
+  background-color: #edf2f7; /* Light grey background */
+  color: var(--text-color);
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: 0.9em;
+  border: 1px solid #dce6f0;
+}
+
+.logo {
+  display: block;
+  margin: 0 auto 30px auto; /* Centered with adjusted space below */
+  max-width: 90px; /* Slightly smaller logo */
+  border-radius: 0;
+  border: none;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.button-group {
+    display: flex;
+    gap: 15px; /* Slightly less space between buttons */
+    margin-top: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: transparent; /* Transparent background to show page background */
+    color: var(--text-color); /* Use main text color */
+    padding: 12px 24px; /* Adjusted padding */
+    border-radius: 5px; /* Adjusted border radius */
+    text-decoration: none;
+    font-weight: 600;
+    font-family: var(--font-heading);
+    text-align: center;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    border: 1px solid var(--border-color); /* Border color */
+    cursor: pointer;
+    letter-spacing: 0.2px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+}
+
+.cta-button:hover {
+    background-color: var(--primary-color); /* Blue background on hover */
+    color: #fff; /* White text on hover */
+    transform: translateY(-1px); /* Subtle lift */
+    box-shadow: 0 4px 10px rgba(66, 153, 225, 0.4); /* Enhanced shadow on hover using primary color */
+}
+/* The .cta-button.secondary style is removed to unify button appearance */
+
+/* Side Navigation Bar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0; /* Start from the left edge */
+    width: 250px;
+    height: 100%;
+    background-color: var(--card-bg); /* Use card background for sidebar */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+    z-index: 1000;
+    transition: transform 0.3s ease; /* Transition for sliding effect */
+    transform: translateX(-250px); /* Hide sidebar off-screen by default */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+
+.sidebar.collapsed {
+    transform: translateX(-250px); /* Keep sidebar hidden when collapsed */
+}
+
+.sidebar:not(.collapsed) {
+    transform: translateX(0); /* Slide sidebar in when not collapsed */
+}
+
+.sidebar-content {
+    padding: 0;
+}
+
+.sidebar-heading {
+    color: var(--secondary-color); /* Use secondary color for the heading */
+    font-size: 0.9em; /* Slightly smaller font size */
+    padding: 15px 20px 5px 20px; /* Add padding to match links, less at the bottom */
+    font-weight: 600; /* Make it a bit bolder */
+    text-transform: uppercase; /* Uppercase text */
+    letter-spacing: 1px; /* Add some letter spacing */
+}
+
+.sidebar a {
+    padding: 15px 20px; /* Add horizontal and vertical padding to links */
+    text-decoration: none;
+    font-size: 1em; /* Adjusted font size */
+    color: var(--text-color);
+    display: block; /* Make links block elements to fill the width */
+    transition: background-color 0.2s ease;
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Add ellipsis to overflowing text */
+}
+
+.sidebar a:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.sidebar .active {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.main-content {
+    margin-left: 0; /* Start with no margin */
+    padding: 20px;
+    transition: margin-left 0.3s ease; /* Transition for main content movement */
+}
+
+.main-content:not(.collapsed) {
+    margin-left: 250px; /* Move main content to the right when sidebar is open */
+}
+
+.toggle-btn {
+    position: fixed; /* Fixed position so it stays in place */
+    top: 10px; /* 10px from the top */
+    left: 10px; /* 10px from the left */
+    background-color: var(--card-bg); /* White background */
+    color: var(--text-color); /* Dark grey text */
+    border: none;
+    width: 40px; /* Set width and height for a circle */
+    height: 40px;
+    display: flex; /* Use flexbox to center icon */
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 50%; /* Make it a perfect circle */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1002; /* Ensure button is above everything */
+    transition: left 0.3s ease, background-color 0.2s ease, color 0.2s ease; /* Smooth transitions */
+}
+
+.toggle-btn i {
+    transition: transform 0.3s ease; /* Add transition for icon rotation */
+}
+
+body.sidebar-open .toggle-btn {
+    left: 260px; /* Move button to the right when sidebar is open (sidebar width + padding) */
+}
+
+body.sidebar-open .toggle-btn i {
+    transform: rotate(180deg); /* Rotate arrow when sidebar is open */
+}
+
+.toggle-btn:hover {
+    background-color: var(--primary-color); /* Primary blue background on hover */
+    color: #fff; /* White text/icon on hover */
+}
+
+/* Hide the text within sidebar links when the sidebar is collapsed */
+.sidebar.collapsed .sidebar-content a span {
+    display: none;
+}
+
+/* Adjust icon visibility and centering when sidebar is collapsed */
+.sidebar a i {
+    display: inline-block; /* Ensure icon is displayed */
+}
+
+.sidebar.collapsed .sidebar-content a i {
+    margin: 0 auto; /* Center icon */
+}
+
+/* Add some basic responsive adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px; /* Adjusted width for smaller screens */
+        transform: translateX(-200px); /* Hide sidebar off-screen */
+    }
+
+    .sidebar.collapsed {
+         transform: translateX(-200px); /* Keep sidebar hidden when collapsed */
+    }
+
+     .sidebar:not(.collapsed) {
+        transform: translateX(0); /* Slide sidebar in */
+    }
+
+    .main-content {
+        margin-left: 0; /* No margin */
+    }
+
+    .main-content:not(.collapsed) {
+        margin-left: 0; /* No margin even when sidebar is open */
+    }
+
+    .toggle-btn {
+        top: 10px;
+        right: 10px; /* Position near right edge of sidebar */
+    }
+
+    .sidebar.collapsed .toggle-btn {
+         right: -50px; /* Move button further right when sidebar is collapsed */
+    }
+
+    .sidebar-content a span {
+        display: inline-block; /* Show text on smaller screens when open */
+    }
+
+    .sidebar.collapsed .sidebar-content a span {
+        display: none; /* Hide text when collapsed on smaller screens */
+    }
+}
+
+
+footer {
+  text-align: center;
+  padding: 40px 0; /* More padding */
+  font-size: 0.9em;
+  color: var(--secondary-color); /* Use secondary color for footer text */
+  width: 100%;
+  position: fixed; /* Fix position to the bottom */
+  bottom: 0; /* Align to the bottom */
+  left: 0; /* Align to the left */
+  background-color: var(--bg-color); /* Add background to prevent content showing through */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05); /* Add a subtle shadow at the top */
+  z-index: 999; /* Ensure footer is above most content */
+}
+
+footer a {
+  color: var(--secondary-color); /* Use secondary color for footer links */
+}
+
+footer a:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+/* Add padding to sections for spacing when container has no padding */
+.section {
+    padding: 30px 0; /* Vertical padding for sections */
+}
+
+.section:not(:last-child) {
+    border-bottom: 1px solid var(--border-color); /* Separator between sections */
+    margin-bottom: 30px; /* Space below separator */
+}
