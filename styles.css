@@ -267,6 +267,11 @@ body.sidebar-open .toggle-btn i {
     margin: 0 auto; /* Center icon */
 }
 
+/* Add spacing between icon and text when sidebar is open */
+.sidebar:not(.collapsed) .sidebar-content a span {
+    margin-left: 10px; /* Adjust value as needed for spacing */
+}
+
 /* Add some basic responsive adjustments */
 @media (max-width: 768px) {
     .sidebar {
