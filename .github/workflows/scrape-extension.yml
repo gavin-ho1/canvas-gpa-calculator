@@ -5,10 +5,13 @@ on:
     - cron: "0 0 * * *"  # Run once at midnight UTC
     - cron: "0 12 * * *"  # Run once at noon UTC
   workflow_dispatch:  # Allows manual triggering
+  
   push:
     branches:
       - website  # This ensures the workflow runs only on `workflow-branch`
-
+permissions:
+  contents: write
+  
 jobs:
   scrape:
     runs-on: ubuntu-latest  # Use a fresh Ubuntu runner
