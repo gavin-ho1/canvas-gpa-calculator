@@ -387,6 +387,13 @@ body.dark-mode footer a:hover {
     color: var(--primary-color);
 }
 
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode p,
+body.dark-mode li {
+  text-shadow: 0 0 8px var(--primary-color); /* Add subtle glow in dark mode */
+}
+
 body.dark-mode .section:not(:last-child) {
     border-bottom-color: var(--border-color);
 }
