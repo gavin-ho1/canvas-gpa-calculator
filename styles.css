@@ -33,6 +33,7 @@ body {
   height: 100%;
   background-color: var(--bg-color);
   z-index: -1; /* Ensure it's behind other content */
+  transition: background-color 0.6s ease; /* Add transition for smooth mode change */
 }
 
 .container {
@@ -141,7 +142,7 @@ code {
     font-weight: 600;
     font-family: var(--font-heading);
     text-align: center;
-    transition: background-color 0.6s ease, color 0.6s ease, transform 0.1s ease, box-shadow 0.6s ease; /* Smooth color and box-shadow transition */
+    transition: color 0.6s ease, background-color 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease, transform 0.1s ease; /* Smooth transitions for all changing properties */
     border: 1px solid var(--border-color); /* Border color */
     cursor: pointer;
     letter-spacing: 0.2px;
@@ -206,7 +207,7 @@ code {
     color: var(--text-color);
     display: flex; /* Use flexbox to center content vertically */
     align-items: center; /* Vertically center text and icon */
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.6s ease; /* Add color transition */
     white-space: nowrap; /* Prevent text wrapping */
     overflow: hidden; /* Hide overflowing text */
     text-overflow: ellipsis; /* Add ellipsis to overflowing text */
@@ -556,6 +557,7 @@ footer {
 
 footer a {
   color: var(--secondary-color); /* Use secondary color for footer links */
+  transition: color 0.6s ease; /* Add color transition */
 }
 
 footer a:hover {
@@ -571,6 +573,7 @@ footer a:hover {
 .section:not(:last-child) {
     border-bottom: 1px solid var(--border-color); /* Separator between sections */
     margin-bottom: 30px; /* Space below separator */
+    transition: border-bottom-color 0.6s ease; /* Add border color transition */
 }
 
 .metrics-container {
@@ -579,6 +582,7 @@ footer a:hover {
     margin-top: 20px; /* Keep the top margin */
     margin-bottom: 0; /* Remove bottom margin */
     padding: 0; /* Remove padding */
+    transition: background-color 0.6s ease, box-shadow 0.6s ease; /* Add transitions for mode change */
 }
 
 .metric-item {
@@ -594,10 +598,12 @@ footer a:hover {
     color: var(--secondary-color); /* Keep similar color to old labels */
     margin-bottom: 5px; /* Space between label and value */
     font-weight: 600; /* Make labels a bit bolder */
+    transition: color 0.6s ease; /* Add color transition */
 }
 
 .metric-value {
     font-size: 2.5em; /* Increased size */
     font-weight: 800; /* Make value text bolder */
     color: var(--text-color); /* Use main text color for numbers and stars */
+    transition: color 0.6s ease; /* Add color transition */
 }
