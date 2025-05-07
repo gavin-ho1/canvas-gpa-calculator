@@ -37,9 +37,9 @@ body {
 
 header {
   text-align: center;
-  margin-bottom: 50px; /* Adjusted space below header */
-  padding-bottom: 20px;
-  padding-top: 50px; /* More padding at top of header */
+  margin-bottom: 30px; /* Adjusted space below header */
+  padding-bottom: 10px;
+  padding-top: 20px; /* More padding at top of header */
 }
 
 header h1 {
@@ -79,6 +79,10 @@ a:hover {
   text-decoration: underline;
 }
 
+a:hover {
+  color: #63b3ed; /* Lighter blue on hover */
+}
+
 ul, ol {
   padding-left: 25px;
   color: var(--secondary-color);
@@ -101,7 +105,7 @@ code {
 
 .logo {
   display: block;
-  margin: 0 auto 30px auto; /* Centered with adjusted space below */
+  margin: 0 auto 5px auto; /* Centered with adjusted space below */
   max-width: 90px; /* Slightly smaller logo */
   border-radius: 0;
   border: none;
@@ -325,12 +329,12 @@ body.dark-mode .mode-toggle-button:hover {
 }
 
 body.dark-mode {
-    --bg-color: #1a202c; /* Dark background */
+    --bg-color: #0f1116; /* Dark background */
     --text-color: #e2e8f0; /* Light grey text */
     --primary-color: #63b3ed; /* Lighter blue */
     --secondary-color: #a0aec0; /* Lighter grey */
     --border-color: #2d3748; /* Darker grey border */
-    --card-bg: #2d3748; /* Dark background for cards */
+    --card-bg: #1a202c; /* Dark background for cards */
 }
 
 body.dark-mode .cta-button {
@@ -354,7 +358,7 @@ body.dark-mode .sidebar a {
 }
 
 body.dark-mode .sidebar a:hover {
-    background-color: var(--primary-color);
+    background-color: #3182ce;
     color: var(--card-bg); /* Make hover color same as active color in dark mode */
 }
 
@@ -403,7 +407,7 @@ body.dark-mode .metric-value,
 body.dark-mode .cta-button,
 body.dark-mode .toggle-btn,
 body.dark-mode .mode-toggle-button {
-  text-shadow: 0 0 8px var(--primary-color); /* Add subtle glow in dark mode */
+  text-shadow: 0 0 12px var(--primary-color); /* Add subtle glow in dark mode */
 }
 
 body.dark-mode .section:not(:last-child) {
@@ -418,6 +422,58 @@ body.dark-mode .metric-label, body.dark-mode .metric-value {
 body.dark-mode .logo {
   filter: drop-shadow(0 0 15px var(--primary-color));
   box-shadow: none;
+}
+
+.logo {
+    animation: riseUp 2s ease-out; /* Increased duration for slower animation */
+    transform-origin: bottom;
+}
+
+.logo-container {
+    position: relative;
+    overflow: visible; /* Allow the glow to show */
+    background-color: var(--bg-color); /* Match the background color */
+}
+
+.logo-container::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 33%; /* Approximately a third of the logo's height */
+    background-color: var(--bg-color); /* Match the background color */
+    z-index: 1; /* Ensure it's in front of the logo */
+    transform: translateY(100%);
+    animation: revealGround 1s ease-out forwards;
+}
+
+@keyframes revealGround {
+    from {
+        transform: translateY(100%);
+    }
+    70% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 0; /* Make the "ground" disappear */
+    }
+}
+
+@keyframes riseUp {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    70% { /* Adjust this value to control when the ground starts fading */
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 /* Add some basic responsive adjustments */
