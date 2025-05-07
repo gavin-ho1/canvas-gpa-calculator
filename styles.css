@@ -520,13 +520,3 @@ footer a:hover {
     font-weight: 800; /* Make value text bolder */
     color: var(--text-color); /* Use main text color for numbers and stars */
 }
-
-.star-rating {
-    display: inline-block; /* Display stars inline with the text */
-    vertical-align: middle; /* Align stars vertically with the text */
-}
-
-.star-rating i {
-    color: gold; /* Color the stars with gold/yellow */
-    margin-right: 2px; /* Add a little space between stars */
-}

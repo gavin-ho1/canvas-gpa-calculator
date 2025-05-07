@@ -117,34 +117,11 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Function to display star rating
-  function displayStarRating(rating, containerElement, averageRatingSpan) {
+  function displayRating(rating, containerElement, averageRatingSpan) {
     containerElement.innerHTML = ''; // Clear existing content
     const fullStars = Math.floor(rating);
     const halfStar = rating % 1 !== 0;
     const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-
-    // Remove the code that adds star icons
-    // Add full stars
-    // for (let i = 0; i < fullStars; i++) {
-    //   const starIcon = document.createElement('i');
-    //   starIcon.classList.add('fas', 'fa-star');
-    //   containerElement.appendChild(starIcon);
-    // }
-
-    // Add half star
-    // if (halfStar) {
-    //   const halfStarIcon = document.createElement('i');
-    //   halfStarIcon.classList.add('fas', 'fa-star-half-alt');
-    //   containerElement.appendChild(halfStarIcon);
-    // }
-
-    // Add empty stars
-    // for (let i = 0; i < emptyStars; i++) {
-    //   const emptyStarIcon = document.createElement('i');
-    //   emptyStarIcon.classList.add('far', 'fa-star'); // Use far for empty stars
-    //   containerElement.appendChild(emptyStarIcon);
-    // }
-    // averageRatingSpan.textContent = ` ${rating.toFixed(1)} / 5`; // This will be set by the counter animation
   }
 
   // Define metrics elements outside to manage scope
@@ -350,7 +327,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const starRatingDiv = averageRatingSpan.querySelector('.star-rating');
       if(starRatingDiv) {
         // Display stars immediately
-        displayStarRating(weightedAverageRating, starRatingDiv, averageRatingSpan);
+        displayRating(weightedAverageRating, starRatingDiv, averageRatingSpan);
       }
 
       // Set data target and initial text for rating animation
