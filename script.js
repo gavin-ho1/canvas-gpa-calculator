@@ -143,11 +143,12 @@ document.addEventListener('DOMContentLoaded', function() {
       emptyStarIcon.classList.add('far', 'fa-star'); // Use far for empty stars
       containerElement.appendChild(emptyStarIcon);
     }
-    averageRatingSpan.textContent = ` ${rating.toFixed(1)} / 5`;
+    // averageRatingSpan.textContent = ` ${rating.toFixed(1)} / 5`; // This will be set by the counter animation
   }
 
   // Define metrics elements outside to manage scope
   const userCountElement = document.getElementById('user-count');
+  const averageRatingSpan = document.getElementById('average-rating'); // Define averageRatingSpan here as well
   const metricsContainer = document.querySelector('.metrics-container');
   // The element that has the AOS animation attribute is the parent .section
   const aosSectionForMetrics = metricsContainer ? metricsContainer.closest('.section[data-aos]') : null;
@@ -170,6 +171,49 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(updateCounter);
       } else {
         element.textContent = `${target}+`; // Add '+' only at the end
+      }
+    }
+
+    requestAnimationFrame(updateCounter);
+  }
+
+  let ratingCounterHasRun = false; // Flag for rating counter animation state
+
+  // Animation function for the rating counter
+  function animateRatingCounter(element, target) {
+    console.log("animateRatingCounter called with target:", target); // Log when the function is called
+    const start = 0;
+    const duration = 1000; // Animation duration in milliseconds
+    const increment = 0.01; // Define the increment step here
+    let startTime = null;
+
+    function updateCounter(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const progress = timestamp - startTime;
+
+      // Calculate the raw interpolated value based on time progress
+      let interpolatedValue = start + (target - start) * (progress / duration);
+
+      // Clamp the interpolated value to the target
+      interpolatedValue = Math.min(interpolatedValue, target);
+
+      // Round down to the nearest multiple of increment
+      // This ensures the counter increments in steps of 0.01
+      let current = Math.floor(interpolatedValue / increment) * increment;
+
+      // Ensure the current value does not exceed the target after rounding
+      current = Math.min(current, target);
+
+      console.log("updateCounter: progress =", progress, ", current =", current); // Log intermediate values
+
+      // Round to two decimal places and update text content
+      element.textContent = ` ${current.toFixed(2)} / 5`;
+
+      if (progress < duration) {
+        requestAnimationFrame(updateCounter);
+      } else {
+        // Ensure the final value is exactly the target rounded to two decimals
+        element.textContent = ` ${target.toFixed(2)} / 5`;
       }
     }
 
@@ -216,9 +260,48 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   };
 
+  // Moved to higher scope
+  const startRatingCounter = () => {
+      if (ratingCounterHasRun) {
+          console.log("startRatingCounter: Called, but ratingCounterHasRun is true.");
+          return false;
+      }
+      if (!averageRatingSpan) {
+          console.warn("startRatingCounter: Called, but averageRatingSpan is null.");
+          return false;
+      }
+      if (!averageRatingSpan.dataset || !averageRatingSpan.dataset.target) {
+          console.warn("startRatingCounter: Called, but averageRatingSpan.dataset.target is not set. Current textContent:", averageRatingSpan.textContent);
+          return false;
+      }
+
+      const target = +averageRatingSpan.dataset.target;
+      if (isNaN(target)) {
+          console.warn("startRatingCounter: Target (", averageRatingSpan.dataset.target, ") is not a number.");
+          return false;
+      }
+
+       // Check if textContent is ' 0.00 / 5', which indicates it's primed by fetchAndPrepareMetrics
+      if (averageRatingSpan.textContent === ' 0.00 / 5') {
+          console.log("startRatingCounter: Conditions met. Starting animation to target:", target);
+          animateRatingCounter(averageRatingSpan, target);
+          ratingCounterHasRun = true;
+          return true; // Indicates counter started
+      } else {
+          console.warn("startRatingCounter: Conditions not met. Target is", target, ", but textContent is '", averageRatingSpan.textContent, "'(expected ' 0.00 / 5').");
+           // If textContent is not ' 0.00 / 5' but a number, it might have been set by an earlier animation attempt or directly.
+           // We mark ratingCounterHasRun true if it seems like it already contains the final state or similar.
+           if (averageRatingSpan.textContent === ` ${target.toFixed(2)} / 5`) {
+              console.log("startRatingCounter: textContent matches target. Marking as run.")
+              ratingCounterHasRun = true;
+           }
+          return false; 
+      }
+  };
+
   // Function to fetch and set the target for the counter and display rating
   async function fetchAndPrepareMetrics() {
-    const averageRatingSpan = document.getElementById('average-rating');
+    // const averageRatingSpan = document.getElementById('average-rating'); // Already defined outside
 
     // Check for all necessary elements for displaying data
     if (!userCountElement || !averageRatingSpan) {
@@ -259,32 +342,44 @@ document.addEventListener('DOMContentLoaded', function() {
                             (data.edge_extension.rating * data.edge_extension.number_of_ratings);
       const totalRatings = data.chrome_extension.number_of_ratings + data.edge_extension.number_of_ratings;
       let weightedAverageRating = totalRatingSum / totalRatings;
-      weightedAverageRating = Math.round(weightedAverageRating * 10) / 10;
+      // Round to two decimal places
+      weightedAverageRating = Math.round(weightedAverageRating * 100) / 100;
 
-      // Display the star rating and average rating immediately
+      // Display the star rating immediately, but prepare rating span for animation
       const starRatingDiv = averageRatingSpan.querySelector('.star-rating');
       if(starRatingDiv) {
+        // Display stars immediately
         displayStarRating(weightedAverageRating, starRatingDiv, averageRatingSpan);
       }
 
-      // Logic to start counter based on 'aos-animate' class
-      if (aosSectionForMetrics && userCountElement) { // Ensure both elements exist
+      // Set data target and initial text for rating animation
+      if (averageRatingSpan) { // Ensure element exists before setting properties
+          averageRatingSpan.dataset.target = weightedAverageRating;
+          // Initialize display text to 0.00 / 5
+          averageRatingSpan.textContent = ' 0.00 / 5';
+      } else {
+          console.error("averageRatingSpan is null, cannot set target or textContent. Rating counter will not work.");
+      }
+
+      // Logic to start counters based on 'aos-animate' class
+      if (aosSectionForMetrics && userCountElement && averageRatingSpan) { // Ensure all necessary elements exist
         if (aosSectionForMetrics.classList.contains('aos-animate')) {
-          console.log("aosSectionForMetrics already has 'aos-animate' on data load. Attempting to start counter.");
-          if (startUserCounter()) {
-            console.log("Counter started because 'aos-animate' was already present.");
-          }
-        } else if (!counterHasRun) {
+          console.log("aosSectionForMetrics already has 'aos-animate' on data load. Attempting to start counters.");
+          startUserCounter();
+          startRatingCounter();
+        } else { 
           console.log("Setting up MutationObserver for 'aos-animate' on aosSectionForMetrics.");
           const observer = new MutationObserver((mutationsList, obs) => {
             for (const mutation of mutationsList) {
               if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                 const targetElement = mutation.target;
                 if (targetElement.classList.contains('aos-animate')) {
-                  console.log("'aos-animate' class added. Attempting to start counter via MutationObserver.");
-                  if (startUserCounter()) {
-                    console.log("Counter started by MutationObserver.");
-                    obs.disconnect(); // Stop observing once counter has successfully started
+                  console.log("'aos-animate' class added. Attempting to start counters via MutationObserver.");
+                  let userCounterStarted = startUserCounter();
+                  let ratingCounterStarted = startRatingCounter();
+                  if (userCounterStarted && ratingCounterStarted) {
+                    console.log("Both counters started by MutationObserver.");
+                    obs.disconnect(); // Stop observing once both counters have successfully started
                   }
                 }
               }
@@ -292,19 +387,18 @@ document.addEventListener('DOMContentLoaded', function() {
           });
           observer.observe(aosSectionForMetrics, { attributes: true });
         }
-      } else if (userCountElement) { // Fallback if aosSectionForMetrics is not found, but userCountElement exists
-        console.warn("AOS target section for metrics not found. Attempting to start counter directly after data load.");
-        if (startUserCounter()) {
-          console.log("Fallback: User counter started directly as AOS section not found.");
-        }
+      } else if (userCountElement && averageRatingSpan) { // Fallback if aosSectionForMetrics is not found, but counter elements exist
+        console.warn("AOS target section for metrics not found. Attempting to start counters directly after data load.");
+        startUserCounter();
+        startRatingCounter();
       }
 
     } catch (error) {
       console.error('Error fetching or parsing data from GitHub Pages:', error);
       if(userCountElement) userCountElement.textContent = 'Error loading data';
+      if(averageRatingSpan) averageRatingSpan.textContent = ' Error loading data';
     }
   }
-
   // Initialize AOS early. AOS will add 'aos-animate' class when elements come into view.
   AOS.init({
     once: true 
