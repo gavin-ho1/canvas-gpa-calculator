@@ -607,3 +607,43 @@ footer a:hover {
     color: var(--text-color); /* Use main text color for numbers and stars */
     transition: color 0.6s ease; /* Add color transition */
 }
+
+#scrollTopBtn {
+  display: flex; /* Use flex to center icon */
+  justify-content: center; /* Center icon horizontally */
+  align-items: center;    /* Center icon vertically */
+  position: fixed; /* Fixed/sticky position */
+  bottom: 20px; /* Place the button 20px from the bottom */
+  right: 30px; /* Place the button 30px from the right */
+  z-index: 99; /* Make sure it does not overlap */
+  border: none; /* Remove borders */
+  outline: none; /* Remove outline */
+  background-color: transparent; /* Transparent background */
+  color: var(--text-color); /* Default icon color */
+  cursor: pointer; /* Add a mouse pointer on hover */
+  padding: 0; /* Remove padding, rely on width/height */
+  width: 40px; /* Make it square */
+  height: 40px; /* Make it square */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 1.2em; /* Increase font size for icon */
+  opacity: 0; /* Hidden by default */
+  visibility: hidden; /* Hidden by default */
+  transition: color 0.3s ease, background-color 0.3s ease, opacity 0.3s ease, visibility 0.3s ease; /* Smooth transitions */
+}
+
+#scrollTopBtn:hover {
+  /* No hover color change */
+}
+
+#scrollTopBtn.show {
+  opacity: 1; /* Make visible */
+  visibility: visible; /* Make visible */
+}
+
+body.dark-mode #scrollTopBtn {
+    color: var(--text-color); /* Icon color in dark mode */
+}
+
+body.dark-mode #scrollTopBtn:hover {
+    /* No hover color change in dark mode */
+}

@@ -512,4 +512,31 @@ document.addEventListener('DOMContentLoaded', function() {
       AOS.refresh();
       console.log("AOS.refresh() called after fetchAndPrepareMetrics.");
   });
+
+  // Scroll to top button functionality
+  const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+  if (scrollTopBtn) {
+    // Function to check scroll position and toggle button visibility
+    function checkScrollPosition() {
+      if (window.pageYOffset > 0 || document.documentElement.scrollTop > 0 || document.body.scrollTop > 0) {
+        scrollTopBtn.classList.add("show");
+      } else {
+        scrollTopBtn.classList.remove("show");
+      }
+    }
+
+    // Check initially on page load
+    checkScrollPosition();
+
+    // Check on scroll
+    window.onscroll = checkScrollPosition;
+
+    scrollTopBtn.addEventListener("click", function() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+  }
 });
