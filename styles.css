@@ -31,7 +31,7 @@ body {
   width: 100%;
   max-width: 800px; /* Slightly narrower max-width for focused content */
   margin: 0 auto; /* Centering */
-  padding: 0 20px; /* Horizontal padding */
+  padding: 0 10px; /* Reduced Horizontal padding */
   flex-grow: 1;
 }
 
@@ -540,7 +540,7 @@ footer a:hover {
 
 /* Add padding to sections for spacing when container has no padding */
 .section {
-    padding: 30px 0; /* Vertical padding for sections */
+    padding: 0 0 30px 0; /* Vertical padding for sections */
 }
 
 .section:not(:last-child) {
@@ -552,7 +552,7 @@ footer a:hover {
     display: flex;
     justify-content: space-around; /* Center items with space around */
     margin-top: 20px; /* Keep the top margin */
-    margin-bottom: 20px; /* Keep the bottom margin */
+    margin-bottom: 0; /* Remove bottom margin */
     padding: 0; /* Remove padding */
 }
 
