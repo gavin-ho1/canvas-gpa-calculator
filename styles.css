@@ -631,10 +631,6 @@ footer a:hover {
   transition: color 0.3s ease, background-color 0.3s ease, opacity 0.3s ease, visibility 0.3s ease; /* Smooth transitions */
 }
 
-#scrollTopBtn:hover {
-  /* No hover color change */
-}
-
 #scrollTopBtn.show {
   opacity: 1; /* Make visible */
   visibility: visible; /* Make visible */
@@ -642,8 +638,4 @@ footer a:hover {
 
 body.dark-mode #scrollTopBtn {
     color: var(--text-color); /* Icon color in dark mode */
-}
-
-body.dark-mode #scrollTopBtn:hover {
-    /* No hover color change in dark mode */
 }
