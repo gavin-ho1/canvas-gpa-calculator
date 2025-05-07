@@ -29,20 +29,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Toggle the icon and add animation
       if (modeIcon) {
-        modeIcon.classList.add('rotating'); // Add rotating class to trigger animation
+        modeIcon.classList.add('rotating'); 
         if (document.body.classList.contains('dark-mode')) {
           modeIcon.classList.remove('fa-sun');
           modeIcon.classList.add('fa-moon');
-          localStorage.setItem('darkMode', 'enabled'); // Save the preference to localStorage
+          localStorage.setItem('darkMode', 'enabled'); 
         } else {
           modeIcon.classList.remove('fa-moon');
           modeIcon.classList.add('fa-sun');
-          localStorage.removeItem('darkMode'); // Remove the preference from localStorage
+          localStorage.removeItem('darkMode'); 
         }
-         // Remove the rotating class after the animation completes
+        
+        // Destroy and re-initialize particles.js with new config
+        if (window.pJSDom && window.pJSDom[0] && window.pJSDom[0].pJS) {
+            window.pJSDom[0].pJS.fn.vendors.destroypJS();
+            window.pJSDom = []; // Clear the array
+        }
+        particlesJS("particles-js", getParticlesConfig());
+
         setTimeout(() => {
           modeIcon.classList.remove('rotating');
-        }, 600); // Match the animation duration
+        }, 600); 
       }
     });
   }
@@ -379,8 +386,124 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   // Initialize AOS early. AOS will add 'aos-animate' class when elements come into view.
   AOS.init({
-    once: true 
+    once: true
   });
+
+  // Function to generate particles.js configuration
+  function getParticlesConfig() {
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    const particleColor = isDarkMode ? "#ffffff" : "#000000";
+    const lineColor = isDarkMode ? "#ffffff" : "#000000";
+
+    return {
+      "particles": {
+        "number": {
+          "value": 50, // Slightly increased particle count
+          "density": {
+            "enable": true,
+            "value_area": 900 // Slightly increased area for density calculation
+          }
+        },
+        "color": {
+          "value": particleColor
+        },
+        "shape": {
+          "type": "circle",
+          "stroke": {
+            "width": 0,
+            "color": "#000000" // Stroke color for particles, not lines
+          },
+          "polygon": {
+            "nb_sides": 5
+          }
+        },
+        "opacity": {
+          "value": 0.3, // Decreased particle opacity
+          "random": false,
+          "anim": {
+            "enable": false,
+            "speed": 1,
+            "opacity_min": 0.1,
+            "sync": false
+          }
+        },
+        "size": {
+          "value": 3,
+          "random": true,
+          "anim": {
+            "enable": false,
+            "speed": 40,
+            "size_min": 0.1,
+            "sync": false
+          }
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 120, // Decreased line distance
+          "color": lineColor,
+          "opacity": 0.2, // Decreased line opacity
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 3, // Slightly increased particle speed
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false,
+          "attract": {
+            "enable": false,
+            "rotateX": 600,
+            "rotateY": 1200
+          }
+        }
+      },
+      "interactivity": {
+        "detect_on": "window", // Changed to "window" for better grab detection
+        "events": {
+          "onhover": {
+            "enable": true,
+            "mode": "grab"
+          },
+          "onclick": {
+            "enable": false, 
+            "mode": "push"
+          },
+          "resize": true
+        },
+        "modes": {
+          "grab": {
+            "distance": 180, // Further reduced grab distance
+            "line_linked": {
+              "opacity": 1 
+            }
+          },
+          "bubble": {
+            "distance": 400,
+            "size": 40,
+            "duration": 2,
+            "opacity": 8,
+            "speed": 3
+          },
+          "repulse": {
+            "distance": 200,
+            "duration": 0.4
+          },
+          "push": {
+            "particles_nb": 4
+          },
+          "remove": {
+            "particles_nb": 2
+          }
+        }
+      },
+      "retina_detect": true
+    };
+  }
+
+  // Initialize particles.js on load
+  particlesJS("particles-js", getParticlesConfig());
 
   // Initial data fetch when DOM is ready
   fetchAndPrepareMetrics().then(() => {
