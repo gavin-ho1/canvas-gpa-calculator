@@ -10,16 +10,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Check for saved mode preference in localStorage and set initial icon
   const savedMode = localStorage.getItem('darkMode');
-  if (savedMode) {
+  // Default to dark mode if no preference is saved or if preference is 'enabled'
+  // Light mode is only applied if preference is explicitly 'disabled'
+  if (savedMode === 'disabled') {
+    // Apply light mode
+    document.body.classList.remove('dark-mode');
+    if (modeIcon) {
+      modeIcon.classList.remove('fa-moon');
+      modeIcon.classList.add('fa-sun');
+    }
+  } else {
+    // Apply dark mode (default or if savedMode is 'enabled')
     document.body.classList.add('dark-mode');
     if (modeIcon) {
       modeIcon.classList.remove('fa-sun');
       modeIcon.classList.add('fa-moon');
-    }
-  } else {
-     if (modeIcon) {
-      modeIcon.classList.remove('fa-moon');
-      modeIcon.classList.add('fa-sun');
     }
   }
 
@@ -37,7 +42,8 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
           modeIcon.classList.remove('fa-moon');
           modeIcon.classList.add('fa-sun');
-          localStorage.removeItem('darkMode'); 
+          // Save preference for light mode as 'disabled'
+          localStorage.setItem('darkMode', 'disabled'); 
         }
         
         // Destroy and re-initialize particles.js with new config
