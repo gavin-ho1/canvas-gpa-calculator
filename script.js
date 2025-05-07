@@ -147,8 +147,12 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Define metrics elements outside to manage scope
-  const metricsSection = document.querySelector('.metrics-container');
   const userCountElement = document.getElementById('user-count');
+  const metricsContainer = document.querySelector('.metrics-container');
+  // The element that has the AOS animation attribute is the parent .section
+  const aosSectionForMetrics = metricsContainer ? metricsContainer.closest('.section[data-aos]') : null;
+
+  let counterHasRun = false; // Moved to higher scope
 
   // Animation function for the counter
   function animateCounter(element, target) {
@@ -172,13 +176,59 @@ document.addEventListener('DOMContentLoaded', function() {
     requestAnimationFrame(updateCounter);
   }
 
+  // Moved to higher scope
+  const startUserCounter = () => {
+    if (counterHasRun) {
+      console.log("startUserCounter: Called, but counterHasRun is true.");
+      return false;
+    }
+    if (!userCountElement) {
+      console.warn("startUserCounter: Called, but userCountElement is null.");
+      return false;
+    }
+    if (!userCountElement.dataset || !userCountElement.dataset.target) {
+      console.warn("startUserCounter: Called, but userCountElement.dataset.target is not set. Current textContent:", userCountElement.textContent);
+      return false;
+    }
+
+    const target = +userCountElement.dataset.target;
+    if (isNaN(target)) {
+      console.warn("startUserCounter: Target (", userCountElement.dataset.target, ") is not a number.");
+      return false;
+    }
+
+    // Check if textContent is '0', which indicates it's primed by fetchAndPrepareMetrics
+    if (userCountElement.textContent === '0') {
+      console.log("startUserCounter: Conditions met. Starting animation to target:", target);
+      animateCounter(userCountElement, target);
+      counterHasRun = true;
+      return true; // Indicates counter started
+    } else {
+      console.warn("startUserCounter: Conditions not met. Target is", target, ", but textContent is '", userCountElement.textContent, "'(expected '0').");
+      // If textContent is not '0' but a number, it might have been set by an earlier animation attempt or directly.
+      // If it's '[Loading...]' or error, it's not ready.
+      // We mark counterHasRun true if it seems like it already contains the final state or similar.
+      if (userCountElement.textContent === `${target}+` || userCountElement.textContent === `${target}`) {
+          console.log("startUserCounter: textContent matches target or target+. Marking as run.")
+          counterHasRun = true;
+      }
+      return false; 
+    }
+  };
+
   // Function to fetch and set the target for the counter and display rating
   async function fetchAndPrepareMetrics() {
     const averageRatingSpan = document.getElementById('average-rating');
 
-    if (!userCountElement || !averageRatingSpan || !metricsSection) { // Added metricsSection to check
-      console.warn("One or more required elements for metrics not found.");
+    // Check for all necessary elements for displaying data
+    if (!userCountElement || !averageRatingSpan) {
+      console.warn("User count or average rating element not found. Cannot display metrics.");
       return;
+    }
+    // Log a warning if the specific AOS target isn't found, but continue.
+    // The counter will have a fallback start mechanism.
+    if (!aosSectionForMetrics) {
+        console.warn("Could not find a parent '.section[data-aos]' for '.metrics-container'. Counter animation will attempt to start on data load, not synced with AOS.");
     }
 
     try {
@@ -195,8 +245,14 @@ document.addEventListener('DOMContentLoaded', function() {
       // Calculate total user count and set as data attribute
       const totalUserCount = data.chrome_extension.users + data.edge_extension.users;
       const roundedUserCount = Math.floor(totalUserCount / 100) * 100;
-      userCountElement.dataset.target = roundedUserCount; // Store target number
-      userCountElement.textContent = '0'; // Initialize display text to 0
+      
+      if (userCountElement) { // Ensure element exists before setting properties
+        userCountElement.dataset.target = roundedUserCount; // Store target number
+        userCountElement.textContent = '0'; // Initialize display text to 0
+      } else {
+        console.error("userCountElement is null, cannot set target or textContent. Metrics counter will not work.");
+        // If userCountElement is critical, we might want to return early or handle this error
+      }
 
       // Calculate weighted average rating
       const totalRatingSum = (data.chrome_extension.rating * data.chrome_extension.number_of_ratings) +
@@ -211,42 +267,54 @@ document.addEventListener('DOMContentLoaded', function() {
         displayStarRating(weightedAverageRating, starRatingDiv, averageRatingSpan);
       }
 
-      // After data is fetched and target is set, set up the AOS event listener
-      metricsSection.addEventListener('aos:in', () => {
-        const target = +userCountElement.dataset.target; // Get the target number
-
-        // Check if target is a valid number and animation hasn't run yet (textContent is still '0')
-        if (!isNaN(target) && userCountElement.textContent === '0') {
-          console.log("Metrics section AOS animation started. Starting counter animation.");
-          animateCounter(userCountElement, target);
+      // Logic to start counter based on 'aos-animate' class
+      if (aosSectionForMetrics && userCountElement) { // Ensure both elements exist
+        if (aosSectionForMetrics.classList.contains('aos-animate')) {
+          console.log("aosSectionForMetrics already has 'aos-animate' on data load. Attempting to start counter.");
+          if (startUserCounter()) {
+            console.log("Counter started because 'aos-animate' was already present.");
+          }
+        } else if (!counterHasRun) {
+          console.log("Setting up MutationObserver for 'aos-animate' on aosSectionForMetrics.");
+          const observer = new MutationObserver((mutationsList, obs) => {
+            for (const mutation of mutationsList) {
+              if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                const targetElement = mutation.target;
+                if (targetElement.classList.contains('aos-animate')) {
+                  console.log("'aos-animate' class added. Attempting to start counter via MutationObserver.");
+                  if (startUserCounter()) {
+                    console.log("Counter started by MutationObserver.");
+                    obs.disconnect(); // Stop observing once counter has successfully started
+                  }
+                }
+              }
+            }
+          });
+          observer.observe(aosSectionForMetrics, { attributes: true });
         }
-      });
-
-      // Also check if the element is already visible on page load and trigger animation
-      const rect = metricsSection.getBoundingClientRect();
-      const isVisibleInitially = (
-          rect.top < window.innerHeight &&
-          rect.bottom > 0 &&
-          rect.left < window.innerWidth &&
-          rect.right > 0
-      );
-      if (isVisibleInitially) {
-           const target = +userCountElement.dataset.target; // Get the target number
-           if (!isNaN(target) && userCountElement.textContent === '0') {
-              console.log("Metrics section visible initially. Starting counter animation.");
-              animateCounter(userCountElement, target);
-           }
+      } else if (userCountElement) { // Fallback if aosSectionForMetrics is not found, but userCountElement exists
+        console.warn("AOS target section for metrics not found. Attempting to start counter directly after data load.");
+        if (startUserCounter()) {
+          console.log("Fallback: User counter started directly as AOS section not found.");
+        }
       }
 
     } catch (error) {
       console.error('Error fetching or parsing data from GitHub Pages:', error);
-      userCountElement.textContent = 'Error loading data';
+      if(userCountElement) userCountElement.textContent = 'Error loading data';
     }
   }
 
+  // Initialize AOS early. AOS will add 'aos-animate' class when elements come into view.
+  AOS.init({
+    once: true 
+  });
+
   // Initial data fetch when DOM is ready
   fetchAndPrepareMetrics().then(() => {
-      // Initialize AOS after the initial data fetch (before potential animations)
+      console.log("fetchAndPrepareMetrics completed.");
+      // Refresh AOS. This is useful if layout changes due to fetched data might affect animation triggers.
       AOS.refresh();
+      console.log("AOS.refresh() called after fetchAndPrepareMetrics.");
   });
 });
