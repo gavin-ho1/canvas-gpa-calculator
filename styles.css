@@ -247,7 +247,10 @@ code {
 }
 
 body.sidebar-open .toggle-btn {
-    left: 255px; /* Move button to be 5px away from the sidebar when open */
+    left: 205px; /* Position button 5px from the right edge of the 250px sidebar */
+    background-color: var(--card-bg); /* Match sidebar background */
+    color: var(--text-color); /* Match sidebar text color */
+    box-shadow: none; /* Ensure shadow is removed when merged */
 }
 
 body.sidebar-open .toggle-btn i {
@@ -378,6 +381,10 @@ body.dark-mode .toggle-btn:hover {
     color: var(--card-bg);
 }
 
+body.dark-mode.sidebar-open .toggle-btn {
+    box-shadow: none;
+}
+
 body.dark-mode code {
     background-color: #4a5568;
     color: var(--text-color);
@@ -505,8 +512,11 @@ body.dark-mode .logo {
     }
 
     body.sidebar-open .toggle-btn {
-        left: 205px; /* Move button to be 5px away from the sidebar when open */
+        left: 155px; /* Position button 5px from the right edge of the 200px sidebar on smaller screens */
         right: auto; /* Remove the right positioning */
+        background-color: var(--card-bg); /* Match sidebar background */
+        color: var(--text-color); /* Match sidebar text color */
+        box-shadow: none; /* Ensure shadow is removed when merged */
     }
 
     .sidebar.collapsed .toggle-btn {
