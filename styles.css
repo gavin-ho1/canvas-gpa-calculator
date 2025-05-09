@@ -325,18 +325,14 @@ body.dark-mode {
     transition: color 0.6s ease, transform 0.6s ease; /* Add transition for smooth icon change */
 }
 
-.mode-toggle-button:hover {
-    color: var(--primary-color); /* Highlight color on hover */
-}
+.mode-toggle-button:hover {}
 
 body.dark-mode .mode-toggle-button {
     color: var(--text-color); /* Icon color in dark mode */
     transition: unset; /* Explicitly set transition for dark mode */
 }
 
-body.dark-mode .mode-toggle-button:hover {
-    color: #fff; /* White color on hover in dark mode */
-}
+body.dark-mode .mode-toggle-button:hover {}
 
 /* Keyframe animation for rotation */
 @keyframes rotate {
