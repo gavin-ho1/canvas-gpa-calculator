@@ -46,12 +46,14 @@ document.addEventListener('DOMContentLoaded', function() {
           localStorage.setItem('darkMode', 'disabled'); 
         }
         
-        // Destroy and re-initialize particles.js with new config
-        if (window.pJSDom && window.pJSDom[0] && window.pJSDom[0].pJS) {
-            window.pJSDom[0].pJS.fn.vendors.destroypJS();
-            window.pJSDom = []; // Clear the array
+        // Destroy and re-initialize tsParticles with new config
+        if (window.tsParticles) {
+            const oldContainer = window.tsParticles.domItem(0);
+            if (oldContainer) {
+                oldContainer.destroy();
+            }
         }
-        particlesJS("particles-js", getParticlesConfig());
+        tsParticles.load("tsparticles", getParticlesConfig());
 
         setTimeout(() => {
           modeIcon.classList.remove('rotating');
@@ -395,121 +397,137 @@ document.addEventListener('DOMContentLoaded', function() {
     once: true
   });
 
-  // Function to generate particles.js configuration
+  // Function to generate tsParticles configuration
   function getParticlesConfig() {
     const isDarkMode = document.body.classList.contains('dark-mode');
     const particleColor = isDarkMode ? "#ffffff" : "#000000";
     const lineColor = isDarkMode ? "#ffffff" : "#000000";
+    const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
 
     return {
-      "particles": {
-        "number": {
-          "value": 50, // Slightly increased particle count
-          "density": {
-            "enable": true,
-            "value_area": 900 // Slightly increased area for density calculation
+      particles: {
+        number: {
+          value: 50,
+          density: {
+            enable: true,
+            area: 900
           }
         },
-        "color": {
-          "value": particleColor
+        color: {
+          value: particleColor
         },
-        "shape": {
-          "type": "circle",
-          "stroke": {
-            "width": 0,
-            "color": "#000000" // Stroke color for particles, not lines
+        shape: {
+          type: "circle"
+        },
+        opacity: {
+          value: 0.3,
+          random: false,
+          animation: {
+            enable: false,
+            speed: 1,
+            minimumValue: 0.1,
+            sync: false
+          }
+        },
+        size: {
+          value: 3,
+          random: true,
+          animation: {
+            enable: false,
+            speed: 40,
+            minimumValue: 0.1,
+            sync: false
+          }
+        },
+        links: {
+          enable: true,
+          distance: 120,
+          color: lineColor,
+          opacity: 0.2,
+          width: 1,
+          shadow: { // Added shadow for links in dark mode
+            enable: isDarkMode,
+            color: primaryColor,
+            blur: 5
+          }
+        },
+        move: {
+          enable: true,
+          speed: 3,
+          direction: "none",
+          random: false,
+          straight: false,
+          outModes: {
+            default: "out"
           },
-          "polygon": {
-            "nb_sides": 5
+          attract: {
+            enable: false,
+            rotateX: 600,
+            rotateY: 1200
           }
         },
-        "opacity": {
-          "value": 0.3, // Decreased particle opacity
-          "random": false,
-          "anim": {
-            "enable": false,
-            "speed": 1,
-            "opacity_min": 0.1,
-            "sync": false
-          }
-        },
-        "size": {
-          "value": 3,
-          "random": true,
-          "anim": {
-            "enable": false,
-            "speed": 40,
-            "size_min": 0.1,
-            "sync": false
-          }
-        },
-        "line_linked": {
-          "enable": true,
-          "distance": 120, // Decreased line distance
-          "color": lineColor,
-          "opacity": 0.2, // Decreased line opacity
-          "width": 1
-        },
-        "move": {
-          "enable": true,
-          "speed": 3, // Slightly increased particle speed
-          "direction": "none",
-          "random": false,
-          "straight": false,
-          "out_mode": "out",
-          "bounce": false,
-          "attract": {
-            "enable": false,
-            "rotateX": 600,
-            "rotateY": 1200
+        shadow: { // Added shadow for particles in dark mode (glow effect)
+          enable: isDarkMode,
+          color: primaryColor,
+          blur: 12,
+          offset: {
+            x: 0,
+            y: 0
           }
         }
       },
-      "interactivity": {
-        "detect_on": "window", // Changed to "window" for better grab detection
-        "events": {
-          "onhover": {
-            "enable": true,
-            "mode": "grab"
+      interactivity: {
+        detectsOn: "window",
+        events: {
+          onHover: {
+            enable: true,
+            mode: "grab"
           },
-          "onclick": {
-            "enable": false, 
-            "mode": "push"
+          onClick: {
+            enable: false,
+            mode: "push"
           },
-          "resize": true
+          resize: true
         },
-        "modes": {
-          "grab": {
-            "distance": 180, // Further reduced grab distance
-            "line_linked": {
-              "opacity": 1 
+        modes: {
+          grab: {
+            distance: 180,
+            links: {
+              opacity: 1
             }
           },
-          "bubble": {
-            "distance": 400,
-            "size": 40,
-            "duration": 2,
-            "opacity": 8,
-            "speed": 3
+          bubble: {
+            distance: 400,
+            size: 40,
+            duration: 2,
+            opacity: 8,
+            speed: 3
           },
-          "repulse": {
-            "distance": 200,
-            "duration": 0.4
+          repulse: {
+            distance: 200,
+            duration: 0.4
           },
-          "push": {
-            "particles_nb": 4
+          push: {
+            quantity: 4
           },
-          "remove": {
-            "particles_nb": 2
+          remove: {
+            quantity: 2
           }
         }
       },
-      "retina_detect": true
+      detectRetina: true,
+      background: {
+        color: "transparent" // Ensure tsParticles background is transparent
+      },
+      fullScreen: {
+        enable: true,
+        zIndex: -1 // Keep particles in the background
+      }
     };
   }
 
-  // Initialize particles.js on load
-  particlesJS("particles-js", getParticlesConfig());
+  // Initialize tsParticles on load
+  tsParticles.load("tsparticles", getParticlesConfig());
 
   // Initial data fetch when DOM is ready
   fetchAndPrepareMetrics().then(() => {
