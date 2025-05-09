@@ -474,6 +474,13 @@ document.addEventListener('DOMContentLoaded', function() {
             x: 0,
             y: 0
           }
+        },
+        collisions: {
+          enable: true,
+          mode: "absorb", // When particles collide, one absorbs the other
+          absorb: {
+            speed: 2 // Adjust speed of absorption as needed
+          }
         }
       },
       interactivity: {
@@ -481,7 +488,7 @@ document.addEventListener('DOMContentLoaded', function() {
         events: {
           onHover: {
             enable: true,
-            mode: "grab"
+            mode: ["grab", "attract"] // Add "attract" mode
           },
           onClick: {
             enable: false,
@@ -495,6 +502,14 @@ document.addEventListener('DOMContentLoaded', function() {
             links: {
               opacity: 1
             }
+          },
+          attract: { // Add attract configuration
+            distance: 150, // Decreased distance
+            duration: 0.6, // Increased duration for smoother animation
+            easing: "ease-out-expo", // Changed easing for a smoother effect
+            factor: 3, // Increased factor
+            maxSpeed: 100, // Increased maxSpeed
+            speed: 1
           },
           bubble: {
             distance: 400,
