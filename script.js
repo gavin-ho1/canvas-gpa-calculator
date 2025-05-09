@@ -407,10 +407,10 @@ document.addEventListener('DOMContentLoaded', function() {
     return {
       particles: {
         number: {
-          value: 50,
+          value: 40, // Increased particle count from 30 to 40
           density: {
             enable: true,
-            area: 900
+            area: 1000 // Increased density area from 900 to 1000
           }
         },
         color: {
@@ -420,7 +420,7 @@ document.addEventListener('DOMContentLoaded', function() {
           type: "circle"
         },
         opacity: {
-          value: 0.3,
+          value: 0.7, // Increased particle opacity for more brightness
           random: false,
           animation: {
             enable: false,
@@ -443,17 +443,17 @@ document.addEventListener('DOMContentLoaded', function() {
           enable: true,
           distance: 120,
           color: lineColor,
-          opacity: 0.2,
+          opacity: 0.5, // Increased link opacity for more brightness
           width: 1,
           shadow: { // Added shadow for links in dark mode
             enable: isDarkMode,
             color: primaryColor,
-            blur: 5
+            blur: 25 // Significantly increased link glow
           }
         },
         move: {
           enable: true,
-          speed: 3,
+          speed: 1, // Reduced particle speed from 3 to 1
           direction: "none",
           random: false,
           straight: false,
@@ -469,7 +469,7 @@ document.addEventListener('DOMContentLoaded', function() {
         shadow: { // Added shadow for particles in dark mode (glow effect)
           enable: isDarkMode,
           color: primaryColor,
-          blur: 12,
+          blur: 50, // Significantly increased particle glow
           offset: {
             x: 0,
             y: 0
