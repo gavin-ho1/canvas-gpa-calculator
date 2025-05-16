@@ -507,8 +507,8 @@ document.addEventListener('DOMContentLoaded', function() {
             distance: 150, // Decreased distance
             duration: 0.6, // Increased duration for smoother animation
             easing: "ease-out-expo", // Changed easing for a smoother effect
-            factor: 3, // Increased factor
-            maxSpeed: 100, // Increased maxSpeed
+            factor: 0.9, // Increased factor
+            maxSpeed: 75, // Increased maxSpeed
             speed: 1
           },
           bubble: {
