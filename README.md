@@ -12,6 +12,7 @@
 
 Chrome Extension that calculates GPA on Canvas when blocked by a teacher because I couldn't find an (good) existing extension online.
 
+Please [open an issue](https://github.com/gavin-ho1/canvas-gpa-calculator/issues/new) or [create a new PR](https://github.com/gavin-ho1/canvas-gpa-calculator/compare) if you have any issues, questions, or would like to request features additions/changes - all feedback is appreciated
 
 # **⚠ DISCLAIMER ⚠**
 This Chrome Extension is not given permissions to store any senstive/private content (browser history, passwords, etc). It is literally **IMPOSSIBLE** to get this information without permissions. 
