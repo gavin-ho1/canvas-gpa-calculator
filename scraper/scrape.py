@@ -39,9 +39,10 @@ def scrape_chrome_extension(extension_id):
     try:
         container = driver.find_element("xpath", '//div[contains(@class, "F9iKBc")]')
         text = container.text
-        users = re.search(r"(\d+)", text)
+        users = re.search(r"([\d,]+)", text)
         if users:
-            data["users"] = int(users.group(1))
+            number = users.group(1).replace(",", "")
+            data["users"] = int(number)
         else:
             data["users"] = "N/A"
     except Exception as e:
