@@ -2,24 +2,37 @@
   "manifest_version": 3,
   "name": "Canvas GPA Calculator",
   "version": "1.91",
-  "description": "A Chrome Extension that automatically calculates your Canvas grades and GPA",
-  "permissions": ["storage"],
-  
+  "description": "An Extension that automatically calculates your Canvas grades and GPA",
+  "permissions": [
+    "storage"
+  ],
   "action": {
     "default_popup": "menus/options.html",
     "default_icon": "logo.png",
     "default_title": "Calculator"
   },
   "background": {
-    "service_worker": "scripts/background.js"
+    "service_worker": "scripts/background.js",
+    "scripts": [
+      "scripts/background.js"
+    ]
   },
-
   "content_scripts": [
     {
-      "matches": ["https://*.instructure.com/courses/*/grades*","http://*.instructure.com/courses/*/grades*","http://*.instructure.com/", "https://*.instructure.com/"],
-      "exclude_matches" : ["https://*.instructure.com/*/assignments/*","http://*.instructure.com/*/assignments/*"],
-      "js": ["scripts/content.js"],
-      "run_at" : "document_idle"
+      "matches": [
+        "https://*.instructure.com/courses/*/grades*",
+        "http://*.instructure.com/courses/*/grades*",
+        "http://*.instructure.com/",
+        "https://*.instructure.com/"
+      ],
+      "exclude_matches": [
+        "https://*.instructure.com/*/assignments/*",
+        "http://*.instructure.com/*/assignments/*"
+      ],
+      "js": [
+        "scripts/content.js"
+      ],
+      "run_at": "document_idle"
     }
   ]
 }
