@@ -4,9 +4,5 @@
     "users": 1000,
     "number_of_ratings": 11
   },
-  "edge_extension": {
-    "rating": 5.0,
-    "users": 1383,
-    "number_of_ratings": 1
-  }
+  "edge_extension": null
 }
