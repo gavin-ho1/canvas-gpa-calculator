@@ -511,6 +511,8 @@ async function discoverAllCourses(skipCache = false) {
     const courses = [];
     const seenIds = new Set();
 
+    console.log('Canvas GPA: Starting course discovery...');
+
     // Strategy 1: Fetch the raw page HTML and parse it.
     // The server-rendered HTML usually contains .ic-DashboardCard__link elements
     // in card/list views, but in the Recent Activity view those elements are absent.
@@ -524,6 +526,8 @@ async function discoverAllCourses(skipCache = false) {
         const doc = parser.parseFromString(html, 'text/html');
 
         // Sub-strategy 1a: card-view links (most reliable when present)
+        const cardLinks = doc.querySelectorAll('.ic-DashboardCard__link');
+        console.log(`Canvas GPA: Strategy 1a: found ${cardLinks.length} card links`);
         doc.querySelectorAll('.ic-DashboardCard__link').forEach(link => {
             const match = link.href.match(/courses\/(\d+)/);
             if (match) {
@@ -533,6 +537,7 @@ async function discoverAllCourses(skipCache = false) {
                     // Normalize to base course URL
                     const baseUrl = link.href.match(/(https?:\/\/[^\/]+\/courses\/\d+)/)?.[1] || link.href;
                     courses.push({ id, url: baseUrl });
+                    console.log(`Canvas GPA: Strategy 1a: added course ${id} from ${link.href}`);
                 }
             }
         });
@@ -544,6 +549,8 @@ async function discoverAllCourses(skipCache = false) {
         // /courses/ID link, deduplicate by ID, and normalize to the base course URL.
         // We always run this (not just when 1a is empty) so we don't miss courses
         // that might appear in one strategy but not the other.
+        const allCourseLinks = doc.querySelectorAll('a[href*="/courses/"]');
+        console.log(`Canvas GPA: Strategy 1b: scanning ${allCourseLinks.length} total course links`);
         doc.querySelectorAll('a[href*="/courses/"]').forEach(link => {
                 const match = link.href.match(/courses\/(\d+)/);
                 if (!match) return;
@@ -554,7 +561,33 @@ async function discoverAllCourses(skipCache = false) {
                 const baseUrl = link.href.match(/(https?:\/\/[^\/]+\/courses\/\d+)/)?.[1]
                     || `${window.location.origin}/courses/${id}`;
                 courses.push({ id, url: baseUrl });
+                console.log(`Canvas GPA: Strategy 1b: added course ${id} from ${link.href}`);
             });
+
+        // Sub-strategy 1c: Extract course IDs from JavaScript data objects
+        // Some courses may only appear in ENV variables or other JS data, not as HTML links
+        const scripts = doc.querySelectorAll('script');
+        console.log(`Canvas GPA: Strategy 1c: scanning ${scripts.length} script tags for course data`);
+        scripts.forEach(script => {
+            if (!script.textContent) return;
+            
+            // Look for course IDs in various JavaScript patterns
+            const courseMatches = script.textContent.match(/courses\/(\d+)/g);
+            if (courseMatches) {
+                courseMatches.forEach(match => {
+                    const idMatch = match.match(/courses\/(\d+)/);
+                    if (idMatch) {
+                        const id = idMatch[1];
+                        if (!seenIds.has(id)) {
+                            seenIds.add(id);
+                            const baseUrl = `${window.location.origin}/courses/${id}`;
+                            courses.push({ id, url: baseUrl });
+                            console.log(`Canvas GPA: Strategy 1c: added course ${id} from JavaScript data`);
+                        }
+                    }
+                });
+            }
+        });
     } catch (e) {
         console.warn('Canvas GPA: Failed to fetch course list from page HTML:', e);
     }
@@ -562,15 +595,19 @@ async function discoverAllCourses(skipCache = false) {
     // Strategy 2: Fallback to visible DOM elements if HTML parsing yielded nothing
     // or if the fetch itself failed.
     if (courses.length === 0) {
+        console.log('Canvas GPA: Strategy 1 failed, trying Strategy 2 (visible DOM fallback)');
         const visibleCourses = getCourseElements();
+        console.log(`Canvas GPA: Strategy 2: found ${visibleCourses.length} visible courses`);
         visibleCourses.forEach(course => {
             if (!seenIds.has(course.id)) {
                 seenIds.add(course.id);
                 courses.push({ id: course.id, url: course.url });
+                console.log(`Canvas GPA: Strategy 2: added course ${course.id} from visible DOM`);
             }
         });
     }
 
+    console.log(`Canvas GPA: Discovery complete. Found ${courses.length} courses:`, courses.map(c => c.id));
     allCoursesCache = courses;
     allCoursesCacheTime = now;
     return courses;
