@@ -231,7 +231,8 @@ if(active){
   }else{
   
     hyperLink = document.querySelector("a.mobile-header-title.expandable")
-    courseID = hyperLink.href.match(/\d+/)
+    let match = hyperLink.href.match(/\d+/)
+    courseID = match ? match[0] : null
     browser.runtime.sendMessage({ type: 'print', data : "CourseID: " +courseID });
       
   
@@ -259,136 +260,99 @@ if(active){
     var totalPointDict = {}
     var finalGradeDict = {}
   
-    var categoriesList = []
-    var gradeList = []
-    var totalPointList = []
-  
+    var points = 0
+    var totalPoints = 0
   
     if(weightedGradingEnabled){
-      keys = document.querySelectorAll("table.summary th")
-      var filteredKeys = []
-      keys.forEach(key =>{
-        if(key.innerHTML !== "Group" && key.innerHTML !== "Weight"&& key.innerHTML !== "Total"){
-          filteredKeys.push(key.innerHTML)
+      const weightRows = document.querySelectorAll('table.summary tbody tr');
+      weightRows.forEach(row => {
+        const groupTh = row.querySelector('th');
+        const weightTd = row.querySelector('td');
+        if (groupTh && weightTd) {
+          const groupName = groupTh.textContent.trim();
+          const weightText = weightTd.textContent.trim();
+          if (groupName !== "Total") {
+            weightDict[groupName] = parseFloat(weightText.replace("%", ""));
+            pointDict[groupName] = 0;
+            totalPointDict[groupName] = 0;
+          }
         }
-      })
+      });
   
-      var filteredItems = []
-      items = document.querySelectorAll('table.summary td')
-      items.forEach(item => {
-          if(item.innerHTML !== "100%"){
-            filteredItems.push(item.innerHTML)
-          }
-      })
-      // chrome.runtime.sendMessage({ type: 'print', data : filteredKeys}, (response) => {});
-      // chrome.runtime.sendMessage({ type: 'print', data : filteredItems}, (response) => {});
-  
-        weightDict = filteredKeys.reduce((acc, key, index) => {
-        acc[key] = parseFloat(filteredItems[index].replace("%",""));
-        return acc;
-      }, {});
-        pointDict = filteredKeys.reduce((acc, key, index) => {
-          acc[key] = 0;
-          return acc;
-        }, {});
-        totalPointDict = filteredKeys.reduce((acc, key, index) => {
-          acc[key] = 0;
-          return acc;
-        }, {});  
-  
-        const categoriesWrappers = document.querySelectorAll("div.context")
-      
-        categoriesWrappers.forEach(div => {
-          categoriesList.push(div.innerHTML)
-        }
-      )
-        const gradedAssigmentGradeWrappers = document.querySelectorAll("td.assignment_score span.grade")
-        chrome.runtime.sendMessage({ type: 'print', data : gradedAssigmentGradeWrappers }, (response) => {}); 
-        gradedAssigmentGradeWrappers.forEach(span => {
-          // Modified regex to handle decimals (numbers with or without decimals)
-          let num = span.innerHTML.trim().match(/(\d+(\.\d+)?)/);  // This will match integers or decimals
-          browser.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() });
-  
-          if (num) {
-            // If a grade with a decimal is detected, push it into gradeList
-            gradeList.push(parseFloat(num[0].replace("%","")));
-            browser.runtime.sendMessage({ type: 'print', data : num }); 
-            totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/","")));
-          } else {
-            // Handle cases where no grade is found
-            gradeList.push("--");
-            totalPointList.push("--");
-          }
-        });
+      const assignmentRows = document.querySelectorAll('#grades_summary tr.student_assignment');
+      assignmentRows.forEach(row => {
+        const categoryDiv = row.querySelector('th.title div.context');
+        const category = categoryDiv ? categoryDiv.textContent.trim() : null;
         
-        browser.runtime.sendMessage({ type: 'print', data : gradeList }); 
-  
-        for(index in gradeList){
-          if(gradeList[index] !== "--"){
-            pointDict[categoriesList[index]] += gradeList[index]
-            totalPointDict[categoriesList[index]] += totalPointList[index]
-          }
-        
-        }
-        var countedWeight = 0
-        filteredKeys.forEach(category => {
-          // chrome.runtime.sendMessage({ type: 'print', data : pointDict[category]/totalPointDict[category] }, (response) => {}); 
-          if(totalPointDict[category] !== 0){ //Check for div by zero
-            finalGradeDict[category] = pointDict[category]/totalPointDict[category]
-            countedWeight += weightDict[category]
-          }else{
-            finalGradeDict[category] = "NaN"
-          }
-        
-        })
-        
-        // chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict }, (response) => {}); 
-        
-        var finalGrade = 0
-        
-        filteredKeys.forEach(category => {
-          if(finalGradeDict[category] !== "NaN"){
-            browser.runtime.sendMessage({ type: 'print', data : finalGradeDict[category]*weightDict[category] }); 
-            finalGrade += finalGradeDict[category]*weightDict[category]
-          }
+        const scoreSpan = row.querySelector('td.assignment_score span.grade');
+        if (scoreSpan) {
+          let scoreText = scoreSpan.textContent.replace(/Click to test a different score/g, '').trim();
+          let scoreMatch = scoreText.match(/(\d+(\.\d+)?)/);
           
-        })
-        
-        browser.runtime.sendMessage({ type: 'print', data : countedWeight });
+          let totalSpan = scoreSpan.nextElementSibling;
+          let totalText = totalSpan ? totalSpan.textContent.trim() : "";
+          let totalMatch = totalText.match(/(\d+(\.\d+)?)/);
+          
+          if (scoreMatch && totalMatch) {
+            let s = parseFloat(scoreMatch[0]);
+            let t = parseFloat(totalMatch[0]);
+            
+            if (category && weightDict.hasOwnProperty(category)) {
+              pointDict[category] += s;
+              totalPointDict[category] += t;
+            }
+          }
+        }
+      });
   
-        finalGrade = (finalGrade/countedWeight)*100
-        finalGrade = parseFloat(finalGrade.toFixed(2))
-        
-        browser.runtime.sendMessage({ type: 'print', data : finalGrade }); 
-        //Debug Print
-    // chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
-    // chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});
-  
-    // chrome.runtime.sendMessage({ type: 'print', data : categoriesList }, (response) => {});
-    // chrome.runtime.sendMessage({ type: 'print', data : gradeList }, (response) => {});
-    // chrome.runtime.sendMessage({ type: 'print', data : totalPointList }, (response) => {});
-  
-  
-  
-    // chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {}); 
-    // chrome.runtime.sendMessage({ type: 'print', data : totalPointDict }, (response) => {}); 
-    }else{
-      gradedAssigmentGradeWrappers = document.querySelectorAll("tr.student_assignment.assignment_graded.editable td.assignment_score div.score_holder span.tooltip span.grade")
-  
-      var points = 0
-      var totalPoints = 0
-      gradedAssigmentGradeWrappers.forEach(span => {
-        num = parseFloat(span.innerHTML.match(/(\d+(\.\d+)?)/)[0])
-  
-        browser.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() });
-  
-        points += num
-        totalPoints += parseFloat(span.nextElementSibling.innerHTML.trim().match(/(\d+(\.\d+)?)/)[0])
-        browser.runtime.sendMessage({ type: 'print', data : num });
-        
+      var countedWeight = 0
+      var weightedSum = 0
+      Object.keys(weightDict).forEach(category => {
+        if(totalPointDict[category] !== 0){ 
+          finalGradeDict[category] = pointDict[category]/totalPointDict[category]
+          weightedSum += finalGradeDict[category] * weightDict[category]
+          countedWeight += weightDict[category]
+        }
       })
-      finalGrade = (points/totalPoints)*100
-      finalGrade = parseFloat(finalGrade.toFixed(2))
+  
+      if (countedWeight > 0) {
+        finalGrade = (weightedSum / countedWeight) * 100
+      } else {
+        finalGrade = NaN
+      }
+      
+      if (!isNaN(finalGrade)) {
+        finalGrade = parseFloat(finalGrade.toFixed(2))
+      }
+  
+    }else{
+      const assignmentRows = document.querySelectorAll('#grades_summary tr.student_assignment');
+      assignmentRows.forEach(row => {
+        const scoreSpan = row.querySelector('td.assignment_score span.grade');
+        if (scoreSpan) {
+          let scoreText = scoreSpan.textContent.replace(/Click to test a different score/g, '').trim();
+          let scoreMatch = scoreText.match(/(\d+(\.\d+)?)/);
+          
+          let totalSpan = scoreSpan.nextElementSibling;
+          let totalText = totalSpan ? totalSpan.textContent.trim() : "";
+          let totalMatch = totalText.match(/(\d+(\.\d+)?)/);
+          
+          if (scoreMatch && totalMatch) {
+            points += parseFloat(scoreMatch[0]);
+            totalPoints += parseFloat(totalMatch[0]);
+          }
+        }
+      })
+      
+      if (totalPoints > 0) {
+        finalGrade = (points/totalPoints)*100
+      } else {
+        finalGrade = NaN
+      }
+
+      if (!isNaN(finalGrade)) {
+        finalGrade = parseFloat(finalGrade.toFixed(2))
+      }
     }
   
     let letterGrade;
@@ -422,7 +386,7 @@ if(active){
       letterGrade = "D";
     } else if (roundedGrade >= 60) {
       letterGrade = "D-";
-    } else if (finalGrade === NaN){
+    } else if (isNaN(finalGrade)){
       letterGrade = "None"
     }else{
       letterGrade = "F";
@@ -437,7 +401,7 @@ if(active){
       const gradingMenu = document.querySelector("span input#grading_period_select_menu");
       if (gradingMenu && gradingMenu.title.includes("All Grading Periods")) {
         browser.runtime.sendMessage({ type: 'print', data: "All Grading Periods" });
-        if (finalGrade !== "NaN"){
+        if (!isNaN(finalGrade)){
           browser.runtime.sendMessage({ type: "getGrade", data: [finalGrade, courseID, letterGrade] });
         }
       }
@@ -460,7 +424,7 @@ if(active){
   
     
   
-    browser.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"% ("+letterGrade+")"+"rounding: "+gradeRounding }); 
+  browser.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"% ("+letterGrade+")"+"rounding: "+gradeRounding }); 
   
       const gradeDivs = document.querySelectorAll('#student-grades-final');
       // Loop through each of the found divs
@@ -490,7 +454,7 @@ if(active){
     }
   
     const displayAside = document.querySelector("#right-side #student-grades-right-content") 
-    if(finalGrade === "NaN"){
+    if(isNaN(finalGrade)){
       displayAside.innerHTML =   `<div class="student_assignment final_grade">
       Total:
         <span class="grade">No assigments graded</span>
