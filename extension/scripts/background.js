@@ -4,8 +4,10 @@ if (typeof importScripts !== 'undefined') {
 
 console.log("background.js running")
 
-browser.runtime.onInstalled.addListener(() => {
-  browser.tabs.create({ url: browser.runtime.getURL('menus/install.html') });
+browser.runtime.onInstalled.addListener((details) => {
+  if (details.reason === 'install') {
+    browser.tabs.create({ url: browser.runtime.getURL('menus/install.html') });
+  }
 });
 
 var tabURL
