@@ -21,6 +21,98 @@ async function loadSettings() {
     courseDict = dictResult.courseDict || {};
 }
 
+function calculateGradeFromDoc(doc) {
+    let weightedGradingEnabled = false;
+    const gradeHeaders = doc.querySelectorAll('h2');
+    gradeHeaders.forEach(header => {
+        if (header.textContent.trim() === "Assignments are weighted by group:") {
+            weightedGradingEnabled = true;
+        }
+    });
+
+    let finalGrade = NaN;
+    if (weightedGradingEnabled) {
+        let weightDict = {};
+        let pointDict = {};
+        let totalPointDict = {};
+
+        const weightRows = doc.querySelectorAll('table.summary tbody tr');
+        weightRows.forEach(row => {
+            const groupTh = row.querySelector('th');
+            const weightTd = row.querySelector('td');
+            if (groupTh && weightTd) {
+                const groupName = groupTh.textContent.trim();
+                const weightText = weightTd.textContent.trim();
+                if (groupName !== "Total") {
+                    weightDict[groupName] = parseFloat(weightText.replace("%", ""));
+                    pointDict[groupName] = 0;
+                    totalPointDict[groupName] = 0;
+                }
+            }
+        });
+
+        const assignmentRows = doc.querySelectorAll('#grades_summary tr.student_assignment');
+        assignmentRows.forEach(row => {
+            const categoryDiv = row.querySelector('th.title div.context');
+            const category = categoryDiv ? categoryDiv.textContent.trim() : null;
+            const scoreSpan = row.querySelector('td.assignment_score span.grade');
+            if (scoreSpan) {
+                let scoreText = scoreSpan.textContent.replace(/Click to test a different score/g, '').trim();
+                let scoreMatch = scoreText.match(/(\d+(\.\d+)?)/);
+                let totalSpan = scoreSpan.nextElementSibling;
+                let totalText = totalSpan ? totalSpan.textContent.trim() : "";
+                let totalMatch = totalText.match(/(\d+(\.\d+)?)/);
+                if (scoreMatch && totalMatch) {
+                    let s = parseFloat(scoreMatch[0]);
+                    let t = parseFloat(totalMatch[0]);
+                    if (category && weightDict.hasOwnProperty(category)) {
+                        pointDict[category] += s;
+                        totalPointDict[category] += t;
+                    }
+                }
+            }
+        });
+
+        let countedWeight = 0;
+        let weightedSum = 0;
+        Object.keys(weightDict).forEach(category => {
+            if (totalPointDict[category] !== 0) {
+                weightedSum += (pointDict[category] / totalPointDict[category]) * weightDict[category];
+                countedWeight += weightDict[category];
+            }
+        });
+        if (countedWeight > 0) {
+            finalGrade = (weightedSum / countedWeight) * 100;
+        }
+    } else {
+        let points = 0;
+        let totalPoints = 0;
+        const assignmentRows = doc.querySelectorAll('#grades_summary tr.student_assignment');
+        assignmentRows.forEach(row => {
+            const scoreSpan = row.querySelector('td.assignment_score span.grade');
+            if (scoreSpan) {
+                let scoreText = scoreSpan.textContent.replace(/Click to test a different score/g, '').trim();
+                let scoreMatch = scoreText.match(/(\d+(\.\d+)?)/);
+                let totalSpan = scoreSpan.nextElementSibling;
+                let totalText = totalSpan ? totalSpan.textContent.trim() : "";
+                let totalMatch = totalText.match(/(\d+(\.\d+)?)/);
+                if (scoreMatch && totalMatch) {
+                    points += parseFloat(scoreMatch[0]);
+                    totalPoints += parseFloat(totalMatch[0]);
+                }
+            }
+        });
+        if (totalPoints > 0) {
+            finalGrade = (points / totalPoints) * 100;
+        }
+    }
+
+    if (!isNaN(finalGrade)) {
+        finalGrade = parseFloat(finalGrade.toFixed(2));
+    }
+    return finalGrade;
+}
+
 function calculateGradePoint(grade) {
     const roundedGrade = grade + gradeRounding;
     if (roundedGrade >= 97) return 12;
@@ -57,7 +149,11 @@ function getLetterGrade(grade) {
 }
 
 function clearInjections() {
-    document.querySelectorAll(".canvas-gpa-calculator-injected").forEach(el => el.remove());
+    document.querySelectorAll(".canvas-gpa-calculator-injected").forEach(el => {
+        if (!['gpa-dashboard-display', 'gpa-list-display', 'gpa-activity-display'].includes(el.id)) {
+            el.remove();
+        }
+    });
     // Also show any hidden elements we hid
     const gradeDivs = document.querySelectorAll('#student-grades-final');
     gradeDivs.forEach(div => {
@@ -69,8 +165,26 @@ function clearInjections() {
 }
 
 async function updateUI() {
+    if (!active) {
+        // Completely remove all injected elements when disabled
+        document.querySelectorAll(".canvas-gpa-calculator-injected").forEach(el => el.remove());
+        
+        // Restore hidden native grade displays
+        document.querySelectorAll('#student-grades-final.canvas-gpa-calculator-hidden').forEach(div => {
+            div.style.display = '';
+            div.classList.remove("canvas-gpa-calculator-hidden");
+        });
+        
+        // Restore Better Canvas badges
+        document.querySelectorAll("a.bettercanvas-card-grade").forEach(card => {
+            if (card.style.display === 'none') card.style.display = '';
+        });
+        document.querySelectorAll(".canvas-gpa-bc-badge").forEach(el => el.remove());
+        
+        return;
+    }
+
     clearInjections();
-    if (!active) return;
 
     const dashboardSpan = document.querySelector("span.mobile-header-title");
     if (dashboardSpan) {
@@ -81,12 +195,21 @@ async function updateUI() {
 }
 
 async function updateDashboard() {
-    if (!showGPA) return;
+    if (!showGPA) {
+        document.querySelectorAll("#gpa-dashboard-display, #gpa-list-display, #gpa-activity-display").forEach(el => el.remove());
+        const gpaCardUnweighted = document.querySelector("#bettercanvas-gpa-unweighted");
+        const gpaCardWeighted = document.querySelector("#bettercanvas-gpa-weighted");
+        if (gpaCardUnweighted) gpaCardUnweighted.innerHTML = '--';
+        if (gpaCardWeighted) gpaCardWeighted.innerHTML = '--';
+        return;
+    }
 
     let totalGPA = 0;
     let count = 0;
 
     Object.keys(courseDict).forEach(key => {
+        if (courseDict[key].included === false) return; // Skip explicitly excluded courses
+
         let grade = courseDict[key].grade;
         let gradePoint = calculateGradePoint(grade);
 
@@ -100,59 +223,224 @@ async function updateDashboard() {
 
     let displayGPA = count > 0 ? (totalGPA / count) : NaN;
     let gpaText = isNaN(displayGPA) ? "No course grades saved" : displayGPA.toFixed(2);
+    let gpaHTML = gpaText;
 
-    // Better Canvas support
+    if (isAutoFetching && !window.location.pathname.match(/\d+/)) {
+        if (!document.getElementById("canvas-gpa-spinner-style")) {
+            const style = document.createElement("style");
+            style.id = "canvas-gpa-spinner-style";
+            style.innerHTML = `@keyframes canvas-gpa-spin { to { transform: rotate(360deg); } }`;
+            document.head.appendChild(style);
+        }
+        gpaHTML = `Loading <span style="display: inline-block; width: 12px; height: 12px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: canvas-gpa-spin 1s linear infinite; vertical-align: middle; margin-left: 4px;"></span>`;
+    }
+
+    // Better Canvas specific global GPA injection
     const betterCanvas = document.querySelector("#bettercanvas-aesthetics");
     if (betterCanvas) {
         const gpaCardUnweighted = document.querySelector("#bettercanvas-gpa-unweighted");
         const gpaCardWeighted = document.querySelector("#bettercanvas-gpa-weighted");
         if (gpaCardUnweighted && gpaCardWeighted) {
-            gpaCardUnweighted.innerHTML = gpaText;
-            gpaCardWeighted.innerHTML = gpaText;
+            if (gpaCardUnweighted.innerHTML !== gpaHTML) {
+                gpaCardUnweighted.innerHTML = gpaHTML;
+                gpaCardWeighted.innerHTML = gpaHTML;
+            }
         }
-
-        const betterCanvasCards = document.querySelectorAll("a.bettercanvas-card-grade");
-        betterCanvasCards.forEach(card => {
-            const url = card.href;
-            Object.keys(courseDict).forEach(key => {
-                if (url.match(key)) {
-                    card.textContent = `${courseDict[key].grade}%`;
-                }
-            });
-        });
     }
+
+    // Better Canvas card grade injection
+    const betterCanvasCards = document.querySelectorAll("a.bettercanvas-card-grade");
+    betterCanvasCards.forEach(card => {
+        const url = card.href;
+        const match = url.match(/courses\/(\d+)/);
+        if (match) {
+            const courseID = match[1];
+            if (courseDict[courseID] && !isNaN(courseDict[courseID].grade)) {
+                const gradeText = `${courseDict[courseID].grade}%`;
+                
+                // Hide Better Canvas's original text element to prevent conflicts
+                card.style.display = 'none';
+                
+                let container = card.parentNode;
+                let myBadge = container.querySelector('.canvas-gpa-bc-badge');
+                
+                if (!myBadge) {
+                    myBadge = document.createElement('a');
+                    myBadge.href = url;
+                    myBadge.className = 'canvas-gpa-bc-badge';
+                    myBadge.style.cssText = `
+                        display: block;
+                        position: absolute;
+                        padding: 0.125rem 0.5rem;
+                        border-radius: 9999px;
+                        top: 0.75rem;
+                        left: 0.75rem;
+                        background-color: var(--bcbackground-0-ungradient, #ffffff);
+                        color: var(--bctext-0, #000);
+                        opacity: 1;
+                        font-weight: 600;
+                        text-decoration: none;
+                        z-index: 10;
+                    `;
+                    container.appendChild(myBadge);
+                }
+                
+                if (myBadge.textContent !== gradeText) {
+                    myBadge.textContent = gradeText;
+                }
+            }
+        }
+    });
 
     // Standard Dashboard injection
     const titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span");
-    if (titleSpan && !titleSpan.querySelector("#gpa-dashboard-display")) {
-        const span = document.createElement("span");
-        span.id = "gpa-dashboard-display";
-        span.className = "canvas-gpa-calculator-injected";
-        span.textContent = ` ǀ GPA: ${gpaText}`;
-        titleSpan.appendChild(span);
+    if (titleSpan) {
+        let span = titleSpan.querySelector("#gpa-dashboard-display");
+        if (!span) {
+            span = document.createElement("span");
+            span.id = "gpa-dashboard-display";
+            span.className = "canvas-gpa-calculator-injected";
+            titleSpan.appendChild(span);
+        }
+        const newHTML = ` ǀ GPA: ${gpaHTML}`;
+        if (span.innerHTML !== newHTML) span.innerHTML = newHTML;
     }
 
     // List view and Activity view
     const listHeader = document.querySelector("h2.css-tz46fa-view-heading div");
-    if (listHeader && !listHeader.querySelector("#gpa-list-display")) {
-        const span = document.createElement("span");
-        span.id = "gpa-list-display";
-        span.className = "canvas-gpa-calculator-injected";
-        span.textContent = ` ǀ GPA: ${gpaText}`;
-        span.style.fontWeight = "bold";
-        listHeader.appendChild(span);
+    if (listHeader) {
+        let span = listHeader.querySelector("#gpa-list-display");
+        if (!span) {
+            span = document.createElement("span");
+            span.id = "gpa-list-display";
+            span.className = "canvas-gpa-calculator-injected";
+            span.style.fontWeight = "bold";
+            listHeader.appendChild(span);
+        }
+        const newHTML = ` ǀ GPA: ${gpaHTML}`;
+        if (span.innerHTML !== newHTML) span.innerHTML = newHTML;
     }
 
     const activityHeader = document.querySelector("h2.recent-activity-header");
-    if (activityHeader && !activityHeader.querySelector("#gpa-activity-display")) {
-        const span = document.createElement("span");
-        span.id = "gpa-activity-display";
-        span.className = "canvas-gpa-calculator-injected";
-        span.textContent = ` ǀ GPA: ${gpaText}`;
-        span.style.fontWeight = "bold";
-        activityHeader.appendChild(span);
+    if (activityHeader) {
+        let span = activityHeader.querySelector("#gpa-activity-display");
+        if (!span) {
+            span = document.createElement("span");
+            span.id = "gpa-activity-display";
+            span.className = "canvas-gpa-calculator-injected";
+            span.style.fontWeight = "bold";
+            activityHeader.appendChild(span);
+        }
+        const newHTML = ` ǀ GPA: ${gpaHTML}`;
+        if (span.innerHTML !== newHTML) span.innerHTML = newHTML;
+    }
+
+    // Standard Dashboard cards injection
+    const dashboardCards = document.querySelectorAll(".ic-DashboardCard");
+    dashboardCards.forEach(card => {
+        const link = card.querySelector(".ic-DashboardCard__link");
+        if (!link) return;
+        const match = link.href.match(/courses\/(\d+)/);
+        if (!match) return;
+        const courseID = match[1];
+
+        if (courseDict[courseID]) {
+            const grade = courseDict[courseID].grade;
+            
+            // If Better Canvas grade is already present, don't inject our badge to avoid clutter
+            const hasBetterCanvasGrade = card.querySelector(".bettercanvas-card-grade");
+            if (hasBetterCanvasGrade) return;
+
+            const subtitle = card.querySelector(".ic-DashboardCard__header-subtitle");
+            if (subtitle && !subtitle.querySelector(".canvas-gpa-badge")) {
+                const badge = document.createElement("span");
+                badge.className = "canvas-gpa-badge canvas-gpa-calculator-injected";
+                badge.textContent = `Grade: ${grade}%`;
+                badge.style.display = "inline-block";
+                badge.style.marginTop = "8px";
+                badge.style.padding = "4px 10px";
+                badge.style.borderRadius = "6px";
+                badge.style.backgroundColor = "rgba(0, 0, 0, 0.05)";
+                badge.style.fontWeight = "600";
+                badge.style.fontSize = "12px";
+                badge.style.color = "var(--ic-brand-primary, #008EE2)";
+                badge.style.border = "1px solid rgba(0, 0, 0, 0.1)";
+                subtitle.appendChild(badge);
+            }
+        }
+    });
+
+    // Update UI done
+}
+
+let isAutoFetching = false;
+async function autoFetchGrades(specificCourseID = null) {
+    if (isAutoFetching && !specificCourseID) return;
+    if (!specificCourseID) isAutoFetching = true;
+
+    const now = new Date().getTime();
+    const CACHE_TIMEOUT = 30 * 60 * 1000; // 30 minutes
+    const SHORT_CACHE = 60 * 1000; // 1 minute for specific fetches to prevent spam
+
+    const courseIDsToFetch = [];
+    if (specificCourseID) {
+        const courseData = courseDict[specificCourseID];
+        if (courseData && courseData.lastUpdated && (now - courseData.lastUpdated < SHORT_CACHE)) {
+            return; // Data is fresh enough, skip fetch
+        }
+        courseIDsToFetch.push({ id: specificCourseID, url: `${window.location.origin}/courses/${specificCourseID}` });
+    } else {
+        const dashboardCards = document.querySelectorAll(".ic-DashboardCard");
+
+        dashboardCards.forEach(card => {
+            const link = card.querySelector(".ic-DashboardCard__link");
+            if (!link) return;
+            const match = link.href.match(/courses\/(\d+)/);
+            if (!match) return;
+            const courseID = match[1];
+
+            const courseData = courseDict[courseID];
+            if (!courseData || !courseData.lastUpdated || (now - courseData.lastUpdated >= CACHE_TIMEOUT)) {
+                courseIDsToFetch.push({ id: courseID, url: link.href });
+            }
+        });
+    }
+
+    for (const item of courseIDsToFetch) {
+        try {
+            const fetchUrl = `${item.url}/grades?grading_period_id=0`;
+            const response = await fetch(fetchUrl);
+            const text = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(text, "text/html");
+            const finalGrade = calculateGradeFromDoc(doc);
+            const letterGrade = getLetterGrade(finalGrade);
+
+            if (!isNaN(finalGrade)) {
+                browser.runtime.sendMessage({ type: "getGrade", data: [finalGrade, item.id, letterGrade] });
+                
+                courseDict[item.id] = {
+                    grade: finalGrade,
+                    gradePoint: calculateGradePoint(finalGrade),
+                    lastUpdated: new Date().getTime()
+                };
+                
+                if (!specificCourseID) {
+                    await new Promise(r => setTimeout(r, 100));
+                    updateUI(); 
+                }
+            }
+        } catch (e) {
+            console.error(`Failed to fetch grades for course ${item.id}`, e);
+        }
+    }
+    if (!specificCourseID) {
+        isAutoFetching = false;
+        updateUI();
     }
 }
+
+let gradesObserver = null;
 
 function updateGradesPage() {
     const hyperLink = document.querySelector("a.mobile-header-title.expandable");
@@ -161,100 +449,24 @@ function updateGradesPage() {
     const match = hyperLink.href.match(/\d+/);
     const courseID = match ? match[0] : null;
 
-    let weightedGradingEnabled = false;
-    const gradeHeaders = document.querySelectorAll('h2');
-    gradeHeaders.forEach(header => {
-        if (header.textContent.trim() === "Assignments are weighted by group:") {
-            weightedGradingEnabled = true;
+    const finalGrade = calculateGradeFromDoc(document);
+
+    // Setup MutationObserver for dynamic updates (What-If scores)
+    if (!gradesObserver) {
+        const target = document.querySelector('#grades_summary');
+        if (target) {
+            gradesObserver = new MutationObserver(() => {
+                updateGradesPage();
+            });
+            gradesObserver.observe(target, { childList: true, subtree: true, characterData: true });
         }
-    });
-
-    let finalGrade = NaN;
-    if (weightedGradingEnabled) {
-        let weightDict = {};
-        let pointDict = {};
-        let totalPointDict = {};
-
-        const weightRows = document.querySelectorAll('table.summary tbody tr');
-        weightRows.forEach(row => {
-            const groupTh = row.querySelector('th');
-            const weightTd = row.querySelector('td');
-            if (groupTh && weightTd) {
-                const groupName = groupTh.textContent.trim();
-                const weightText = weightTd.textContent.trim();
-                if (groupName !== "Total") {
-                    weightDict[groupName] = parseFloat(weightText.replace("%", ""));
-                    pointDict[groupName] = 0;
-                    totalPointDict[groupName] = 0;
-                }
-            }
-        });
-
-        const assignmentRows = document.querySelectorAll('#grades_summary tr.student_assignment');
-        assignmentRows.forEach(row => {
-            const categoryDiv = row.querySelector('th.title div.context');
-            const category = categoryDiv ? categoryDiv.textContent.trim() : null;
-            const scoreSpan = row.querySelector('td.assignment_score span.grade');
-            if (scoreSpan) {
-                let scoreText = scoreSpan.textContent.replace(/Click to test a different score/g, '').trim();
-                let scoreMatch = scoreText.match(/(\d+(\.\d+)?)/);
-                let totalSpan = scoreSpan.nextElementSibling;
-                let totalText = totalSpan ? totalSpan.textContent.trim() : "";
-                let totalMatch = totalText.match(/(\d+(\.\d+)?)/);
-                if (scoreMatch && totalMatch) {
-                    let s = parseFloat(scoreMatch[0]);
-                    let t = parseFloat(totalMatch[0]);
-                    if (category && weightDict.hasOwnProperty(category)) {
-                        pointDict[category] += s;
-                        totalPointDict[category] += t;
-                    }
-                }
-            }
-        });
-
-        let countedWeight = 0;
-        let weightedSum = 0;
-        Object.keys(weightDict).forEach(category => {
-            if (totalPointDict[category] !== 0) {
-                weightedSum += (pointDict[category] / totalPointDict[category]) * weightDict[category];
-                countedWeight += weightDict[category];
-            }
-        });
-        if (countedWeight > 0) {
-            finalGrade = (weightedSum / countedWeight) * 100;
-        }
-    } else {
-        let points = 0;
-        let totalPoints = 0;
-        const assignmentRows = document.querySelectorAll('#grades_summary tr.student_assignment');
-        assignmentRows.forEach(row => {
-            const scoreSpan = row.querySelector('td.assignment_score span.grade');
-            if (scoreSpan) {
-                let scoreText = scoreSpan.textContent.replace(/Click to test a different score/g, '').trim();
-                let scoreMatch = scoreText.match(/(\d+(\.\d+)?)/);
-                let totalSpan = scoreSpan.nextElementSibling;
-                let totalText = totalSpan ? totalSpan.textContent.trim() : "";
-                let totalMatch = totalText.match(/(\d+(\.\d+)?)/);
-                if (scoreMatch && totalMatch) {
-                    points += parseFloat(scoreMatch[0]);
-                    totalPoints += parseFloat(totalMatch[0]);
-                }
-            }
-        });
-        if (totalPoints > 0) {
-            finalGrade = (points / totalPoints) * 100;
-        }
-    }
-
-    if (!isNaN(finalGrade)) {
-        finalGrade = parseFloat(finalGrade.toFixed(2));
     }
 
     const letterGrade = getLetterGrade(finalGrade);
 
-    // Update storage/background
-    if (!isNaN(finalGrade) && courseID) {
-        browser.runtime.sendMessage({ type: "getGrade", data: [finalGrade, courseID, letterGrade] });
+    // Trigger background sync for GPA calculation (real grade only)
+    if (courseID) {
+        autoFetchGrades(courseID);
     }
 
     // UI Updates
@@ -309,9 +521,30 @@ async function init() {
     // Initial update
     updateUI();
 
+    // Setup MutationObserver for Dashboard (Standard and Better Canvas)
+    let debounceTimer;
+    const dashboardObserver = new MutationObserver(mutations => {
+        let shouldUpdate = false;
+        for (const mutation of mutations) {
+            if (mutation.addedNodes.length > 0) {
+                shouldUpdate = true;
+                break;
+            }
+        }
+        if (shouldUpdate) {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                updateUI();
+                checkForCourseObjects();
+            }, 300);
+        }
+    });
+    dashboardObserver.observe(document.body, { childList: true, subtree: true });
+
     // Check for dashboard objects if on dashboard
-    if (document.querySelector("span.mobile-header-title")) {
+    if (document.querySelector("span.mobile-header-title") || document.querySelector(".ic-DashboardCard__container")) {
         checkForCourseObjects();
+        autoFetchGrades(); // Only trigger fetch once on initialization
         
         // Robust wait for titleSpan if it's not yet available
         let dashboardWaitCount = 0;
@@ -325,23 +558,6 @@ async function init() {
             }
             dashboardWaitCount++;
         }, 500);
-    }
-
-    // Better Canvas mutation observer
-    const betterCanvas = document.querySelector("#bettercanvas-aesthetics");
-    if (betterCanvas) {
-        const observer = new MutationObserver(mutations => {
-            mutations.forEach(mutation => {
-                if (mutation.type === 'childList') {
-                    mutation.addedNodes.forEach(node => {
-                        if (node.nodeType === 1 && (node.classList.contains('bettercanvas-card-grade') || node.classList.contains("bettercanvas-gpa-card"))) {
-                            updateUI();
-                        }
-                    });
-                }
-            });
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
     }
 }
 

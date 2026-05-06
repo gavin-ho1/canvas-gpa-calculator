@@ -69,7 +69,8 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
       courseDict[courseID] = {
         grade: grade,
-        gradePoint : gradePoint
+        gradePoint : gradePoint,
+        lastUpdated: new Date().getTime()
       };
 
       console.log("Grade:", grade)

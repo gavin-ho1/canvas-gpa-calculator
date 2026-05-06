@@ -48,12 +48,30 @@ const displayCourseList = (courseRegistry, courseDict, gradeRounding) => {
         // Create container for each course
         const courseElement = document.createElement('div');
         courseElement.className = 'course-item';
+        courseElement.style.display = 'flex';
+        courseElement.style.alignItems = 'center';
+        courseElement.style.marginBottom = '8px';
+
+        // Checkbox for including in GPA
+        const checkboxElement = document.createElement('input');
+        checkboxElement.type = 'checkbox';
+        checkboxElement.checked = courseDict[courseKey]?.included !== false;
+        checkboxElement.style.marginRight = '8px';
+        checkboxElement.addEventListener('change', () => {
+            if (!courseDict[courseKey]) {
+                courseDict[courseKey] = { grade: 0, gradePoint: 0 };
+            }
+            courseDict[courseKey].included = checkboxElement.checked;
+            browser.storage.sync.set({ courseDict });
+        });
+        courseElement.appendChild(checkboxElement);
 
         // Course name element
         const courseNameElement = document.createElement('span');
         courseNameElement.className = 'course-name';
         courseNameElement.innerText = `${courseName}: `;
         courseNameElement.style.width = maxWidth;
+        courseNameElement.style.flexShrink = '0';
         courseElement.appendChild(courseNameElement);
 
         // Input for course grade
@@ -63,6 +81,7 @@ const displayCourseList = (courseRegistry, courseDict, gradeRounding) => {
         inputElement.step = '0.01';
         inputElement.value = courseDict[courseKey]?.grade || '';
         inputElement.className = 'course-input';
+        inputElement.style.width = '60px';
 
         // Event listener to update courseDict on input change
         inputElement.addEventListener('input', (event) => {
@@ -70,7 +89,11 @@ const displayCourseList = (courseRegistry, courseDict, gradeRounding) => {
             const roundedGrade = value + gradeRounding;
             const point = calculateGradePoint(roundedGrade);
 
-            courseDict[courseKey] = { grade: value, gradePoint: point };
+            if (!courseDict[courseKey]) {
+                courseDict[courseKey] = { included: true };
+            }
+            courseDict[courseKey].grade = value;
+            courseDict[courseKey].gradePoint = point;
 
             // Update storage with new courseDict values
             browser.storage.sync.set({ courseDict });
