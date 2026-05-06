@@ -39,10 +39,15 @@ const displayCourseList = (courseRegistry, courseDict, gradeRounding) => {
     const courseRegistryContainer = document.getElementById('courseRegistryContainer');
     courseRegistryContainer.innerHTML = ''; // Clear previous entries
 
-    // Calculate maximum width for course names for consistent layout
-    const values = Object.values(courseRegistry);
-    const maxCourseNameLength = values.length > 0 ? Math.max(...values.map(courseName => courseName.length)) : 0;
-    const maxWidth = `${maxCourseNameLength * 8}px`;
+    const entries = Object.entries(courseRegistry);
+
+    if (entries.length === 0) {
+        const emptyMessage = document.createElement('div');
+        emptyMessage.className = 'empty-tracked-courses';
+        emptyMessage.innerHTML = 'No courses are being tracked currently.<br>Go to the dashboard page to track them.';
+        courseRegistryContainer.appendChild(emptyMessage);
+        return;
+    }
 
     for (const [courseKey, courseName] of Object.entries(courseRegistry)) {
         // Create container for each course
@@ -70,8 +75,6 @@ const displayCourseList = (courseRegistry, courseDict, gradeRounding) => {
         const courseNameElement = document.createElement('span');
         courseNameElement.className = 'course-name';
         courseNameElement.innerText = `${courseName}: `;
-        courseNameElement.style.width = maxWidth;
-        courseNameElement.style.flexShrink = '0';
         courseElement.appendChild(courseNameElement);
 
         // Input for course grade
@@ -159,4 +162,30 @@ document.getElementById("edge-review-link").addEventListener('click', function()
     browser.tabs.create({ url: "https://microsoftedge.microsoft.com/addons/detail/canvas-gpa-calculator/kjljmlkojppfklkhdifcbbkhbalhmgfm" });
 });
 
+// Clear Course Info button
+document.getElementById('clear').addEventListener('click', async () => {
+    const button = document.getElementById('clear');
+    await browser.storage.sync.remove(['courseRegistry', 'courseDict', 'courseLinks']);
+    button.innerText = 'Cleared';
+    setTimeout(() => {
+        button.innerText = 'Clear Course Info';
+    }, 2000);
+    restoreOptions();
+});
 
+// Live refresh when storage changes (e.g., background tab finishes fetching)
+browser.storage.onChanged.addListener((changes, area) => {
+    if (area === 'sync' && (changes.courseRegistry || changes.courseDict)) {
+        browser.storage.sync.get({
+            active: true,
+            letterGrade: true,
+            showGPA: true,
+            gpaScale: false,
+            gradeRounding: 0,
+            courseRegistry: {},
+            courseDict: {}
+        }).then((items) => {
+            displayCourseList(items.courseRegistry, items.courseDict, items.gradeRounding);
+        });
+    }
+});

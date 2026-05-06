@@ -21,6 +21,16 @@ async function loadSettings() {
     courseDict = dictResult.courseDict || {};
 }
 
+// Listen for popup messages to trigger grade fetching
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.type === 'triggerAutoFetch') {
+        (async () => {
+            await autoFetchGrades();
+        })();
+        return true;
+    }
+});
+
 function calculateGradeFromDoc(doc) {
     let weightedGradingEnabled = false;
     const gradeHeaders = doc.querySelectorAll('h2');
@@ -680,6 +690,7 @@ async function autoFetchGrades(specificCourseID = null) {
     if (!specificCourseID) {
         isAutoFetching = false;
         updateUI();
+        browser.runtime.sendMessage({ type: 'autoFetchComplete' }).catch(() => {});
     }
 }
 
@@ -878,13 +889,91 @@ async function checkForCourseObjects() {
                 }
             }
 
-            // Fallback: use the course ID as name if nothing found
-            if (!courseName) {
-                courseName = `Course ${course.id}`;
-            }
-
             courseRegistry[course.id] = courseName;
         });
+
+        // Fallback: fetch raw HTML and parse for names not found in visible DOM
+        const missingIds = Object.entries(courseRegistry)
+            .filter(([id, name]) => !name)
+            .map(([id]) => id);
+
+        if (missingIds.length > 0) {
+            try {
+                const response = await fetch(window.location.href);
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                for (const courseId of missingIds) {
+                    let courseName = null;
+
+                    // Try cards in parsed HTML
+                    const cardLinks = doc.querySelectorAll('.ic-DashboardCard__link');
+                    for (const link of cardLinks) {
+                        if (link.href.includes(`/courses/${courseId}`)) {
+                            const card = link.closest('.ic-DashboardCard');
+                            const nameEl = card?.querySelector('.ic-DashboardCard__header-title, h2.ic-DashboardCard__header-title');
+                            if (nameEl) {
+                                courseName = nameEl.textContent.trim();
+                                break;
+                            }
+                        }
+                    }
+
+                    // Try grouping heroes in parsed HTML
+                    if (!courseName) {
+                        const hero = doc.querySelector(`.Grouping-styles__hero[href*="/courses/${courseId}"]`);
+                        if (hero) {
+                            const titleEl = hero.querySelector('.Grouping-styles__title');
+                            if (titleEl) courseName = titleEl.textContent.trim();
+                        }
+                    }
+
+                    // Try any link with course ID that has meaningful text content
+                    if (!courseName) {
+                        const links = doc.querySelectorAll(`a[href*="/courses/${courseId}"]`);
+                        for (const link of links) {
+                            const text = link.textContent.trim();
+                            if (text && text.length > 3 && !/^\d+$/.test(text) && !text.includes('/')) {
+                                courseName = text;
+                                break;
+                            }
+                        }
+                    }
+
+                    // Try script tags for ENV/course data with name near id
+                    if (!courseName) {
+                        const scripts = doc.querySelectorAll('script');
+                        for (const script of scripts) {
+                            if (!script.textContent) continue;
+                            const scriptText = script.textContent;
+                            const idMatch = scriptText.match(new RegExp(`id\\s*:\\s*${courseId}`));
+                            if (!idMatch) continue;
+                            const idIndex = idMatch.index;
+                            const surrounding = scriptText.substring(Math.max(0, idIndex - 200), Math.min(scriptText.length, idIndex + 200));
+                            const nameMatch = surrounding.match(/name\s*:\s*"([^"]+)"/);
+                            if (nameMatch) {
+                                courseName = nameMatch[1];
+                                break;
+                            }
+                        }
+                    }
+
+                    if (courseName) {
+                        courseRegistry[courseId] = courseName;
+                    }
+                }
+            } catch (e) {
+                console.warn('Canvas GPA: Failed to fetch course names from HTML:', e);
+            }
+        }
+
+        // Final fallback to "Course {id}" for anything still missing
+        for (const courseId of Object.keys(courseRegistry)) {
+            if (!courseRegistry[courseId]) {
+                courseRegistry[courseId] = `Course ${courseId}`;
+            }
+        }
 
         browser.runtime.sendMessage({ type: 'courseList', data: tempList });
         browser.runtime.sendMessage({ type: 'courseRegistry', data: courseRegistry });

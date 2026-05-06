@@ -1,7 +1,7 @@
 /* Basic HTML Structure */
 html {
   height: auto;
-  width: 400px;
+  width: 450px;
 }
 
 /* Checkbox Styling (Hidden) */
@@ -133,7 +133,6 @@ details {
   border-radius: 4px;
   overflow: hidden;
   width: 100%;
-  max-width: 300px;
 }
 
 details summary:hover {
@@ -178,7 +177,7 @@ details[open] summary::after {
   overflow: hidden;
   transition: max-height 0.6s ease, padding 0.6s ease;
   padding: 0 10px;
-  width: min-content;
+  width: 100%;
   margin-bottom: 10px;
 }
 
@@ -201,6 +200,9 @@ details[open] #courseRegistryContainer {
   color: #333;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 240px;
+  flex-shrink: 0;
 }
 
 /* Course Input */
@@ -216,3 +218,46 @@ details[open] #courseRegistryContainer {
 img {
   margin-top: 10px;
 }
+
+/* Course registry checkbox override (global rule hides all checkboxes) */
+.course-item input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #bbb;
+  border-radius: 3px;
+  background: white;
+  cursor: pointer;
+  position: relative;
+  margin-right: 8px;
+  display: inline-block;
+  vertical-align: middle;
+  transition: all 0.2s ease;
+}
+
+.course-item input[type="checkbox"]:checked {
+  background-color: #777;
+  border-color: #777;
+}
+
+.course-item input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.empty-tracked-courses {
+  color: #666;
+  font-style: italic;
+  font-size: 13px;
+  padding: 8px 0;
+  text-align: center;
+}
+
