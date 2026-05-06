@@ -6,34 +6,32 @@ const saveOptions = () => {
     const gpaScale = document.getElementById('gpaScale').checked;
     const gradeRounding = parseFloat(document.getElementById('gradeRoundingSlider').value);
 
-    chrome.storage.sync.get(['courseRegistry', 'courseDict'], (items) => {
+    browser.storage.sync.get(['courseRegistry', 'courseDict']).then((items) => {
         const courseRegistry = items.courseRegistry || {};
         const courseDict = items.courseDict || {};
 
-        chrome.storage.sync.set(
-            { active, letterGrade, showGPA, gpaScale, gradeRounding, courseRegistry, courseDict },
-            () => {
-                console.log('Options saved:', { active, letterGrade, showGPA, gpaScale, gradeRounding, courseDict });
-            }
-        );
+        browser.storage.sync.set(
+            { active, letterGrade, showGPA, gpaScale, gradeRounding, courseRegistry, courseDict }
+        ).then(() => {
+            console.log('Options saved:', { active, letterGrade, showGPA, gpaScale, gradeRounding, courseDict });
+        });
     });
 };
 
 // Restore options function, including gradeRounding and course list
 const restoreOptions = () => {
-    chrome.storage.sync.get(
-        { active: true, letterGrade: true, showGPA: true, gpaScale: false, gradeRounding: 0, courseRegistry: {}, courseDict: {} },
-        (items) => {
-            document.getElementById('active').checked = items.active;
-            document.getElementById('letterGrade').checked = items.letterGrade;
-            document.getElementById('showGPA').checked = items.showGPA;
-            document.getElementById('gpaScale').checked = items.gpaScale;
-            document.getElementById('gradeRoundingSlider').value = items.gradeRounding;
-            document.getElementById('gradeRoundingValue').innerText = items.gradeRounding.toFixed(2);
+    browser.storage.sync.get(
+        { active: true, letterGrade: true, showGPA: true, gpaScale: false, gradeRounding: 0, courseRegistry: {}, courseDict: {} }
+    ).then((items) => {
+        document.getElementById('active').checked = items.active;
+        document.getElementById('letterGrade').checked = items.letterGrade;
+        document.getElementById('showGPA').checked = items.showGPA;
+        document.getElementById('gpaScale').checked = items.gpaScale;
+        document.getElementById('gradeRoundingSlider').value = items.gradeRounding;
+        document.getElementById('gradeRoundingValue').innerText = items.gradeRounding.toFixed(2);
 
-            displayCourseList(items.courseRegistry, items.courseDict, items.gradeRounding);
-        }
-    );
+        displayCourseList(items.courseRegistry, items.courseDict, items.gradeRounding);
+    });
 };
 
 // Display course list with grade inputs and grade rounding logic
@@ -42,7 +40,8 @@ const displayCourseList = (courseRegistry, courseDict, gradeRounding) => {
     courseRegistryContainer.innerHTML = ''; // Clear previous entries
 
     // Calculate maximum width for course names for consistent layout
-    const maxCourseNameLength = Math.max(...Object.values(courseRegistry).map(courseName => courseName.length));
+    const values = Object.values(courseRegistry);
+    const maxCourseNameLength = values.length > 0 ? Math.max(...values.map(courseName => courseName.length)) : 0;
     const maxWidth = `${maxCourseNameLength * 8}px`;
 
     for (const [courseKey, courseName] of Object.entries(courseRegistry)) {
@@ -74,7 +73,7 @@ const displayCourseList = (courseRegistry, courseDict, gradeRounding) => {
             courseDict[courseKey] = { grade: value, gradePoint: point };
 
             // Update storage with new courseDict values
-            chrome.storage.sync.set({ courseDict });
+            browser.storage.sync.set({ courseDict });
         });
 
         // Create and style the '%' label
@@ -127,13 +126,14 @@ document.getElementById('gpaScale').addEventListener('click', saveOptions);
 document.addEventListener('DOMContentLoaded', restoreOptions);
 
 document.getElementById("link").addEventListener('click', function() {
-    chrome.tabs.create({ url: "https://github.com/gavin-ho1/canvas-gpa-calculator/tree/main" });
+    browser.tabs.create({ url: "https://github.com/gavin-ho1/canvas-gpa-calculator/tree/main" });
 });
 document.getElementById("chrome-review-link").addEventListener('click', function() {
-    chrome.tabs.create({ url: "https://chromewebstore.google.com/detail/canvas-gpa-calculator/hedjldnoldbeihmghalfbkaobifigmhi/reviews" });
+    browser.tabs.create({ url: "https://chromewebstore.google.com/detail/canvas-gpa-calculator/hedjldnoldbeihmghalfbkaobifigmhi/reviews" });
 });
 
 document.getElementById("edge-review-link").addEventListener('click', function() {
-    chrome.tabs.create({ url: "https://microsoftedge.microsoft.com/addons/detail/canvas-gpa-calculator/kjljmlkojppfklkhdifcbbkhbalhmgfm" });
+    browser.tabs.create({ url: "https://microsoftedge.microsoft.com/addons/detail/canvas-gpa-calculator/kjljmlkojppfklkhdifcbbkhbalhmgfm" });
 });
+
 

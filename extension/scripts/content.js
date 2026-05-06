@@ -1,10 +1,10 @@
 
 
-chrome.runtime.sendMessage({ type: 'print', data : "content.js is running" }, (response) => {});
+browser.runtime.sendMessage({ type: 'print', data : "content.js is running" });
 
-chrome.storage.sync.get(
-  { active : true, letterGrade : true, showGPA : true, gpaScale : false, gradeRounding : 0},
-  (items) => {
+browser.storage.sync.get(
+  { active : true, letterGrade : true, showGPA : true, gpaScale : false, gradeRounding : 0}
+).then((items) => {
     active = items.active
     letterGrades = items.letterGrade
     showGPA = items.showGPA
@@ -23,28 +23,28 @@ if(active){
 
       var courseRegistry = {}
 
-      chrome.runtime.sendMessage({ type: 'print', data: typeof courseObjs });
+      browser.runtime.sendMessage({ type: 'print', data: typeof courseObjs });
       maxLoop += 1
       if (Object.keys(courseObjs).length !== 0) {
         
-        chrome.runtime.sendMessage({ type: 'print', data: "Course elements found" });
-        chrome.runtime.sendMessage({ type: 'print', data: courseObjs });
+        browser.runtime.sendMessage({ type: 'print', data: "Course elements found" });
+        browser.runtime.sendMessage({ type: 'print', data: courseObjs });
         
         tempList = []
         courseObjs.forEach(course => {
           tempList.push(course.href+"/grades?grading_period_id=0") 
       });
       for (let step = 0; step < courseObjs.length; step++) {
-        chrome.runtime.sendMessage({ type: 'print', data: tempList[step].match(/\d+/g)[0] });
-        chrome.runtime.sendMessage({ type: 'print', data: courseNames[step].innerHTML });
+        browser.runtime.sendMessage({ type: 'print', data: tempList[step].match(/\d+/g)[0] });
+        browser.runtime.sendMessage({ type: 'print', data: courseNames[step].innerHTML });
         courseRegistry[tempList[step].match(/\d+/g)[0]] = courseNames[step].innerHTML
       }
 
-      chrome.runtime.sendMessage({ type: 'courseList', data: tempList});
-      chrome.runtime.sendMessage({ type: 'courseRegistry', data: courseRegistry});
+      browser.runtime.sendMessage({ type: 'courseList', data: tempList});
+      browser.runtime.sendMessage({ type: 'courseRegistry', data: courseRegistry});
   
       } else {
-        chrome.runtime.sendMessage({ type: 'print', data: "Course elements not found" });
+        browser.runtime.sendMessage({ type: 'print', data: "Course elements not found" });
         if(maxLoop < 10){
           setTimeout(() => {
             checkForCourseObjects();
@@ -57,16 +57,16 @@ if(active){
     checkForCourseObjects()
   
   
-    chrome.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }, (response) => {}); 
+    browser.runtime.sendMessage({ type: 'print', data : "dashboard page detected" }); 
     if(showGPA === false){
       throw "GPA not shown";
     }
     var GPA = 0
-    chrome.storage.sync.get('courseDict', (result) => {
+    browser.storage.sync.get('courseDict').then((result) => {
       const courseDict = result.courseDict || {};
-      chrome.runtime.sendMessage({ type: 'print', data : "courseDict:" });
+      browser.runtime.sendMessage({ type: 'print', data : "courseDict:" });
   
-      chrome.runtime.sendMessage({ type: 'print', data : courseDict });
+      browser.runtime.sendMessage({ type: 'print', data : courseDict });
         
       
       Object.keys(courseDict).forEach(key => {
@@ -80,9 +80,9 @@ if(active){
         GPA += gradePoint
       })
       GPA /= Object.keys(courseDict).length
-      chrome.runtime.sendMessage({ type: 'print', data : "GPA:" }, (response) => {});
-      chrome.runtime.sendMessage({ type: 'print', data : GPA }, (response) => {});
-      chrome.runtime.sendMessage({ type: 'print', data : typeof GPA }, (response) => {}); // GPA variable must be within chrome.storage.sync.get(), otherwise the variable doesn't get saved
+      browser.runtime.sendMessage({ type: 'print', data : "GPA:" });
+      browser.runtime.sendMessage({ type: 'print', data : GPA });
+      browser.runtime.sendMessage({ type: 'print', data : typeof GPA }); // GPA variable must be within chrome.storage.sync.get(), otherwise the variable doesn't get saved
       
       if(isNaN(GPA)){
         GPA = "No course grades saved"
@@ -133,15 +133,15 @@ if(active){
         function injectCard(){
           const betterCanvasCards = document.querySelectorAll("a.bettercanvas-card-grade")
           if(betterCanvasCards.length !== 0){
-            chrome.runtime.sendMessage({ type: 'print', data : "Better Canvas detected" }, (response) => {}); 
+            browser.runtime.sendMessage({ type: 'print', data : "Better Canvas detected" }); 
             betterCanvasCards.forEach(card => {
-              chrome.runtime.sendMessage({ type: 'print', data : card.innerHTML }, (response) => {}); 
+              browser.runtime.sendMessage({ type: 'print', data : card.innerHTML }); 
               url = card.href
-              chrome.runtime.sendMessage({ type: 'print', data : url }, (response) => {}); 
+              browser.runtime.sendMessage({ type: 'print', data : url }); 
               Object.keys(courseDict).forEach(key => {
                 
                 if(url.match(key)){
-                  chrome.runtime.sendMessage({ type: 'print', data : courseDict[key].grade }, (response) => {}); 
+                  browser.runtime.sendMessage({ type: 'print', data : courseDict[key].grade }); 
                   card.textContent = `${courseDict[key].grade}%`
                 }
               })
@@ -159,7 +159,7 @@ if(active){
           gpaCardWeighted = document.querySelector("#bettercanvas-gpa-weighted")
   
           if(gpaCardUnweighted && gpaCardWeighted){
-            chrome.runtime.sendMessage({ type: 'print', data : "Better Canvas GPA card detected" }, (response) => {}); 
+            browser.runtime.sendMessage({ type: 'print', data : "Better Canvas GPA card detected" }); 
             gpaCardUnweighted.innerHTML = GPA
             gpaCardWeighted.innerHTML = GPA
           } else {
@@ -169,7 +169,7 @@ if(active){
         function findListHeader(){
           listHeader = document.querySelector("h2.css-tz46fa-view-heading div")
           if(listHeader){
-            chrome.runtime.sendMessage({ type: 'print', data: "Injected List view" }, (response) => {}); 
+            browser.runtime.sendMessage({ type: 'print', data: "Injected List view" }); 
             listHeader.innerHTML += ` ǀ GPA: ${GPA}`
             listHeader.style.fontWeight = "bold";
   
@@ -183,7 +183,7 @@ if(active){
       function findActivityHeader(){
         activityHeader = document.querySelector("h2.recent-activity-header")
         if(activityHeader){
-          chrome.runtime.sendMessage({ type: 'print', data: "Injected Recent Activity view" }, (response) => {}); 
+          browser.runtime.sendMessage({ type: 'print', data: "Injected Recent Activity view" }); 
           activityHeader.innerHTML += ` ǀ GPA: ${GPA}` 
           activityHeader.style.fontWeight = "bold";
   
@@ -208,7 +208,7 @@ if(active){
           const titleSpan = document.querySelector("#dashboard_header_container > div > span > span:nth-child(1) > span > span");
           
           if (titleSpan) {
-              chrome.runtime.sendMessage({ type: 'print', data: titleSpan.textContent }, (response) => {}); 
+              browser.runtime.sendMessage({ type: 'print', data: titleSpan.textContent }); 
               titleSpan.innerHTML += " ǀ GPA: " + GPA;
           } else {
               // Retry after 100ms if the element is not found
@@ -232,7 +232,7 @@ if(active){
   
     hyperLink = document.querySelector("a.mobile-header-title.expandable")
     courseID = hyperLink.href.match(/\d+/)
-    chrome.runtime.sendMessage({ type: 'print', data : "CourseID: " +courseID }, (response) => {});
+    browser.runtime.sendMessage({ type: 'print', data : "CourseID: " +courseID });
       
   
   
@@ -249,7 +249,7 @@ if(active){
     gradeHeaders.forEach(header => {
       if(header.textContent.trim() === "Assignments are weighted by group:"){
         weightedGradingEnabled = true
-        chrome.runtime.sendMessage({ type: 'print', data : "Grade Weighting Detected" }, (response) => {});
+        browser.runtime.sendMessage({ type: 'print', data : "Grade Weighting Detected" });
       }
     })
   
@@ -307,12 +307,12 @@ if(active){
         gradedAssigmentGradeWrappers.forEach(span => {
           // Modified regex to handle decimals (numbers with or without decimals)
           let num = span.innerHTML.trim().match(/(\d+(\.\d+)?)/);  // This will match integers or decimals
-          chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() }, (response) => {});
+          browser.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() });
   
           if (num) {
             // If a grade with a decimal is detected, push it into gradeList
             gradeList.push(parseFloat(num[0].replace("%","")));
-            chrome.runtime.sendMessage({ type: 'print', data : num }, (response) => {}); 
+            browser.runtime.sendMessage({ type: 'print', data : num }); 
             totalPointList.push(parseFloat(span.nextElementSibling.innerHTML.replace("/","")));
           } else {
             // Handle cases where no grade is found
@@ -321,7 +321,7 @@ if(active){
           }
         });
         
-        chrome.runtime.sendMessage({ type: 'print', data : gradeList }, (response) => {}); 
+        browser.runtime.sendMessage({ type: 'print', data : gradeList }); 
   
         for(index in gradeList){
           if(gradeList[index] !== "--"){
@@ -348,18 +348,18 @@ if(active){
         
         filteredKeys.forEach(category => {
           if(finalGradeDict[category] !== "NaN"){
-            chrome.runtime.sendMessage({ type: 'print', data : finalGradeDict[category]*weightDict[category] }, (response) => {}); 
+            browser.runtime.sendMessage({ type: 'print', data : finalGradeDict[category]*weightDict[category] }); 
             finalGrade += finalGradeDict[category]*weightDict[category]
           }
           
         })
         
-        chrome.runtime.sendMessage({ type: 'print', data : countedWeight }, (response) => {});
+        browser.runtime.sendMessage({ type: 'print', data : countedWeight });
   
         finalGrade = (finalGrade/countedWeight)*100
         finalGrade = parseFloat(finalGrade.toFixed(2))
         
-        chrome.runtime.sendMessage({ type: 'print', data : finalGrade }, (response) => {}); 
+        browser.runtime.sendMessage({ type: 'print', data : finalGrade }); 
         //Debug Print
     // chrome.runtime.sendMessage({ type: 'print', data : weightDict }, (response) => {});
     // chrome.runtime.sendMessage({ type: 'print', data : pointDict }, (response) => {});
@@ -380,11 +380,11 @@ if(active){
       gradedAssigmentGradeWrappers.forEach(span => {
         num = parseFloat(span.innerHTML.match(/(\d+(\.\d+)?)/)[0])
   
-        chrome.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() }, (response) => {});
+        browser.runtime.sendMessage({ type: 'print', data : span.innerHTML.trim() });
   
         points += num
         totalPoints += parseFloat(span.nextElementSibling.innerHTML.trim().match(/(\d+(\.\d+)?)/)[0])
-        chrome.runtime.sendMessage({ type: 'print', data : num }, (response) => {});
+        browser.runtime.sendMessage({ type: 'print', data : num });
         
       })
       finalGrade = (points/totalPoints)*100
@@ -428,7 +428,7 @@ if(active){
       letterGrade = "F";
     }
     
-    chrome.runtime.sendMessage({ type: 'print', data : typeof finalGrade }, (response) => {});
+    browser.runtime.sendMessage({ type: 'print', data : typeof finalGrade });
     
     // Set up a mutation observer to monitor the loading of specific elements
   const observer = new MutationObserver((mutations, observerInstance) => {
@@ -436,9 +436,9 @@ if(active){
       // Once the document is fully loaded, check for the grading menu
       const gradingMenu = document.querySelector("span input#grading_period_select_menu");
       if (gradingMenu && gradingMenu.title.includes("All Grading Periods")) {
-        chrome.runtime.sendMessage({ type: 'print', data: "All Grading Periods" });
+        browser.runtime.sendMessage({ type: 'print', data: "All Grading Periods" });
         if (finalGrade !== "NaN"){
-          chrome.runtime.sendMessage({ type: "getGrade", data: [finalGrade, courseID, letterGrade] });
+          browser.runtime.sendMessage({ type: "getGrade", data: [finalGrade, courseID, letterGrade] });
         }
       }
   
@@ -460,7 +460,7 @@ if(active){
   
     
   
-    chrome.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"% ("+letterGrade+")"+"rounding: "+gradeRounding }, (response) => {}); 
+    browser.runtime.sendMessage({ type: 'print', data : "Final Grade: "+finalGrade+"% ("+letterGrade+")"+"rounding: "+gradeRounding }); 
   
       const gradeDivs = document.querySelectorAll('#student-grades-final');
       // Loop through each of the found divs
@@ -479,7 +479,7 @@ if(active){
         const gradeSpan = document.querySelector("div.student_assignment.final_grade");
         
         if (gradeSpan) {
-            chrome.runtime.sendMessage({ type: 'print', data: gradeSpan.textContent }, (response) => {}); 
+            browser.runtime.sendMessage({ type: 'print', data: gradeSpan.textContent }); 
             gradeSpan.remove()
         } else {
             // Retry after 100ms if the element is not found

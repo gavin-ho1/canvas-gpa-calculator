@@ -1,21 +1,21 @@
+if (typeof importScripts !== 'undefined') {
+  importScripts('browser-polyfill.min.js');
+}
+
 console.log("background.js running")
 
-
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.tabs.create({ url: chrome.runtime.getURL('menus/install.html') });
+browser.runtime.onInstalled.addListener(() => {
+  browser.tabs.create({ url: browser.runtime.getURL('menus/install.html') });
 });
-
 
 var tabURL
 var grade
 var courseID
-
 var gradeDict
 
-
-chrome.storage.sync.get('gradeDict', (result) => {
-gradeDict = result.gradeDict || {
-  "A+": 12,
+browser.storage.sync.get('gradeDict').then((result) => {
+  gradeDict = result.gradeDict || {
+    "A+": 12,
     "A": 11,
     "A-": 10,
     "B+": 9,
@@ -29,84 +29,67 @@ gradeDict = result.gradeDict || {
     "D-": 1,
     "F": 0
   }
-  chrome.storage.sync.set({ gradeDict: gradeDict }, () => {});
+  browser.storage.sync.set({ gradeDict: gradeDict });
 });
 
 //Listen for getGrade
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   //Get grade of current page
   if(request.type === "courseRegistry"){
     const courseRegistry = request.data
     console.log("courseRegistry:", courseRegistry);
-    chrome.storage.sync.set({ courseRegistry: courseRegistry }, () => {
+    browser.storage.sync.set({ courseRegistry: courseRegistry }).then(() => {
       console.log("Course links have been stored.");
-      sendResponse({ status: "success" }); // Optional: send a response
     });
+    return Promise.resolve({ status: "success" });
   }
-
 
   if(request.type === "courseList"){
     const tempList = request.data
     console.log("tempList:", tempList);
-    chrome.storage.sync.set({ courseLinks: tempList }, () => {
+    browser.storage.sync.set({ courseLinks: tempList }).then(() => {
       console.log("Course links have been stored.");
-      sendResponse({ status: "success" }); // Optional: send a response
     });
-
+    return Promise.resolve({ status: "success" });
   }
+
   if (request.type === 'getGrade') {
-      grade = request.data[0]
-      courseID = request.data[1]
-      gradePoint = gradeDict[request.data[2]]
-      console.log("Grade:", grade, "GradePoint:", gradePoint)
+    grade = request.data[0]
+    courseID = request.data[1]
+    const gradePoint = gradeDict[request.data[2]]
+    console.log("Grade:", grade, "GradePoint:", gradePoint)
 
-      const currentDate = new Date().toISOString().split('T')[0];
-
-      console.log(currentDate)
-      
-      
-      chrome.storage.sync.get('courseDict', (result) => {
-        const courseDict = result.courseDict || {}; // Initialize if not present
-
-        courseDict[courseID] = {
-          grade: grade,
-          gradePoint : gradePoint
-        };
-
-        console.log("Grade:", grade)
-        // For debugging
-        console.log("Course Dictonary:",courseDict)
-        chrome.storage.sync.set({ courseDict }, () => {
-          console.log("Course Dictonary:",courseDict)
-          // For Debuging
-        });
-        
-      });
-  }
-});
-
-
-//Listen for getCourseDict
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => { 
-  if (request.type === 'getCourseDict') {
-    chrome.storage.sync.get('courseDict', (result) => {
+    const currentDate = new Date().toISOString().split('T')[0];
+    console.log(currentDate)
+    
+    browser.storage.sync.get('courseDict').then((result) => {
       const courseDict = result.courseDict || {}; // Initialize if not present
-      
-      console.log("Requested courseDict:",courseDict)
-      // For debugging
-      
-    });
-}
-});
 
-//Debug Print
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      courseDict[courseID] = {
+        grade: grade,
+        gradePoint : gradePoint
+      };
+
+      console.log("Grade:", grade)
+      console.log("Course Dictonary:",courseDict)
+      browser.storage.sync.set({ courseDict }).then(() => {
+        console.log("Course Dictonary saved:",courseDict)
+      });
+    });
+  }
+
+  if (request.type === 'getCourseDict') {
+    browser.storage.sync.get('courseDict').then((result) => {
+      const courseDict = result.courseDict || {}; 
+      console.log("Requested courseDict:",courseDict)
+    });
+  }
+
   if(request.type === "print"){
     if(request.description !== undefined){
       console.log(request.description, request.data)
     }else{
       console.log(request.data)
     }
-    
   }
-})
+});
