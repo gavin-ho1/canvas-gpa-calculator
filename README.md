@@ -7,7 +7,7 @@
 
 ### [Official Chrome Web Store Extension](https://chromewebstore.google.com/detail/canvas-gpa-calculator/hedjldnoldbeihmghalfbkaobifigmhi) 
 ### [Official Microsoft Edge Addons Extension](https://microsoftedge.microsoft.com/addons/detail/canvas-gpa-calculator/kjljmlkojppfklkhdifcbbkhbalhmgfm) 
-
+### [Official Firefox Addons (Coming Soon!)](https://addons.mozilla.org/en-US/firefox/addon/canvas-gpa-calculator/)
 ##
 
 Chrome Extension that calculates GPA on Canvas when blocked by a teacher because I couldn't find an (good) existing extension online.
