@@ -5,9 +5,9 @@
 [![Edge Rating](https://img.shields.io/badge/dynamic/json?label=Edge%20Rating%3A&query=%24.averageRating&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fkjljmlkojppfklkhdifcbbkhbalhmgfm&style=for-the-badge&color=4285F4&labelColor=333333&suffix=/5&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjExIiBoZWlnaHQ9IjExIiB4PSIwIiB5PSIwIiBmaWxsPSIjRjI1MDIyIi8+PHJlY3Qgd2lkdGg9IjExIiBoZWlnaHQ9IjExIiB4PSIxMyIgeT0iMCIgZmlsbD0iIzdGQkEwMCIvPjxyZWN0IHdpZHRoPSIxMSIgaGVpZ2h0PSIxMSIgeD0iMCIgeT0iMTMiIGZpbGw9IiMwMEE0RUYiLz48cmVjdCB3aWR0aD0iMTEiIGhlaWdodD0iMTEiIHg9IjEzIiB5PSIxMyIgZmlsbD0iI0ZGRjkwMCIvPjwvc3ZnPg==)](https://microsoftedge.microsoft.com/addons/detail/canvas-gpa-calculator/kjljmlkojppfklkhdifcbbkhbalhmgfm)
 #
 
-### [Official Chrome Web Store Extension](https://chromewebstore.google.com/detail/canvas-gpa-calculator/hedjldnoldbeihmghalfbkaobifigmhi) 
-### [Official Microsoft Edge Addons Extension](https://microsoftedge.microsoft.com/addons/detail/canvas-gpa-calculator/kjljmlkojppfklkhdifcbbkhbalhmgfm) 
-### [Official Firefox Addons](https://addons.mozilla.org/en-US/firefox/addon/canvas-gpa-calculator/)
+### [Official Chrome Web Store Download](https://chromewebstore.google.com/detail/canvas-gpa-calculator/hedjldnoldbeihmghalfbkaobifigmhi) 
+### [Official Microsoft Edge Addons Download](https://microsoftedge.microsoft.com/addons/detail/canvas-gpa-calculator/kjljmlkojppfklkhdifcbbkhbalhmgfm) 
+### [Official Firefox Addons Download](https://addons.mozilla.org/en-US/firefox/addon/canvas-gpa-calculator/)
 ##
 
 Chrome Extension that calculates GPA on Canvas when blocked by a teacher because I couldn't find an (good) existing extension online.
