@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canvas GPA Calculator — Try It Yourself</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="icon" type="image/png" href="../logo.png">
+<style>
+  :root{
+    --primary:#4f46e5;
+    --primary-dark:#4338ca;
+    --page-bg:#f4f6fa;
+    --text:#0f172a;
+    --text-muted:#55617a;
+    --border:#e5e9f0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--page-bg);
+    color:var(--text);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:24px 16px 50px;
+  }
+
+  .demo-topbar{
+    width:100%;
+    max-width:1560px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:16px;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .demo-title{ display:flex; align-items:center; gap:10px; }
+  .demo-title img{width:28px;height:28px;border-radius:7px;}
+  .demo-title h1{ font-size:1.1em; margin:0; font-weight:700; }
+  .demo-title span{ display:block; font-size:0.78em; color:var(--text-muted); font-weight:500; }
+  .demo-actions{display:flex; gap:8px; align-items:center;}
+  .demo-btn{
+    display:inline-flex; align-items:center; gap:7px;
+    background:#fff; border:1px solid var(--border); color:var(--text);
+    padding:8px 14px; border-radius:7px; font-weight:600; font-size:0.85em;
+    cursor:pointer; text-decoration:none;
+  }
+  .hint-pill{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:0.78em; font-weight:600; color:var(--primary);
+    background:#eef2ff; border:1px solid rgba(79,70,229,.15);
+    padding:5px 12px; border-radius:999px;
+  }
+
+  .device-frame{
+    width:100%;
+    max-width:1560px;
+    background:#dee1e6;
+    border-radius:8px 8px 0 0;
+    position:relative;
+  }
+  .browser-chrome{ display:flex; align-items:center; gap:12px; padding:8px 10px; }
+  .traffic-lights{ display:flex; gap:6px; padding-left:4px; }
+  .traffic-lights span{ width:10px; height:10px; border-radius:50%; display:block; }
+  .traffic-lights .r{ background:#ff5f57; }
+  .traffic-lights .y{ background:#febc2e; }
+  .traffic-lights .g{ background:#28c840; }
+
+  /* OS-specific window chrome: macOS gets traffic lights on the left;
+     Windows/Linux get caption buttons on the right, traffic lights hidden. */
+  .win-controls{ display:none; align-items:center; gap:2px; margin-left:4px; }
+  .win-controls button{
+    width:30px; height:26px; border:none; background:transparent;
+    display:flex; align-items:center; justify-content:center;
+    color:#3c4043; cursor:default; border-radius:3px; padding:0;
+  }
+  .win-controls button:hover{ background:rgba(0,0,0,.06); }
+  .win-controls button.close:hover{ background:#e81123; color:#fff; }
+  .win-controls svg{ width:10px; height:10px; }
+
+  .device-frame.os-win .traffic-lights{ display:none; }
+  .device-frame.os-win .win-controls{ display:flex; }
+  .device-frame.os-win .browser-chrome{ padding-right:2px; }
+
+  .address-bar{
+    flex:1; display:flex; align-items:center; gap:8px;
+    background:#fff; border-radius:16px; padding:6px 14px;
+    font-size:0.8em; color:var(--text-muted);
+  }
+  .address-bar i.fa-lock{ font-size:0.75em; color:#4b8f4f; }
+  .toolbar-icons{ display:flex; align-items:center; gap:12px; position:relative; padding-right:6px; }
+  .toolbar-icons .plain-icon{ color:#5f6368; font-size:1em; }
+  #ext-icon{
+    width:30px; height:30px; border-radius:6px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; position:relative;
+    transition:background-color .2s ease, transform .1s ease;
+  }
+  #ext-icon:hover{ background:#e4e7ee; }
+  #ext-icon:active{ transform:scale(0.9); }
+  #ext-icon img{ width:19px; height:19px; filter:grayscale(100%) opacity(0.5); transition:filter .25s ease; }
+  #ext-icon.active{ background:#e9e6ff; }
+  #ext-icon.active img{ filter:none; }
+
+  #icon-pulse{
+    position:absolute; inset:-5px; border-radius:9px;
+    border:2px solid var(--primary); opacity:0; pointer-events:none;
+  }
+  #ext-icon.hint #icon-pulse{ animation:pulse-ring 1.6s ease-out infinite; }
+  @keyframes pulse-ring{ 0%{ opacity:.7; transform:scale(0.85); } 100%{ opacity:0; transform:scale(1.35); } }
+
+  .browser-viewport{
+    width:100%;
+    max-width:1560px;
+    background:#fff;
+    border:1px solid #d3d6db;
+    border-top:none;
+    position:relative;
+    height:640px;
+  }
+  .browser-viewport iframe{ width:100%; height:100%; border:none; display:block; }
+  .iframe-shield{
+    position:absolute; inset:0; z-index:5;
+    background:transparent; cursor:default;
+  }
+
+  #popup-wrap{
+    position:absolute;
+    top:48px;
+    right:14px;
+    width:466px;
+    height:340px;
+    background:#fff;
+    border-radius:8px;
+    box-shadow:0 12px 32px rgba(15,23,42,.28), 0 2px 8px rgba(15,23,42,.1);
+    opacity:0;
+    transform:translateY(-6px) scale(0.98);
+    pointer-events:none;
+    transition:opacity .16s ease, transform .16s ease;
+    z-index:30;
+    overflow:hidden;
+  }
+  #popup-wrap.open{ opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+  #popup-wrap iframe{ width:100%; height:100%; border:none; display:block; }
+
+  .footnote{
+    max-width:1560px; width:100%; text-align:center; color:var(--text-muted);
+    font-size:0.82em; margin-top:16px; line-height:1.6;
+  }
+  .footnote a{ color:var(--primary); text-decoration:none; font-weight:600; }
+  .footnote a:hover{ text-decoration:underline; }
+
+  @media (max-width:760px){
+    .browser-viewport{ height:520px; }
+    #popup-wrap{ right:6px; width:280px; height:400px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="demo-topbar">
+    <div class="demo-title">
+      <img src="../logo.png" alt="">
+      <div>
+        <h1>Try it yourself</h1>
+        <span>Real popup, real Canvas page. Click the icon, then flip the switch.</span>
+      </div>
+    </div>
+    <div class="demo-actions">
+      <span class="hint-pill" id="hint-pill"><i class="fas fa-arrow-up"></i> Click the icon above &rarr;</span>
+      <a class="demo-btn" href="animation.html"><i class="fas fa-play"></i> Watch the demo instead</a>
+    </div>
+  </div>
+
+  <div class="device-frame" id="device-frame">
+    <div class="browser-chrome">
+      <div class="traffic-lights"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+      <div class="address-bar"><i class="fas fa-lock"></i> canvas.instructure.com/courses/1738/grades</div>
+      <div class="toolbar-icons">
+        <i class="fas fa-puzzle-piece plain-icon"></i>
+        <div id="ext-icon" class="hint" title="Canvas GPA Calculator">
+          <div id="icon-pulse"></div>
+          <img src="../logo.png" alt="Canvas GPA Calculator">
+        </div>
+      </div>
+      <div class="win-controls">
+        <button class="minimize" tabindex="-1"><svg viewBox="0 0 10 10"><rect y="4.5" width="10" height="1" fill="currentColor"/></svg></button>
+        <button class="maximize" tabindex="-1"><svg viewBox="0 0 10 10"><rect x="0.5" y="0.5" width="9" height="9" fill="none" stroke="currentColor"/></svg></button>
+        <button class="close" tabindex="-1"><svg viewBox="0 0 10 10"><line x1="0" y1="0" x2="10" y2="10" stroke="currentColor"/><line x1="10" y1="0" x2="0" y2="10" stroke="currentColor"/></svg></button>
+      </div>
+    </div>
+
+    <div id="popup-wrap">
+      <iframe src="popup/options.html" title="Canvas GPA Calculator popup"></iframe>
+    </div>
+  </div>
+
+  <div class="browser-viewport">
+    <iframe id="canvas-frame" src="canvas/canvas-page.html" title="Canvas grades page"></iframe>
+    <div class="iframe-shield"></div>
+  </div>
+
+  <p class="footnote">
+    This embeds the real, unmodified extension popup (<code>options.html</code>) and a real captured Canvas grades page &mdash;
+    the same DOM mutation the extension's content script performs is what toggles the grade on/off here.
+    <br>Prefer to just watch? <a href="animation.html">See the cinematic demo</a> &middot; <a href="../install.html">Install the real extension</a>
+  </p>
+
+<script>
+(function(){
+  const extIcon = document.getElementById('ext-icon');
+  const popupWrap = document.getElementById('popup-wrap');
+  const canvasFrame = document.getElementById('canvas-frame');
+  const hintPill = document.getElementById('hint-pill');
+  const deviceFrame = document.getElementById('device-frame');
+  let popupOpen = false;
+
+  // Detect OS so the window chrome matches: macOS traffic lights vs
+  // Windows/Linux caption buttons.
+  (function detectOS(){
+    const uaData = navigator.userAgentData;
+    const platform = (uaData && uaData.platform) || navigator.platform || navigator.userAgent;
+    const isMac = /mac/i.test(platform);
+    deviceFrame.classList.toggle('os-win', !isMac);
+  })();
+
+  function closePopup(){
+    if (!popupOpen) return;
+    popupOpen = false;
+    popupWrap.classList.remove('open');
+  }
+
+  function applyExtensionState(active){
+    const doc = canvasFrame.contentDocument;
+    if (!doc) return;
+    const displayAside = doc.querySelector('#right-side #student-grades-right-content');
+    const nativeDiv = doc.querySelector('#student-grades-final');
+    let injected = doc.querySelector('#gpa-grades-display');
+
+    if (active) {
+      if (nativeDiv) {
+        nativeDiv.style.display = 'none';
+        nativeDiv.classList.add('canvas-gpa-calculator-hidden');
+      }
+      if (!injected && displayAside) {
+        injected = doc.createElement('div');
+        injected.id = 'gpa-grades-display';
+        injected.className = 'student_assignment final_grade canvas-gpa-calculator-injected';
+        injected.setAttribute('style', 'font-size: 1.2em;');
+        injected.innerHTML = 'Total: <span class="grade">91.67%</span> (<span class="letter_grade">A-</span>)';
+        displayAside.prepend(injected);
+      }
+    } else {
+      if (injected) injected.remove();
+      if (nativeDiv) {
+        nativeDiv.style.display = '';
+        nativeDiv.classList.remove('canvas-gpa-calculator-hidden');
+      }
+    }
+  }
+
+  extIcon.addEventListener('click', function(e){
+    e.stopPropagation();
+    popupOpen = !popupOpen;
+    popupWrap.classList.toggle('open', popupOpen);
+    extIcon.classList.remove('hint');
+    hintPill.innerHTML = popupOpen
+      ? '<i class="fas fa-toggle-on"></i> Now flip "Enable Extension"'
+      : '<i class="fas fa-mouse-pointer"></i> Click the icon to reopen';
+  });
+
+  // The Canvas iframe sits behind an .iframe-shield div (in this document,
+  // not the iframe's), so every click on it is a normal same-document click
+  // that bubbles here — including clicks meant to dismiss the popup, just
+  // like a real extension popup closing on any outside click.
+  document.addEventListener('click', function(e){
+    if (popupOpen && !popupWrap.contains(e.target) && e.target !== extIcon && !extIcon.contains(e.target)) {
+      closePopup();
+    }
+  });
+
+  // The popup iframe runs the REAL options.js against a storage shim that
+  // posts a message to us whenever browser.storage.sync.set() is called —
+  // exactly the trigger the real content script listens for via storage.onChanged.
+  window.addEventListener('message', function(e){
+    if (!e.data || e.data.source !== 'cgpa-popup-shim' || e.data.type !== 'storage-set') return;
+    if (!('active' in e.data.values)) return;
+    const active = e.data.values.active;
+    extIcon.classList.toggle('active', active);
+    applyExtensionState(active);
+    hintPill.innerHTML = active
+      ? '<i class="fas fa-check" style="color:#1c8a44"></i> That\'s it — grade calculated live'
+      : '<i class="fas fa-toggle-on"></i> Flip it back on any time';
+  });
+})();
+</script>
+</body>
+</html>

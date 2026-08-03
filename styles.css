@@ -1,100 +1,377 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 :root {
-  --bg-color: #f4f7f6; /* Soft light grey background */
-  --text-color: #2d3748; /* Dark grey for main text */
-  --primary-color: #4299e1; /* Calm blue accent */
-  --secondary-color: #718096; /* Muted grey for secondary text */
-  --border-color: #e2e8f0; /* Light grey border */
-  --card-bg: #ffffff; /* White background for any potential card elements */
-  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --bg: #ffffff;
+  --bg-alt: #f8fafc;
+  --text: #0f172a;
+  --text-muted: #55617a;
+  --border: #e5e9f0;
+  --primary: #4f46e5;
+  --primary-dark: #4338ca;
+  --primary-light: #eef2ff;
+  --primary-rgb: 79, 70, 229;
+  --card-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.06);
+  --card-shadow-hover: 0 8px 24px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.06);
+  --radius: 12px;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --nav-height: 68px;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
-  font-family: var(--font-main);
+  font-family: var(--font);
   margin: 0;
   padding: 0;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  line-height: 1.6; /* Slightly reduced line height for better density */
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  transition: background-color 0.6s ease, color 0.6s ease; /* Add transition for smooth mode change */
 }
 
-#particles-js {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: var(--bg-color);
-  z-index: -1; /* Ensure it's behind other content */
-  transition: background-color 0.6s ease; /* Add transition for smooth mode change */
+img {
+  max-width: 100%;
 }
+
+/* ---------- Layout helpers ---------- */
 
 .container {
   width: 100%;
-  max-width: 800px; /* Slightly narrower max-width for focused content */
-  margin: 0 auto; /* Centering */
-  padding: 0 10px; /* Reduced Horizontal padding */
-  flex-grow: 1;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
-header {
+.wide-container {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---------- Top navigation ---------- */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: saturate(180%) blur(10px);
+  -webkit-backdrop-filter: saturate(180%) blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-inner {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 1.05em;
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: -0.2px;
+}
+
+.nav-brand img {
+  width: 30px;
+  height: 30px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95em;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.nav-links a:hover {
+  color: var(--text);
+  background-color: var(--bg-alt);
+}
+
+.nav-links a.active {
+  color: var(--primary);
+}
+
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--primary);
+  color: #fff !important;
+  padding: 9px 18px !important;
+  border-radius: 8px;
+  font-weight: 600 !important;
+  margin-left: 8px;
+}
+
+.nav-cta:hover {
+  background-color: var(--primary-dark) !important;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 1.4em;
+  cursor: pointer;
+  padding: 6px;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  padding: 88px 0 64px;
   text-align: center;
-  margin-bottom: 30px; /* Adjusted space below header */
-  padding-bottom: 10px;
-  padding-top: 20px; /* More padding at top of header */
+  position: relative;
+  overflow: hidden;
 }
 
-header h1 {
-  font-family: var(--font-heading);
-  font-size: 2.5em; /* Adjusted heading size */
-  color: var(--text-color);
-  margin: 0;
-  font-weight: 800; /* Bolder */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -160px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 720px;
+  height: 420px;
+  background: radial-gradient(closest-side, rgba(var(--primary-rgb), 0.14), rgba(var(--primary-rgb), 0));
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--primary);
+  background-color: var(--primary-light);
+  border: 1px solid rgba(var(--primary-rgb), 0.15);
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 24px;
+}
+
+.logo {
+  display: block;
+  margin: 0 auto 24px auto;
+  width: 84px;
+  height: 84px;
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
+}
+
+.hero h1 {
+  font-family: var(--font);
+  font-size: 3em;
+  line-height: 1.12;
+  color: var(--text);
+  margin: 0 0 18px;
+  font-weight: 800;
+  letter-spacing: -1.2px;
+}
+
+.hero h1 .accent {
+  background: linear-gradient(100deg, var(--primary), #8b5cf6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.15em;
+  color: var(--text-muted);
+  max-width: 620px;
+  margin: 0 auto 36px;
+}
+
+/* ---------- Buttons ---------- */
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background-color: var(--bg);
+  color: var(--text);
+  padding: 13px 24px;
+  border-radius: 9px;
+  text-decoration: none;
+  font-weight: 600;
+  font-family: var(--font);
+  font-size: 0.97em;
+  text-align: center;
+  transition: transform 0.12s ease, box-shadow 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  box-shadow: var(--card-shadow);
+}
+
+.cta-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--card-shadow-hover);
+  border-color: #d6dbe4;
+}
+
+.cta-button.primary {
+  background-color: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.cta-button.primary:hover {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.cta-button.large {
+  padding: 15px 30px;
+  font-size: 1.02em;
+}
+
+/* ---------- Stats ---------- */
+
+.stats-section {
+  padding: 0 0 72px;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  flex: 1;
+  min-width: 180px;
+  max-width: 240px;
+  background-color: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 2.1em;
+  font-weight: 800;
+  color: var(--text);
   letter-spacing: -0.5px;
 }
 
+.stat-label {
+  font-size: 0.88em;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}
+
+.star-rating i {
+  color: #f5a623;
+  font-size: 0.85em;
+}
+
+/* ---------- Sections ---------- */
+
+.section {
+  padding: 64px 0;
+  border-top: 1px solid var(--border);
+}
+
+.section-header {
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto 44px;
+}
+
+.section-header h2 {
+  font-size: 2em;
+}
+
+.section-header p {
+  margin-bottom: 0;
+}
+
 h2 {
-  font-family: var(--font-heading);
-  color: var(--text-color);
-  margin-top: 40px; /* More space above h2 */
+  font-family: var(--font);
+  color: var(--text);
+  margin-top: 0;
   margin-bottom: 15px;
-  padding-bottom: 0;
-  font-size: 1.6em; /* Adjusted heading size */
+  font-size: 1.7em;
   font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+h3 {
+  font-size: 1.15em;
+  font-weight: 700;
+  color: var(--text);
 }
 
 p, li {
-  color: var(--secondary-color);
-  font-size: 1em; /* Adjusted base font size */
+  color: var(--text-muted);
+  font-size: 1em;
   margin-bottom: 15px;
 }
 
 a {
-  color: var(--primary-color);
+  color: var(--primary);
   text-decoration: none;
-  transition: color 0.6s ease, opacity 0.2s ease; /* Smooth color transition */
+  transition: color 0.15s ease;
 }
 
 a:hover {
-  color: #3182ce; /* Slightly darker blue on hover */
-  opacity: 1;
+  color: var(--primary-dark);
   text-decoration: underline;
 }
 
-a:hover {
-  color: #63b3ed; /* Lighter blue on hover */
-}
-
 ul, ol {
-  padding-left: 25px;
-  color: var(--secondary-color);
+  padding-left: 22px;
+  color: var(--text-muted);
 }
 
 li {
@@ -102,532 +379,316 @@ li {
 }
 
 code {
-  background-color: #edf2f7; /* Light grey background */
-  color: var(--text-color);
+  background-color: var(--bg-alt);
+  color: var(--text);
   padding: 3px 6px;
-  border-radius: 4px;
+  border-radius: 5px;
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
   font-size: 0.9em;
-  border: 1px solid #dce6f0;
-  transition: background-color 0.6s ease, color 0.6s ease, border-color 0.6s ease; /* Smooth color transition */
+  border: 1px solid var(--border);
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 5px auto; /* Centered with adjusted space below */
-  max-width: 90px; /* Slightly smaller logo */
-  border-radius: 0;
+pre {
+  background-color: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+}
+
+pre code {
   border: none;
   padding: 0;
   background: none;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
-  opacity: 0.9; /* Slightly transparent */
 }
 
-.button-group {
-    display: flex;
-    gap: 15px; /* Slightly less space between buttons */
-    margin-top: 30px;
-    justify-content: center;
-    flex-wrap: wrap;
+/* ---------- Feature cards ---------- */
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
 }
 
-.cta-button {
-    display: inline-block;
-    background-color: transparent; /* Transparent background to show page background */
-    color: var(--text-color); /* Use main text color */
-    padding: 12px 24px; /* Adjusted padding */
-    border-radius: 5px; /* Adjusted border radius */
-    text-decoration: none;
-    font-weight: 600;
-    font-family: var(--font-heading);
-    text-align: center;
-    transition: color 0.6s ease, background-color 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease, transform 0.1s ease; /* Smooth transitions for all changing properties */
-    border: 1px solid var(--border-color); /* Border color */
-    cursor: pointer;
-    letter-spacing: 0.2px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+.feature-card {
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 26px 24px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
 }
 
-.cta-button:hover {
-    background-color: rgba(var(--primary-color-rgb), 0.7); /* Transparent blue background on hover */
-    color: #fff; /* White text on hover */
-    transform: translateY(-1px); /* Subtle lift */
-    box-shadow: 0 4px 10px rgba(66, 153, 225, 0.4); /* Enhanced shadow on hover using primary color */
-}
-/* The .cta-button.secondary style is removed to unify button appearance */
-
-/* Side Navigation Bar */
-.sidebar {
-    position: fixed; /* Fixed position so it stays in place */
-    top: 0;
-    left: 0; /* Start from the left edge */
-    width: 250px;
-    height: 100%;
-    background-color: rgba(var(--card-bg-rgb), 0.6); /* Use card background for sidebar with transparency */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05); /* Lighter shadow */
-    z-index: 1000;
-    transition: background-color 0.6s ease, box-shadow 0.6s ease, transform 0.3s ease; /* Smooth color and box-shadow transition, keep transform */
-    transform: translateX(-250px); /* Hide sidebar off-screen by default */
-    overflow-x: hidden; /* Hide horizontal scrollbar */
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+.feature-card:hover {
+  box-shadow: var(--card-shadow-hover);
+  border-color: #d6dbe4;
+  transform: translateY(-2px);
 }
 
-.sidebar.collapsed {
-    transform: translateX(-250px); /* Keep sidebar hidden when collapsed */
+.feature-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background-color: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1em;
+  margin-bottom: 16px;
 }
 
-.sidebar:not(.collapsed) {
-    transform: translateX(0); /* Slide sidebar in when not collapsed */
+.feature-card h3 {
+  margin: 0 0 8px;
 }
 
-.sidebar-content {
-    padding: 0;
+.feature-card p {
+  font-size: 0.94em;
+  margin-bottom: 0;
 }
 
-.sidebar-heading {
-    height: 40px; /* Make the heading height the same as the circle button */
-    margin-top: 10px; /* Add top margin to align vertically with the toggle button */
-    color: var(--secondary-color); /* Use secondary color for the heading */
-    font-size: 0.9em; /* Slightly smaller font size */
-    padding: 0 20px; /* Keep horizontal padding, remove vertical as height is set */
-    font-weight: 600; /* Make it a bit bolder */
-    text-transform: uppercase; /* Uppercase text */
-    letter-spacing: 1px; /* Add some letter spacing */
-    display: flex; /* Use flexbox to center content vertically */
-    align-items: center; /* Vertically center the text */
+/* ---------- Browser detect / install ---------- */
+
+.browser-pick {
+  background-color: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  text-align: center;
+  margin-bottom: 24px;
 }
 
-.sidebar a {
-    height: 40px; /* Make the link height the same as the circle button */
-    padding: 0 20px; /* Keep horizontal padding, remove vertical as height is set */
-    text-decoration: none;
-    font-size: 1em; /* Adjusted font size */
-    color: var(--text-color);
-    display: flex; /* Use flexbox to center content vertically */
-    align-items: center; /* Vertically center text and icon */
-    transition: background-color 0.2s ease, color 0.6s ease; /* Add color transition */
-    white-space: nowrap; /* Prevent text wrapping */
-    overflow: hidden; /* Hide overflowing text */
-    text-overflow: ellipsis; /* Add ellipsis to overflowing text */
+.browser-pick .detected-label {
+  font-size: 0.85em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
 }
 
-.sidebar a:hover {
-    background-color: rgba(var(--primary-color-rgb), 0.7); /* Transparent primary color on hover */
-    color: #fff;
+.other-browsers {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 8px;
 }
 
-.sidebar .active {
-    background-color: rgba(var(--primary-color-rgb), 0.7); /* Transparent primary color for active */
-    color: #fff;
-}
-
-.main-content {
-    margin-left: 0; /* Start with no margin */
-    padding: 20px;
-    transition: margin-left 0.3s ease; /* Transition for main content movement */
-}
-
-.main-content:not(.collapsed) {
-    margin-left: 250px; /* Move main content to the right when sidebar is open */
-}
-
-.toggle-btn {
-    position: fixed; /* Fixed position so it stays in place */
-    top: 5px; /* Match vertical position of mode toggle */
-    left: 5px; /* 10px from the left */
-    background-color: transparent; /* Transparent background */
-    color: var(--text-color); /* Default icon color */
-    border: none;
-    padding: 0; /* Ensure no padding */
-    width: 40px; /* Make it square */
-    height: 40px; /* Make it square */
-    display: flex; /* Use flexbox to center icon */
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    border-radius: 5px; /* Make it a rounded corner square */
-    box-shadow: none; /* Remove shadow */
-    z-index: 1001; /* Below the sidebar toggle button */
-    transition: left 0.3s ease, color 0.6s ease; /* Smooth transitions for mode change, remove background-color transition */
-}
-
-.toggle-btn i {
-    transition: transform 0.3s ease; /* Add transition for icon rotation */
-}
-
-body.sidebar-open .toggle-btn {
-    left: 205px; /* Position button 5px from the right edge of the 250px sidebar */
-    /* Background, shadow handled by default .toggle-btn */
-    /* Color handled by theme */
-}
-
-body.sidebar-open .toggle-btn i {
-    transform: rotate(180deg); /* Rotate arrow when sidebar is open */
-}
-
-/* Hide the text within sidebar links when the sidebar is collapsed */
-.sidebar.collapsed .sidebar-content a span {
-    display: none;
-}
-
-/* Adjust icon visibility and centering when sidebar is collapsed */
-.sidebar a i {
-    display: inline-block; /* Ensure icon is displayed */
-}
-
-.sidebar.collapsed .sidebar-content a i {
-    margin: 0 auto; /* Center icon */
-}
-
-/* Add spacing between icon and text when sidebar is open */
-.sidebar:not(.collapsed) .sidebar-content a span {
-    margin-left: 10px; /* Adjust value as needed for spacing */
-}
-
-/* Add RGB version of colors for rgba */
-:root {
-    --card-bg-rgb: 255, 255, 255;
-    --primary-color-rgb: 66, 153, 225; /* RGB for #4299e1 */
-}
-
-body.dark-mode {
-    --card-bg-rgb: 26, 32, 44;
-    --primary-color-rgb: 99, 179, 237; /* RGB for #63b3ed */
-    --sidebar-hover-dark-rgb: 49, 130, 206; /* RGB for #3182ce */
-}
-
-.mode-toggle-button {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background-color: var(--card-bg);
-    color: var(--text-color);
-    border: none;
-    padding: 0;
-    width: 40px; /* Make it square */
-    height: 40px; /* Make it square */
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 1001; /* Below the sidebar toggle button */
-    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); */ /* Removed shadow */
-    background-color: transparent; /* Transparent background */
-    color: var(--text-color); /* Default icon color */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.3s ease; /* Animation for rotation and color, color transition set to 5 seconds */
-}
-
-.mode-toggle-button i {
-    font-size: 1.2em; /* Icon size */
-    transition: color 0.6s ease, transform 0.6s ease; /* Add transition for smooth icon change */
-}
-
-body.dark-mode .mode-toggle-button {
-    color: var(--text-color); /* Icon color in dark mode */
-    transition: unset; /* Explicitly set transition for dark mode */
-}
-
-/* Keyframe animation for rotation */
-@keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.mode-toggle-button.rotating i {
-    animation: rotate 0.6s ease-in-out;
-}
-
-body.dark-mode {
-    --bg-color: #0f1116; /* Dark background */
-    --text-color: #e2e8f0; /* Light grey text */
-    --primary-color: #63b3ed; /* Lighter blue */
-    --secondary-color: #a0aec0; /* Lighter grey */
-    --border-color: #2d3748; /* Darker grey border */
-    --card-bg: #1a202c; /* Dark background for cards */
-}
-
-body.dark-mode .cta-button {
-    color: var(--text-color);
-    border-color: var(--border-color);
-}
-
-body.dark-mode .cta-button:hover {
-    background-color: rgba(var(--primary-color-rgb), 0.7); /* Transparent primary color on hover in dark mode */
-    color: var(--text-color); /* Change text color on hover to dark mode text color */
-    box-shadow: 0 4px 10px rgba(99, 179, 237, 0.4); /* Enhanced shadow */
-}
-
-body.dark-mode .sidebar {
-    background-color: rgba(var(--card-bg-rgb), 0.6); /* Dark background for cards with transparency */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-}
-
-body.dark-mode .sidebar a {
-    color: var(--text-color);
-}
-
-body.dark-mode .sidebar a:hover {
-    background-color: rgba(var(--primary-color-rgb), 0.7); /* Transparent primary color on hover in dark mode */
-    color: var(--text-color); /* Change text color on hover to dark mode text color */
-}
-
-body.dark-mode .sidebar .active {
-    background-color: rgba(var(--primary-color-rgb), 0.7); /* Transparent primary color for active in dark mode */
-    color: #fff; /* Keep text white when active in dark mode */
-}
-
-body.dark-mode .toggle-btn {
-    background-color: transparent; /* Transparent background in dark mode */
-    color: var(--text-color); /* Maintain text color in dark mode */
-    box-shadow: none; /* Remove shadow in dark mode */
-}
-
-body.dark-mode .toggle-btn:hover {
-    /* No hover effect */
-    color: var(--text-color); /* Maintain text color on hover in dark mode */
-}
-
-body.dark-mode.sidebar-open .toggle-btn {
-    box-shadow: none;
-}
-
-body.dark-mode code {
-    background-color: #4a5568;
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-}
-
-body.dark-mode footer a {
-    color: var(--secondary-color);
-}
-
-body.dark-mode footer a:hover {
-    color: var(--primary-color);
-}
-
-body.dark-mode h1,
-body.dark-mode h2,
-body.dark-mode h3,
-body.dark-mode p,
-body.dark-mode li,
-body.dark-mode a,
-body.dark-mode i,
-body.dark-mode span,
-body.dark-mode code,
-body.dark-mode .sidebar-heading,
-body.dark-mode .metric-label,
-body.dark-mode .metric-value,
-body.dark-mode .cta-button,
-body.dark-mode .toggle-btn,
-body.dark-mode .mode-toggle-button {
-  text-shadow: 0 0 12px var(--primary-color); /* Add subtle glow in dark mode */
-}
-
-body.dark-mode .section:not(:last-child) {
-    border-bottom-color: var(--border-color);
-}
-
-body.dark-mode .metric-label, body.dark-mode .metric-value {
-    color: var(--text-color);
-}
-
-/* Add glow to logo in dark mode */
-body.dark-mode .logo {
-  filter: drop-shadow(0 0 15px var(--primary-color));
+.other-browsers .cta-button {
+  font-size: 0.9em;
+  padding: 10px 18px;
   box-shadow: none;
 }
 
-.logo {
-    animation: riseUp 2s ease-out; /* Increased duration for slower animation */
-    transform-origin: bottom;
+/* ---------- Prose / card container for content pages ---------- */
+
+.prose-card {
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px;
 }
 
-.logo-container {
-    position: relative;
-    overflow: visible; /* Allow the glow to show */
-    background-color: var(--bg-color); /* Match the background color */
+@media (max-width: 640px) {
+  .prose-card {
+    padding: 28px 22px;
+  }
 }
 
-.logo-container::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 33%; /* Approximately a third of the logo's height */
-    background-color: var(--bg-color); /* Match the background color */
-    z-index: 1; /* Ensure it's in front of the logo */
-    transform: translateY(100%);
-    animation: revealGround 1s ease-out forwards;
+/* ---------- Page header (About / Install) ---------- */
+
+.page-header {
+  text-align: center;
+  padding: 56px 0 40px;
 }
 
-@keyframes revealGround {
-    from {
-        transform: translateY(100%);
-    }
-    70% {
-        transform: translateY(0);
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 0; /* Make the "ground" disappear */
-    }
+.page-header h1 {
+  font-size: 2.3em;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin: 0 0 12px;
 }
 
-@keyframes riseUp {
-    0% {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-    70% { /* Adjust this value to control when the ground starts fading */
-        transform: translateY(0);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
+.page-header p {
+  color: var(--text-muted);
+  max-width: 520px;
+  margin: 0 auto;
 }
 
-/* Add some basic responsive adjustments */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 200px; /* Adjusted width for smaller screens */
-        transform: translateX(-200px); /* Hide sidebar off-screen */
-    }
+/* ---------- Homepage demo embed ---------- */
 
-    .sidebar.collapsed {
-         transform: translateX(-200px); /* Keep sidebar hidden when collapsed */
-    }
-
-     .sidebar:not(.collapsed) {
-        transform: translateX(0); /* Slide sidebar in */
-    }
-
-    .main-content {
-        margin-left: 0; /* No margin */
-    }
-
-    .main-content:not(.collapsed) {
-        margin-left: 0; /* No margin even when sidebar is open */
-    }
-
-    .toggle-btn {
-        top: 10px;
-        right: 10px; /* Position near right edge of sidebar */
-        /* Background, shadow, and hover are handled by the main .toggle-btn rule */
-    }
-
-    body.sidebar-open .toggle-btn {
-        left: 155px; /* Position button 5px from the right edge of the 200px sidebar on smaller screens */
-        right: auto; /* Remove the right positioning */
-        /* Background, color, and shadow are handled by default/theme */
-    }
-
-    .sidebar.collapsed .toggle-btn {
-         right: -50px; /* Move button further right when sidebar is collapsed */
-    }
-
-    .sidebar-content a span {
-        display: inline-block; /* Show text on smaller screens when open */
-    }
-
-    .sidebar.collapsed .sidebar-content a span {
-        display: none; /* Hide text when collapsed on smaller screens */
-    }
+.demo-section {
+  background-color: var(--bg-alt);
 }
+
+.demo-embed-frame {
+  max-width: 1040px;
+  margin: 0 auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background-color: var(--bg);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  position: relative;
+}
+
+/* The demo is rendered at its real (wide) desktop size inside an iframe —
+   never resized — then visually scaled down to fit the card. Resizing the
+   iframe itself would shrink Canvas's own viewport width and trigger its
+   responsive layout to collapse the grades sidebar. */
+.demo-embed-scale {
+  transform-origin: top left;
+}
+
+.demo-embed-scale iframe {
+  display: block;
+  border: none;
+}
+
+/* ---------- CTA banner ---------- */
+
+.cta-banner {
+  background: linear-gradient(120deg, var(--primary), #8b5cf6);
+  border-radius: 20px;
+  padding: 56px 40px;
+  text-align: center;
+  color: #fff;
+}
+
+.cta-banner h2 {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.cta-banner p {
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 28px;
+}
+
+.cta-banner .cta-button {
+  background-color: #fff;
+  color: var(--primary-dark);
+  border-color: #fff;
+}
+
+.cta-banner .cta-button:hover {
+  background-color: #f4f4ff;
+}
+
+/* ---------- Footer ---------- */
 
 footer {
   text-align: center;
-  padding: 40px 0; /* More padding */
+  padding: 40px 24px 48px;
   font-size: 0.9em;
-  color: var(--secondary-color); /* Use secondary color for footer text */
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  margin-top: 24px;
 }
 
 footer a {
-  color: var(--secondary-color); /* Use secondary color for footer links */
-  transition: color 0.6s ease; /* Add color transition */
+  color: var(--text-muted);
 }
 
 footer a:hover {
-  color: var(--primary-color);
-  text-decoration: underline;
+  color: var(--primary);
 }
 
-/* Add padding to sections for spacing when container has no padding */
-.section {
-    padding: 0 0 30px 0; /* Vertical padding for sections */
-}
-
-.section:not(:last-child) {
-    border-bottom: 1px solid var(--border-color); /* Separator between sections */
-    margin-bottom: 30px; /* Space below separator */
-    transition: border-bottom-color 0.6s ease; /* Add border color transition */
-}
-
-.metrics-container {
-    display: flex;
-    justify-content: space-around; /* Center items with space around */
-    margin-top: 20px; /* Keep the top margin */
-    margin-bottom: 0; /* Remove bottom margin */
-    padding: 0; /* Remove padding */
-    transition: background-color 0.6s ease, box-shadow 0.6s ease; /* Add transitions for mode change */
-}
-
-.metric-item {
-    display: flex;
-    flex-direction: column; /* Stack label above value */
-    text-align: center; /* Center content horizontally */
-    flex: 1; /* Allow items to grow and shrink */
-    margin: 0 10px; /* Add some horizontal margin between items */
-}
-
-.metric-label {
-    font-size: 1.6em; /* Increased size */
-    color: var(--secondary-color); /* Keep similar color to old labels */
-    margin-bottom: 5px; /* Space between label and value */
-    font-weight: 600; /* Make labels a bit bolder */
-    transition: color 0.6s ease; /* Add color transition */
-}
-
-.metric-value {
-    font-size: 2.5em; /* Increased size */
-    font-weight: 800; /* Make value text bolder */
-    color: var(--text-color); /* Use main text color for numbers and stars */
-    transition: color 0.6s ease; /* Add color transition */
-}
+/* ---------- Scroll-to-top ---------- */
 
 #scrollTopBtn {
-  display: flex; /* Use flex to center icon */
-  justify-content: center; /* Center icon horizontally */
-  align-items: center;    /* Center icon vertically */
-  position: fixed; /* Fixed/sticky position */
-  bottom: 20px; /* Place the button 20px from the bottom */
-  right: 30px; /* Place the button 30px from the right */
-  z-index: 99; /* Make sure it does not overlap */
-  border: none; /* Remove borders */
-  outline: none; /* Remove outline */
-  background-color: transparent; /* Transparent background */
-  color: var(--text-color); /* Default icon color */
-  cursor: pointer; /* Add a mouse pointer on hover */
-  padding: 0; /* Remove padding, rely on width/height */
-  width: 40px; /* Make it square */
-  height: 40px; /* Make it square */
-  border-radius: 5px; /* Rounded corners */
-  font-size: 1.2em; /* Increase font size for icon */
-  opacity: 0; /* Hidden by default */
-  visibility: hidden; /* Hidden by default */
-  transition: color 0.3s ease, background-color 0.3s ease, opacity 0.3s ease, visibility 0.3s ease; /* Smooth transitions */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 99;
+  border: 1px solid var(--border);
+  outline: none;
+  background-color: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  font-size: 1.05em;
+  opacity: 0;
+  visibility: hidden;
+  box-shadow: var(--card-shadow);
+  transition: opacity 0.2s ease, visibility 0.2s ease, box-shadow 0.2s ease, transform 0.12s ease;
+}
+
+#scrollTopBtn:hover {
+  box-shadow: var(--card-shadow-hover);
+  transform: translateY(-1px);
 }
 
 #scrollTopBtn.show {
-  opacity: 1; /* Make visible */
-  visibility: visible; /* Make visible */
+  opacity: 1;
+  visibility: visible;
 }
 
-body.dark-mode #scrollTopBtn {
-    color: var(--text-color); /* Icon color in dark mode */
+/* ---------- Responsive ---------- */
+
+@media (max-width: 860px) {
+  .feature-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .nav-links {
+    position: fixed;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    background-color: var(--bg);
+    border-bottom: 1px solid var(--border);
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px 16px 16px;
+    gap: 2px;
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+
+  .nav-links.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-links a {
+    padding: 12px 10px;
+  }
+
+  .nav-cta {
+    margin-left: 0;
+    justify-content: center;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .hero h1 {
+    font-size: 2.2em;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-banner {
+    padding: 40px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stat-card {
+    min-width: 140px;
+  }
 }

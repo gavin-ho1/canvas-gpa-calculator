@@ -5,60 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Canvas GPA Calculator - Install</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Link to Google Fonts used in styles.css -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- AOS CSS -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-  <link rel="icon" type="image/png" href="logo.png">
-  <link rel="apple-touch-icon" href="logo.png">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
 </head>
 <body>
 
-    <button id="mode-toggle" class="mode-toggle-button"><i class="fas fa-sun"></i></button>
-    <button class="toggle-btn"><i class="fas fa-chevron-right"></i></button>
-    <div class="sidebar collapsed">
-        <div class="sidebar-content">
-            <div class="sidebar-heading">Navigation</div>
-            <a href="index.html"><i class='fas fa-home'></i> <span>Home</span></a>
-            <a href="about.html"><i class="fas fa-info-circle"></i> <span>About</span></a>
-            <a href="install.html" class="active"><i class="fas fa-download"></i> <span>Install</span></a>
-        </div>
-    </div>
-
-    <div class="main-content collapsed">
-        <header data-aos="slide-down">
-            <h1>Install</h1>
-        </header>
-
-        <div class="container">
-            <h2>Get the Extension</h2>
-            <p>Choose your browser to install the Canvas GPA Calculator extension:</p>
-
-            <div class="button-group">
-                <a href="https://chromewebstore.google.com/detail/canvas-gpa-calculator/hedjldnoldbeihmghalfbkaobifigmhi" target="_blank" class="cta-button"><i class="fab fa-chrome"></i> Install for Chrome</a>
-                <a href="https://microsoftedge.microsoft.com/addons/detail/canvas-gpa-calculator/kjljmlkojppfklkhdifcbbkhbalhmgfm" target="_blank" class="cta-button"><i class="fab fa-edge"></i> Install for Edge</a>
-                <a href="https://addons.mozilla.org/en-US/firefox/addon/canvas-gpa-calculator/" target="_blank" class="cta-button"><i class="fab fa-firefox"></i> Install for Firefox</a>
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-brand"><img src="logo.png" alt="Logo"> Canvas GPA Calculator</a>
+            <button class="nav-toggle" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="install.html" class="active">Install</a>
+                <a href="https://github.com/gavin-ho1/canvas-gpa-calculator" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                <a href="install.html" class="nav-cta">Get the Extension</a>
             </div>
+        </div>
+    </nav>
 
-            <h2>Having Trouble?</h2>
-            <p>If you encounter any issues during installation or while using the extension, please visit our <a href="https://github.com/gavin-ho1/canvas-gpa-calculator" target="_blank">GitHub repository</a> for troubleshooting tips and to report bugs.</p>
+    <header class="page-header" data-aos="fade-up">
+        <div class="container">
+            <h1>Install the extension</h1>
+            <p>Available for Chrome, Firefox, and Edge. Pick your browser below.</p>
+        </div>
+    </header>
 
+    <div class="container">
+
+        <div class="browser-pick" data-aos="fade-up" id="browser-pick">
+            <div class="detected-label" id="detected-label">Recommended for your browser</div>
+            <div class="button-group" id="detected-install">
+                <a href="https://chromewebstore.google.com/detail/canvas-gpa-calculator/hedjldnoldbeihmghalfbkaobifigmhi" target="_blank" class="cta-button primary large" id="detected-button"><i class="fab fa-chrome"></i> Add to Chrome</a>
+            </div>
         </div>
 
-        <footer>
-            <p>&copy; 2025 Canvas GPA Calculator. <a href="about.html">About</a> | <a href="https://github.com/gavin-ho1/canvas-gpa-calculator" target="_blank">GitHub</a></p>
-        </footer>
+        <div class="section" style="padding-top:0; border-top:none;">
+            <h2>Other browsers</h2>
+            <div class="other-browsers" id="other-browsers">
+                <a href="https://chromewebstore.google.com/detail/canvas-gpa-calculator/hedjldnoldbeihmghalfbkaobifigmhi" target="_blank" class="cta-button" data-browser="chrome"><i class="fab fa-chrome"></i> Install for Chrome</a>
+                <a href="https://microsoftedge.microsoft.com/addons/detail/canvas-gpa-calculator/kjljmlkojppfklkhdifcbbkhbalhmgfm" target="_blank" class="cta-button" data-browser="edge"><i class="fab fa-edge"></i> Install for Edge</a>
+                <a href="https://addons.mozilla.org/en-US/firefox/addon/canvas-gpa-calculator/" target="_blank" class="cta-button" data-browser="firefox"><i class="fab fa-firefox"></i> Install for Firefox</a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Having trouble?</h2>
+            <p>If you encounter any issues during installation or while using the extension, please visit our <a href="https://github.com/gavin-ho1/canvas-gpa-calculator" target="_blank">GitHub repository</a> for troubleshooting tips and to report bugs.</p>
+        </div>
+
     </div>
 
-    <!-- AOS JS -->
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <footer>
+        <p>&copy; 2026 Canvas GPA Calculator. <a href="about.html">About</a> &middot; <a href="https://github.com/gavin-ho1/canvas-gpa-calculator" target="_blank">GitHub</a> &middot; <a href="https://github.com/gavin-ho1/canvas-gpa-calculator/issues" target="_blank">Support</a></p>
+    </footer>
 
-    <!-- Link to our script.js for AOS initialization and sidebar toggle -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="script.js"></script>
-  <button id="scrollTopBtn" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+    <button id="scrollTopBtn" title="Go to top"><i class="fas fa-arrow-up"></i></button>
 </body>
 </html>
