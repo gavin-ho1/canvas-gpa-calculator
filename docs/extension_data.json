@@ -1,12 +1,12 @@
 {
   "chrome_extension": {
-    "rating": 4.7,
+    "rating": 4.8,
     "users": 1000,
-    "number_of_ratings": 11
+    "number_of_ratings": 12
   },
   "edge_extension": {
     "rating": 5.0,
-    "users": 997,
+    "users": 1009,
     "number_of_ratings": 1
   }
 }
