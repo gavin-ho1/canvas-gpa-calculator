@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>External Tool</title>
+  <link rel="stylesheet" href="https://du11hjcvx0uqb.cloudfront.net/dist/brandable_css/default/variables-high_contrast-9dec371ad57e3dd0396f0b2eddb63479.css" media="all">
+  <link rel="stylesheet" href="https://du11hjcvx0uqb.cloudfront.net/dist/brandable_css/new_styles_high_contrast/bundles/common-d3c27cb38a.css" media="all">
+  <style>
+    .content-pad { padding: 32px; max-width: 640px; margin: 60px auto 0; text-align: center; }
+    .sandbox-note { background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 8px; padding: 16px 20px; color: #1e1b4b; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <div class="content-pad">
+    <h1 id="tool-name">External Tool</h1>
+    <div class="sandbox-note">This tool is a third-party integration in real Canvas and isn't included in this sandbox.</div>
+    <p style="margin-top:20px;"><a href="javascript:history.back()">Go back</a></p>
+  </div>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const name = params.get('name');
+    if (name) document.getElementById('tool-name').textContent = name;
+  </script>
+</body>
+</html>
