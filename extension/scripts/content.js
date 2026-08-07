@@ -1,7 +1,18 @@
-browser.runtime.sendMessage({ type: 'print', data : "content.js is running" });
+const DEBUG = false;
 
 let active, letterGrades, showGPA, gpaScale, gradeRounding;
 let courseDict = {};
+
+// courseDict/courseRegistry are shared, flat storage objects keyed by course
+// ID. Real Canvas course IDs and the sandbox demo site's course IDs live in
+// the same storage, so every key is namespaced by hostname to guarantee the
+// sandbox never collides with (or gets aggregated into) real course data.
+function nsPrefix() {
+    return `${window.location.hostname}::`;
+}
+function nsKey(courseID) {
+    return nsPrefix() + courseID;
+}
 
 async function loadSettings() {
     const items = await browser.storage.sync.get({
@@ -17,7 +28,7 @@ async function loadSettings() {
     gpaScale = items.gpaScale;
     gradeRounding = items.gradeRounding;
 
-    const dictResult = await browser.storage.sync.get('courseDict');
+    const dictResult = await browser.storage.local.get('courseDict');
     courseDict = dictResult.courseDict || {};
 }
 
@@ -221,6 +232,7 @@ async function updateDashboard() {
     let count = 0;
 
     Object.keys(courseDict).forEach(key => {
+        if (!key.startsWith(nsPrefix())) return; // Skip courses from other origins (e.g. the sandbox)
         if (courseDict[key].included === false) return; // Skip explicitly excluded courses
 
         let grade = courseDict[key].grade;
@@ -240,7 +252,7 @@ async function updateDashboard() {
 
     // Only show loading spinner if we have NO grades at all yet.
     // Once the first grade comes in, show the current partial GPA to avoid flickering.
-    const hasAnyGrades = Object.keys(courseDict).length > 0;
+    const hasAnyGrades = Object.keys(courseDict).some(k => k.startsWith(nsPrefix()));
     if (isAutoFetching && !hasAnyGrades && !window.location.pathname.match(/\d+/)) {
         if (!document.getElementById("canvas-gpa-spinner-style")) {
             const style = document.createElement("style");
@@ -271,8 +283,8 @@ async function updateDashboard() {
         const match = url.match(/courses\/(\d+)/);
         if (match) {
             const courseID = match[1];
-            if (courseDict[courseID] && !isNaN(courseDict[courseID].grade)) {
-                const gradeText = `${courseDict[courseID].grade}%`;
+            if (courseDict[nsKey(courseID)] && !isNaN(courseDict[nsKey(courseID)].grade)) {
+                const gradeText = `${courseDict[nsKey(courseID)].grade}%`;
                 
                 // Hide Better Canvas's original text element to prevent conflicts
                 card.style.display = 'none';
@@ -382,9 +394,9 @@ async function updateDashboard() {
         if (!match) return;
         const courseID = match[1];
 
-        if (courseDict[courseID]) {
-            const grade = courseDict[courseID].grade;
-            
+        if (courseDict[nsKey(courseID)]) {
+            const grade = courseDict[nsKey(courseID)].grade;
+
             // If Better Canvas grade is already present, don't inject our badge to avoid clutter
             const hasBetterCanvasGrade = card.querySelector(".bettercanvas-card-grade");
             if (hasBetterCanvasGrade) return;
@@ -415,8 +427,8 @@ async function updateDashboard() {
         if (!match) return;
         const courseID = match[1];
 
-        if (courseDict[courseID]) {
-            const grade = courseDict[courseID].grade;
+        if (courseDict[nsKey(courseID)]) {
+            const grade = courseDict[nsKey(courseID)].grade;
             const titleSpan = hero.querySelector(".Grouping-styles__title");
             
             if (titleSpan && !titleSpan.querySelector(".canvas-gpa-badge-grouping")) {
@@ -441,20 +453,6 @@ function isOurInjection(node) {
     if (node.classList && node.classList.contains('canvas-gpa-calculator-injected')) return true;
     if (node.id === 'canvas-gpa-spinner-style') return true;
     return false;
-}
-
-function isVisible(el) {
-    if (!el) return false;
-    const style = window.getComputedStyle(el);
-    if (style.display === 'none' || style.visibility === 'hidden') return false;
-    // Also check if any ancestor has display:none
-    let parent = el.parentElement;
-    while (parent) {
-        const parentStyle = window.getComputedStyle(parent);
-        if (parentStyle.display === 'none') return false;
-        parent = parent.parentElement;
-    }
-    return true;
 }
 
 function getCourseElements() {
@@ -510,6 +508,7 @@ function getCourseElements() {
 
 let allCoursesCache = null;
 let allCoursesCacheTime = 0;
+let allCoursesCacheDoc = null; // parsed HTML from the discovery fetch, reused by checkForCourseObjects
 const ALL_COURSES_CACHE_MS = 5 * 60 * 1000; // 5 minutes
 
 async function discoverAllCourses(skipCache = false) {
@@ -520,8 +519,7 @@ async function discoverAllCourses(skipCache = false) {
 
     const courses = [];
     const seenIds = new Set();
-
-    console.log('Canvas GPA: Starting course discovery...');
+    let doc = null;
 
     // Strategy 1: Fetch the raw page HTML and parse it.
     // The server-rendered HTML usually contains .ic-DashboardCard__link elements
@@ -533,11 +531,9 @@ async function discoverAllCourses(skipCache = false) {
         const response = await fetch(window.location.href);
         const html = await response.text();
         const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+        doc = parser.parseFromString(html, 'text/html');
 
         // Sub-strategy 1a: card-view links (most reliable when present)
-        const cardLinks = doc.querySelectorAll('.ic-DashboardCard__link');
-        console.log(`Canvas GPA: Strategy 1a: found ${cardLinks.length} card links`);
         doc.querySelectorAll('.ic-DashboardCard__link').forEach(link => {
             const match = link.href.match(/courses\/(\d+)/);
             if (match) {
@@ -547,7 +543,6 @@ async function discoverAllCourses(skipCache = false) {
                     // Normalize to base course URL
                     const baseUrl = link.href.match(/(https?:\/\/[^\/]+\/courses\/\d+)/)?.[1] || link.href;
                     courses.push({ id, url: baseUrl });
-                    console.log(`Canvas GPA: Strategy 1a: added course ${id} from ${link.href}`);
                 }
             }
         });
@@ -559,8 +554,6 @@ async function discoverAllCourses(skipCache = false) {
         // /courses/ID link, deduplicate by ID, and normalize to the base course URL.
         // We always run this (not just when 1a is empty) so we don't miss courses
         // that might appear in one strategy but not the other.
-        const allCourseLinks = doc.querySelectorAll('a[href*="/courses/"]');
-        console.log(`Canvas GPA: Strategy 1b: scanning ${allCourseLinks.length} total course links`);
         doc.querySelectorAll('a[href*="/courses/"]').forEach(link => {
                 const match = link.href.match(/courses\/(\d+)/);
                 if (!match) return;
@@ -571,16 +564,13 @@ async function discoverAllCourses(skipCache = false) {
                 const baseUrl = link.href.match(/(https?:\/\/[^\/]+\/courses\/\d+)/)?.[1]
                     || `${window.location.origin}/courses/${id}`;
                 courses.push({ id, url: baseUrl });
-                console.log(`Canvas GPA: Strategy 1b: added course ${id} from ${link.href}`);
             });
 
         // Sub-strategy 1c: Extract course IDs from JavaScript data objects
         // Some courses may only appear in ENV variables or other JS data, not as HTML links
-        const scripts = doc.querySelectorAll('script');
-        console.log(`Canvas GPA: Strategy 1c: scanning ${scripts.length} script tags for course data`);
-        scripts.forEach(script => {
+        doc.querySelectorAll('script').forEach(script => {
             if (!script.textContent) return;
-            
+
             // Look for course IDs in various JavaScript patterns
             const courseMatches = script.textContent.match(/courses\/(\d+)/g);
             if (courseMatches) {
@@ -592,7 +582,6 @@ async function discoverAllCourses(skipCache = false) {
                             seenIds.add(id);
                             const baseUrl = `${window.location.origin}/courses/${id}`;
                             courses.push({ id, url: baseUrl });
-                            console.log(`Canvas GPA: Strategy 1c: added course ${id} from JavaScript data`);
                         }
                     }
                 });
@@ -605,21 +594,18 @@ async function discoverAllCourses(skipCache = false) {
     // Strategy 2: Fallback to visible DOM elements if HTML parsing yielded nothing
     // or if the fetch itself failed.
     if (courses.length === 0) {
-        console.log('Canvas GPA: Strategy 1 failed, trying Strategy 2 (visible DOM fallback)');
-        const visibleCourses = getCourseElements();
-        console.log(`Canvas GPA: Strategy 2: found ${visibleCourses.length} visible courses`);
-        visibleCourses.forEach(course => {
+        getCourseElements().forEach(course => {
             if (!seenIds.has(course.id)) {
                 seenIds.add(course.id);
                 courses.push({ id: course.id, url: course.url });
-                console.log(`Canvas GPA: Strategy 2: added course ${course.id} from visible DOM`);
             }
         });
     }
 
-    console.log(`Canvas GPA: Discovery complete. Found ${courses.length} courses:`, courses.map(c => c.id));
+    if (DEBUG) console.log(`Canvas GPA: discovered ${courses.length} courses`, courses.map(c => c.id));
     allCoursesCache = courses;
     allCoursesCacheTime = now;
+    allCoursesCacheDoc = doc;
     return courses;
 }
 
@@ -636,7 +622,7 @@ async function autoFetchGrades(specificCourseID = null) {
 
     const courseIDsToFetch = [];
     if (specificCourseID) {
-        const courseData = courseDict[specificCourseID];
+        const courseData = courseDict[nsKey(specificCourseID)];
         if (courseData && courseData.lastUpdated && (now - courseData.lastUpdated < SHORT_CACHE)) {
             return; // Data is fresh enough, skip fetch
         }
@@ -645,7 +631,7 @@ async function autoFetchGrades(specificCourseID = null) {
         const allCourses = await discoverAllCourses();
 
         allCourses.forEach(course => {
-            const courseData = courseDict[course.id];
+            const courseData = courseDict[nsKey(course.id)];
             if (!courseData || !courseData.lastUpdated || (now - courseData.lastUpdated >= CACHE_TIMEOUT)) {
                 courseIDsToFetch.push({ id: course.id, url: course.url });
             }
@@ -659,7 +645,11 @@ async function autoFetchGrades(specificCourseID = null) {
         return;
     }
 
-    // Fetch every stale course in parallel (much faster than sequential)
+    // Fetch every stale course in parallel (much faster than sequential), but
+    // collect the results and persist them in a single batched message instead
+    // of one storage read-modify-write per course — concurrent per-course writes
+    // to the same storage key can race and silently drop updates.
+    const updates = [];
     await Promise.allSettled(courseIDsToFetch.map(async (item) => {
         try {
             const fetchUrl = `${item.url}/grades?grading_period_id=0`;
@@ -671,11 +661,11 @@ async function autoFetchGrades(specificCourseID = null) {
             const letterGrade = getLetterGrade(finalGrade);
 
             if (!isNaN(finalGrade)) {
-                browser.runtime.sendMessage({ type: "getGrade", data: [finalGrade, item.id, letterGrade] });
+                updates.push({ key: nsKey(item.id), grade: finalGrade, letterGrade });
 
                 // Preserve existing properties (e.g. 'included') when updating grade
-                const existing = courseDict[item.id] || {};
-                courseDict[item.id] = {
+                const existing = courseDict[nsKey(item.id)] || {};
+                courseDict[nsKey(item.id)] = {
                     ...existing,
                     grade: finalGrade,
                     gradePoint: calculateGradePoint(finalGrade),
@@ -686,6 +676,10 @@ async function autoFetchGrades(specificCourseID = null) {
             console.error(`Failed to fetch grades for course ${item.id}`, e);
         }
     }));
+
+    if (updates.length > 0) {
+        browser.runtime.sendMessage({ type: "getGrades", data: updates });
+    }
 
     if (!specificCourseID) {
         isAutoFetching = false;
@@ -792,6 +786,7 @@ async function init() {
     // with no chance of a stale number getting stuck.
     if (onDashboard) {
         Object.keys(courseDict).forEach(id => {
+            if (!id.startsWith(nsPrefix())) return; // Only refresh courses from this origin
             if (courseDict[id]) delete courseDict[id].lastUpdated;
         });
     }
@@ -823,9 +818,9 @@ async function init() {
                 // Activity items loading after init), force re-discovery and
                 // fetch grades for any newly-found courses.
                 if (!isAutoFetching) {
-                    const prevCount = Object.keys(courseDict).length;
+                    const prevCount = Object.keys(courseDict).filter(k => k.startsWith(nsPrefix())).length;
                     const allCourses = await discoverAllCourses(true);
-                    const hasNew = allCourses.some(c => !courseDict[c.id]?.lastUpdated);
+                    const hasNew = allCourses.some(c => !courseDict[nsKey(c.id)]?.lastUpdated);
                     if (hasNew || allCourses.length > prevCount) {
                         autoFetchGrades();
                     }
@@ -889,20 +884,25 @@ async function checkForCourseObjects() {
                 }
             }
 
-            courseRegistry[course.id] = courseName;
+            courseRegistry[nsKey(course.id)] = courseName;
         });
 
-        // Fallback: fetch raw HTML and parse for names not found in visible DOM
-        const missingIds = Object.entries(courseRegistry)
-            .filter(([id, name]) => !name)
-            .map(([id]) => id);
+        // Fallback: fetch raw HTML and parse for names not found in visible DOM.
+        // Use the raw (un-namespaced) course IDs here since they're used directly
+        // in DOM selectors and URLs below.
+        const missingIds = allCourses
+            .filter(course => !courseRegistry[nsKey(course.id)])
+            .map(course => course.id);
 
         if (missingIds.length > 0) {
             try {
-                const response = await fetch(window.location.href);
-                const html = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
+                // Reuse the HTML already fetched/parsed by discoverAllCourses() above
+                // instead of re-fetching the same page.
+                const doc = allCoursesCacheDoc || (await (async () => {
+                    const response = await fetch(window.location.href);
+                    const parser = new DOMParser();
+                    return parser.parseFromString(await response.text(), 'text/html');
+                })());
 
                 for (const courseId of missingIds) {
                     let courseName = null;
@@ -960,7 +960,7 @@ async function checkForCourseObjects() {
                     }
 
                     if (courseName) {
-                        courseRegistry[courseId] = courseName;
+                        courseRegistry[nsKey(courseId)] = courseName;
                     }
                 }
             } catch (e) {
@@ -969,9 +969,10 @@ async function checkForCourseObjects() {
         }
 
         // Final fallback to "Course {id}" for anything still missing
-        for (const courseId of Object.keys(courseRegistry)) {
-            if (!courseRegistry[courseId]) {
-                courseRegistry[courseId] = `Course ${courseId}`;
+        for (const course of allCourses) {
+            const key = nsKey(course.id);
+            if (!courseRegistry[key]) {
+                courseRegistry[key] = `Course ${course.id}`;
             }
         }
 

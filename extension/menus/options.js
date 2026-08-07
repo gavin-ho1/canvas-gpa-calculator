@@ -6,31 +6,27 @@ const saveOptions = () => {
     const gpaScale = document.getElementById('gpaScale').checked;
     const gradeRounding = parseFloat(document.getElementById('gradeRoundingSlider').value);
 
-    browser.storage.sync.get(['courseRegistry', 'courseDict']).then((items) => {
-        const courseRegistry = items.courseRegistry || {};
-        const courseDict = items.courseDict || {};
-
-        browser.storage.sync.set(
-            { active, letterGrade, showGPA, gpaScale, gradeRounding, courseRegistry, courseDict }
-        ).then(() => {
-            console.log('Options saved:', { active, letterGrade, showGPA, gpaScale, gradeRounding, courseDict });
-        });
-    });
+    browser.storage.sync.set({ active, letterGrade, showGPA, gpaScale, gradeRounding });
 };
 
-// Restore options function, including gradeRounding and course list
+// Restore options function, including gradeRounding and course list.
+// Settings live in storage.sync (small, synced across devices); course data
+// lives in storage.local (can grow large, doesn't need to sync).
 const restoreOptions = () => {
-    browser.storage.sync.get(
-        { active: true, letterGrade: true, showGPA: true, gpaScale: false, gradeRounding: 0, courseRegistry: {}, courseDict: {} }
-    ).then((items) => {
-        document.getElementById('active').checked = items.active;
-        document.getElementById('letterGrade').checked = items.letterGrade;
-        document.getElementById('showGPA').checked = items.showGPA;
-        document.getElementById('gpaScale').checked = items.gpaScale;
-        document.getElementById('gradeRoundingSlider').value = items.gradeRounding;
-        document.getElementById('gradeRoundingValue').innerText = items.gradeRounding.toFixed(2);
+    Promise.all([
+        browser.storage.sync.get(
+            { active: true, letterGrade: true, showGPA: true, gpaScale: false, gradeRounding: 0 }
+        ),
+        browser.storage.local.get({ courseRegistry: {}, courseDict: {} })
+    ]).then(([settings, courseData]) => {
+        document.getElementById('active').checked = settings.active;
+        document.getElementById('letterGrade').checked = settings.letterGrade;
+        document.getElementById('showGPA').checked = settings.showGPA;
+        document.getElementById('gpaScale').checked = settings.gpaScale;
+        document.getElementById('gradeRoundingSlider').value = settings.gradeRounding;
+        document.getElementById('gradeRoundingValue').innerText = settings.gradeRounding.toFixed(2);
 
-        displayCourseList(items.courseRegistry, items.courseDict, items.gradeRounding);
+        displayCourseList(courseData.courseRegistry, courseData.courseDict, settings.gradeRounding);
     });
 };
 
@@ -67,7 +63,7 @@ const displayCourseList = (courseRegistry, courseDict, gradeRounding) => {
                 courseDict[courseKey] = { grade: 0, gradePoint: 0 };
             }
             courseDict[courseKey].included = checkboxElement.checked;
-            browser.storage.sync.set({ courseDict });
+            browser.storage.local.set({ courseDict });
         });
         courseElement.appendChild(checkboxElement);
 
@@ -99,7 +95,7 @@ const displayCourseList = (courseRegistry, courseDict, gradeRounding) => {
             courseDict[courseKey].gradePoint = point;
 
             // Update storage with new courseDict values
-            browser.storage.sync.set({ courseDict });
+            browser.storage.local.set({ courseDict });
         });
 
         // Create and style the '%' label
@@ -165,7 +161,7 @@ document.getElementById("edge-review-link").addEventListener('click', function()
 // Clear Course Info button
 document.getElementById('clear').addEventListener('click', async () => {
     const button = document.getElementById('clear');
-    await browser.storage.sync.remove(['courseRegistry', 'courseDict', 'courseLinks']);
+    await browser.storage.local.remove(['courseRegistry', 'courseDict', 'courseLinks']);
     button.innerText = 'Cleared';
     setTimeout(() => {
         button.innerText = 'Clear Course Info';
@@ -175,17 +171,12 @@ document.getElementById('clear').addEventListener('click', async () => {
 
 // Live refresh when storage changes (e.g., background tab finishes fetching)
 browser.storage.onChanged.addListener((changes, area) => {
-    if (area === 'sync' && (changes.courseRegistry || changes.courseDict)) {
-        browser.storage.sync.get({
-            active: true,
-            letterGrade: true,
-            showGPA: true,
-            gpaScale: false,
-            gradeRounding: 0,
-            courseRegistry: {},
-            courseDict: {}
-        }).then((items) => {
-            displayCourseList(items.courseRegistry, items.courseDict, items.gradeRounding);
+    if (area === 'local' && (changes.courseRegistry || changes.courseDict)) {
+        Promise.all([
+            browser.storage.sync.get({ gradeRounding: 0 }),
+            browser.storage.local.get({ courseRegistry: {}, courseDict: {} })
+        ]).then(([settings, courseData]) => {
+            displayCourseList(courseData.courseRegistry, courseData.courseDict, settings.gradeRounding);
         });
     }
 });

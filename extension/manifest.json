@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Canvas GPA Calculator",
-  "version": "2.0",
+  "version": "2.1",
   "description": "A Chrome Extension that automatically calculates your Canvas grades and GPA",
   "permissions": ["storage"],
   
@@ -23,7 +23,7 @@
 
   "content_scripts": [
     {
-      "matches": ["https://*.instructure.com/courses/*/grades*","http://*.instructure.com/courses/*/grades*","http://*.instructure.com/*", "https://*.instructure.com/*"],
+      "matches": ["https://*.instructure.com/courses/*/grades*","http://*.instructure.com/courses/*/grades*","http://*.instructure.com/*", "https://*.instructure.com/*", "https://gavin-ho1.github.io/canvas-gpa-calculator/try/*"],
       "exclude_matches" : ["https://*.instructure.com/*/assignments/*","http://*.instructure.com/*/assignments/*"],
       "js": ["scripts/browser-polyfill.min.js", "scripts/content.js"],
       "run_at" : "document_idle"

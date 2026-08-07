@@ -2,7 +2,7 @@ if (typeof importScripts !== 'undefined') {
   importScripts('browser-polyfill.min.js');
 }
 
-console.log("background.js running")
+const DEBUG = false;
 
 browser.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
@@ -10,10 +10,14 @@ browser.runtime.onInstalled.addListener((details) => {
   }
 });
 
-var tabURL
-var grade
-var courseID
 var gradeDict
+
+// Course data (courseDict, courseRegistry, courseLinks) lives in storage.local
+// rather than storage.sync: it grows unbounded across semesters/origins and can
+// exceed sync's 8KB-per-item / ~100KB-total quota, and sync writes round-trip
+// through Chrome's sync service adding latency we don't need for this data.
+// Only small user settings (below, and in content.js/options.js) stay in sync.
+const PRUNE_AGE_MS = 180 * 24 * 60 * 60 * 1000; // drop grades untouched for 180+ days
 
 browser.storage.sync.get('gradeDict').then((result) => {
   gradeDict = result.gradeDict || {
@@ -38,57 +42,63 @@ browser.storage.sync.get('gradeDict').then((result) => {
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   //Get grade of current page
   if(request.type === "courseRegistry"){
-    const courseRegistry = request.data
-    console.log("courseRegistry:", courseRegistry);
-    browser.storage.sync.set({ courseRegistry: courseRegistry }).then(() => {
-      console.log("Course links have been stored.");
+    // Merge rather than overwrite: content.js sends host-namespaced keys, so
+    // merging keeps course names from other origins (e.g. real Canvas vs. the
+    // sandbox demo site) intact instead of one wiping out the other.
+    const incoming = request.data
+    browser.storage.local.get('courseRegistry').then((result) => {
+      const courseRegistry = { ...(result.courseRegistry || {}), ...incoming };
+      browser.storage.local.set({ courseRegistry });
     });
     return Promise.resolve({ status: "success" });
   }
 
   if(request.type === "courseList"){
+    // tempList entries are full URLs (already origin-specific), so a simple
+    // de-duplicated merge is enough to avoid one origin's list clobbering another's.
     const tempList = request.data
-    console.log("tempList:", tempList);
-    browser.storage.sync.set({ courseLinks: tempList }).then(() => {
-      console.log("Course links have been stored.");
+    browser.storage.local.get('courseLinks').then((result) => {
+      const existing = result.courseLinks || [];
+      const merged = Array.from(new Set([...existing, ...tempList]));
+      browser.storage.local.set({ courseLinks: merged });
     });
     return Promise.resolve({ status: "success" });
   }
 
-  if (request.type === 'getGrade') {
-    grade = request.data[0]
-    courseID = request.data[1]
-    const gradePoint = gradeDict[request.data[2]]
-    console.log("Grade:", grade, "GradePoint:", gradePoint)
+  if (request.type === 'getGrades') {
+    // Batched: content.js sends every grade update from one autoFetchGrades()
+    // run as a single message, so this does one read-modify-write instead of
+    // one per course. Per-course messages used to race each other (concurrent
+    // get() calls missing each other's in-flight set()), silently dropping grades.
+    const updates = request.data; // [{ key, grade, letterGrade }, ...]
+    const now = new Date().getTime();
 
-    const currentDate = new Date().toISOString().split('T')[0];
-    console.log(currentDate)
-    
-    browser.storage.sync.get('courseDict').then((result) => {
-      const courseDict = result.courseDict || {}; // Initialize if not present
+    browser.storage.local.get('courseDict').then((result) => {
+      const courseDict = result.courseDict || {};
 
-      courseDict[courseID] = {
-        grade: grade,
-        gradePoint : gradePoint,
-        lastUpdated: new Date().getTime()
-      };
-
-      console.log("Grade:", grade)
-      console.log("Course Dictonary:",courseDict)
-      browser.storage.sync.set({ courseDict }).then(() => {
-        console.log("Course Dictonary saved:",courseDict)
+      updates.forEach(({ key, grade, letterGrade }) => {
+        const existing = courseDict[key] || {};
+        courseDict[key] = {
+          ...existing,
+          grade,
+          gradePoint: gradeDict[letterGrade],
+          lastUpdated: now
+        };
       });
+
+      Object.keys(courseDict).forEach((key) => {
+        const entry = courseDict[key];
+        if (entry.lastUpdated && (now - entry.lastUpdated > PRUNE_AGE_MS)) {
+          delete courseDict[key];
+        }
+      });
+
+      browser.storage.local.set({ courseDict });
+      if (DEBUG) console.log("Grades saved:", updates.length);
     });
   }
 
-  if (request.type === 'getCourseDict') {
-    browser.storage.sync.get('courseDict').then((result) => {
-      const courseDict = result.courseDict || {}; 
-      console.log("Requested courseDict:",courseDict)
-    });
-  }
-
-  if(request.type === "print"){
+  if(request.type === "print" && DEBUG){
     if(request.description !== undefined){
       console.log(request.description, request.data)
     }else{
