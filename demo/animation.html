@@ -337,8 +337,10 @@ if (new URLSearchParams(location.search).has('embed')) {
     applyExtensionState(false);
     cursor.classList.remove('show');
     cursor.style.transition = 'none';
-    cursor.style.left = '-40px';
-    cursor.style.top = '10px';
+    // Start in the middle of the Canvas page, hidden; it fades in there
+    const mid = frameOffset(document.querySelector('.browser-viewport'));
+    cursor.style.left = (mid.x - 3) + 'px';
+    cursor.style.top = (mid.y - 2) + 'px';
     void cursor.offsetWidth;
     cursor.style.transition = '';
   }
@@ -348,8 +350,6 @@ if (new URLSearchParams(location.search).has('embed')) {
     statusPill.innerHTML = '<span class="dot"></span> Playing';
     await sleep(800);
 
-    cursor.style.left = '-10px';
-    cursor.style.top = '20px';
     cursor.classList.add('show');
     await sleep(150);
     moveCursorTo(extIcon);

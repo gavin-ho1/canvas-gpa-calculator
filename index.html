@@ -3,14 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canvas GPA Calculator - Your GPA, Effortlessly Calculated</title>
-    <meta name="description" content="A free browser extension that calculates your GPA directly on your Canvas dashboard, in real time.">
-    <link rel="preload" href="styles.css" as="style">
-    <link rel="stylesheet" href="styles.css">
+    <title>Canvas GPA Calculator — GPA on your Canvas dashboard</title>
+    <meta name="description" content="A free browser extension that shows each course's grade and your overall GPA right on your Canvas dashboard. One permission, no servers, open source.">
+    <link rel="canonical" href="https://gavin-ho1.github.io/canvas-gpa-calculator/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Canvas GPA Calculator">
+    <meta property="og:title" content="Canvas GPA Calculator">
+    <meta property="og:description" content="Your GPA, right on your Canvas dashboard. Free for Chrome, Edge, and Firefox.">
+    <meta property="og:url" content="https://gavin-ho1.github.io/canvas-gpa-calculator/">
+    <meta property="og:image" content="https://gavin-ho1.github.io/canvas-gpa-calculator/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="apple-touch-icon" href="logo.png">
 </head>
@@ -18,143 +26,111 @@
 
     <nav class="navbar">
         <div class="nav-inner">
-            <a href="index.html" class="nav-brand"><img src="logo.png" alt="Logo"> Canvas GPA Calculator</a>
-            <button class="nav-toggle" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
+            <a href="index.html" class="nav-brand"><img src="logo.png" alt=""> Canvas GPA Calculator</a>
+            <button class="nav-toggle" aria-label="Toggle navigation"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
             <div class="nav-links">
                 <a href="index.html" class="active">Home</a>
                 <a href="about.html">About</a>
                 <a href="install.html">Install</a>
-                <a href="https://github.com/gavin-ho1/canvas-gpa-calculator" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                <a href="install.html" class="nav-cta">Get the Extension</a>
+                <a href="https://github.com/gavin-ho1/canvas-gpa-calculator" target="_blank" rel="noopener">GitHub</a>
+                <a href="install.html" class="nav-cta">Get the extension</a>
             </div>
         </div>
     </nav>
 
-    <header class="hero" data-aos="fade-up">
-        <div class="container">
-            <span class="hero-badge"><i class="fas fa-graduation-cap"></i> Free browser extension</span>
-            <img src="logo.png" alt="Canvas GPA Calculator Logo" class="logo">
-            <h1>Your GPA, <span class="accent">effortlessly</span> calculated</h1>
-            <p class="hero-subtitle">Canvas GPA Calculator integrates directly into your Canvas dashboard and calculates your GPA in real time, based on your published grades &mdash; zero manual math required.</p>
-
-            <div class="button-group">
-                <a href="install.html" class="cta-button primary large" id="detected-button"><i class="fas fa-download"></i> Get the Extension</a>
-                <a href="install.html" class="cta-button large"><i class="fas fa-ellipsis"></i> Other Browsers</a>
+    <header class="hero">
+        <div class="wide-container">
+            <div class="hero-text">
+                <h1>Your GPA, right on your Canvas dashboard.</h1>
+                <p class="hero-subtitle">A free browser extension that works out each course's grade from the assignments on your Canvas pages, then adds up your overall GPA. It runs by itself whenever you open Canvas.</p>
+                <div class="hero-actions">
+                    <a href="install.html" class="button primary" id="detected-button">Get the extension</a>
+                    <a href="install.html" class="text-link">Other browsers</a>
+                </div>
+                <p class="proof">
+                    <span id="user-count">3,400+</span> people use it. Rated <a href="https://chromewebstore.google.com/detail/canvas-gpa-calculator/hedjldnoldbeihmghalfbkaobifigmhi/reviews" target="_blank" rel="noopener"><span id="rating">4.8</span> out of 5 on the Chrome Web Store</a>.
+                </p>
             </div>
+
+            <figure class="demo-embed">
+                <div class="demo-embed-frame">
+                    <div class="demo-embed-scale" id="demo-embed-scale">
+                        <iframe src="demo/animation.html?embed=1" title="Demo: the extension adding a calculated grade to a Canvas grades page"></iframe>
+                    </div>
+                </div>
+                <figcaption>Recorded on a Canvas grades page with the student details replaced. The extension's settings popup opens partway through.</figcaption>
+            </figure>
         </div>
     </header>
 
-    <section class="stats-section">
-        <div class="container">
-            <div class="stats-row" data-aos="fade-up">
-                <div class="stat-card">
-                    <div class="stat-value" id="user-count" data-target-fallback="900">900+</div>
-                    <div class="stat-label">Users</div>
+    <section class="section">
+        <div class="wide-container">
+            <h2 class="section-title">What it does</h2>
+            <dl class="settings">
+                <div>
+                    <dt>Course grades</dt>
+                    <dd>Calculated from each course's published assignments, using the category weights when the course has them.</dd>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="average-rating">
-                        <span class="star-rating" data-rating="4.75"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></span>
-                    </div>
-                    <div class="stat-label">Average Rating</div>
+                <div>
+                    <dt>Overall GPA</dt>
+                    <dd>Shown on your dashboard, on a 4-point scale by default. Switch to the 12-point scale in settings.</dd>
                 </div>
-            </div>
+                <div>
+                    <dt>Letter grades</dt>
+                    <dd>Shown next to each percentage. You can turn them off.</dd>
+                </div>
+                <div>
+                    <dt>Rounding</dt>
+                    <dd>Round grades up by as much as 0.5%, if your teachers count an 89.6 as a 90.</dd>
+                </div>
+                <div>
+                    <dt>Which courses count</dt>
+                    <dd>Leave a course out of your GPA from the Tracked Courses list.</dd>
+                </div>
+                <div>
+                    <dt>Better Canvas</dt>
+                    <dd>If you use <a href="https://chromewebstore.google.com/detail/better-canvas/cndibmoanboadcifjkjbdpjgfedanolh" target="_blank" rel="noopener">Better Canvas</a>, this replaces its GPA calculator so the two don't show different numbers.</dd>
+                </div>
+            </dl>
+        </div>
+    </section>
+
+    <section class="section privacy" id="privacy">
+        <div class="wide-container narrow">
+            <h2 class="section-title">One permission: <code>storage</code></h2>
+            <p>The extension asks your browser for one permission, which it uses to remember your course grades between visits. It can't read your browsing history, your passwords, or other sites. There's no server behind it, so your grades never leave your browser.</p>
+            <p>You can check this in the <a href="https://github.com/gavin-ho1/canvas-gpa-calculator/blob/main/extension/manifest.json" target="_blank" rel="noopener">manifest</a> or the <a href="https://github.com/gavin-ho1/canvas-gpa-calculator" target="_blank" rel="noopener">source code</a>.</p>
         </div>
     </section>
 
     <section class="section">
-        <div class="wide-container">
-            <div class="section-header" data-aos="fade-up">
-                <h2>Key features</h2>
-                <p>Everything you need to keep an eye on your GPA without leaving Canvas.</p>
-            </div>
-            <div class="feature-grid">
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
-                    <div class="feature-icon"><i class="fas fa-calculator"></i></div>
-                    <h3>Per-course calculation</h3>
-                    <p>Calculates each course's grade from published assignments, supporting both regular and weighted grading schemes.</p>
-                </div>
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
-                    <h3>Total GPA, live</h3>
-                    <p>Rolls up every course into one overall GPA that updates automatically as new grades are posted.</p>
-                </div>
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="feature-icon"><i class="fas fa-puzzle-piece"></i></div>
-                    <h3>Better Canvas compatible</h3>
-                    <p>Works alongside <a href="https://chromewebstore.google.com/detail/better-canvas/cndibmoanboadcifjkjbdpjgfedanolh" target="_blank">Better Canvas</a> with no conflicts.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section demo-section">
-        <div class="wide-container">
-            <div class="section-header" data-aos="fade-up">
-                <h2>See it in action</h2>
-                <p>A real Canvas grades page and the extension's actual popup &mdash; watch the grade appear the moment it's switched on.</p>
-            </div>
-            <div class="demo-embed-frame" data-aos="fade-up">
-                <div class="demo-embed-scale" id="demo-embed-scale">
-                    <iframe src="demo/animation.html?embed=1" title="Canvas GPA Calculator demo" loading="lazy"></iframe>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <div class="cta-banner" data-aos="fade-up">
-                <h2>Ready to stop doing the math yourself?</h2>
-                <p>Install the extension in under a minute &mdash; available for Chrome, Firefox, and Edge.</p>
-                <a href="install.html" class="cta-button large"><i class="fas fa-download"></i> Install Now</a>
+        <div class="wide-container narrow">
+            <h2 class="section-title">Questions</h2>
+            <div class="faq">
+                <h3>Why doesn't it match the GPA my school reports?</h3>
+                <p>Every course counts equally, and honors or AP classes don't get extra points. On the 4-point scale, any A counts as 4.0, including an A-, and any B counts as 3.0. The 12-point scale keeps the plus and minus steps. Your school may also weight courses by credits, so treat this number as a close estimate.</p>
+                <h3>Will it work with my school's Canvas?</h3>
+                <p>It works if your Canvas address ends in <code>instructure.com</code>, like <code>yourschool.instructure.com</code>. Schools that run Canvas on their own domain aren't supported yet.</p>
+                <h3>Something looks wrong. Where do I report it?</h3>
+                <p>Open an issue on <a href="https://github.com/gavin-ho1/canvas-gpa-calculator/issues" target="_blank" rel="noopener">GitHub</a> with your browser and a description of what you see.</p>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 Canvas GPA Calculator. <a href="about.html">About</a> &middot; <a href="https://github.com/gavin-ho1/canvas-gpa-calculator" target="_blank">GitHub</a> &middot; <a href="https://github.com/gavin-ho1/canvas-gpa-calculator/issues" target="_blank">Support</a></p>
+        <div class="wide-container">
+            <div class="footer-links">
+                <a href="about.html">About</a>
+                <a href="index.html#privacy">Privacy</a>
+                <a href="https://github.com/gavin-ho1/canvas-gpa-calculator/releases" target="_blank" rel="noopener">Changelog</a>
+                <a href="https://github.com/gavin-ho1/canvas-gpa-calculator" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://github.com/gavin-ho1/canvas-gpa-calculator/issues" target="_blank" rel="noopener">Report a bug</a>
+            </div>
+            <p class="footer-meta"><span class="version">Version 2.1</span>. Open source under <a href="https://github.com/gavin-ho1/canvas-gpa-calculator/blob/main/LICENSE" target="_blank" rel="noopener">AGPL-3.0</a>. &copy; 2026 Gavin Ho.</p>
+            <p class="footer-meta">Not affiliated with or endorsed by Instructure or Canvas LMS.</p>
+        </div>
     </footer>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="script.js"></script>
-    <script>
-    (function () {
-        var frame = document.querySelector('.demo-embed-frame');
-        var scaleEl = document.getElementById('demo-embed-scale');
-        var iframe = scaleEl ? scaleEl.querySelector('iframe') : null;
-        if (!frame || !scaleEl || !iframe) return;
-
-        var nativeWidth = 1560; // matches the safe width used inside demo/animation.html
-        var nativeHeight = 690; // fallback until the iframe reports its real height
-
-        function measure() {
-            try {
-                var doc = iframe.contentDocument;
-                if (doc && doc.documentElement) {
-                    nativeHeight = Math.max(doc.documentElement.scrollHeight, doc.body.scrollHeight, nativeHeight);
-                }
-            } catch (e) {}
-        }
-
-        function layout() {
-            scaleEl.style.width = nativeWidth + 'px';
-            scaleEl.style.height = nativeHeight + 'px';
-            iframe.style.width = nativeWidth + 'px';
-            iframe.style.height = nativeHeight + 'px';
-            var scale = frame.clientWidth / nativeWidth;
-            scaleEl.style.transform = 'scale(' + scale + ')';
-            frame.style.height = Math.ceil(nativeHeight * scale) + 'px';
-        }
-
-        iframe.addEventListener('load', function () {
-            measure();
-            layout();
-        });
-
-        layout();
-        window.addEventListener('resize', layout);
-    })();
-    </script>
-    <button id="scrollTopBtn" title="Go to top"><i class="fas fa-arrow-up"></i></button>
 </body>
 </html>
